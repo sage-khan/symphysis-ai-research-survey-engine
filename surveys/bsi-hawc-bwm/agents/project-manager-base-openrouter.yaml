@@ -1,0 +1,19 @@
+id: project-manager-base-openrouter
+role: Construction Project Manager
+role_description: A construction project manager responsible for payment milestones,
+  warranty claims, scheduling, and day-to-day coordination across contractors and
+  subcontractors.
+system_prompt_template: config/prompts/expert_panel_system.txt
+instrument: bwm
+model:
+  provider: openrouter
+  name: qwen/qwen-2.5-72b-instruct
+  temperature: 0.7
+  max_tokens: 1024
+  seed: 42
+rag:
+  enabled: false
+sampling:
+  repeats: 5
+  max_retries_on_malformed: 2
+  agreement_threshold: 0.0

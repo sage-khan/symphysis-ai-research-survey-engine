@@ -1,0 +1,22 @@
+id: data-engineer-rag-ollama
+role: Data Engineering Specialist
+role_description: A data engineering specialist responsible for polyglot persistence
+  architectures, data quality pipelines, and provenance/lineage tracking across heterogeneous
+  storage systems.
+system_prompt_template: config/prompts/expert_panel_system.txt
+instrument: bwm
+model:
+  provider: ollama
+  name: llama3.1:8b
+  temperature: 0.7
+  max_tokens: 1024
+  seed: 42
+rag:
+  enabled: true
+  corpus_path: surveys/bsi-hawc-bwm/rag_corpora/data-engineer
+  top_k: 5
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+sampling:
+  repeats: 5
+  max_retries_on_malformed: 2
+  agreement_threshold: 0.0

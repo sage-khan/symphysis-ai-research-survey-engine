@@ -1,0 +1,28 @@
+# Dependencies
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Test/build artifacts
+.pytest_cache/
+*.egg-info/
+
+# Environment files
+.env
+.env.local
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+
+# Runtime survey output (conversation logs, DIDs, reports) is real,
+# generated-per-run data, not source; keep the example survey's *configs*
+# tracked but not the per-agent runtime folders it produces.
+surveys/*/agents/*/conversation.jsonl
+surveys/*/agents/*/samples/
+surveys/*/agents/*/did.json
+surveys/*/agents/*/result.json
+surveys/*/agents/*/thoughts.md
+surveys/*/report/

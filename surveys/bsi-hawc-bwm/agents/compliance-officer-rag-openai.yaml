@@ -1,0 +1,22 @@
+id: compliance-officer-rag-openai
+role: Compliance and Regulatory Officer
+role_description: A compliance and regulatory officer specialising in GDPR, the recast
+  Energy Performance of Buildings Directive, and ISO 19650 BIM information management
+  standards for construction projects.
+system_prompt_template: config/prompts/expert_panel_system.txt
+instrument: bwm
+model:
+  provider: openai
+  name: gpt-5
+  temperature: 0.7
+  max_tokens: 1024
+  seed: 42
+rag:
+  enabled: true
+  corpus_path: surveys/bsi-hawc-bwm/rag_corpora/compliance-officer
+  top_k: 5
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+sampling:
+  repeats: 5
+  max_retries_on_malformed: 2
+  agreement_threshold: 0.0

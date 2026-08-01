@@ -1,0 +1,20 @@
+numpy>=1.26
+scipy>=1.11
+pyyaml>=6.0
+requests>=2.31
+
+# Bayesian BWM (falls back to a numpy bootstrap if unavailable)
+pymc>=5.10
+
+# Reporting
+matplotlib>=3.8
+
+# Provider SDKs (all optional; providers not configured for a given survey
+# don't need their SDK installed, imports are guarded)
+anthropic>=0.40
+openai>=1.50
+
+# RAG embeddings (optional; falls back to dependency-free TF-IDF if absent)
+sentence-transformers>=3.0
+
+pytest>=8.0
