@@ -4,16 +4,22 @@ surveys/<survey-id>/
     survey.yaml
     agents/<agent-id>.json   # the portable Agent Card (source config)
     agents/<agent-id>/       # written at runtime:
-        card.json            #   copy of the card actually used for this run
+        card.json             #   copy of the card actually used for this run
         did.json              #   this agent's did:key + public key (from the card)
-        conversation.jsonl   # one line per raw completion attempt (accepted or rejected)
-        thoughts.md           # human-readable reasoning trace, accepted samples only
+        prompt.md             #   the exact outgoing prompt (system + user messages), every provider
+        conversation.jsonl    #   one line per event: raw completion, rejection, or tool_call (RAG retrieval)
+        thoughts.md           #   human-readable reasoning trace, accepted samples only
         samples/sample_NN.json / .md
-        result.json           # final accepted InstrumentResult set + guardrail summary
+        filled_survey.md      #   the consolidated, human-readable completed survey across all accepted samples
+        result.json           #   final accepted InstrumentResult set + guardrail summary
     report/
         report.md
         charts/*.png
         combined_results.json
+
+Every file here is plain text (Markdown/JSON/JSONL) by design, so the full
+trace of what an agent was asked, what it retrieved, what it answered, and
+why is readable and diffable on any platform without this app installed.
 """
 
 from __future__ import annotations
@@ -66,7 +72,30 @@ class SurveyStorage:
         with (d / "conversation.jsonl").open("a", encoding="utf-8") as f:
             f.write(json.dumps(entry) + "\n")
 
-    def write_guarded_run(self, agent_id: str, run: GuardedRun) -> None:
+    def write_prompt(self, agent_id: str, messages: List[Dict[str, str]]) -> None:
+        """The exact outgoing prompt, for every provider (not only the manual
+        one, which already writes its own copy for the human to paste into a
+        chat UI). Written once per agent since the same messages are reused
+        across all of that agent's repeated samples."""
+        d = self.agent_dir(agent_id)
+        parts = [f"# Prompt sent to {agent_id}\n"]
+        for msg in messages:
+            parts.append(f"## {msg['role']}\n\n{msg['content']}\n")
+        (d / "prompt.md").write_text("\n".join(parts), encoding="utf-8")
+
+    def write_tool_call(self, agent_id: str, tool: str, detail: Dict[str, Any]) -> None:
+        """Log a discrete tool-use event (currently: RAG retrieval) into the
+        same conversation trace as completions/rejections, so 'what tools
+        were used, how, when, and on what' is answerable from one file."""
+        self.append_conversation(agent_id, {"kind": "tool_call", "tool": tool, **detail})
+
+    def write_guarded_run(
+        self,
+        agent_id: str,
+        run: GuardedRun,
+        card: AgentCard | None = None,
+        instrument_params: Dict[str, Any] | None = None,
+    ) -> None:
         d = self.agent_dir(agent_id)
 
         for i, response in enumerate(run.raw_completions):
@@ -99,6 +128,11 @@ class SurveyStorage:
         }
         (d / "result.json").write_text(json.dumps(result_summary, indent=2), encoding="utf-8")
 
+        if card is not None and instrument_params is not None:
+            (d / "filled_survey.md").write_text(
+                _render_filled_survey(card, instrument_params, run), encoding="utf-8"
+            )
+
     def write_report(self, markdown: str) -> Path:
         path = self.report_dir / "report.md"
         path.write_text(markdown, encoding="utf-8")
@@ -108,6 +142,61 @@ class SurveyStorage:
         path = self.report_dir / "combined_results.json"
         path.write_text(json.dumps(data, indent=2, default=_json_default), encoding="utf-8")
         return path
+
+
+def _render_filled_survey(card: AgentCard, instrument_params: Dict[str, Any], run: GuardedRun) -> str:
+    """A single, human-readable rendering of this agent's completed survey:
+    what it was, in one file, without needing samples/*.json or
+    conversation.jsonl open side by side."""
+    codes: List[str] = instrument_params.get("dimensions", [])
+    labels: Dict[str, str] = instrument_params.get("dimension_labels", {})
+
+    lines = [
+        f"# Filled survey: {card.agent_id}\n",
+        f"- Role: {card.role}",
+        f"- Model: {card.model.provider}/{card.model.name}",
+        f"- DID: `{card.did.id}`",
+        f"- RAG: {'enabled, corpus ' + card.rag.corpus_path if card.rag.enabled else 'disabled'}",
+        f"- Samples accepted: {len(run.accepted)} (requested: {card.sampling.repeats})\n",
+    ]
+
+    if run.accepted:
+        lines.append("## Summary\n")
+        lines.append("| Sample | Best | Worst |")
+        lines.append("|---|---|---|")
+        for i, result in enumerate(run.accepted):
+            p = result.payload
+            lines.append(f"| {i} | {p.get('best')} | {p.get('worst')} |")
+        lines.append("")
+
+    for i, result in enumerate(run.accepted):
+        p = result.payload
+        best, worst = p.get("best"), p.get("worst")
+        lines.append(f"## Sample {i}\n")
+        lines.append(f"**Best:** {best} ({labels.get(best, best)})  ")
+        lines.append(f"**Worst:** {worst} ({labels.get(worst, worst)})\n")
+
+        lines.append("### Best-to-Others\n")
+        lines.append("| Criterion | Rating |")
+        lines.append("|---|---|")
+        for code in codes:
+            lines.append(f"| {code} ({labels.get(code, code)}) | {p.get('best_to_others', {}).get(code, '-')} |")
+        lines.append("")
+
+        lines.append("### Others-to-Worst\n")
+        lines.append("| Criterion | Rating |")
+        lines.append("|---|---|")
+        for code in codes:
+            lines.append(f"| {code} ({labels.get(code, code)}) | {p.get('others_to_worst', {}).get(code, '-')} |")
+        lines.append("")
+
+        lines.append("### Reasoning\n")
+        lines.append(p.get("reasoning", "(no reasoning field returned)") + "\n")
+
+    if not run.accepted:
+        lines.append("_No sample passed the guardrails; see conversation.jsonl for what was rejected and why._\n")
+
+    return "\n".join(lines)
 
 
 def _response_dict(response: ProviderResponse) -> Dict[str, Any]:

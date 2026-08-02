@@ -38,6 +38,16 @@ class Agent:
         if not self._retriever:
             return []
         chunks = self._retriever.top_k(query, self.card.rag.top_k)
+        self.storage.write_tool_call(
+            self.card.agent_id,
+            tool="rag_retrieval",
+            detail={
+                "corpus_path": self.card.rag.corpus_path,
+                "query": query,
+                "top_k": self.card.rag.top_k,
+                "retrieved_sources": [c.source for c in chunks],
+            },
+        )
         return [f"[{c.source}] {c.text}" for c in chunks]
 
     def run(self, instrument: Instrument, instrument_params: Dict[str, Any]) -> GuardedRun:
@@ -46,6 +56,7 @@ class Agent:
         context_chunks = self._context_chunks(query_for_rag)
 
         messages = instrument.build_messages(role_description, context_chunks, instrument_params)
+        self.storage.write_prompt(self.card.agent_id, messages)
         provider = get_provider(self.card.model.provider)
 
         extra_call_kwargs = None
@@ -68,5 +79,5 @@ class Agent:
             denylist_patterns=self.card.guardrails.denylist_patterns,
             extra_call_kwargs=extra_call_kwargs,
         )
-        self.storage.write_guarded_run(self.card.agent_id, run)
+        self.storage.write_guarded_run(self.card.agent_id, run, card=self.card, instrument_params=instrument_params)
         return run
