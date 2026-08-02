@@ -206,6 +206,13 @@ general policy engine), an AHP instrument, richer inter-sample agreement
 metrics for the guardrail's agreement-threshold gate, and drawio-based
 architecture diagrams in the generated report.
 
+## Documentation
+
+- `docs/development/changelog.md` for what changed and when.
+- `docs/development/diagnostics.md` for bugs found, root cause, and fix.
+- `.claude/rules/project-details.md` for this project's relationship to
+  VERITAS-AIDB, BSI/TrustRoute, and project-cogtwins, plus the roadmap.
+
 ## Related
 
 - `docs/research/Work-in-progress/potential-papers/00-bsi/` (project-veritas)
