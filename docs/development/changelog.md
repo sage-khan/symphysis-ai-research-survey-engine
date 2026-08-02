@@ -3,6 +3,35 @@
 All notable changes to agentic-survey-tool. Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (live 17-agent run against the real uploaded survey; RAG-permission bug fix)
+
+- Deployed the web UI on the veritas server itself (not just accessed
+  remotely from a local sandbox): FastAPI backend in a `python:3.11-slim`
+  Docker container on `--network host` (so it reaches the host's Ollama at
+  `localhost:11434` and is reachable over Tailscale on port 8100), React
+  frontend via the server's `nvm`-installed Node on port 5180.
+- `web/backend/main.py`: CORS origins are now `CORS_EXTRA_ORIGINS`
+  (comma-separated env var) appended to the existing localhost defaults,
+  so the UI can be reached at the server's Tailscale IP without hardcoding
+  it into source.
+- Uploaded the real LimeSurvey export (`limesurvey_survey_185662.lss`, the
+  actual TrustRoute human-panel survey, not a synthetic stand-in) through
+  `/api/surveys/parse`, confirmed the parser's documented best-effort
+  behaviour (it surfaces every question row as a raw candidate for human
+  curation, exactly as designed, not a bug), then created a new survey
+  (`trustrouter-agent-panel-live-20260803`) with the six real DVS
+  dimensions (Q, PT, V, IC, L, C) and their real definition text, both
+  read directly out of the uploaded `.lss` XML rather than retyped from
+  memory.
+- Created all 17 agents from the `bsi-hawc-bwm` example roster's design
+  (6 domain-persona roles x base/RAG on 6 distinct Ollama model families,
+  plus the 5-agent independent-reviewer tier) through the real
+  `POST /api/surveys/{id}/agents` endpoint, not by copying JSON files, so
+  every agent's DID was freshly and correctly derived for this survey.
+- Ran the panel for real against the server's Ollama and (where
+  credentialed) Anthropic. Found and fixed a real bug in the process: see
+  `diagnostics.md`, "Every RAG-enabled agent was silently skipped."
+
 ## 2026-08-02 (README rewrite + documentation-maintenance rule)
 
 - Rewrote `README.md`: added a "How it works" pipeline diagram (Agent Card

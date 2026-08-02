@@ -1,0 +1,61 @@
+{
+  "schema_version": "1.0",
+  "agent_id": "independent-reviewer-opus-anthropic",
+  "role": "Independent Reviewer",
+  "role_description": "A role-agnostic due-diligence cross-check reviewer, not a construction-domain persona, asked to weigh the same six DVS dimensions purely on general reasoning about data trust and blockchain-routing risk, independent of the domain-persona panel.",
+  "instrument": "bwm",
+  "system_prompt_template": "/app/config/prompts/expert_panel_system.txt",
+  "tools": [],
+  "model": {
+    "provider": "anthropic",
+    "name": "claude-opus-5",
+    "temperature": 0.7,
+    "max_tokens": 1024,
+    "top_p": 1.0,
+    "seed": 42,
+    "model_hash": null
+  },
+  "rag": {
+    "enabled": false,
+    "corpus_path": null,
+    "top_k": 5,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "chunk_size": 800,
+    "chunk_overlap": 100
+  },
+  "sampling": {
+    "repeats": 5,
+    "max_retries_on_malformed": 2,
+    "agreement_threshold": 0.0
+  },
+  "permissions": {
+    "data_scopes": [],
+    "network": [],
+    "allowed_providers": [
+      "anthropic"
+    ],
+    "max_cost_usd": null
+  },
+  "guardrails": {
+    "schema_validation": true,
+    "denylist_patterns": [
+      "ignore (all|any|the) (previous|prior|above) instructions",
+      "sk-[A-Za-z0-9]{20,}",
+      "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+    ]
+  },
+  "did": {
+    "method": "did:key",
+    "id": "did:key:z6Mknaar8jaUWjynCGzVhReX1ztcYsXFxvD9RXGbJvC24ZS3",
+    "public_key_multibase": "z6Mknaar8jaUWjynCGzVhReX1ztcYsXFxvD9RXGbJvC24ZS3",
+    "deterministic": true,
+    "seed_derivation": "sha256('trustrouter-agent-panel-live-20260803-v1:independent-reviewer-opus-anthropic')"
+  },
+  "environment": {
+    "runtime": "agentic-survey-tool",
+    "runtime_version": "0.1.0",
+    "python_version": "3.11.15",
+    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.41",
+    "container_image": null
+  }
+}

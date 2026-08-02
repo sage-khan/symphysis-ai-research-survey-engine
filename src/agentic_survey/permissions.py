@@ -18,6 +18,23 @@ class PermissionError_(Exception):
     two in a traceback: this is an AgentCard policy violation, not an OS one."""
 
 
+def _covered(normalized: str, scope: str) -> bool:
+    if fnmatch(normalized, scope):
+        return True
+    # A "<dir>/**" scope is meant to grant everything under <dir>, but is
+    # also the scope a RAG-enabled agent's card.rag.corpus_path is checked
+    # against directly (the corpus *root*, not a file inside it) before any
+    # individual file is read. fnmatch alone requires a literal "/" after
+    # "<dir>" to match "/**", which the bare root path doesn't have, so a
+    # scope written exactly like its own corpus_path (the pattern this
+    # app's README and every shipped example card use) would otherwise
+    # reject that corpus's own root. Treat "<dir>" as covered by "<dir>/**"
+    # too.
+    if scope.endswith("/**") and normalized == scope[: -len("/**")]:
+        return True
+    return False
+
+
 def check_data_scope(path: str, permissions: PermissionsSpec) -> None:
     if not permissions.data_scopes:
         raise PermissionError_(
@@ -25,7 +42,7 @@ def check_data_scope(path: str, permissions: PermissionsSpec) -> None:
             "Add the path (or a glob covering it) to permissions.data_scopes."
         )
     normalized = str(Path(path).as_posix())
-    if not any(fnmatch(normalized, scope) for scope in permissions.data_scopes):
+    if not any(_covered(normalized, scope) for scope in permissions.data_scopes):
         raise PermissionError_(
             f"Path {path!r} is not covered by any of this agent's data_scopes {permissions.data_scopes!r}."
         )

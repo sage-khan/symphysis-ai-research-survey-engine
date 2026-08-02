@@ -9,6 +9,8 @@ is thin: HTTP in, JSON out, path/ID sanitisation, background-run tracking.
 
 from __future__ import annotations
 
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -22,9 +24,15 @@ settings.load_settings_into_env()
 
 app = FastAPI(title="agentic-survey-tool API", version="0.1.0")
 
+# Origins the frontend may be served from. Defaults cover local Vite dev;
+# CORS_EXTRA_ORIGINS (comma-separated) adds more, e.g. when the UI is
+# reached over Tailscale at the server's own IP instead of localhost.
+_default_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+_extra_origins = [o.strip() for o in os.environ.get("CORS_EXTRA_ORIGINS", "").split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=_default_origins + _extra_origins,
     allow_methods=["*"],
     allow_headers=["*"],
 )

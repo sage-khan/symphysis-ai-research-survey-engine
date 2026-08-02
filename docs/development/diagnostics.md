@@ -127,3 +127,53 @@ so a run with perfectly valid results still surfaced as a hard failure.
 **Fix:** `reporting.py` clips each error-bar half to `max(0.0, ...)` before
 passing it to `ax.bar`. Verified: the exact production values above render
 without error, and the full test suite (41 passed, 1 skipped) is green.
+
+## Every RAG-enabled agent was silently skipped: corpus root never matched its own scope
+
+**Found:** live end-to-end run on the veritas server (2026-08-03), a fresh
+17-agent panel built for the TrustRouter survey uploaded from the real
+LimeSurvey 185662 export. All six base-Ollama agents produced samples in
+order; every RAG-enabled sibling (`*-rag-ollama`) was silently absent, with
+no error printed and no `conversation.jsonl` ever written for it, jumping
+straight to the next agent in the roster.
+
+**Root cause:** `Agent.__init__` (`agent.py`) calls
+`check_data_scope(card.rag.corpus_path, card.permissions)` with the RAG
+corpus *root* path (e.g. `surveys/<id>/rag_corpora/bim-coordinator`, no
+trailing slash) before ever reading a file inside it. Every shipped example
+card, the web UI's `create_agent` default, and the README's own sample
+Agent Card grant that corpus via a `<root>/**` scope. `fnmatch(path, scope)`
+requires a literal `/` after `<root>` to satisfy a `/**` suffix, so the bare
+root path -- which has no trailing slash -- never matched its own scope.
+`check_data_scope` therefore raised `PermissionError_` for every single
+RAG-enabled agent ever created via the documented pattern, which
+`orchestrator.py`'s per-agent exception handling correctly (per its own
+design) logs as "skipped" and continues past -- so the failure was silent
+by design, not a crash, and easy to miss without checking each agent's
+runtime folder individually. The existing unit tests for
+`check_data_scope` never caught this because they only ever passed a *file
+path inside* the corpus (`.../bim-coordinator/SOURCES.md`), never the bare
+corpus root that `agent.py` actually passes.
+
+**Fix:** `permissions.py`'s `check_data_scope` now also treats a scope
+ending in `/**` as covering its own base directory (the literal string with
+`/**` stripped), not just paths under it. Two new regression tests added to
+`tests/test_permissions.py` (`test_check_data_scope_allows_the_corpus_root_itself`,
+`test_check_data_scope_rejects_a_different_roots_bare_path`). Full suite:
+46 passed. Verified live: re-running the same 17-agent panel after the fix
+produced real, non-empty `conversation.jsonl`/`samples/` output for the
+RAG-enabled agents that had previously been silently skipped.
+
+## .gitignore's runtime-exclusion list was missing card.json
+
+**Found:** staging the live-run survey's files for commit; every agent's
+runtime folder brought in a duplicate `card.json` (storage.init_agent's
+"copy of the card actually used for this run") even though the source
+config at `agents/<id>.json` was already tracked.
+
+**Root cause:** the .gitignore comment states the intent plainly ("keep the
+example survey's configs tracked but not the per-agent runtime folders it
+produces"), and lists 7 of the 8 runtime files storage.py writes, but
+`card.json` was missing from the list.
+
+**Fix:** added `surveys/*/agents/*/card.json` to .gitignore.

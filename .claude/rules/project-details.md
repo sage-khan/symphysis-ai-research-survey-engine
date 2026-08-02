@@ -106,3 +106,48 @@ See the root `README.md` for the full picture; in short:
 ## Contact
 
 Primary: Muhammad Danyal Khan, `dan@go.ugr.es`.
+
+## Data Integrity: No Fabricated Results (mandatory, no exceptions)
+
+Every sample this tool reports must be a real completion from the provider named
+in its Agent Card, obtained by actually calling that provider, or the run must
+fail/skip visibly (`error`, `pending_manual`, or a "skipped agents" notice) --
+never silently substituted with placeholder, templated, or hand-written text
+presented as a model output. This applies with equal force to code written for
+this repo and to any one-off script or manual step run against it: if a
+provider is uncredentialed, unreachable, or too slow to finish in the time
+available, the correct response is to report that plainly (which agents ran,
+which were skipped and why, how many samples were accepted vs rejected by
+guardrails), not to invent numbers so a run "looks complete."
+
+The `bsi-hawc-bwm` example surveys
+
+## Data Integrity: No Fabricated Results (mandatory, no exceptions)
+
+Every sample this tool reports must be a real completion from the provider named
+in its Agent Card, obtained by actually calling that provider, or the run must
+fail/skip visibly (`error`, `pending_manual`, or a "skipped agents" notice) --
+never silently substituted with placeholder, templated, or hand-written text
+presented as a model output. This applies with equal force to code written for
+this repo and to any one-off script or manual step run against it: if a
+provider is uncredentialed, unreachable, or too slow to finish in the time
+available, the correct response is to report that plainly (which agents ran,
+which were skipped and why, how many samples were accepted vs rejected by
+guardrails), not to invent numbers so a run "looks complete."
+
+The `bsi-hawc-bwm` example survey's `human_responses/experts.SYNTHETIC.json`
+is intentionally named and commented as a placeholder for pipeline testing;
+never let a report or paper draft describe HAWC-BWM combined weights computed
+against it as real human data. Any survey whose results are destined for a
+paper (TrustRoute or otherwise) must state plainly, in the run's own report
+and in whatever document cites it, whether the human side is real LimeSurvey
+export data or the synthetic placeholder, and whether every listed agent
+actually ran or was skipped/pending.
+
+**Why:** standing instruction from Dan (2026-08-03): "You are NEVER allowed
+to fake results and do half hearted implementation. Be truthful throughout
+the process," given explicitly because these agent-panel results feed the
+TrustRoute paper. **How to apply:** before reporting any run's results to
+Dan or writing them into a paper, check the run's report.md "Skipped
+agents" / "Waiting on manually-pasted responses" sections and carry that
+caveat forward rather than quietly dropping it.

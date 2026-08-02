@@ -23,6 +23,7 @@ __pycache__/
 surveys/*/agents/*/conversation.jsonl
 surveys/*/agents/*/samples/
 surveys/*/agents/*/did.json
+surveys/*/agents/*/card.json
 surveys/*/agents/*/result.json
 surveys/*/agents/*/thoughts.md
 surveys/*/agents/*/prompt.md
