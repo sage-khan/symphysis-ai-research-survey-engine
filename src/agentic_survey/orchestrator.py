@@ -10,7 +10,8 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from .agent import Agent
-from .config import SurveyConfig, load_agent_config
+from .agent_card import load_card
+from .config import SurveyConfig
 from .instruments.bwm import BWMInstrument
 from .reporting import render_charts, render_report
 from .solvers import bwm_bayesian, bwm_classical
@@ -39,25 +40,36 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
 
     agent_payloads: List[Dict[str, Any]] = []
     per_agent_meta: List[Dict[str, Any]] = []
-    for config_path in survey.agent_configs:
-        agent_config = load_agent_config(config_path)
-        agent = Agent(agent_config, storage)
+    pending_notices: List[str] = []
+    for card_path in survey.agent_cards:
+        card = load_card(card_path)
+        agent = Agent(card, card_path, storage)
         run = agent.run(instrument, survey.instrument_params)
+        if run.pending_manual:
+            pending_notices.append(f"[{card.agent_id}] {run.pending_manual}")
         for payload in [r.payload for r in run.accepted]:
             agent_payloads.append(payload)
             per_agent_meta.append(
                 {
-                    "agent_id": agent_config.id,
-                    "did": agent.did.did,
-                    "role": agent_config.role,
-                    "model": agent_config.model.name,
-                    "provider": agent_config.model.provider,
-                    "rag_enabled": agent_config.rag.enabled,
+                    "agent_id": card.agent_id,
+                    "did": card.did.id,
+                    "role": card.role,
+                    "model": card.model.name,
+                    "provider": card.model.provider,
+                    "rag_enabled": card.rag.enabled,
                 }
             )
 
+    if pending_notices:
+        print("Waiting on manually-pasted responses:")
+        for notice in pending_notices:
+            print(f"  - {notice}")
+
     if not agent_payloads:
-        raise RuntimeError("No agent produced a valid, schema-passing response; nothing to solve.")
+        raise RuntimeError(
+            "No agent produced a valid, schema-passing response; nothing to solve."
+            + (" All configured agents are waiting on a manual paste; see notices above." if pending_notices else "")
+        )
 
     agent_classical = [
         bwm_classical.solve_bwm(codes, p["best"], p["worst"], p["best_to_others"], p["others_to_worst"])

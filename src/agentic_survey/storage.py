@@ -2,13 +2,14 @@
 
 surveys/<survey-id>/
     survey.yaml
-    agents/<agent-id>/
-        config.yaml         # copy of the config actually used for this run
-        did.json
-        conversation.jsonl  # one line per raw completion attempt (accepted or rejected)
-        thoughts.md          # human-readable reasoning trace, accepted samples only
+    agents/<agent-id>.json   # the portable Agent Card (source config)
+    agents/<agent-id>/       # written at runtime:
+        card.json            #   copy of the card actually used for this run
+        did.json              #   this agent's did:key + public key (from the card)
+        conversation.jsonl   # one line per raw completion attempt (accepted or rejected)
+        thoughts.md           # human-readable reasoning trace, accepted samples only
         samples/sample_NN.json / .md
-        result.json          # final accepted InstrumentResult set + guardrail summary
+        result.json           # final accepted InstrumentResult set + guardrail summary
     report/
         report.md
         charts/*.png
@@ -19,12 +20,11 @@ from __future__ import annotations
 
 import json
 import shutil
-from dataclasses import asdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
-from .did import AgentDID
+from .agent_card import AgentCard
 from .guardrails import GuardedRun
 from .providers.base import ProviderResponse
 
@@ -42,10 +42,23 @@ class SurveyStorage:
         (d / "samples").mkdir(parents=True, exist_ok=True)
         return d
 
-    def init_agent(self, agent_id: str, config_source: Path) -> AgentDID:
-        d = self.agent_dir(agent_id)
-        shutil.copy(config_source, d / "config.yaml")
-        return AgentDID.load_or_create(d / "did.json", agent_id)
+    def init_agent(self, card: AgentCard, card_source: Path) -> None:
+        d = self.agent_dir(card.agent_id)
+        shutil.copy(card_source, d / "card.json")
+        (d / "did.json").write_text(
+            json.dumps(
+                {
+                    "agent_id": card.agent_id,
+                    "did": card.did.id,
+                    "method": card.did.method,
+                    "public_key_multibase": card.did.public_key_multibase,
+                    "deterministic": card.did.deterministic,
+                    "seed_derivation": card.did.seed_derivation,
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
 
     def append_conversation(self, agent_id: str, entry: Dict[str, Any]) -> None:
         d = self.agent_dir(agent_id)
