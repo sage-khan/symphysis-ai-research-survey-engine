@@ -29,6 +29,8 @@ class SurveyConfig:
     weighting: Dict[str, Any]
     root: Path
     agent_cards: List[Path]
+    description: str = ""
+    created_at: str = ""
 
 
 def _read_yaml(path: Path) -> Dict[str, Any]:
@@ -61,4 +63,6 @@ def load_survey_config(survey_dir: Path) -> SurveyConfig:
         weighting=data.get("weighting", {}) or {},
         root=survey_dir,
         agent_cards=agent_cards,
+        description=data.get("description", "") or "",
+        created_at=data.get("created_at", "") or "",
     )

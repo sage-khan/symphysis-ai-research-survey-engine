@@ -26,6 +26,7 @@ class GuardedRun:
     accepted: List[InstrumentResult]
     rejected: List[Dict[str, Any]]  # {"raw_text": ..., "errors": [...], "attempt": n}
     raw_completions: List[ProviderResponse]  # every completion, accepted or not, for the audit log
+    accepted_raw: List[ProviderResponse] = field(default_factory=list)  # same order/index as `accepted`; the exact raw completion that produced each one (so e.g. a reasoning model's "thinking" field can be shown alongside its parsed answer)
     flagged_low_agreement: bool = False
     pending_manual: str | None = None  # message to show the human, if a manual response is awaited
 
@@ -49,6 +50,7 @@ def run_with_guardrails(
     extra_call_kwargs: Dict[str, Any] | None = None,
 ) -> GuardedRun:
     accepted: List[InstrumentResult] = []
+    accepted_raw: List[ProviderResponse] = []
     rejected: List[Dict[str, Any]] = []
     raw_completions: List[ProviderResponse] = []
     compiled_denylist = [re.compile(p, re.IGNORECASE) for p in (denylist_patterns or [])]
@@ -101,6 +103,7 @@ def run_with_guardrails(
             result = instrument.parse(response.text, instrument_params)
             if result.valid:
                 accepted.append(result)
+                accepted_raw.append(response)
                 break
             rejected.append({"raw_text": response.text, "errors": result.errors, "attempt": attempt})
             attempt += 1
@@ -117,6 +120,7 @@ def run_with_guardrails(
 
     return GuardedRun(
         accepted=accepted,
+        accepted_raw=accepted_raw,
         rejected=rejected,
         raw_completions=raw_completions,
         flagged_low_agreement=flagged,

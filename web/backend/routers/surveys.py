@@ -7,6 +7,7 @@ import json
 import re
 import shutil
 import zipfile
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -48,10 +49,15 @@ class CriterionIn(BaseModel):
 class CreateSurveyIn(BaseModel):
     id: str
     title: str
+    description: str = ""
     instrument: str = "bwm"
     criteria: List[CriterionIn]
     headline_alpha: float = 0.6
     alpha_sweep: List[float] = [0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]
+
+
+class RenameSurveyIn(BaseModel):
+    title: str
 
 
 @router.get("")
@@ -68,10 +74,12 @@ def list_surveys() -> List[Dict[str, Any]]:
             {
                 "id": data.get("id", d.name),
                 "title": data.get("title", d.name),
+                "description": data.get("description", ""),
                 "instrument": data.get("instrument"),
                 "agent_count": agent_count,
                 "has_results": (d / "report" / "combined_results.json").exists(),
                 "run_status": runs.get_status(d.name)["status"],
+                "created_at": data.get("created_at"),
             }
         )
     return out
@@ -122,6 +130,7 @@ def create_survey(body: CreateSurveyIn) -> Dict[str, Any]:
     survey_yaml = {
         "id": survey_id,
         "title": body.title,
+        "description": body.description,
         "instrument": body.instrument,
         "instrument_params": {
             "dimensions": [c.code for c in body.criteria],
@@ -131,8 +140,26 @@ def create_survey(body: CreateSurveyIn) -> Dict[str, Any]:
             "headline_alpha": body.headline_alpha,
             "alpha_sweep": body.alpha_sweep,
         },
+        "created_at": datetime.now(timezone.utc).isoformat(),
     }
     (d / "survey.yaml").write_text(yaml.dump(survey_yaml, sort_keys=False), encoding="utf-8")
+    return get_survey(survey_id)
+
+
+@router.patch("/{survey_id}")
+def rename_survey(survey_id: str, body: RenameSurveyIn) -> Dict[str, Any]:
+    """Renames a survey's display title. The survey_id itself (the URL slug
+    and directory name) is intentionally immutable: every agent card's
+    permissions.data_scopes and rag.corpus_path bake in the literal
+    `surveys/<id>/...` path, so renaming the id would require rewriting
+    every agent card in the survey too. The title is what's shown everywhere
+    in the UI; this is what "renaming a project" means in practice."""
+    d = _existing_survey_dir(survey_id)
+    data = yaml.safe_load((d / "survey.yaml").read_text(encoding="utf-8")) or {}
+    if not body.title.strip():
+        raise HTTPException(400, "Title cannot be empty.")
+    data["title"] = body.title.strip()
+    (d / "survey.yaml").write_text(yaml.dump(data, sort_keys=False), encoding="utf-8")
     return get_survey(survey_id)
 
 

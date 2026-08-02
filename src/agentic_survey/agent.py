@@ -3,6 +3,7 @@ elicitation run, with permissions enforced from the same card."""
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -30,9 +31,50 @@ class Agent:
             )
 
     def _role_description(self) -> str:
+        if self.card.system_prompt_override:
+            # Literal, user-edited text (e.g. from the web UI's Agent panel) --
+            # not run through .format(), since free-typed text may contain
+            # stray "{"/"}" that would raise on a template substitution never
+            # intended to apply to it.
+            return self.card.system_prompt_override
         template_path = Path(self.card.system_prompt_template)
         template = template_path.read_text(encoding="utf-8")
         return template.format(role=self.card.role, role_description=self.card.role_description)
+
+    def _introduction_prompt(self, survey_title: str, survey_description: str) -> str:
+        now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        display = self.card.display_name or self.card.role
+        project_line = survey_title if not survey_description else f"{survey_title} -- {survey_description}"
+        return (
+            "Before starting the task, introduce yourself in 2-4 sentences, in character, so a "
+            "human reviewer can confirm you understood the assignment before you attempt it. "
+            f"State clearly: your agent ID ({self.card.agent_id}), your display name ({display}), "
+            f"your base model ({self.card.model.provider}/{self.card.model.name}), the current date "
+            f"and time ({now}), the project you are working on ({project_line}), your role "
+            f"({self.card.role}), and that you will attempt this task as an expert in that role. "
+            "Do not answer the actual survey questions yet -- this turn is only your introduction."
+        )
+
+    def introduce(self, survey_title: str, survey_description: str = "") -> None:
+        """A single, un-repeated preliminary turn logged as the first entry in
+        this agent's conversation trace: the agent states its own identity and
+        understanding of the task in plain language, so a human reviewer can
+        see immediately whether the model understood the assignment, rather
+        than only being able to infer that from terse per-sample reasoning."""
+        provider = get_provider(self.card.model.provider)
+        messages = [
+            {"role": "system", "content": self._role_description()},
+            {"role": "user", "content": self._introduction_prompt(survey_title, survey_description)},
+        ]
+        response = provider.complete(
+            messages,
+            model=self.card.model.name,
+            temperature=self.card.model.temperature,
+            max_tokens=min(self.card.model.max_tokens, 512),
+            top_p=self.card.model.top_p,
+            seed=self.card.model.seed,
+        )
+        self.storage.write_introduction(self.card.agent_id, response)
 
     def _context_chunks(self, query: str) -> List[str]:
         if not self._retriever:
@@ -50,7 +92,19 @@ class Agent:
         )
         return [f"[{c.source}] {c.text}" for c in chunks]
 
-    def run(self, instrument: Instrument, instrument_params: Dict[str, Any]) -> GuardedRun:
+    def run(
+        self,
+        instrument: Instrument,
+        instrument_params: Dict[str, Any],
+        survey_title: str = "",
+        survey_description: str = "",
+    ) -> GuardedRun:
+        # Manual-provider agents skip the automated introduction: a human is
+        # already pasting every one of that agent's responses by hand, so an
+        # automated self-introduction call has no model to call.
+        if self.card.model.provider != "manual":
+            self.introduce(survey_title, survey_description)
+
         role_description = self._role_description()
         query_for_rag = f"{self.card.role}: {instrument_params.get('dimensions', [])}"
         context_chunks = self._context_chunks(query_for_rag)

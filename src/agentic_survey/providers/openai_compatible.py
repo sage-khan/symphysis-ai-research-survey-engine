@@ -73,3 +73,26 @@ class OpenRouterProvider(OpenAICompatibleProvider):
             base_url="https://openrouter.ai/api/v1",
             api_key=api_key,
         )
+
+
+class GroqProvider(OpenAICompatibleProvider):
+    def __init__(self, api_key: str | None = None) -> None:
+        super().__init__(api_key_env="GROQ_API_KEY", base_url="https://api.groq.com/openai/v1", api_key=api_key)
+
+
+class GeminiProvider(OpenAICompatibleProvider):
+    """Google's OpenAI-compatibility endpoint for Gemini models, so this
+    provider needs no separate SDK/request format from the other
+    OpenAI-compatible ones."""
+
+    def __init__(self, api_key: str | None = None) -> None:
+        super().__init__(
+            api_key_env="GEMINI_API_KEY",
+            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+            api_key=api_key,
+        )
+
+
+class XaiProvider(OpenAICompatibleProvider):
+    def __init__(self, api_key: str | None = None) -> None:
+        super().__init__(api_key_env="XAI_API_KEY", base_url="https://api.x.ai/v1", api_key=api_key)

@@ -48,7 +48,12 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
         card = load_card(card_path)
         try:
             agent = Agent(card, card_path, storage)
-            run = agent.run(instrument, survey.instrument_params)
+            run = agent.run(
+                instrument,
+                survey.instrument_params,
+                survey_title=survey.title,
+                survey_description=survey.description,
+            )
         except (ProviderError, PermissionError_, AgentCardError) as exc:
             # A misconfigured or uncredentialed agent (missing API key,
             # permission violation, bad card) must not take down the whole

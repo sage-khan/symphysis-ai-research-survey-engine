@@ -10,8 +10,11 @@ const DEFAULT_DENYLIST = [
 function blankForm() {
   return {
     agent_id: "",
+    display_name: "",
+    expertise: "",
     role: "",
     role_description: "",
+    system_prompt_override: "",
     instrument: "bwm",
     model: { provider: "ollama", name: "", temperature: 0.7, max_tokens: 1024, top_p: 1.0, seed: 42 },
     rag: { enabled: false, corpus_path: "", top_k: 5 },
@@ -84,7 +87,7 @@ export default function AgentForm({ surveyId, existing, onSaved, onCancel }) {
         </button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 16 }}>
         <label>
           <div className="mono-dim">Agent ID</div>
           <input
@@ -95,10 +98,29 @@ export default function AgentForm({ surveyId, existing, onSaved, onCancel }) {
           />
         </label>
         <label>
+          <div className="mono-dim">Display name</div>
+          <input
+            value={form.display_name || ""}
+            onChange={(e) => set("display_name", e.target.value)}
+            placeholder={form.role || "shown in the UI instead of the agent ID"}
+            style={{ width: "100%" }}
+          />
+        </label>
+        <label>
           <div className="mono-dim">Role</div>
           <input value={form.role} onChange={(e) => set("role", e.target.value)} style={{ width: "100%" }} />
         </label>
       </div>
+
+      <label style={{ display: "block", marginBottom: 16 }}>
+        <div className="mono-dim">Profession / expertise (short)</div>
+        <input
+          value={form.expertise || ""}
+          onChange={(e) => set("expertise", e.target.value)}
+          placeholder="e.g. Structural engineering, ISO 25012 data quality, 15 years construction industry"
+          style={{ width: "100%" }}
+        />
+      </label>
 
       <label style={{ display: "block", marginBottom: 16 }}>
         <div className="mono-dim">Role description / professional persona</div>
@@ -106,6 +128,17 @@ export default function AgentForm({ surveyId, existing, onSaved, onCancel }) {
           value={form.role_description}
           onChange={(e) => set("role_description", e.target.value)}
           rows={3}
+          style={{ width: "100%" }}
+        />
+      </label>
+
+      <label style={{ display: "block", marginBottom: 16 }}>
+        <div className="mono-dim">System prompt (leave blank to use the survey's shared default template)</div>
+        <textarea
+          value={form.system_prompt_override || ""}
+          onChange={(e) => set("system_prompt_override", e.target.value || null)}
+          rows={4}
+          placeholder="Overrides the shared template just for this agent. Plain text -- no {role}/{role_description} substitution here, write it out directly."
           style={{ width: "100%" }}
         />
       </label>

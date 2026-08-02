@@ -1,16 +1,21 @@
 import { useEffect, useState } from "react";
 import { api } from "../api.js";
 
-const PRESET_LABELS = {
-  local: "Local Ollama",
-  "veritas-server": "Veritas server (Tailscale)",
-};
+const API_PROVIDERS = [
+  { key: "anthropic", label: "Anthropic (Claude)" },
+  { key: "openai", label: "OpenAI (ChatGPT)" },
+  { key: "openrouter", label: "OpenRouter" },
+  { key: "groq", label: "Groq" },
+  { key: "gemini", label: "Gemini" },
+  { key: "xai", label: "xAI (Grok)" },
+];
 
-export default function SettingsPage() {
+function OllamaEndpointSettings() {
   const [presets, setPresets] = useState({});
-  const [mode, setMode] = useState("local"); // "local" | "veritas-server" | "custom"
+  const [mode, setMode] = useState("local"); // preset key, or "custom"
   const [baseUrl, setBaseUrl] = useState("");
   const [timeoutSeconds, setTimeoutSeconds] = useState(900);
+  const [newPresetLabel, setNewPresetLabel] = useState("");
   const [saved, setSaved] = useState(null);
   const [testResult, setTestResult] = useState(null);
   const [busy, setBusy] = useState(false);
@@ -41,8 +46,7 @@ export default function SettingsPage() {
     setError(null);
     setTestResult(null);
     try {
-      const result = await api.testLlmEndpoint(baseUrl);
-      setTestResult(result);
+      setTestResult(await api.testLlmEndpoint(baseUrl));
     } catch (err) {
       setError(String(err.message || err));
     } finally {
@@ -54,8 +58,12 @@ export default function SettingsPage() {
     setBusy(true);
     setError(null);
     try {
-      const result = await api.saveLlmSettings({ ollama_base_url: baseUrl, ollama_timeout_seconds: Number(timeoutSeconds) });
+      const body = { ollama_base_url: baseUrl, ollama_timeout_seconds: Number(timeoutSeconds) };
+      if (mode === "custom" && newPresetLabel.trim()) body.save_preset_label = newPresetLabel.trim();
+      const result = await api.saveLlmSettings(body);
       setSaved(result);
+      setPresets(result.presets || {});
+      setNewPresetLabel("");
     } catch (err) {
       setError(String(err.message || err));
     } finally {
@@ -63,113 +71,218 @@ export default function SettingsPage() {
     }
   }
 
+  async function handleDeletePreset(key) {
+    if (!confirm(`Remove saved endpoint "${key}"?`)) return;
+    const remaining = await api.deletePreset(key);
+    setPresets(remaining);
+    if (mode === key) setMode("custom");
+  }
+
   const isDirty = saved && (saved.ollama_base_url !== baseUrl || saved.ollama_timeout_seconds !== Number(timeoutSeconds));
 
+  return (
+    <div className="panel" style={{ padding: 24, maxWidth: 640, marginBottom: 24 }}>
+      <h3 style={{ marginBottom: 4 }}>Ollama endpoint</h3>
+      <div className="mono-dim" style={{ marginBottom: 18 }}>
+        Everything else (guardrails, the Bayesian solve, storage, reporting) always runs on this
+        machine. Only the <code>provider: ollama</code> HTTP calls go wherever this points --
+        "Local" for Ollama running on this same machine, or save any remote host (your own server,
+        a lab machine, anything reachable) under a label of your choosing to keep LLM compute off
+        this machine while you iterate.
+      </div>
+
+      <div style={{ display: "flex", gap: 8, marginBottom: 18, flexWrap: "wrap" }}>
+        {Object.keys(presets).map((key) => (
+          <div key={key} style={{ display: "flex", alignItems: "center" }}>
+            <button
+              className="btn"
+              style={mode === key ? { borderColor: "var(--amber)", color: "var(--amber)" } : {}}
+              onClick={() => choosePreset(key)}
+            >
+              {key === "local" ? "Local" : key}
+            </button>
+            {key !== "local" && (
+              <button className="btn btn-danger" style={{ marginLeft: -1, padding: "8px 10px" }} onClick={() => handleDeletePreset(key)}>
+                ×
+              </button>
+            )}
+          </div>
+        ))}
+        <button
+          className="btn"
+          style={mode === "custom" ? { borderColor: "var(--amber)", color: "var(--amber)" } : {}}
+          onClick={() => choosePreset("custom")}
+        >
+          Remote / custom
+        </button>
+      </div>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 140px", gap: 12, marginBottom: 12 }}>
+        <label>
+          <div className="mono-dim">Base URL</div>
+          <input
+            value={baseUrl}
+            onChange={(e) => {
+              setBaseUrl(e.target.value);
+              setMode("custom");
+              setTestResult(null);
+            }}
+            placeholder="http://localhost:11434"
+            style={{ width: "100%" }}
+          />
+        </label>
+        <label>
+          <div className="mono-dim">Timeout (s)</div>
+          <input
+            type="number"
+            min="1"
+            value={timeoutSeconds}
+            onChange={(e) => setTimeoutSeconds(e.target.value)}
+            style={{ width: "100%" }}
+          />
+        </label>
+      </div>
+
+      {mode === "custom" && (
+        <label style={{ display: "block", marginBottom: 18 }}>
+          <div className="mono-dim">Save this endpoint as a named preset (optional)</div>
+          <input
+            value={newPresetLabel}
+            onChange={(e) => setNewPresetLabel(e.target.value)}
+            placeholder="e.g. my-lab-server"
+            style={{ width: "100%" }}
+          />
+        </label>
+      )}
+
+      <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 16 }}>
+        <button className="btn" onClick={handleTest} disabled={busy || !baseUrl}>
+          Test connection
+        </button>
+        <button className="btn btn-primary" onClick={handleSave} disabled={busy || !baseUrl}>
+          Save
+        </button>
+        {!isDirty && saved && (
+          <span className="mono-dim" style={{ color: "var(--green)" }}>
+            Saved -- active for the next run
+          </span>
+        )}
+      </div>
+
+      {testResult && (
+        <div
+          className="mono-dim"
+          style={{
+            padding: 12,
+            border: `1px solid ${testResult.reachable ? "var(--green)" : "var(--red)"}`,
+            borderRadius: "var(--radius)",
+            marginBottom: 8,
+          }}
+        >
+          {testResult.reachable ? (
+            <>
+              <div style={{ color: "var(--green)" }}>Reachable -- {testResult.models.length} model(s) pulled</div>
+              <div style={{ marginTop: 6 }}>{testResult.models.join(", ") || "(no models pulled yet)"}</div>
+            </>
+          ) : (
+            <div style={{ color: "var(--red)" }}>Unreachable: {testResult.error}</div>
+          )}
+        </div>
+      )}
+
+      {error && (
+        <div className="mono-dim" style={{ color: "var(--red)" }}>
+          {error}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ApiKeySettings() {
+  const [status, setStatus] = useState({});
+  const [values, setValues] = useState({});
+  const [saved, setSaved] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  async function refresh() {
+    setStatus(await api.getApiKeyStatus());
+  }
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  async function handleSave() {
+    setBusy(true);
+    setError(null);
+    setSaved(false);
+    try {
+      const result = await api.saveApiKeys(values);
+      setStatus(result);
+      setValues({});
+      setSaved(true);
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="panel" style={{ padding: 24, maxWidth: 640 }}>
+      <h3 style={{ marginBottom: 4 }}>Hosted-provider API keys</h3>
+      <div className="mono-dim" style={{ marginBottom: 18 }}>
+        Lets agents use hosted models (Claude, ChatGPT, OpenRouter, Groq, Gemini, Grok) in addition
+        to local Ollama models. Keys are stored on this machine only (gitignored,{" "}
+        <code>web/backend/data/llm_settings.json</code>), applied to the running process, and never
+        sent back to the browser once saved -- only whether a key is currently set is shown.
+      </div>
+
+      {API_PROVIDERS.map((p) => (
+        <label key={p.key} style={{ display: "block", marginBottom: 14 }}>
+          <div className="mono-dim">
+            {p.label} {status[p.key] && <span style={{ color: "var(--green)" }}>-- key configured</span>}
+          </div>
+          <input
+            type="password"
+            value={values[p.key] ?? ""}
+            onChange={(e) => setValues((v) => ({ ...v, [p.key]: e.target.value }))}
+            placeholder={status[p.key] ? "•••••••• (leave blank to keep current key)" : "paste API key"}
+            style={{ width: "100%" }}
+          />
+        </label>
+      ))}
+
+      <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8 }}>
+        <button className="btn btn-primary" onClick={handleSave} disabled={busy || Object.keys(values).length === 0}>
+          Save keys
+        </button>
+        {saved && <span className="mono-dim" style={{ color: "var(--green)" }}>Saved</span>}
+      </div>
+
+      {error && (
+        <div className="mono-dim" style={{ color: "var(--red)", marginTop: 8 }}>
+          {error}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default function SettingsPage() {
   return (
     <div>
       <div style={{ marginBottom: 28 }}>
         <h1>Settings</h1>
         <div className="mono-dim" style={{ marginTop: 6 }}>
-          Where this app sends its Ollama-backed agents' completions
+          Where agents send their completions, local and hosted
         </div>
       </div>
 
-      <div className="panel" style={{ padding: 24, maxWidth: 640 }}>
-        <h3 style={{ marginBottom: 4 }}>LLM endpoint</h3>
-        <div className="mono-dim" style={{ marginBottom: 18 }}>
-          Everything else (guardrails, the Bayesian solve, storage, reporting) always runs on
-          this machine. Only the <code>provider: ollama</code> HTTP calls go wherever this
-          points -- pick the veritas server to keep LLM compute off your machine while you
-          iterate locally.
-        </div>
-
-        <div style={{ display: "flex", gap: 8, marginBottom: 18, flexWrap: "wrap" }}>
-          {Object.keys(presets).map((key) => (
-            <button
-              key={key}
-              className="btn"
-              style={mode === key ? { borderColor: "var(--amber)", color: "var(--amber)" } : {}}
-              onClick={() => choosePreset(key)}
-            >
-              {PRESET_LABELS[key] || key}
-            </button>
-          ))}
-          <button
-            className="btn"
-            style={mode === "custom" ? { borderColor: "var(--amber)", color: "var(--amber)" } : {}}
-            onClick={() => choosePreset("custom")}
-          >
-            Custom
-          </button>
-        </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 140px", gap: 12, marginBottom: 18 }}>
-          <label>
-            <div className="mono-dim">Base URL</div>
-            <input
-              value={baseUrl}
-              onChange={(e) => {
-                setBaseUrl(e.target.value);
-                setMode("custom");
-                setTestResult(null);
-              }}
-              placeholder="http://localhost:11434"
-              style={{ width: "100%" }}
-            />
-          </label>
-          <label>
-            <div className="mono-dim">Timeout (s)</div>
-            <input
-              type="number"
-              min="1"
-              value={timeoutSeconds}
-              onChange={(e) => setTimeoutSeconds(e.target.value)}
-              style={{ width: "100%" }}
-            />
-          </label>
-        </div>
-
-        <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 16 }}>
-          <button className="btn" onClick={handleTest} disabled={busy || !baseUrl}>
-            Test connection
-          </button>
-          <button className="btn btn-primary" onClick={handleSave} disabled={busy || !baseUrl}>
-            Save
-          </button>
-          {!isDirty && saved && (
-            <span className="mono-dim" style={{ color: "var(--green)" }}>
-              Saved -- active for the next run
-            </span>
-          )}
-        </div>
-
-        {testResult && (
-          <div
-            className="mono-dim"
-            style={{
-              padding: 12,
-              border: `1px solid ${testResult.reachable ? "var(--green)" : "var(--red)"}`,
-              borderRadius: "var(--radius)",
-              marginBottom: 8,
-            }}
-          >
-            {testResult.reachable ? (
-              <>
-                <div style={{ color: "var(--green)" }}>Reachable -- {testResult.models.length} model(s) pulled</div>
-                <div style={{ marginTop: 6 }}>{testResult.models.join(", ") || "(no models pulled yet)"}</div>
-              </>
-            ) : (
-              <div style={{ color: "var(--red)" }}>Unreachable: {testResult.error}</div>
-            )}
-          </div>
-        )}
-
-        {error && (
-          <div className="mono-dim" style={{ color: "var(--red)" }}>
-            {error}
-          </div>
-        )}
-      </div>
+      <OllamaEndpointSettings />
+      <ApiKeySettings />
     </div>
   );
 }

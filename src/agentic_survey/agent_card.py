@@ -66,7 +66,9 @@ class PermissionsSpec:
 
     data_scopes: List[str] = field(default_factory=list)   # glob patterns this agent's RAG/reads may match
     network: List[str] = field(default_factory=list)        # allowed outbound hosts, informational + checked by providers
-    allowed_providers: List[str] = field(default_factory=lambda: ["ollama", "anthropic", "openai", "openrouter", "manual"])
+    allowed_providers: List[str] = field(
+        default_factory=lambda: ["ollama", "anthropic", "openai", "openrouter", "groq", "gemini", "xai", "manual"]
+    )
     max_cost_usd: Optional[float] = None
 
 
@@ -110,15 +112,21 @@ class AgentCard:
     did: DidSpec
     environment: EnvironmentSpec
     tools: List[str] = field(default_factory=list)
+    display_name: Optional[str] = None  # human-facing name shown in the UI; falls back to role/agent_id if unset
+    expertise: str = ""  # short structured profession/expertise line, distinct from the narrative role_description
+    system_prompt_override: Optional[str] = None  # literal system-prompt text; takes precedence over system_prompt_template
 
     def to_dict(self) -> Dict[str, Any]:
         return {
             "schema_version": self.schema_version,
             "agent_id": self.agent_id,
             "role": self.role,
+            "display_name": self.display_name,
+            "expertise": self.expertise,
             "role_description": self.role_description,
             "instrument": self.instrument,
             "system_prompt_template": self.system_prompt_template,
+            "system_prompt_override": self.system_prompt_override,
             "tools": self.tools,
             "model": vars(self.model),
             "rag": vars(self.rag),
@@ -146,6 +154,9 @@ def new_card(
     permissions: Optional[PermissionsSpec] = None,
     guardrails: Optional[GuardrailsSpec] = None,
     tools: Optional[List[str]] = None,
+    display_name: Optional[str] = None,
+    expertise: str = "",
+    system_prompt_override: Optional[str] = None,
     deterministic_did: bool = True,
     did_seed: str = "agentic-survey-tool-default-seed-v1",
 ) -> AgentCard:
@@ -174,6 +185,9 @@ def new_card(
         permissions=permissions or PermissionsSpec(),
         guardrails=guardrails or GuardrailsSpec(),
         tools=tools or [],
+        display_name=display_name,
+        expertise=expertise,
+        system_prompt_override=system_prompt_override,
         did=DidSpec(
             method="did:key",
             id=identity.did,
@@ -208,6 +222,9 @@ def load_card(path: Path) -> AgentCard:
         instrument=data["instrument"],
         system_prompt_template=data["system_prompt_template"],
         tools=data.get("tools", []),
+        display_name=data.get("display_name"),
+        expertise=data.get("expertise", ""),
+        system_prompt_override=data.get("system_prompt_override"),
         model=ModelSpec(**data["model"]),
         rag=RagSpec(**data.get("rag", {})),
         sampling=SamplingSpec(**data.get("sampling", {})),

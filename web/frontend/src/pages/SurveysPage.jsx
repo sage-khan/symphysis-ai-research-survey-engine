@@ -2,6 +2,15 @@ import { useEffect, useState } from "react";
 import { api } from "../api.js";
 import StatusDot from "../components/StatusDot.jsx";
 
+function formatDate(iso) {
+  if (!iso) return "—";
+  try {
+    return new Date(iso).toISOString().slice(0, 16).replace("T", " ") + " UTC";
+  } catch {
+    return iso;
+  }
+}
+
 function slugify(s) {
   return s
     .toLowerCase()
@@ -14,6 +23,7 @@ function NewSurveyPanel({ onCreated, onClose }) {
   const [mode, setMode] = useState("upload"); // "upload" | "manual"
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [instrument, setInstrument] = useState("bwm");
   const [candidates, setCandidates] = useState([{ code: "", label: "" }]);
   const [warnings, setWarnings] = useState([]);
@@ -55,7 +65,7 @@ function NewSurveyPanel({ onCreated, onClose }) {
     try {
       const criteria = candidates.filter((c) => c.code.trim() && c.label.trim());
       if (!criteria.length) throw new Error("At least one criterion with a code and label is required.");
-      await api.createSurvey({ id: id || slugify(title), title: title || id, instrument, criteria });
+      await api.createSurvey({ id: id || slugify(title), title: title || id, description, instrument, criteria });
       onCreated();
     } catch (err) {
       setError(String(err.message || err));
@@ -126,14 +136,22 @@ function NewSurveyPanel({ onCreated, onClose }) {
         </label>
       </div>
 
+      <label style={{ display: "block", marginBottom: 18 }}>
+        <div className="mono-dim">Description (optional -- what this project is about; shown to agents in their introduction)</div>
+        <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} style={{ width: "100%" }} />
+      </label>
+
       <div className="mono-dim" style={{ marginBottom: 8 }}>
-        Criteria (edit freely before creating)
+        Criteria being weighed against each other (edit freely before creating).{" "}
+        <strong>Code</strong> is a short technical ID used internally and in charts (e.g. "Q", "PT" --
+        keep it brief, no spaces). <strong>Label</strong> is the full human-readable name and definition
+        shown to agents and in reports (e.g. "Quality: is the data technically sound?").
       </div>
       <table style={{ marginBottom: 12 }}>
         <thead>
           <tr>
             <th style={{ width: 100 }}>Code</th>
-            <th>Label</th>
+            <th>Label (full name / definition)</th>
             <th style={{ width: 40 }} />
           </tr>
         </thead>
@@ -141,10 +159,10 @@ function NewSurveyPanel({ onCreated, onClose }) {
           {candidates.map((c, i) => (
             <tr key={i}>
               <td>
-                <input value={c.code} onChange={(e) => updateCandidate(i, "code", e.target.value)} style={{ width: "100%" }} />
+                <input value={c.code} onChange={(e) => updateCandidate(i, "code", e.target.value)} placeholder="e.g. Q" style={{ width: "100%" }} />
               </td>
               <td>
-                <input value={c.label} onChange={(e) => updateCandidate(i, "label", e.target.value)} style={{ width: "100%" }} />
+                <input value={c.label} onChange={(e) => updateCandidate(i, "label", e.target.value)} placeholder="e.g. Quality: is the data technically sound?" style={{ width: "100%" }} />
               </td>
               <td>
                 <button className="btn btn-danger" onClick={() => removeCandidate(i)}>
@@ -231,6 +249,7 @@ export default function SurveysPage({ onOpenSurvey }) {
             <thead>
               <tr>
                 <th>Title</th>
+                <th>Created</th>
                 <th>Instrument</th>
                 <th>Agents</th>
                 <th>Status</th>
@@ -247,6 +266,7 @@ export default function SurveysPage({ onOpenSurvey }) {
                     </a>
                     <div className="mono-dim">{s.id}</div>
                   </td>
+                  <td className="mono-dim">{formatDate(s.created_at)}</td>
                   <td>{s.instrument}</td>
                   <td>{s.agent_count}</td>
                   <td>

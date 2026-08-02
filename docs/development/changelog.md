@@ -3,6 +3,66 @@
 All notable changes to agentic-survey-tool. Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (self-introduction turn, editable per-agent prompts, generic multi-provider settings, survey rename/created-at)
+
+- **Self-introduction turn** (`agent.py`'s new `Agent.introduce()`, called at
+  the start of `Agent.run()` for every non-manual provider): before
+  attempting the actual survey task, each agent is asked to state its own
+  agent ID, display name, base model, the current date/time, the project
+  it's working on, and its role, and to confirm it will attempt the task as
+  an expert in that role. Logged as the literal first entry in
+  `conversation.jsonl` (`storage.write_introduction`), so a reviewer can
+  check the model's actual understanding of the assignment before reading
+  any Best/Worst reasoning. Skipped for `provider: manual` agents (a human
+  is already pasting every response by hand).
+- **Reasoning tab overhaul**: `thoughts.md` now opens with a plain-language
+  explanation of what a "Sample" is (an independent repeat of the *same*
+  question, not a sequence of different questions) and how many total
+  attempts vs. accepted samples there were, and surfaces a reasoning model's
+  raw Ollama `message.thinking` field (chain-of-thought) alongside its
+  submitted `reasoning` summary when the provider returns one
+  (`guardrails.GuardedRun.accepted_raw` now tracks the exact raw completion
+  behind each accepted sample so the two can be paired up;
+  `storage._extract_thinking`).
+- **Conversation Log tab rewritten**: an explanatory banner at the top, and
+  each event kind (introduction / model completion / rejected / tool call)
+  rendered readably instead of a raw JSON dump -- a reasoning model's
+  "thinking" is in a collapsible `<details>`, a rejected attempt shows its
+  guardrail error(s) in red plus the raw text, etc.
+- **Downloads added** to the Trace viewer: "Download agent card .json" and
+  "Download full log .jsonl" buttons.
+- **Editable per-agent system prompt**: `AgentCard.system_prompt_override`
+  (new optional field) takes precedence over `system_prompt_template` when
+  set; editable directly as free text in the web UI's agent form, no
+  `{role}`/`{role_description}` substitution applied (avoids a crash if the
+  user's own text happens to contain a stray `{`/`}`).
+- **`display_name` and `expertise` fields** added to the Agent Card schema
+  and the create/edit form and Agents-tab table, alongside the existing
+  `role`/`role_description` (a short structured profession/expertise line,
+  distinct from the longer narrative `role_description`).
+- **Settings genericized**: the hardcoded "Veritas server (Tailscale)"
+  preset is gone; "Local" is the only built-in Ollama preset now, and any
+  remote endpoint can be saved under a label of the user's choosing
+  (`PUT /api/settings/llm`'s new `save_preset_label`,
+  `DELETE /api/settings/llm/presets/{label}`). Added a
+  **Hosted-provider API keys** section (`GET/PUT /api/settings/api-keys`)
+  covering Anthropic, OpenAI, OpenRouter, Groq, Gemini, and xAI (Grok) --
+  keys are stored locally (gitignored `llm_settings.json`), applied to the
+  process environment, and never echoed back once saved (only whether a key
+  is set is shown). New provider classes `GroqProvider`, `GeminiProvider`
+  (via Google's OpenAI-compatibility endpoint), `XaiProvider` in
+  `providers/openai_compatible.py`, registered in `providers/__init__.py`.
+- **Survey `created_at` and rename**: `create_survey` now stamps a real UTC
+  timestamp; the Surveys list shows a Created column. A new
+  `PATCH /api/surveys/{id}` endpoint (and a Rename button on the survey
+  detail page) lets the display title be changed after creation -- the
+  survey `id` itself (the directory name every agent card's
+  `permissions.data_scopes`/`rag.corpus_path` bakes in) stays immutable by
+  design; see the endpoint's docstring for why. Also added an optional
+  survey `description` (shown to agents in their introduction) and
+  clarified the New Survey form's Code vs. Label columns, which were
+  previously unlabelled jargon.
+
 ## 2026-08-03 (Analytics tab; server-deployment procedure documented in README)
 
 - Added `GET /api/surveys/{id}/analytics` (`web/backend/analytics.py`,

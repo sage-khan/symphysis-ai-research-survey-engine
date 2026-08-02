@@ -1,27 +1,30 @@
-# HAWC-BWM survey for the BSI (Blockchain Suitability Index) construction paper.
-# See docs/research/.../00-bsi/paper-tex/bsi_construction_researchpaper.tex,
-# Section "HAWC-BWM: A Parallel Synthetic Expert Panel".
-
 id: bsi-hawc-bwm
-title: "BSI Stage-2 Dimension Weight Elicitation: Human + Synthetic Panel (HAWC-BWM)"
+title: 'BSI Stage-2 Dimension Weight Elicitation: Human + Synthetic Panel (HAWC-BWM)'
 instrument: bwm
-
 instrument_params:
-  dimensions: [Q, PT, V, IC, L, C]
+  dimensions:
+  - Q
+  - PT
+  - V
+  - IC
+  - L
+  - C
   dimension_labels:
-    Q: "Quality"
-    PT: "Provenance Trust"
-    V: "Verification Strength"
-    IC: "Independent Confirmation"
-    L: "Legal Compliance"
-    C: "Criticality"
-
-# HAWC-BWM combination. human_responses_path points at a per-expert JSON
-# export (same shape the existing bsi-survey-app already produces from
-# LimeSurvey); leave unset to run the agent panel alone.
+    Q: Quality
+    PT: Provenance Trust
+    V: Verification Strength
+    IC: Independent Confirmation
+    L: Legal Compliance
+    C: Criticality
 weighting:
-  # SYNTHETIC placeholder for pipeline testing only. Replace with the real
-  # per-expert export before this survey's results are used in the paper.
-  human_responses_path: "human_responses/experts.SYNTHETIC.json"
+  human_responses_path: human_responses/experts.SYNTHETIC.json
   headline_alpha: 0.6
-  alpha_sweep: [0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0]
+  alpha_sweep:
+  - 0
+  - 0.2
+  - 0.4
+  - 0.5
+  - 0.6
+  - 0.8
+  - 1.0
+created_at: '2026-08-01T17:54:24+00:00'

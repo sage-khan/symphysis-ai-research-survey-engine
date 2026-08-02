@@ -14,7 +14,7 @@ def _lazy_registry() -> Dict[str, type]:
         return _REGISTRY
     from .ollama_provider import OllamaProvider
     from .anthropic_provider import AnthropicProvider
-    from .openai_compatible import OpenAIProvider, OpenRouterProvider
+    from .openai_compatible import GeminiProvider, GroqProvider, OpenAIProvider, OpenRouterProvider, XaiProvider
     from .manual_provider import ManualProvider
 
     _REGISTRY.update(
@@ -23,6 +23,9 @@ def _lazy_registry() -> Dict[str, type]:
             "anthropic": AnthropicProvider,
             "openai": OpenAIProvider,
             "openrouter": OpenRouterProvider,
+            "groq": GroqProvider,
+            "gemini": GeminiProvider,
+            "xai": XaiProvider,
             "manual": ManualProvider,
         }
     )

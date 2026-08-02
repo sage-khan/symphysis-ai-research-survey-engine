@@ -261,9 +261,11 @@ function AgentsTab({ surveyId, onChanged }) {
           <thead>
             <tr>
               <th>Agent</th>
-              <th>Role</th>
+              <th>Display name</th>
+              <th>Role / expertise</th>
               <th>Provider / Model</th>
               <th>RAG</th>
+              <th>Tools</th>
               <th>DID</th>
               <th />
             </tr>
@@ -272,11 +274,16 @@ function AgentsTab({ surveyId, onChanged }) {
             {agents.map((a) => (
               <tr key={a.agent_id}>
                 <td>{a.agent_id}</td>
-                <td>{a.role}</td>
+                <td>{a.display_name || <span className="mono-dim">—</span>}</td>
+                <td>
+                  {a.role}
+                  {a.expertise && <div className="mono-dim">{a.expertise}</div>}
+                </td>
                 <td>
                   {a.provider}/{a.model}
                 </td>
                 <td>{a.rag_enabled ? "yes" : "—"}</td>
+                <td>{a.tools && a.tools.length ? a.tools.join(", ") : "—"}</td>
                 <td className="mono-dim" title={a.did}>
                   {shortDid(a.did)}
                 </td>
@@ -302,7 +309,7 @@ function AgentsTab({ surveyId, onChanged }) {
             ))}
             {agents.length === 0 && (
               <tr>
-                <td colSpan={6} className="mono-dim">
+                <td colSpan={8} className="mono-dim">
                   No agents yet.
                 </td>
               </tr>
@@ -389,6 +396,13 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
     setStatus(s);
   }
 
+  async function handleRename() {
+    const next = prompt("Rename project", survey.title);
+    if (!next || !next.trim() || next.trim() === survey.title) return;
+    const updated = await api.renameSurvey(surveyId, next.trim());
+    setSurvey(updated);
+  }
+
   if (!survey) return <div className="mono-dim">Loading...</div>;
 
   return (
@@ -399,9 +413,16 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
         <div>
-          <h1>{survey.title}</h1>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
+            <h1>{survey.title}</h1>
+            <button className="btn" onClick={handleRename} style={{ fontSize: 12 }}>
+              Rename
+            </button>
+          </div>
+          {survey.description && <div style={{ marginTop: 4, maxWidth: 640 }}>{survey.description}</div>}
           <div className="mono-dim" style={{ marginTop: 6 }}>
             {survey.id} · {survey.instrument} · dimensions: {survey.instrument_params?.dimensions?.join(", ")}
+            {survey.created_at && <> · created {survey.created_at.slice(0, 16).replace("T", " ")} UTC</>}
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>

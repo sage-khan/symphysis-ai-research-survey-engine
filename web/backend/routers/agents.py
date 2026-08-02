@@ -17,7 +17,7 @@ from ..paths import CONFIG_DIR, survey_dir
 router = APIRouter(prefix="/api", tags=["agents"])
 
 _ID_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$")
-KNOWN_PROVIDERS = ["ollama", "anthropic", "openai", "openrouter", "manual"]
+KNOWN_PROVIDERS = ["ollama", "anthropic", "openai", "openrouter", "groq", "gemini", "xai", "manual"]
 DEFAULT_DENYLIST = [
     r"ignore (all|any|the) (previous|prior|above) instructions",
     r"sk-[A-Za-z0-9]{20,}",
@@ -76,9 +76,12 @@ class GuardrailsIn(BaseModel):
 class AgentIn(BaseModel):
     agent_id: str
     role: str
+    display_name: Optional[str] = None
+    expertise: str = ""
     role_description: str
     instrument: str = "bwm"
     system_prompt_template: Optional[str] = None
+    system_prompt_override: Optional[str] = None
     model: ModelIn
     rag: RagIn = RagIn()
     sampling: SamplingIn = SamplingIn()
@@ -122,10 +125,13 @@ def list_agents(survey_id: str) -> List[Dict[str, Any]]:
         out.append(
             {
                 "agent_id": card.agent_id,
+                "display_name": card.display_name,
+                "expertise": card.expertise,
                 "role": card.role,
                 "provider": card.model.provider,
                 "model": card.model.name,
                 "rag_enabled": card.rag.enabled,
+                "tools": card.tools,
                 "did": card.did.id,
             }
         )
@@ -167,6 +173,9 @@ def create_agent(survey_id: str, body: AgentIn) -> Dict[str, Any]:
         ),
         guardrails=ac.GuardrailsSpec(denylist_patterns=body.guardrails.denylist_patterns),
         tools=body.tools,
+        display_name=body.display_name,
+        expertise=body.expertise,
+        system_prompt_override=body.system_prompt_override or None,
         did_seed=body.did_seed,
     )
     card.write(path)
@@ -190,6 +199,7 @@ def update_agent(survey_id: str, agent_id: str, body: AgentIn) -> Dict[str, Any]
         role_description=body.role_description,
         instrument=body.instrument,
         system_prompt_template=body.system_prompt_template or existing.system_prompt_template,
+        system_prompt_override=body.system_prompt_override or None,
         model=ac.ModelSpec(**body.model.model_dump()),
         rag=ac.RagSpec(**body.rag.model_dump()),
         sampling=ac.SamplingSpec(**body.sampling.model_dump()),
@@ -202,6 +212,8 @@ def update_agent(survey_id: str, agent_id: str, body: AgentIn) -> Dict[str, Any]
         did=existing.did,
         environment=existing.environment,
         tools=body.tools,
+        display_name=body.display_name,
+        expertise=body.expertise,
     )
     card.write(path)
     return card.to_dict()

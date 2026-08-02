@@ -24,6 +24,7 @@ export const api = {
   listSurveys: () => request("/api/surveys"),
   getSurvey: (id) => request(`/api/surveys/${id}`),
   createSurvey: (body) => request("/api/surveys", { method: "POST", body: JSON.stringify(body) }),
+  renameSurvey: (id, title) => request(`/api/surveys/${id}`, { method: "PATCH", body: JSON.stringify({ title }) }),
   deleteSurvey: (id) => request(`/api/surveys/${id}`, { method: "DELETE" }),
   parseDocument: (file) => {
     const form = new FormData();
@@ -42,8 +43,12 @@ export const api = {
 
   getLlmSettings: () => request("/api/settings/llm"),
   saveLlmSettings: (body) => request("/api/settings/llm", { method: "PUT", body: JSON.stringify(body) }),
+  deletePreset: (label) => request(`/api/settings/llm/presets/${encodeURIComponent(label)}`, { method: "DELETE" }),
   testLlmEndpoint: (baseUrl) =>
     request(`/api/settings/llm/test${baseUrl ? `?base_url=${encodeURIComponent(baseUrl)}` : ""}`),
+
+  getApiKeyStatus: () => request("/api/settings/api-keys"),
+  saveApiKeys: (body) => request("/api/settings/api-keys", { method: "PUT", body: JSON.stringify(body) }),
 
   listAgents: (surveyId) => request(`/api/surveys/${surveyId}/agents`),
   getAgent: (surveyId, agentId) => request(`/api/surveys/${surveyId}/agents/${agentId}`),
