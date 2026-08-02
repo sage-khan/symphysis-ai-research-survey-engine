@@ -10,9 +10,11 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from .agent import Agent
-from .agent_card import load_card
+from .agent_card import AgentCardError, load_card
 from .config import SurveyConfig
 from .instruments.bwm import BWMInstrument
+from .permissions import PermissionError_
+from .providers.base import ProviderError
 from .reporting import render_charts, render_report
 from .solvers import bwm_bayesian, bwm_classical
 from .storage import SurveyStorage
@@ -41,10 +43,20 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
     agent_payloads: List[Dict[str, Any]] = []
     per_agent_meta: List[Dict[str, Any]] = []
     pending_notices: List[str] = []
+    skipped_notices: List[str] = []
     for card_path in survey.agent_cards:
         card = load_card(card_path)
-        agent = Agent(card, card_path, storage)
-        run = agent.run(instrument, survey.instrument_params)
+        try:
+            agent = Agent(card, card_path, storage)
+            run = agent.run(instrument, survey.instrument_params)
+        except (ProviderError, PermissionError_, AgentCardError) as exc:
+            # A misconfigured or uncredentialed agent (missing API key,
+            # permission violation, bad card) must not take down the whole
+            # panel: skip it, log why, keep going. Distinct from a pending
+            # manual response, which is expected and resolves on its own.
+            skipped_notices.append(f"[{card.agent_id}] {type(exc).__name__}: {exc}")
+            continue
+
         if run.pending_manual:
             pending_notices.append(f"[{card.agent_id}] {run.pending_manual}")
         for payload in [r.payload for r in run.accepted]:
@@ -60,6 +72,11 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
                 }
             )
 
+    if skipped_notices:
+        print("Skipped agents (misconfigured or uncredentialed):")
+        for notice in skipped_notices:
+            print(f"  - {notice}")
+
     if pending_notices:
         print("Waiting on manually-pasted responses:")
         for notice in pending_notices:
@@ -69,6 +86,7 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
         raise RuntimeError(
             "No agent produced a valid, schema-passing response; nothing to solve."
             + (" All configured agents are waiting on a manual paste; see notices above." if pending_notices else "")
+            + (" Some agents were skipped; see notices above." if skipped_notices else "")
         )
 
     agent_classical = [
