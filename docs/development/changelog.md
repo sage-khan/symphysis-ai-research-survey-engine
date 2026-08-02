@@ -3,6 +3,26 @@
 All notable changes to agentic-survey-tool. Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (Analytics tab; server-deployment procedure documented in README)
+
+- Added `GET /api/surveys/{id}/analytics` (`web/backend/analytics.py`,
+  pure/FastAPI-free, unit-tested in `tests/test_web_analytics.py`) and a new
+  Analytics tab on the survey detail page: a panel-participation summary
+  (`contributed`/`zero_accepted`/`pending_manual`/`skipped`/`not_run`, each
+  classified from what's actually on disk), a Best/Worst pick-frequency
+  count per criterion, and a full "who said what" table (one row per
+  accepted sample: agent, role, model, RAG, Best, Worst, reasoning) plus a
+  non-contributing-agents table with the specific reason for each. Answers
+  "which agent said what" and "who didn't respond, and why" directly,
+  rather than requiring a click into every agent's Trace individually or
+  inferring non-response from an agent's absence in the Results tab.
+- README: added "Deploying on a shared server" (the exact Docker
+  `--network host` backend + `nvm`-Node frontend + `CORS_EXTRA_ORIGINS`
+  procedure used to run this app on the veritas server, where there's no
+  system pip/venv and no passwordless sudo), and "Where everything lives"
+  (UI URLs, project-folder layout, `.zip` download, trace files, report
+  files) -- previously this was only ever explained ad hoc, not documented.
+
 ## 2026-08-03 (live 17-agent run against the real uploaded survey; RAG-permission bug fix)
 
 - Deployed the web UI on the veritas server itself (not just accessed

@@ -41,6 +41,174 @@ function WeightTable({ title, bayesian }) {
   );
 }
 
+const STATUS_LABEL = {
+  contributed: "Contributed",
+  zero_accepted: "Zero accepted",
+  pending_manual: "Pending manual",
+  skipped: "Skipped",
+  not_run: "Not run",
+};
+
+const STATUS_COLOR = {
+  contributed: "var(--green, #3fb950)",
+  zero_accepted: "var(--red, #e5534b)",
+  pending_manual: "var(--amber)",
+  skipped: "var(--red, #e5534b)",
+  not_run: "var(--muted, #888)",
+};
+
+function AnalyticsTab({ surveyId, refreshKey }) {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    api
+      .getAnalytics(surveyId)
+      .then(setData)
+      .catch((err) => setError(String(err.message || err)));
+  }, [surveyId, refreshKey]);
+
+  if (error) return <div className="mono-dim">{error}</div>;
+  if (!data) return <div className="mono-dim">Loading...</div>;
+
+  const contributing = data.per_agent.filter((a) => a.status === "contributed");
+  const nonContributing = data.per_agent.filter((a) => a.status !== "contributed");
+  const totalSamples = contributing.reduce((n, a) => n + a.samples.length, 0);
+
+  return (
+    <div>
+      <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+        Panel participation
+      </div>
+      <div className="panel" style={{ padding: "12px 16px", marginBottom: 24, display: "flex", gap: 28, flexWrap: "wrap" }}>
+        {Object.entries(data.summary).map(([status, count]) => (
+          <div key={status}>
+            <div style={{ fontSize: 22, color: STATUS_COLOR[status] }}>{count}</div>
+            <div className="mono-dim" style={{ fontSize: 12 }}>
+              {STATUS_LABEL[status]}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+        Best / worst pick frequency ({totalSamples} accepted samples across {contributing.length} agents)
+      </div>
+      <div className="panel" style={{ marginBottom: 24 }}>
+        <table>
+          <thead>
+            <tr>
+              <th>Criterion</th>
+              <th>Picked Best</th>
+              <th>Picked Worst</th>
+            </tr>
+          </thead>
+          <tbody>
+            {data.best_worst_frequency.map((row) => (
+              <tr key={row.criterion}>
+                <td>{row.criterion}</td>
+                <td>{row.best_count}</td>
+                <td>{row.worst_count}</td>
+              </tr>
+            ))}
+            {data.best_worst_frequency.length === 0 && (
+              <tr>
+                <td colSpan={3} className="mono-dim">
+                  No accepted samples yet.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+        Weight elicitation details — who said what
+      </div>
+      <div className="panel" style={{ marginBottom: 24 }}>
+        <table>
+          <thead>
+            <tr>
+              <th>Agent</th>
+              <th>Role</th>
+              <th>Model</th>
+              <th>RAG</th>
+              <th>#</th>
+              <th>Best</th>
+              <th>Worst</th>
+              <th>Reasoning</th>
+            </tr>
+          </thead>
+          <tbody>
+            {contributing.flatMap((a) =>
+              a.samples.map((s) => (
+                <tr key={`${a.agent_id}-${s.index}`}>
+                  <td>{a.agent_id}</td>
+                  <td>{a.role}</td>
+                  <td>
+                    {a.provider}/{a.model}
+                  </td>
+                  <td>{a.rag_enabled ? "yes" : "—"}</td>
+                  <td>{s.index}</td>
+                  <td style={{ color: "var(--amber)" }}>{s.best}</td>
+                  <td>{s.worst}</td>
+                  <td title={s.reasoning} style={{ maxWidth: 420, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {s.reasoning}
+                  </td>
+                </tr>
+              )),
+            )}
+            {contributing.length === 0 && (
+              <tr>
+                <td colSpan={8} className="mono-dim">
+                  No agent has contributed an accepted sample yet.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+        Non-contributing agents
+      </div>
+      <div className="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>Agent</th>
+              <th>Role</th>
+              <th>Model</th>
+              <th>Status</th>
+              <th>Why</th>
+            </tr>
+          </thead>
+          <tbody>
+            {nonContributing.map((a) => (
+              <tr key={a.agent_id}>
+                <td>{a.agent_id}</td>
+                <td>{a.role}</td>
+                <td>
+                  {a.provider}/{a.model}
+                </td>
+                <td style={{ color: STATUS_COLOR[a.status] }}>{STATUS_LABEL[a.status]}</td>
+                <td className="mono-dim">{a.detail}</td>
+              </tr>
+            ))}
+            {nonContributing.length === 0 && (
+              <tr>
+                <td colSpan={5} className="mono-dim">
+                  Every configured agent contributed at least one accepted sample.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 function AgentsTab({ surveyId, onChanged }) {
   const [agents, setAgents] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -261,20 +429,21 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
       )}
 
       <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-        {["agents", "results"].map((t) => (
+        {["agents", "results", "analytics"].map((t) => (
           <button
             key={t}
             className="btn"
             style={tab === t ? { borderColor: "var(--amber)", color: "var(--amber)" } : {}}
             onClick={() => setTab(t)}
           >
-            {t === "agents" ? "Agents" : "Results"}
+            {{ agents: "Agents", results: "Results", analytics: "Analytics" }[t]}
           </button>
         ))}
       </div>
 
       {tab === "agents" && <AgentsTab surveyId={surveyId} />}
       {tab === "results" && <ResultsTab surveyId={surveyId} refreshKey={resultsKey} />}
+      {tab === "analytics" && <AnalyticsTab surveyId={surveyId} refreshKey={resultsKey} />}
     </div>
   );
 }

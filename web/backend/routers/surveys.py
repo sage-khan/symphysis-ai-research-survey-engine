@@ -16,6 +16,7 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from .. import runs
+from ..analytics import compute_analytics
 from ..paths import CONFIG_DIR, SURVEYS_ROOT, survey_dir
 from ..parsing.document_parser import parse_docx, parse_pdf
 from ..parsing.lss_parser import parse_lss
@@ -173,6 +174,18 @@ def get_results(survey_id: str) -> Dict[str, Any]:
         "report_markdown": report_path.read_text(encoding="utf-8") if report_path.exists() else "",
         "charts": [p.name for p in sorted((d / "report" / "charts").glob("*.png"))] if (d / "report" / "charts").exists() else [],
     }
+
+
+@router.get("/{survey_id}/analytics")
+def get_analytics(survey_id: str) -> Dict[str, Any]:
+    """Weight-elicitation analytics: every accepted sample's Best/Worst pick
+    and reasoning, grouped by agent, plus a Best/Worst frequency count per
+    criterion and an honest accounting of which configured agents didn't
+    contribute (and why: skipped, zero-accepted, pending manual, not run).
+    Derived entirely from what's on disk; never fabricates a result for an
+    agent that didn't produce one."""
+    d = _existing_survey_dir(survey_id)
+    return compute_analytics(d)
 
 
 @router.get("/{survey_id}/charts/{chart_name}")

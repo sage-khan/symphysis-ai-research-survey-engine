@@ -33,6 +33,7 @@ export const api = {
   runSurvey: (id) => request(`/api/surveys/${id}/run`, { method: "POST" }),
   runStatus: (id) => request(`/api/surveys/${id}/run-status`),
   getResults: (id) => request(`/api/surveys/${id}/results`),
+  getAnalytics: (id) => request(`/api/surveys/${id}/analytics`),
   chartUrl: (surveyId, chartName) => `${BASE}/api/surveys/${surveyId}/charts/${chartName}`,
   downloadUrl: (id) => `${BASE}/api/surveys/${id}/download`,
 

@@ -49,6 +49,13 @@ storage layers.
 8. **Reports.** Markdown report plus matplotlib PNG charts (posterior
    weights with credible intervals, HAWC-BWM sensitivity sweep), viewable
    both as files on disk and embedded in the web UI's results page.
+9. **Analytics: who said what.** A dedicated Analytics tab (and
+   `GET /api/surveys/{id}/analytics`) answers "which agent said what, and
+   who didn't respond at all" directly -- a per-sample table of every
+   accepted Best/Worst pick and its reasoning, a Best/Worst pick-frequency
+   count per criterion, and an honest per-agent participation breakdown
+   (`contributed` / `zero_accepted` / `pending_manual` / `skipped` /
+   `not_run`, each with why). See "Analytics: who said what" below.
 
 ## How it works (request/response pipeline)
 
@@ -156,9 +163,10 @@ agentic-survey-tool/
 | `main.py` | FastAPI app entrypoint; wires up CORS, includes every router, restores persisted LLM settings on startup. |
 | `paths.py` | Resolves `REPO_ROOT`/`SRC_DIR`/`SURVEYS_ROOT` regardless of the process's working directory; puts `src/` on `sys.path`. |
 | `runs.py` | In-process background-run tracker (a dict + a daemon thread per run) -- runs a survey without blocking the request/response cycle. |
-| `routers/surveys.py` | Survey CRUD, document-upload parsing, run/run-status, results, chart file serving, `.zip` download. |
+| `routers/surveys.py` | Survey CRUD, document-upload parsing, run/run-status, results, analytics, chart file serving, `.zip` download. |
 | `routers/agents.py` | Agent Card CRUD through the web form, full per-agent trace endpoint, `/api/providers` and `/api/ollama-models`. |
 | `routers/settings.py` | LLM-endpoint settings (`GET/PUT /api/settings/llm`, `GET /api/settings/llm/test`) -- see "Remote-LLM mode" below. |
+| `analytics.py` | Pure, FastAPI-free aggregation used by `GET /api/surveys/{id}/analytics`: classifies every configured agent (`contributed`/`zero_accepted`/`pending_manual`/`skipped`/`not_run`) from what's actually on disk, and tallies Best/Worst pick frequency per criterion. See "Analytics: who said what" below. |
 | `parsing/markdown_parser.py` | Parses a structured Markdown survey definition into candidate dimensions. |
 | `parsing/lss_parser.py` | Best-effort LimeSurvey `.lss` (XML) parser; surfaces every question row as a candidate dimension. |
 | `parsing/document_parser.py` | Best-effort PDF/DOCX candidate-dimension extraction (text-pattern heuristic, not structural). |
@@ -170,7 +178,7 @@ agentic-survey-tool/
 | `App.jsx` | Top-level layout: sidebar nav (Surveys / Settings) and page routing. |
 | `api.js` | The only place that calls the backend -- one `fetch`-based function per endpoint. |
 | `pages/SurveysPage.jsx` | Survey list + "New survey" panel (upload a document or enter criteria manually). |
-| `pages/SurveyDetailPage.jsx` | One survey's Agents tab (list/add/edit/delete + per-agent trace) and Results tab (weight tables, charts, rendered report, `.zip` download). |
+| `pages/SurveyDetailPage.jsx` | One survey's three tabs: Agents (list/add/edit/delete + per-agent trace), Results (weight tables, charts, rendered report, `.zip` download), and Analytics (panel-participation summary, Best/Worst frequency, the full "who said what" sample table, and a non-contributing-agents table with the reason for each). |
 | `pages/SettingsPage.jsx` | The LLM-endpoint settings page (presets, custom URL, test connection, save) -- see "Remote-LLM mode" below. |
 | `components/AgentForm.jsx` | The create/edit form for one Agent Card. |
 | `components/TraceViewer.jsx` | Tabbed viewer for one agent's filled survey / reasoning / prompt / raw conversation log. |
@@ -226,9 +234,128 @@ before creating a survey; create, edit, and delete Agent Cards through a
 form (role, model/provider, hyperparameters, RAG corpus, guardrails); pick
 which Ollama endpoint agents call (Settings page, see below); run a survey
 and watch its status (`idle` / `running` / `awaiting paste` / `complete` /
-`error`); and view each agent's full trace (filled survey, reasoning, exact
+`error`); view each agent's full trace (filled survey, reasoning, exact
 prompt, raw conversation log) plus the combined results and charts, with a
-one-click `.zip` download of everything.
+one-click `.zip` download of everything; and see the whole panel's Analytics
+tab (who said what, and who didn't) -- see "Analytics: who said what" below.
+
+## Deploying on a shared server (no local pip/venv, no passwordless sudo)
+
+This is the procedure actually used to deploy and run this app on the
+veritas server (Tailscale-reachable, no system `pip`/`venv` and no
+passwordless `sudo` there, `docker` available). It differs from the local
+"Web UI setup" above only in *how* the two processes get their
+dependencies and get exposed on the network; the app itself is unchanged.
+
+**Backend, in Docker on `--network host`** (so it reaches a local Ollama at
+`localhost:11434` with no extra networking, and is reachable on the host's
+own IP/Tailscale address on whatever port you publish):
+
+```bash
+docker run -d --name agentic-survey-backend \
+  --network host \
+  -v /path/to/agentic-survey-tool:/app \
+  -w /app \
+  -e OLLAMA_BASE_URL=http://localhost:11434 \
+  -e PYTHONPATH=/app/web:/app/src \
+  -e CORS_EXTRA_ORIGINS=http://<server-tailscale-ip>:5180 \
+  python:3.11-slim \
+  bash -c "apt-get update -qq && apt-get install -y --no-install-recommends -qq g++ >/dev/null \
+    && pip install -q --no-cache-dir -r requirements.txt -r web/backend/requirements.txt \
+    && exec uvicorn backend.main:app --host 0.0.0.0 --port 8100"
+```
+
+`CORS_EXTRA_ORIGINS` (comma-separated) is exactly for this case: the
+frontend origin is the server's own Tailscale IP, not `localhost`, so it
+needs to be explicitly allowed alongside the two local-dev defaults (see
+`web/backend/main.py`). Pick a port other than 8100 if something else on
+the host already listens there.
+
+**Frontend, via whatever Node the server has** (a system Node install, or a
+version manager like `nvm` if that's what's available -- no Docker needed
+for this side, it's just a static dev server):
+
+```bash
+cd web/frontend
+echo "VITE_API_BASE=http://<server-tailscale-ip>:8100" > .env
+npm install
+nohup npm run dev -- --host 0.0.0.0 --port 5180 > /tmp/vite.log 2>&1 &
+disown
+```
+
+**Verify both are actually reachable** (from any machine on the same
+Tailscale network, not just `localhost` on the server):
+
+```bash
+curl http://<server-tailscale-ip>:8100/api/health   # {"status": "ok"}
+curl -o /dev/null -w '%{http_code}\n' http://<server-tailscale-ip>:5180/   # 200
+```
+
+Then open `http://<server-tailscale-ip>:5180` in a browser on any device
+that's on the same Tailscale network. Both processes are long-lived
+(the Docker container restarts-on-demand; the Vite dev server keeps running
+in the background via `nohup`/`disown`) -- no need to redeploy between
+survey runs, only when the source changes (the backend needs a
+`docker restart agentic-survey-backend` to pick up a code change since
+Python doesn't hot-reload; the frontend picks up changes immediately via
+Vite's HMR).
+
+## Where everything lives
+
+- **The UI**: `http://<server-tailscale-ip>:5180` (frontend) talking to
+  `http://<server-tailscale-ip>:8100` (backend API) -- see "Deploying on a
+  shared server" above for how those get started.
+- **Every survey's project folder**: `surveys/<survey-id>/` in the repo
+  checkout the backend was started from (see "Repository structure" above
+  for the full layout: `survey.yaml`, `agents/<id>.json` configs,
+  `rag_corpora/`, and, once run, each agent's `agents/<id>/` runtime folder
+  plus the survey-level `report/` folder).
+- **Fastest way to grab everything for one survey**: click "Download .zip"
+  on that survey's page (or `GET /api/surveys/{id}/download`) -- it zips
+  the entire `surveys/<survey-id>/` folder, configs and runtime output
+  together.
+- **One agent's full reasoning trace**: that agent's row's "Trace" button
+  in the Agents tab (Filled Survey / Reasoning / Prompt / Conversation Log),
+  or read the files directly:
+  `surveys/<survey-id>/agents/<agent-id>/{filled_survey.md,thoughts.md,prompt.md,conversation.jsonl,result.json}`.
+- **The combined weight-elicitation results**: the Results tab (weight
+  table + posterior chart + full rendered report), or
+  `surveys/<survey-id>/report/{report.md,combined_results.json,charts/*.png}`
+  on disk.
+- **Who said what, and who didn't**: the Analytics tab -- see next section.
+
+## Analytics: who said what
+
+The Analytics tab (`GET /api/surveys/{id}/analytics`) is the single place
+to see the whole panel's actual weight-elicitation responses side by side,
+and to see honestly which configured agents *didn't* produce a response
+and why -- rather than only being able to check one agent's Trace at a
+time, or inferring non-response from an agent's absence in the results
+table.
+
+It shows three things, computed purely from what's on disk (never
+fabricated for an agent that didn't produce a result):
+
+1. **Panel participation**: a count of every configured agent by status --
+   `contributed` (at least one accepted sample), `zero_accepted` (ran to
+   completion but every sample was rejected by guardrails), `pending_manual`
+   (a `provider: manual` agent still waiting for a pasted-back response),
+   `skipped` (the orchestrator caught a provider/permission/agent-card
+   error, most commonly a missing API key, before any sample could be
+   attempted), or `not_run` (configured but the survey has never been run).
+2. **Best/Worst pick frequency**: across every accepted sample, how many
+   times each criterion was picked Best and how many times Worst -- the
+   fastest way to see which dimension the panel actually converged on
+   before even looking at the solved posterior weights.
+3. **Weight elicitation details -- who said what**: one row per accepted
+   sample (agent, role, model, RAG on/off, Best, Worst, reasoning), and a
+   second table for every non-contributing agent with its status and the
+   specific reason (e.g. "every one of 15 attempts was rejected by
+   guardrails" vs. "no result.json was ever written -- missing API key").
+
+See `web/backend/analytics.py` (`compute_analytics`) for the exact
+classification logic and `tests/test_web_analytics.py` for the cases it's
+tested against.
 
 ## Remote-LLM mode
 
