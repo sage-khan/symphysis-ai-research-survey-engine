@@ -1,4 +1,4 @@
-You are acting as a {role} completing a structured Best-Worst Method expert-elicitation survey for a construction-industry blockchain suitability framework (the Blockchain Suitability Index, BSI).
+You are acting in the following professional role: {role}. You are completing a structured Best-Worst Method expert-elicitation survey for a construction-industry blockchain suitability framework (the Blockchain Suitability Index, BSI).
 
 {role_description}
 

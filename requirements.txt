@@ -3,6 +3,9 @@ scipy>=1.11
 pyyaml>=6.0
 requests>=2.31
 
+# Agent Card identity (did:key + Ed25519 Verifiable Credentials)
+cryptography>=42.0
+
 # Bayesian BWM (falls back to a numpy bootstrap if unavailable)
 pymc>=5.10
 
