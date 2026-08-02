@@ -102,3 +102,28 @@ asking for on each loop iteration; it now passes `sample_idx` explicitly to
 the provider (only for providers that opted in via `extra_call_kwargs`,
 currently just `manual`), so the provider needs no state of its own at all.
 No assumption about process lifetime to violate.
+
+## Chart rendering crashed on a negative error-bar value
+
+**Found:** `pytest` failure in `test_orchestrator.py` after a fresh
+`pip install` pulled a newer matplotlib than had been used before (which
+tightened its `yerr` validation), then reproduced live against real data:
+a single-agent `mistral:7b` run against the veritas server's Ollama
+produced `agg_ci_lower[0] = 0.5289173888573906` fractionally *above*
+`agg_mean[0] = 0.5289173888573904`.
+
+**Root cause:** `render_charts` (`reporting.py`) computed each error-bar
+half as `mean - ci_lower` / `ci_upper - mean` with no floor. With very few
+effective samples (a one-agent panel, or any criterion whose bootstrap
+draws collapse to a single value, see `solvers/bwm_bayesian.solve_bootstrap`
+with `K=1`), the mean and the 2.5th/97.5th percentiles are computed from
+the same identical values by two different floating-point code paths
+(`np.mean` vs `np.percentile`) and can disagree by a few ULPs, landing the
+"lower" bound a sliver above the mean. matplotlib rejects any negative
+`yerr` outright rather than clamping it, so this crashed chart generation
+-- after `report.md` and `combined_results.json` had already been written,
+so a run with perfectly valid results still surfaced as a hard failure.
+
+**Fix:** `reporting.py` clips each error-bar half to `max(0.0, ...)` before
+passing it to `ax.bar`. Verified: the exact production values above render
+without error, and the full test suite (41 passed, 1 skipped) is green.

@@ -74,8 +74,13 @@ def render_charts(result: Dict[str, Any], out_dir: Path) -> list[Path]:
     ap = result["agent_panel"]["bayesian"]
     fig, ax = plt.subplots()
     ax.bar(ap["criteria"], ap["agg_mean"], yerr=[
-        [m - l for m, l in zip(ap["agg_mean"], ap["agg_ci_lower"])],
-        [h - m for m, h in zip(ap["agg_mean"], ap["agg_ci_upper"])],
+        # Clipped at 0: with very few samples (e.g. a single-agent panel,
+        # or a criterion whose bootstrap draws all collapse to the same
+        # value) floating-point rounding in the mean/percentile can put the
+        # CI bound a sliver on the wrong side of the mean, and matplotlib
+        # hard-rejects a negative yerr rather than treating it as ~0.
+        [max(0.0, m - l) for m, l in zip(ap["agg_mean"], ap["agg_ci_lower"])],
+        [max(0.0, h - m) for m, h in zip(ap["agg_mean"], ap["agg_ci_upper"])],
     ], capsize=4)
     ax.set_ylabel("Weight")
     ax.set_title("Agent panel posterior weights (95% CI)")

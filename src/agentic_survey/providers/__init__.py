@@ -42,4 +42,13 @@ def get_provider(name: str) -> LLMProvider:
     return _INSTANCES[name]
 
 
-__all__ = ["LLMProvider", "ProviderError", "ProviderResponse", "get_provider"]
+def reset_provider(name: str) -> None:
+    """Drop a cached provider instance so the next get_provider(name) call
+    re-reads its config (e.g. OLLAMA_BASE_URL) from the environment instead
+    of reusing whatever was current the first time it was constructed.
+    Needed because a long-lived process (the web backend) would otherwise
+    never see an LLM-endpoint setting changed after its first survey run."""
+    _INSTANCES.pop(name, None)
+
+
+__all__ = ["LLMProvider", "ProviderError", "ProviderResponse", "get_provider", "reset_provider"]

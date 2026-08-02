@@ -41,12 +41,229 @@ storage layers.
    and the Bayesian hierarchical BWM (Mohammadi and Rezaei, 2020) are ported
    from `bsi-survey-app`, verified against the original author's reference
    JAGS implementation (github.com/Majeed7/BayesianBWM), and one real bug
-   fixed in the process (see below). A parallel human-panel posterior can be
-   combined with the agent-panel posterior via a draw-wise linear pool
-   across a full alpha sensitivity sweep (HAWC-BWM).
-7. **Persists everything per survey, per agent.** See "Project layout" below.
-8. **Reports.** Markdown report plus matplotlib charts (posterior weights
-   with credible intervals, HAWC-BWM sensitivity sweep).
+   fixed in the process (see `docs/development/diagnostics.md`). A parallel
+   human-panel posterior can be combined with the agent-panel posterior via
+   a draw-wise linear pool across a full alpha sensitivity sweep (HAWC-BWM).
+7. **Persists everything per survey, per agent.** See "Repository structure"
+   below.
+8. **Reports.** Markdown report plus matplotlib PNG charts (posterior
+   weights with credible intervals, HAWC-BWM sensitivity sweep), viewable
+   both as files on disk and embedded in the web UI's results page.
+
+## How it works (request/response pipeline)
+
+One agent's run through `orchestrator.run_survey` (`src/agentic_survey/orchestrator.py`):
+
+```
+Agent Card (JSON)                survey.yaml
+   |                                 |
+   v                                 v
+agent_card.load_card()  ----->  Agent(card, storage)          [agent.py]
+   |                                 |
+   |                     permissions.check_provider_allowed / check_data_scope
+   |                                 |
+   |                     rag.retriever.build_retriever()  (only if card.rag.enabled)
+   |                                 |
+   v                                 v
+instrument.build_messages()  -->  providers.get_provider(card.model.provider).complete()
+   |                                 |
+   v                                 v
+guardrails.run_with_guardrails()  (schema validation, denylist scan, repeated
+   |                                 sampling, reject-and-resample on malformed output)
+   v
+storage.write_*()  (prompt.md, conversation.jsonl, thoughts.md, samples/, filled_survey.md, result.json)
+   |
+   v  (once every agent in the survey has run)
+solvers.bwm_classical / bwm_bayesian.solve()  -->  reporting.render_report() + render_charts()
+```
+
+If the survey config sets `weighting.human_responses_path`, the agent-panel
+posterior is combined with a human-panel posterior
+(`bwm_bayesian.combine_panels`, the HAWC-BWM draw-wise linear pool across an
+alpha sensitivity sweep) before reporting.
+
+The web UI (`web/backend/`, `web/frontend/`) is a thin HTTP layer on top of
+this same pipeline: it does not reimplement any of it, it calls
+`load_survey_config` + `run_survey` in a background thread
+(`web/backend/runs.py`) and serves the same on-disk artifacts (report,
+charts, per-agent trace files) as JSON/file responses.
+
+## Repository structure
+
+```
+agentic-survey-tool/
+├── src/agentic_survey/          # the core package -- see table below
+├── config/
+│   └── prompts/                 # shared system-prompt templates (referenced by agent cards)
+├── surveys/<survey-id>/         # one directory per survey project
+│   ├── survey.yaml              # instrument, dimensions, HAWC-BWM weighting/sweep config
+│   ├── agents/<agent-id>.json   # the portable Agent Card (source config, see "The Agent Card")
+│   ├── rag_corpora/<role>/      # disclosed, held-out RAG corpus per role (SOURCES.md inside)
+│   ├── human_responses/         # per-expert JSON export (e.g. LimeSurvey), for HAWC-BWM combination
+│   ├── agents/<agent-id>/       # written at runtime, one folder per agent:
+│   │   ├── card.json            #   copy of the card actually used for this run
+│   │   ├── did.json             #   this agent's did:key + public key (from the card)
+│   │   ├── prompt.md            #   the exact outgoing prompt, every provider
+│   │   ├── manual_input/        #   provider: manual agents only -- prompt_NN.md / response_NN.txt
+│   │   ├── conversation.jsonl   #   every raw completion, rejection, and tool call (RAG retrieval)
+│   │   ├── thoughts.md          #   human-readable reasoning trace
+│   │   ├── samples/             #   sample_NN.{json,md}, each accepted schema-valid response
+│   │   ├── filled_survey.md     #   consolidated, human-readable completed survey for this agent
+│   │   └── result.json          #   this agent's accepted payloads + guardrail summary
+│   └── report/                  # written at runtime, once per survey run:
+│       ├── report.md            #   the full markdown report
+│       ├── combined_results.json
+│       └── charts/*.png         #   PNG charts (also served by the web UI, see below)
+├── web/
+│   ├── backend/                 # FastAPI app -- see table below
+│   │   └── data/                #   gitignored: llm_settings.json (machine-specific runtime state)
+│   └── frontend/                # React/Vite app -- see table below
+├── docker/Dockerfile
+├── docker-compose.yml
+├── requirements.txt              # core package deps
+├── pytest.ini
+├── .env.example                  # documents every env var this app reads
+├── docs/development/
+│   ├── changelog.md              # what changed and when (see "Keeping this README/changelog current")
+│   └── diagnostics.md            # bugs found, root cause, and fix
+├── .claude/rules/                 # AI-agent working rules for this repo (see "Documentation" below)
+└── tests/                         # pytest, mirrors src/agentic_survey's layout
+```
+
+### Core package: `src/agentic_survey/` -- what each file does
+
+| File | Purpose |
+|---|---|
+| `cli.py` | Command-line entrypoint: `python -m agentic_survey.cli run <survey-dir>`. |
+| `config.py` | Loads and validates `survey.yaml` into a `SurveyConfig` (instrument, dimensions, weighting, discovered agent cards). |
+| `agent_card.py` | The portable Agent Card: one JSON file that fully defines a spawnable agent (model, RAG, sampling, permissions, guardrails, did). `new_card()` / `load_card()`. |
+| `did_key.py` | Real `did:key` identity + W3C-shaped Verifiable Credentials (Ed25519), ported from project-cogtwins's `identity.py`. |
+| `agent.py` | One agent instance: resolves its role prompt, builds RAG context if enabled, calls its provider through the guardrails layer, and persists everything via `storage`. |
+| `permissions.py` | Enforces (not just documents) an Agent Card's `data_scopes` and `allowed_providers` before any file is read or provider called. |
+| `guardrails.py` | Schema validation + reject-and-resample, denylist regex scan (prompt-injection / secret-shaped strings), repeated sampling -- applied to every provider call. |
+| `orchestrator.py` | Drives one full survey run: spawn every agent, run the instrument, solve the agent-panel posterior, optionally combine with a human panel (HAWC-BWM), write the report. `INSTRUMENTS` registry lives here. |
+| `storage.py` | The per-survey / per-agent runtime folder layout (see "Repository structure" above) -- every `write_*` call the rest of the package makes. |
+| `reporting.py` | Renders `report.md` and the matplotlib PNG charts (`render_report`, `render_charts`) from a survey's combined result dict. |
+| `providers/` | One `LLMProvider` implementation per backend: `ollama_provider.py` (local/remote Ollama HTTP API, reads `OLLAMA_BASE_URL`), `anthropic_provider.py`, `openai_compatible.py` (OpenAI + OpenRouter), `manual_provider.py` (paste-in models with no API), `base.py` (the `LLMProvider` protocol). `__init__.py` is the provider registry (`get_provider`, `reset_provider`). |
+| `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument (prompt construction + response schema). |
+| `solvers/` | `bwm_classical.py` (Rezaei 2015 linear program + consistency ratio), `bwm_bayesian.py` (Mohammadi & Rezaei 2020 hierarchical Bayesian model, PyMC/NUTS with a numpy-bootstrap fallback, plus `combine_panels` for HAWC-BWM). |
+| `rag/retriever.py` | Minimal pluggable RAG: chunks every `.txt`/`.md` file under a corpus directory, retrieves top-k via sentence-transformers cosine similarity or falls back to dependency-free TF-IDF. |
+
+### Web backend: `web/backend/` -- what each file does
+
+| File | Purpose |
+|---|---|
+| `main.py` | FastAPI app entrypoint; wires up CORS, includes every router, restores persisted LLM settings on startup. |
+| `paths.py` | Resolves `REPO_ROOT`/`SRC_DIR`/`SURVEYS_ROOT` regardless of the process's working directory; puts `src/` on `sys.path`. |
+| `runs.py` | In-process background-run tracker (a dict + a daemon thread per run) -- runs a survey without blocking the request/response cycle. |
+| `routers/surveys.py` | Survey CRUD, document-upload parsing, run/run-status, results, chart file serving, `.zip` download. |
+| `routers/agents.py` | Agent Card CRUD through the web form, full per-agent trace endpoint, `/api/providers` and `/api/ollama-models`. |
+| `routers/settings.py` | LLM-endpoint settings (`GET/PUT /api/settings/llm`, `GET /api/settings/llm/test`) -- see "Remote-LLM mode" below. |
+| `parsing/markdown_parser.py` | Parses a structured Markdown survey definition into candidate dimensions. |
+| `parsing/lss_parser.py` | Best-effort LimeSurvey `.lss` (XML) parser; surfaces every question row as a candidate dimension. |
+| `parsing/document_parser.py` | Best-effort PDF/DOCX candidate-dimension extraction (text-pattern heuristic, not structural). |
+
+### Web frontend: `web/frontend/src/` -- what each file does
+
+| File | Purpose |
+|---|---|
+| `App.jsx` | Top-level layout: sidebar nav (Surveys / Settings) and page routing. |
+| `api.js` | The only place that calls the backend -- one `fetch`-based function per endpoint. |
+| `pages/SurveysPage.jsx` | Survey list + "New survey" panel (upload a document or enter criteria manually). |
+| `pages/SurveyDetailPage.jsx` | One survey's Agents tab (list/add/edit/delete + per-agent trace) and Results tab (weight tables, charts, rendered report, `.zip` download). |
+| `pages/SettingsPage.jsx` | The LLM-endpoint settings page (presets, custom URL, test connection, save) -- see "Remote-LLM mode" below. |
+| `components/AgentForm.jsx` | The create/edit form for one Agent Card. |
+| `components/TraceViewer.jsx` | Tabbed viewer for one agent's filled survey / reasoning / prompt / raw conversation log. |
+| `components/StatusDot.jsx` | The small colored status indicator (`idle`/`running`/`complete`/`error`/`pending_manual`). |
+
+## Setup
+
+```bash
+pip install -r requirements.txt
+
+export ANTHROPIC_API_KEY=...   # only needed for agents configured with provider: anthropic
+export OPENAI_API_KEY=...      # only needed for agents configured with provider: openai
+export OPENROUTER_API_KEY=...  # only needed for agents configured with provider: openrouter
+export OLLAMA_BASE_URL=...     # defaults to http://localhost:11434
+
+PYTHONPATH=src python -m agentic_survey.cli run surveys/bsi-hawc-bwm
+```
+
+Or dockerized:
+
+```bash
+docker compose up --build
+```
+
+Output lands in `surveys/bsi-hawc-bwm/report/report.md` and `.../charts/`.
+
+The example survey's agent roster spans 6 diverse Ollama model families
+(Qwen, Gemma, Llama, Mistral, DeepSeek, Phi -- one per domain-persona role,
+so base-vs-RAG comparisons hold the model constant within a role) plus a
+5-agent "independent reviewer" cross-check tier (Claude Opus/Sonnet/Haiku
+via the Anthropic API, and manually-pasted Gemini/GPT).
+
+### Web UI setup
+
+A FastAPI backend (`web/backend/`) and React/Vite frontend (`web/frontend/`)
+sit on top of the same `agentic_survey` package, deliberately kept as a
+separate layer since this UI is intended to grow into its own product.
+
+```bash
+# Backend (from the repo root)
+pip install -r web/backend/requirements.txt
+PYTHONPATH=web uvicorn backend.main:app --reload --port 8000
+
+# Frontend (separate terminal)
+cd web/frontend
+npm install
+npm run dev   # http://localhost:5173
+```
+
+The UI lets you: upload a survey document (structured Markdown, LimeSurvey
+`.lss`, or best-effort PDF/DOCX) and review its parsed candidate criteria
+before creating a survey; create, edit, and delete Agent Cards through a
+form (role, model/provider, hyperparameters, RAG corpus, guardrails); pick
+which Ollama endpoint agents call (Settings page, see below); run a survey
+and watch its status (`idle` / `running` / `awaiting paste` / `complete` /
+`error`); and view each agent's full trace (filled survey, reasoning, exact
+prompt, raw conversation log) plus the combined results and charts, with a
+one-click `.zip` download of everything.
+
+## Remote-LLM mode
+
+Run this app on your own machine while the LLM calls run on a separate
+Ollama host (e.g. the veritas server, over Tailscale), so LLM compute load
+stays off your machine and iteration stays fast locally.
+
+**CLI:**
+
+```bash
+export OLLAMA_BASE_URL=http://100.77.119.21:11434   # the server's Tailscale IP
+PYTHONPATH=src python -m agentic_survey.cli run surveys/bsi-hawc-bwm
+```
+
+Everything else (the Bayesian solve, guardrails, storage) runs locally
+regardless of where `OLLAMA_BASE_URL` points; only the `ollama`-provider
+HTTP calls leave the machine. See `.env.example`.
+
+**Web UI:** use the **Settings** page rather than an environment variable.
+It's a runtime setting, not just a documented env var -- switching it takes
+effect on the very next survey run, no backend restart required. Pick a
+preset (Local / Veritas server (Tailscale)) or enter a custom URL, click
+"Test connection" to confirm the host is reachable and see which models it
+has pulled, then Save. The choice persists across backend restarts
+(`web/backend/data/llm_settings.json`, gitignored, machine-specific -- not
+something to commit or share). See `GET/PUT /api/settings/llm` and
+`GET /api/settings/llm/test` if driving this from a script instead of the
+UI.
+
+Why this needed a settings page instead of just an env var: the CLI is a
+fresh process every run, so it re-reads `OLLAMA_BASE_URL` every time. The
+web backend is a long-lived process -- without `routers/settings.py` and
+`providers.reset_provider()`, whatever `OLLAMA_BASE_URL` was set to at
+backend startup would be stuck for the process's whole life. See
+`docs/development/changelog.md`'s 2026-08-02 "LLM-endpoint settings" entry.
 
 ## The Agent Card
 
@@ -124,106 +341,11 @@ confident about expert agreement than the data supports, which defeats the
 entire point of using a Bayesian method over the classical point-estimate
 one. This is fixed at the source in `src/agentic_survey/solvers/bwm_bayesian.py`.
 
-## Quick start
-
-```bash
-pip install -r requirements.txt
-
-export ANTHROPIC_API_KEY=...   # only needed for agents configured with provider: anthropic
-export OPENAI_API_KEY=...      # only needed for agents configured with provider: openai
-export OPENROUTER_API_KEY=...  # only needed for agents configured with provider: openrouter
-export OLLAMA_BASE_URL=...     # defaults to http://localhost:11434
-
-PYTHONPATH=src python -m agentic_survey.cli run surveys/bsi-hawc-bwm
-```
-
-Or dockerized:
-
-```bash
-docker compose up --build
-```
-
-Output lands in `surveys/bsi-hawc-bwm/report/report.md` and `.../charts/`.
-
-The example survey's agent roster spans 6 diverse Ollama model families
-(Qwen, Gemma, Llama, Mistral, DeepSeek, Phi -- one per domain-persona role,
-so base-vs-RAG comparisons hold the model constant within a role) plus a
-5-agent "independent reviewer" cross-check tier (Claude Opus/Sonnet/Haiku
-via the Anthropic API, and manually-pasted Gemini/GPT).
-
-## Remote-LLM mode
-
-Run this app on your own machine while the LLM calls run on a separate
-Ollama host (e.g. the veritas server, over Tailscale), so LLM compute load
-stays off your machine and iteration stays fast locally:
-
-```bash
-export OLLAMA_BASE_URL=http://100.77.119.21:11434   # the server's Tailscale IP
-PYTHONPATH=src python -m agentic_survey.cli run surveys/bsi-hawc-bwm
-```
-
-Everything else (the Bayesian solve, guardrails, storage) runs locally
-regardless of where `OLLAMA_BASE_URL` points; only the `ollama`-provider
-HTTP calls leave the machine. See `.env.example`.
-
-## Web UI
-
-A FastAPI backend (`web/backend/`) and React/Vite frontend (`web/frontend/`)
-sit on top of the same `agentic_survey` package, deliberately kept as a
-separate layer since this UI is intended to grow into its own product.
-
-```bash
-# Backend (from the repo root)
-pip install -r web/backend/requirements.txt
-PYTHONPATH=web uvicorn backend.main:app --reload --port 8000
-
-# Frontend (separate terminal)
-cd web/frontend
-npm install
-npm run dev   # http://localhost:5173
-```
-
-The UI lets you: upload a survey document (structured Markdown, LimeSurvey
-`.lss`, or best-effort PDF/DOCX) and review its parsed candidate criteria
-before creating a survey; create, edit, and delete Agent Cards through a
-form (role, model/provider, hyperparameters, RAG corpus, guardrails); run a
-survey and watch its status (`idle` / `running` / `awaiting paste` /
-`complete` / `error`); and view each agent's full trace (filled survey,
-reasoning, exact prompt, raw conversation log) plus the combined results
-and charts, with a one-click `.zip` download of everything.
-
-## Project layout
-
-```
-src/agentic_survey/       # the core package: agents, providers, instruments, solvers, storage
-config/
-  prompts/                       # shared system-prompt templates (referenced by agent cards)
-surveys/<survey-id>/
-  survey.yaml                    # instrument, dimensions, HAWC-BWM weighting/sweep config
-  agents/<agent-id>.json         # the portable Agent Card (source config, see above)
-  rag_corpora/<role>/            # disclosed, held-out RAG corpus per role (see SOURCES.md inside)
-  human_responses/               # per-expert JSON export (e.g. from LimeSurvey), for HAWC-BWM combination
-  agents/<agent-id>/             # written at runtime:
-    card.json                    #   copy of the card actually used for this run
-    did.json                     #   this agent's did:key + public key (from the card)
-    prompt.md                    #   the exact outgoing prompt, every provider
-    manual_input/                #   provider: manual agents only -- prompt_NN.md / response_NN.txt
-    conversation.jsonl           #   every raw completion, rejection, and tool call (RAG retrieval), one line each
-    thoughts.md                  #   human-readable reasoning trace
-    samples/sample_NN.{json,md}  #   each accepted, schema-valid response
-    filled_survey.md             #   consolidated, human-readable completed survey for this agent
-    result.json                  #   this agent's accepted payloads + guardrail summary
-  report/
-    report.md
-    combined_results.json
-    charts/*.png
-web/
-  backend/                       # FastAPI app (see "Web UI" above)
-  frontend/                      # React/Vite app
-docs/development/
-  changelog.md
-  diagnostics.md
-```
+Every bug found since (timeout tuning, per-agent failure isolation, the
+manual provider's sample-index tracking, the negative-error-bar chart
+crash) is logged with its root cause in `docs/development/diagnostics.md`
+-- check there before re-diagnosing something that already has a documented
+cause.
 
 ## Adding an agent
 
@@ -265,6 +387,19 @@ survey runs, an "add agent from template" flow).
 - `docs/development/diagnostics.md` for bugs found, root cause, and fix.
 - `.claude/rules/project-details.md` for this project's relationship to
   VERITAS-AIDB, BSI/TrustRoute, and project-cogtwins, plus the roadmap.
+- `.claude/rules/documentation-maintenance.md` for the rule (binding on any
+  AI agent working in this repo) that this README and `changelog.md` must
+  be updated in the same change as any code change they describe.
+
+### Keeping this README and the changelog current
+
+This README (setup, repository structure, main-files tables, how-it-works
+pipeline) and `docs/development/changelog.md` describe the repo as it
+actually is right now. Whenever a change adds, removes, renames, or
+meaningfully alters a file, endpoint, or workflow described here, update
+the relevant section of this README in the same change, and add a dated
+entry to `changelog.md` (with a `diagnostics.md` entry too, if the change
+was a bug fix). See `.claude/rules/documentation-maintenance.md`.
 
 ## Related
 

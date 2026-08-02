@@ -1,12 +1,15 @@
 import { useState } from "react";
 import SurveysPage from "./pages/SurveysPage.jsx";
 import SurveyDetailPage from "./pages/SurveyDetailPage.jsx";
+import SettingsPage from "./pages/SettingsPage.jsx";
 
 const NAV = [
   { key: "surveys", label: "Surveys", glyph: "01" },
+  { key: "settings", label: "Settings", glyph: "02" },
 ];
 
 export default function App() {
+  const [page, setPage] = useState("surveys"); // "surveys" | "settings"
   const [selectedSurvey, setSelectedSurvey] = useState(null);
 
   return (
@@ -36,27 +39,33 @@ export default function App() {
         </div>
 
         <nav>
-          {NAV.map((item) => (
-            <button
-              key={item.key}
-              onClick={() => setSelectedSurvey(null)}
-              className="btn"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                width: "100%",
-                justifyContent: "flex-start",
-                marginBottom: 6,
-                border: "none",
-                background: !selectedSurvey ? "var(--bg-panel)" : "transparent",
-                color: !selectedSurvey ? "var(--amber)" : "var(--text-dim)",
-              }}
-            >
-              <span className="mono-dim">{item.glyph}</span>
-              {item.label}
-            </button>
-          ))}
+          {NAV.map((item) => {
+            const active = page === item.key && (item.key !== "surveys" || !selectedSurvey);
+            return (
+              <button
+                key={item.key}
+                onClick={() => {
+                  setPage(item.key);
+                  setSelectedSurvey(null);
+                }}
+                className="btn"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 10,
+                  width: "100%",
+                  justifyContent: "flex-start",
+                  marginBottom: 6,
+                  border: "none",
+                  background: active ? "var(--bg-panel)" : "transparent",
+                  color: active ? "var(--amber)" : "var(--text-dim)",
+                }}
+              >
+                <span className="mono-dim">{item.glyph}</span>
+                {item.label}
+              </button>
+            );
+          })}
         </nav>
 
         <div style={{ position: "absolute", bottom: 24, left: 20, right: 20 }}>
@@ -69,7 +78,9 @@ export default function App() {
       </aside>
 
       <main style={{ flex: 1, padding: "32px 40px", maxWidth: 1400 }}>
-        {selectedSurvey ? (
+        {page === "settings" ? (
+          <SettingsPage />
+        ) : selectedSurvey ? (
           <SurveyDetailPage surveyId={selectedSurvey} onBack={() => setSelectedSurvey(null)} />
         ) : (
           <SurveysPage onOpenSurvey={setSelectedSurvey} />

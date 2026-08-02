@@ -13,7 +13,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import paths  # noqa: F401 - import for its sys.path side effect
-from .routers import agents, surveys
+from .routers import agents, settings, surveys
+
+# Restore any previously-saved LLM endpoint (e.g. "veritas-server") before
+# anything else runs, so picking that option in the UI survives a backend
+# restart instead of silently reverting to localhost.
+settings.load_settings_into_env()
 
 app = FastAPI(title="agentic-survey-tool API", version="0.1.0")
 
@@ -26,6 +31,7 @@ app.add_middleware(
 
 app.include_router(surveys.router)
 app.include_router(agents.router)
+app.include_router(settings.router)
 
 
 @app.get("/api/health")

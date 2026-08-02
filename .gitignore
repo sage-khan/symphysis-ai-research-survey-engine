@@ -35,3 +35,4 @@ web/frontend/node_modules/
 web/frontend/dist/
 web/backend/__pycache__/
 web/backend/**/__pycache__/
+web/backend/data/*.json

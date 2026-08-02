@@ -3,6 +3,49 @@
 All notable changes to agentic-survey-tool. Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-02 (README rewrite + documentation-maintenance rule)
+
+- Rewrote `README.md`: added a "How it works" pipeline diagram (Agent Card
+  -> Agent -> provider -> instrument -> guardrails -> storage -> solvers ->
+  reporting), an annotated full "Repository structure" tree (previously
+  only directories were listed, not the runtime-written files inside each
+  agent's folder), and three "main files" reference tables (one each for
+  `src/agentic_survey/`, `web/backend/`, `web/frontend/src/`) giving a
+  one-line purpose for every source file in the repo. Reorganized Quick
+  start + Web UI setup + Remote-LLM mode under one "Setup" section.
+- Added `.claude/rules/documentation-maintenance.md`: a standing rule that
+  any change to a file/endpoint/workflow described in `README.md` updates
+  the relevant README section in the same change, and that any change
+  worth a commit gets a `changelog.md` entry (with a `diagnostics.md`
+  entry too, if it was a bug fix). Written after noticing this README had
+  drifted -- it described "Quick start" and "Web UI" as separate,
+  loosely-connected sections with no full file-level reference, even
+  though the repo had grown to 30+ source files across three languages.
+
+## 2026-08-02 (LLM-endpoint settings)
+
+- Added a runtime-configurable LLM endpoint: `GET/PUT /api/settings/llm` and
+  a `GET /api/settings/llm/test` connectivity check, backed by
+  `web/backend/routers/settings.py` and a new Settings page in the web UI.
+  Previously switching between a local Ollama instance and the veritas
+  server meant editing `.env`/`OLLAMA_BASE_URL` and restarting the backend
+  process; now it's a preset button (Local / Veritas server (Tailscale) /
+  Custom) plus Test connection and Save, persisted to
+  `web/backend/data/llm_settings.json` (gitignored, machine-specific) and
+  restored on the next backend start.
+- `agentic_survey.providers.reset_provider()`: the provider registry cached
+  the `ollama` provider instance (and its `base_url`) for the life of the
+  process, so a long-lived web backend could never actually pick up a
+  changed `OLLAMA_BASE_URL` after the first run. The settings endpoint now
+  clears the cache after writing the new value so the very next survey run
+  uses it.
+- Verified end to end against the real veritas server over Tailscale (not
+  mocked): saved the veritas-server preset, ran a live single-agent
+  `mistral:7b` survey through it from this endpoint, confirmed the run
+  completed, and confirmed the resulting chart rendered correctly in the
+  browser. See `diagnostics.md` for a real chart-rendering bug this same
+  run surfaced.
+
 ## 2026-08-02 (web UI)
 
 - Web UI MVP: FastAPI backend (`web/backend/`) + React/Vite frontend

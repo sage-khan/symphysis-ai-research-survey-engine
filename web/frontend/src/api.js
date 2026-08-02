@@ -39,6 +39,11 @@ export const api = {
   listProviders: () => request("/api/providers"),
   listOllamaModels: () => request("/api/ollama-models"),
 
+  getLlmSettings: () => request("/api/settings/llm"),
+  saveLlmSettings: (body) => request("/api/settings/llm", { method: "PUT", body: JSON.stringify(body) }),
+  testLlmEndpoint: (baseUrl) =>
+    request(`/api/settings/llm/test${baseUrl ? `?base_url=${encodeURIComponent(baseUrl)}` : ""}`),
+
   listAgents: (surveyId) => request(`/api/surveys/${surveyId}/agents`),
   getAgent: (surveyId, agentId) => request(`/api/surveys/${surveyId}/agents/${agentId}`),
   createAgent: (surveyId, body) => request(`/api/surveys/${surveyId}/agents`, { method: "POST", body: JSON.stringify(body) }),
