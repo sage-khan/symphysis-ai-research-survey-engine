@@ -27,12 +27,10 @@ export default function App() {
         }}
       >
         <div style={{ marginBottom: 40 }}>
-          <div style={{ fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 700, color: "var(--text)" }}>
-            agentic
+          <div style={{ fontFamily: "var(--font-display)", fontSize: 26, fontWeight: 700, color: "var(--amber)" }}>
+            SAGE
           </div>
-          <div style={{ fontFamily: "var(--font-display)", fontSize: 20, fontWeight: 700, color: "var(--amber)", marginTop: -4 }}>
-            survey-tool
-          </div>
+          <div className="mono-dim" style={{ marginTop: 2 }}>Survey Agent Generation Engine</div>
           <div className="mono-dim" style={{ marginTop: 8, letterSpacing: "0.04em" }}>
             v0.1.0 · control panel
           </div>
@@ -70,9 +68,9 @@ export default function App() {
 
         <div style={{ position: "absolute", bottom: 24, left: 20, right: 20 }}>
           <div className="mono-dim" style={{ lineHeight: 1.7 }}>
-            HAWC-BWM panels for
+            Config-driven agent panels
             <br />
-            VERITAS TrustRoute
+            for expert-elicitation surveys
           </div>
         </div>
       </aside>

@@ -1,4 +1,4 @@
-"""agentic-survey-tool web backend.
+"""SAGE (Survey Agent Generation Engine) web backend.
 
     uvicorn web.backend.main:app --reload --port 8000
 
@@ -17,12 +17,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from . import paths  # noqa: F401 - import for its sys.path side effect
 from .routers import agents, settings, surveys
 
-# Restore any previously-saved LLM endpoint (e.g. "veritas-server") before
-# anything else runs, so picking that option in the UI survives a backend
-# restart instead of silently reverting to localhost.
+# Restore any previously-saved LLM endpoint/API keys before anything else
+# runs, so those settings survive a backend restart instead of silently
+# reverting to localhost / no keys.
 settings.load_settings_into_env()
 
-app = FastAPI(title="agentic-survey-tool API", version="0.1.0")
+app = FastAPI(title="SAGE API", version="0.1.0")
 
 # Origins the frontend may be served from. Defaults cover local Vite dev;
 # CORS_EXTRA_ORIGINS (comma-separated) adds more, e.g. when the UI is

@@ -1,5 +1,5 @@
 services:
-  agentic-survey-tool:
+  sage:
     build:
       context: .
       dockerfile: docker/Dockerfile

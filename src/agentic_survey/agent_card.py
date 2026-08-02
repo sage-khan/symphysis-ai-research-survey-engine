@@ -89,7 +89,7 @@ class DidSpec:
 
 @dataclass
 class EnvironmentSpec:
-    runtime: str = "agentic-survey-tool"
+    runtime: str = "sage"
     runtime_version: str = RUNTIME_VERSION
     python_version: str = field(default_factory=platform.python_version)
     platform: str = field(default_factory=platform.platform)

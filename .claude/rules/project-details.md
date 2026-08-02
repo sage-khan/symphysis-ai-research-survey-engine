@@ -2,11 +2,11 @@
 trigger: always_on
 ---
 
-# agentic-survey-tool: Project Details
+# SAGE (Survey Agent Generation Engine): Project Details
 
 ## Overview
 
-**agentic-survey-tool** is a config-driven, replicable agent-panel platform
+**SAGE** is a config-driven, replicable agent-panel platform
 for expert-elicitation surveys. Every agent is fully defined by one portable
 JSON file (an "Agent Card": identity, model, hyperparameters, RAG corpus,
 permissions, guardrails), spawned against a pluggable instrument (Best-Worst
@@ -15,8 +15,15 @@ prompt sent, every tool call made, every raw completion, every accepted and
 rejected sample, and a human-readable filled-in survey) so nothing about how
 a result was produced is opaque or locked into this app.
 
+Formerly named `agentic-survey-tool` (still the internal Python package
+name, `agentic_survey`, and the name this project is referenced by in
+project-veritas's own memory/session records up to 2026-08-03); renamed to
+SAGE as the project moves toward being a standalone product rather than a
+component scoped to one VERITAS paper.
+
 **Owner:** Muhammad Danyal (Sage) Khan (`dan@go.ugr.es`)
-**Repository:** `github.com/sage-khan/agentic-survey-tool` (private)
+**Repository:** `github.com/sage-khan/sage` (private, renamed from
+`agentic-survey-tool` on 2026-08-03; GitHub redirects the old URL)
 **Status:** Early, active development. Core (agents, providers, BWM
 instrument, guardrails, solvers, reporting) is built and tested; the web UI
 and multi-format survey parsing are being added.
@@ -27,7 +34,7 @@ This tool is the general-purpose successor to VERITAS's `bsi-survey-app`
 (`project-veritas/docs/research/Work-in-progress/potential-papers/00-bsi/survey-app/`),
 which implemented the Bayesian Best-Worst Method pipeline for exactly one
 survey (the Blockchain Suitability Index dimension-weight elicitation) with
-no agent-spawning capability. agentic-survey-tool generalises that pipeline
+no agent-spawning capability. SAGE generalises that pipeline
 (the classical and Bayesian BWM solvers are ported from it, verified against
 the original author's reference implementation, with one real bug fixed in
 the process) into a reusable platform: any survey, any instrument, any mix

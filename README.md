@@ -1,11 +1,14 @@
-# agentic-survey-tool
+# SAGE -- Survey Agent Generation Engine
 
 Config-driven, replicable agent panels for expert-elicitation surveys.
-Built as the general-purpose successor to VERITAS's `bsi-survey-app`,
-starting from the BSI paper's HAWC-BWM (Human-AI Weighted Consensus
-Best-Worst Method) use case, but designed so a survey can plug in a
-different instrument (AHP, etc.) without touching the agent, provider, or
-storage layers.
+Formerly named `agentic-survey-tool` (that's still the internal Python
+package name, `agentic_survey`, and how earlier session records refer to
+it); renamed to SAGE as it moves toward being a standalone product rather
+than a component scoped to one paper. Built as the general-purpose
+successor to VERITAS's `bsi-survey-app`, starting from the BSI paper's
+HAWC-BWM (Human-AI Weighted Consensus Best-Worst Method) use case, but
+designed so a survey can plug in a different instrument (AHP, etc.) without
+touching the agent, provider, or storage layers.
 
 ## What it does
 
@@ -98,8 +101,8 @@ charts, per-agent trace files) as JSON/file responses.
 ## Repository structure
 
 ```
-agentic-survey-tool/
-├── src/agentic_survey/          # the core package -- see table below
+sage/
+├── src/agentic_survey/          # the core package -- see table below (import name kept stable)
 ├── config/
 │   └── prompts/                 # shared system-prompt templates (referenced by agent cards)
 ├── surveys/<survey-id>/         # one directory per survey project
@@ -254,7 +257,7 @@ own IP/Tailscale address on whatever port you publish):
 ```bash
 docker run -d --name agentic-survey-backend \
   --network host \
-  -v /path/to/agentic-survey-tool:/app \
+  -v /path/to/sage:/app \
   -w /app \
   -e OLLAMA_BASE_URL=http://localhost:11434 \
   -e PYTHONPATH=/app/web:/app/src \
@@ -415,7 +418,7 @@ tables, not a file anyone can pick up and replicate. This is that file.
   "permissions": {"data_scopes": ["surveys/.../rag_corpora/bim-coordinator/**"], "allowed_providers": ["ollama"]},
   "guardrails": {"schema_validation": true, "denylist_patterns": ["ignore (all|any|the) previous instructions", ...]},
   "did": {"method": "did:key", "id": "did:key:z6Mk...", "deterministic": true, "seed_derivation": "sha256('<seed>:bim-coordinator-rag-ollama')"},
-  "environment": {"runtime": "agentic-survey-tool", "runtime_version": "0.1.0", "python_version": "3.11.15", ...}
+  "environment": {"runtime": "sage", "runtime_version": "0.1.0", "python_version": "3.11.15", ...}
 }
 ```
 
