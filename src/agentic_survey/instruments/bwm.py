@@ -20,10 +20,19 @@ You are completing a Best-Worst Method (BWM) comparison over the following crite
 {dimension_list}
 
 Step 1: choose the single BEST (most important) and single WORST (least important) criterion.
-Step 2: for every criterion j (including Best itself, which must be 1), rate how many times \
-more important Best is than j, on a 1-9 integer scale (Best-to-Others).
-Step 3: for every criterion j (including Worst itself, which must be 1), rate how many times \
-more important j is than Worst, on a 1-9 integer scale (Others-to-Worst).
+Step 2: for every criterion j (including Best itself), rate how many times more important \
+Best is than j, on a 1-9 integer scale (Best-to-Others). This is a RATIO between Best and j, \
+not an absolute importance score: Best compared to itself is always exactly 1 (one time as \
+important as itself), never 9. A rating of 9 for Best-to-Best would claim Best is nine times \
+more important than itself, which is never correct.
+Step 3: for every criterion j (including Worst itself), rate how many times more important j \
+is than Worst, on a 1-9 integer scale (Others-to-Worst). Worst compared to itself is always \
+exactly 1, for the same reason.
+
+Worked example with placeholder criteria X, Y, Z (not the real criteria above) where X is Best \
+and Z is Worst: best_to_others = {{"X": 1, "Y": 4, "Z": 7}} (X vs itself is 1; X is rated 4x more \
+important than Y and 7x more important than Z). others_to_worst = {{"X": 7, "Y": 3, "Z": 1}} (Z \
+vs itself is 1; X is rated 7x more important than Z and Y is rated 3x more important than Z).
 
 Respond with ONLY a JSON object, no other text, in exactly this shape:
 {{
