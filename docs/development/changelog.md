@@ -1,7 +1,23 @@
 # Changelog
 
-All notable changes to agentic-survey-tool. Bug fixes and their root causes
+All notable changes to SAGE (formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
+
+## 2026-08-03 (rebrand executed: repo + folder renamed, veritas-server deployment moved)
+
+- GitHub repo renamed `sage-khan/agentic-survey-tool` -> `sage-khan/sage`
+  (`gh repo rename`; GitHub redirects the old URL). Local remote updated to
+  match.
+- veritas server: local checkout moved
+  `/home/veritas/projects/agentic-survey-tool` -> `/home/veritas/projects/sage`;
+  Docker backend container recreated as `sage-backend` (was
+  `agentic-survey-backend`) with its volume mount updated to the new path;
+  Vite frontend restarted from the new path. Same ports (8100 backend, 5180
+  frontend), same `OLLAMA_BASE_URL`/`CORS_EXTRA_ORIGINS` env vars. Verified:
+  46/46 tests pass from the new location, health checks green, full browser
+  screenshot pass shows SAGE branding with zero console errors.
+- Nothing else about the deployment changed -- see this same date's earlier
+  entries for the feature/UX work the rename followed.
 
 ## 2026-08-03 (self-introduction turn, editable per-agent prompts, generic multi-provider settings, survey rename/created-at)
 
