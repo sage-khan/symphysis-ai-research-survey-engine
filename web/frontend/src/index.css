@@ -1,0 +1,209 @@
+:root {
+  --bg: #0b0b0d;
+  --bg-raised: #131316;
+  --bg-panel: #17171b;
+  --border: #29292f;
+  --border-bright: #3d3d46;
+  --text: #e8e6e1;
+  --text-dim: #9a988f;
+  --text-faint: #605f5a;
+  --amber: #ff9d3f;
+  --amber-dim: #b9702a;
+  --cyan: #5ee6e0;
+  --green: #6fd68a;
+  --red: #ff6b6b;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", Menlo, monospace;
+  --radius: 3px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  line-height: 1.6;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 157, 63, 0.06), transparent),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.012) 0px, rgba(255, 255, 255, 0.012) 1px, transparent 1px, transparent 3px);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+  color: var(--text);
+}
+
+a {
+  color: var(--amber);
+}
+
+code, pre {
+  font-family: var(--font-mono);
+}
+
+::selection {
+  background: var(--amber-dim);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-bright);
+  border-radius: 5px;
+}
+
+button {
+  font-family: var(--font-mono);
+  cursor: pointer;
+}
+
+input, textarea, select {
+  font-family: var(--font-mono);
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  padding: 7px 10px;
+  font-size: 13px;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+
+.btn {
+  background: transparent;
+  border: 1px solid var(--border-bright);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: border-color 120ms ease, color 120ms ease, background 120ms ease;
+}
+.btn:hover {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: #100a04;
+  font-weight: 600;
+}
+.btn-primary:hover {
+  background: #ffb161;
+  border-color: #ffb161;
+  color: #100a04;
+}
+.btn-danger:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.mono-dim {
+  color: var(--text-dim);
+  font-size: 12px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border: 1px solid var(--border-bright);
+  border-radius: 999px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dot-idle { background: var(--text-faint); }
+.dot-running { background: var(--cyan); animation: pulse 1.4s ease-in-out infinite; }
+.dot-complete { background: var(--green); }
+.dot-error { background: var(--red); }
+.dot-pending_manual { background: var(--amber); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(94, 230, 224, 0.5); }
+  50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(94, 230, 224, 0); }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+th {
+  text-align: left;
+  color: var(--text-dim);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 10.5px;
+  letter-spacing: 0.06em;
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-bright);
+}
+td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+}
+tr:last-child td {
+  border-bottom: none;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.markdown-body h1:first-child, .markdown-body h2:first-child { margin-top: 0; }
+.markdown-body p { margin: 8px 0; }
+.markdown-body table { margin: 12px 0 20px; }
+.markdown-body code {
+  background: var(--bg);
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-size: 12px;
+}
+.markdown-body ul { padding-left: 20px; }

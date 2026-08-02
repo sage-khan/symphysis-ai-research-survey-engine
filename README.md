@@ -151,9 +151,51 @@ so base-vs-RAG comparisons hold the model constant within a role) plus a
 5-agent "independent reviewer" cross-check tier (Claude Opus/Sonnet/Haiku
 via the Anthropic API, and manually-pasted Gemini/GPT).
 
+## Remote-LLM mode
+
+Run this app on your own machine while the LLM calls run on a separate
+Ollama host (e.g. the veritas server, over Tailscale), so LLM compute load
+stays off your machine and iteration stays fast locally:
+
+```bash
+export OLLAMA_BASE_URL=http://100.77.119.21:11434   # the server's Tailscale IP
+PYTHONPATH=src python -m agentic_survey.cli run surveys/bsi-hawc-bwm
+```
+
+Everything else (the Bayesian solve, guardrails, storage) runs locally
+regardless of where `OLLAMA_BASE_URL` points; only the `ollama`-provider
+HTTP calls leave the machine. See `.env.example`.
+
+## Web UI
+
+A FastAPI backend (`web/backend/`) and React/Vite frontend (`web/frontend/`)
+sit on top of the same `agentic_survey` package, deliberately kept as a
+separate layer since this UI is intended to grow into its own product.
+
+```bash
+# Backend (from the repo root)
+pip install -r web/backend/requirements.txt
+PYTHONPATH=web uvicorn backend.main:app --reload --port 8000
+
+# Frontend (separate terminal)
+cd web/frontend
+npm install
+npm run dev   # http://localhost:5173
+```
+
+The UI lets you: upload a survey document (structured Markdown, LimeSurvey
+`.lss`, or best-effort PDF/DOCX) and review its parsed candidate criteria
+before creating a survey; create, edit, and delete Agent Cards through a
+form (role, model/provider, hyperparameters, RAG corpus, guardrails); run a
+survey and watch its status (`idle` / `running` / `awaiting paste` /
+`complete` / `error`); and view each agent's full trace (filled survey,
+reasoning, exact prompt, raw conversation log) plus the combined results
+and charts, with a one-click `.zip` download of everything.
+
 ## Project layout
 
 ```
+src/agentic_survey/       # the core package: agents, providers, instruments, solvers, storage
 config/
   prompts/                       # shared system-prompt templates (referenced by agent cards)
 surveys/<survey-id>/
@@ -164,15 +206,23 @@ surveys/<survey-id>/
   agents/<agent-id>/             # written at runtime:
     card.json                    #   copy of the card actually used for this run
     did.json                     #   this agent's did:key + public key (from the card)
+    prompt.md                    #   the exact outgoing prompt, every provider
     manual_input/                #   provider: manual agents only -- prompt_NN.md / response_NN.txt
-    conversation.jsonl           #   every raw completion + rejection, one line each
+    conversation.jsonl           #   every raw completion, rejection, and tool call (RAG retrieval), one line each
     thoughts.md                  #   human-readable reasoning trace
     samples/sample_NN.{json,md}  #   each accepted, schema-valid response
+    filled_survey.md             #   consolidated, human-readable completed survey for this agent
     result.json                  #   this agent's accepted payloads + guardrail summary
   report/
     report.md
     combined_results.json
     charts/*.png
+web/
+  backend/                       # FastAPI app (see "Web UI" above)
+  frontend/                      # React/Vite app
+docs/development/
+  changelog.md
+  diagnostics.md
 ```
 
 ## Adding an agent
@@ -198,13 +248,16 @@ dict. The agent, provider, guardrail, and storage layers do not change.
 
 ## Status / what's deferred
 
-This is a first working core, not the full long-term spec. Deferred to
-follow-up work: a resolvable `did:web` variant (current DIDs are `did:key`,
-self-certifying but not resolvable via HTTP), a full Cedar/OPA-style policy
-evaluator for `permissions` (currently a direct glob/allowlist check, not a
-general policy engine), an AHP instrument, richer inter-sample agreement
-metrics for the guardrail's agreement-threshold gate, and drawio-based
-architecture diagrams in the generated report.
+This is a working core plus a web UI MVP, not the full long-term spec.
+Deferred to follow-up work: a resolvable `did:web` variant (current DIDs
+are `did:key`, self-certifying but not resolvable via HTTP), a full
+Cedar/OPA-style policy evaluator for `permissions` (currently a direct
+glob/allowlist check, not a general policy engine), an AHP instrument,
+richer inter-sample agreement metrics for the guardrail's
+agreement-threshold gate, drawio-based architecture diagrams in the
+generated report, structural (not text-pattern) PDF/DOCX parsing, and
+UI polish (dark-themed chart rendering, agent-selection for partial
+survey runs, an "add agent from template" flow).
 
 ## Documentation
 

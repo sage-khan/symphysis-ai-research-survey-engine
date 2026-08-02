@@ -3,6 +3,32 @@
 All notable changes to agentic-survey-tool. Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-02 (web UI)
+
+- Web UI MVP: FastAPI backend (`web/backend/`) + React/Vite frontend
+  (`web/frontend/`), kept as a separate layer on top of `agentic_survey`
+  since this UI is intended to grow into its own product. Survey
+  create/list/delete, document-upload parsing into candidate criteria
+  (structured Markdown, LimeSurvey `.lss`, best-effort PDF/DOCX), Agent
+  Card create/edit/delete through a form, background survey runs with
+  status polling, results view (weight tables, charts, rendered report),
+  per-agent trace viewer (filled survey, reasoning, exact prompt, parsed
+  conversation log), `.zip` download.
+- Verified end to end in a real headless-Chromium browser (Playwright),
+  not just via curl: the full create-survey -> add-agent -> run ->
+  paste-manual-response -> re-run -> view-results loop, including the
+  exact "re-run after pasting, same long-lived server process" scenario
+  that surfaced the sample-index bug described in `diagnostics.md`.
+- Fixed during that verification: the manual provider's sample-index
+  tracking (a module-level counter assumed the process restarts between
+  runs, which is true for the CLI but not for the web backend) and the
+  run-status classification (a survey where every agent is legitimately
+  awaiting a manual paste was reported as `error` instead of a distinct
+  `pending_manual` status). See `diagnostics.md` for both.
+- Confirmed real, remote LLM calls flow correctly through the whole stack
+  by exercising the existing `bsi-hawc-bwm` example survey's live 17-agent
+  roster through the new `/api/surveys/{id}/agents` endpoint.
+
 ## 2026-08-02
 
 - Full trace and consolidated output per agent: every provider's exact

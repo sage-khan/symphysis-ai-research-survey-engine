@@ -11,15 +11,15 @@ Two-step, resumable, per-agent workflow:
    `<manual_dir>/response_NN.txt`, and re-run. The agent picks up exactly
    where it left off; already-answered samples are not re-asked.
 
-Within one process run, N sequential `complete()` calls for the same
-manual_dir (one per requested sample) must visit index 0, 1, 2, ... in
-order -- including a call immediately after a human has just pasted
-sample 0's response, which must return sample 0's content, not skip ahead
-to preparing sample 1. That requires an explicit per-directory call
-counter; inferring "the next index" purely from which prompt/response
-files already exist on disk cannot tell "return the answer I was just
-given" apart from "move on to the next question" when both prompt and
-response already exist for the current index.
+The sample index a given call is asking for is passed in explicitly by the
+caller (guardrails.run_with_guardrails, as `sample_idx`) rather than
+inferred from mutable state here. An earlier version inferred "the next
+index" from a module-level call counter, which broke under a long-lived
+server process: a counter that must reset exactly once per agent.run() call
+happens to reset for free in a short-lived CLI process (the whole process
+exits after each invocation) but does not reset between separate "run this
+survey" clicks handled by the same long-running web-backend process. An
+explicit, caller-supplied index has no such assumption to violate.
 """
 
 from __future__ import annotations
@@ -28,8 +28,6 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 from .base import ProviderError, ProviderResponse
-
-_call_counters: Dict[str, int] = {}
 
 
 class ManualResponsePending(ProviderError):
@@ -50,18 +48,18 @@ class ManualProvider:
         top_p: float = 1.0,
         seed: int | None = None,
         manual_dir: str | None = None,
+        sample_idx: int | None = None,
         **extra: Any,
     ) -> ProviderResponse:
         if not manual_dir:
             raise ProviderError("ManualProvider requires manual_dir (set automatically for provider: manual agents)")
+        if sample_idx is None:
+            raise ProviderError("ManualProvider requires sample_idx (set automatically by run_with_guardrails)")
 
         d = Path(manual_dir)
         d.mkdir(parents=True, exist_ok=True)
 
-        key = str(d)
-        index = _call_counters.get(key, 0)
-        _call_counters[key] = index + 1
-
+        index = sample_idx
         prompt_path = d / f"prompt_{index:02d}.md"
         response_path = d / f"response_{index:02d}.txt"
 

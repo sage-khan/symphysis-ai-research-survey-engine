@@ -25,4 +25,13 @@ surveys/*/agents/*/samples/
 surveys/*/agents/*/did.json
 surveys/*/agents/*/result.json
 surveys/*/agents/*/thoughts.md
+surveys/*/agents/*/prompt.md
+surveys/*/agents/*/filled_survey.md
+surveys/*/agents/*/manual_input/
 surveys/*/report/
+
+# Web UI
+web/frontend/node_modules/
+web/frontend/dist/
+web/backend/__pycache__/
+web/backend/**/__pycache__/

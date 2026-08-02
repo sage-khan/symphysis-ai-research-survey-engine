@@ -86,10 +86,17 @@ See the root `README.md` for the full picture; in short:
       families + Claude Opus/Sonnet/Haiku + manual Gemini/GPT).
 - [x] Remote-LLM mode: point `OLLAMA_BASE_URL` at the veritas server over
       Tailscale and run the rest of the pipeline locally.
-- [ ] Web UI (FastAPI + React): survey upload/parsing (LimeSurvey `.lss`,
-      structured Markdown, PDF/DOCX as a fast-follow), agent
-      configuration/creation screens, run + side-by-side results view,
-      downloadable output.
+- [x] Web UI MVP (FastAPI + React): survey upload/parsing (structured
+      Markdown and LimeSurvey `.lss` well-supported, PDF/DOCX best-effort),
+      agent configuration/creation/edit screens, run + results view with
+      per-agent trace (filled survey, reasoning, prompt, conversation log),
+      downloadable `.zip` output. Verified end to end in a real browser
+      (Playwright), including the exact "re-run after pasting a manual
+      response, same server process" scenario that surfaced the
+      sample-index bug fixed in diagnostics.md.
+- [ ] UI polish: dark-themed chart rendering, partial-roster survey runs
+      (select which agents to include per click, not always "all"),
+      structural PDF/DOCX parsing.
 - [ ] AHP instrument (BWM was first by necessity, not by design; the
       instrument interface was built to make this a config addition, not a
       rewrite).

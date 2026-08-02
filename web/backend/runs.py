@@ -42,7 +42,15 @@ def start_run(survey_id: str, survey_root: Path) -> None:
             run_survey(survey)
             set_status(survey_id, "complete")
         except Exception as exc:  # noqa: BLE001 - report to the UI, don't crash the server
-            set_status(survey_id, "error", message=f"{exc}\n\n{traceback.format_exc()}")
+            # A run where every agent is waiting on a manually-pasted response
+            # is not an error, it's expected and self-resolves once the human
+            # pastes their replies and re-runs. orchestrator.run_survey's
+            # message says so explicitly; surface that as a distinct status
+            # rather than the red "error" state a real failure gets.
+            if "waiting on a manual paste" in str(exc):
+                set_status(survey_id, "pending_manual", message=str(exc).split("\n\n")[0])
+            else:
+                set_status(survey_id, "error", message=f"{exc}\n\n{traceback.format_exc()}")
 
     thread = threading.Thread(target=_run, daemon=True, name=f"survey-run-{survey_id}")
     thread.start()

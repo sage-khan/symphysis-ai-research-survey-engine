@@ -55,6 +55,18 @@ def run_with_guardrails(
     pending_manual: str | None = None
 
     for sample_idx in range(repeats):
+        # sample_idx is passed through to the provider (only when the caller
+        # opted in via extra_call_kwargs, currently the manual provider) so
+        # it can identify "which sample is this" itself, rather than
+        # inferring it from mutable state. That state would otherwise need
+        # to reset exactly once per agent.run() call and nowhere else, which
+        # a short-lived CLI process gets for free but a long-lived server
+        # process (this app's web UI) does not: the same provider instance
+        # serves many separate "run this survey" clicks in one process.
+        call_kwargs = dict(extra_call_kwargs) if extra_call_kwargs is not None else {}
+        if extra_call_kwargs is not None:
+            call_kwargs["sample_idx"] = sample_idx
+
         attempt = 0
         while attempt <= max_retries_on_malformed:
             try:
@@ -65,7 +77,7 @@ def run_with_guardrails(
                     max_tokens=max_tokens,
                     top_p=top_p,
                     seed=(seed + sample_idx if seed is not None else None),
-                    **(extra_call_kwargs or {}),
+                    **call_kwargs,
                 )
             except ManualResponsePending as exc:
                 # Not a failure: a human hasn't pasted this sample's reply
