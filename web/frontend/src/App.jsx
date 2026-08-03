@@ -5,9 +5,9 @@ import AgentLibraryPage from "./pages/AgentLibraryPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 
 const NAV = [
-  { key: "surveys", label: "Surveys", glyph: "01" },
-  { key: "library", label: "Agent Library", glyph: "02" },
-  { key: "settings", label: "Settings", glyph: "03" },
+  { key: "surveys", label: "Surveys" },
+  { key: "library", label: "Agent Library" },
+  { key: "settings", label: "Settings" },
 ];
 
 export default function App() {
@@ -52,7 +52,6 @@ export default function App() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: 10,
                   width: "100%",
                   justifyContent: "flex-start",
                   marginBottom: 6,
@@ -61,7 +60,6 @@ export default function App() {
                   color: active ? "var(--amber)" : "var(--text-dim)",
                 }}
               >
-                <span className="mono-dim">{item.glyph}</span>
                 {item.label}
               </button>
             );

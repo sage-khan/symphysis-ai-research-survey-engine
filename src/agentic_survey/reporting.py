@@ -128,6 +128,15 @@ _METHODOLOGY_TEXT = {
         "matrix, with a consistency ratio computed against Saaty's random index; individual "
         "weight vectors were combined across the panel via geometric mean."
     ),
+    "hierarchical_bwm": (
+        "Each agent independently completed a separate Best-Worst Method comparison for every "
+        "level of a multi-level hierarchy, where one level's criterion is itself broken down by "
+        "another, lower level. Each level was solved independently (classical BWM for a "
+        "consistency check per Rezaei 2015, Bayesian BWM per Mohammadi and Rezaei 2020 for the "
+        "panel-level posterior), then every leaf criterion's global weight was computed by "
+        "multiplying its own level's weight through every ancestor level's weight for the "
+        "criterion it elaborates, all the way to the root of the composite formula."
+    ),
 }
 
 
@@ -183,6 +192,78 @@ def render_per_agent_detail_section(per_agent_detail: "list[Dict[str, Any]]") ->
         parts.append(f"**Reasoning:**\n\n{d['reasoning']}\n")
 
     return "\n".join(parts)
+
+
+def render_hierarchical_bwm_report(result: Dict[str, Any]) -> str:
+    parts = [f"# Survey report: {result['title']}\n", f"Survey ID: `{result['survey_id']}`\n"]
+    ap = result["agent_panel"]
+
+    composite = ap.get("composite_formula")
+    if composite:
+        parts.append(f"**Composite form:** `{composite}`\n")
+
+    parts.append(f"- Agents contributing a valid response: {ap['num_agents']}\n")
+
+    for lid, lvl in ap["levels"].items():
+        parts.append(f"## Level {lid}: {lvl['name']}\n")
+        consistent = sum(1 for c in lvl["classical_consistency"] if c["consistent"])
+        parts.append(f"- Classical BWM consistency: {consistent}/{len(lvl['classical_consistency'])} within threshold\n")
+        b = lvl["bayesian"]
+        parts.append(_weight_table(b["criteria"], b["agg_mean"], b["agg_ci_lower"], b["agg_ci_upper"]))
+        parts.append("")
+
+    parts.append("## Populated equations\n")
+    for line in ap["populated_equations"]:
+        parts.append(f"- `{line}`")
+    parts.append("")
+
+    parts.append("## Global leaf weights\n")
+    parts.append("These are each leaf criterion's own level weight multiplied through every "
+                 "ancestor level's weight for the criterion it elaborates, all the way to the root: "
+                 "the actual coefficient each leaf carries in the fully expanded composite formula.\n")
+    parts.append("| Criterion | Global weight |")
+    parts.append("|---|---|")
+    for code, weight in sorted(result["agent_panel"]["global_weights"].items(), key=lambda kv: -kv[1]):
+        parts.append(f"| {code} | {weight:.4f} |")
+    parts.append("")
+
+    return "\n".join(parts)
+
+
+def render_hierarchical_bwm_charts(result: Dict[str, Any], out_dir: Path) -> list[Path]:
+    if not MATPLOTLIB_AVAILABLE:
+        return []
+    out_dir.mkdir(parents=True, exist_ok=True)
+    written: list[Path] = []
+    ap = result["agent_panel"]
+
+    for lid, lvl in ap["levels"].items():
+        b = lvl["bayesian"]
+        fig, ax = plt.subplots()
+        ax.bar(b["criteria"], b["agg_mean"], yerr=[
+            [max(0.0, m - l) for m, l in zip(b["agg_mean"], b["agg_ci_lower"])],
+            [max(0.0, h - m) for m, h in zip(b["agg_mean"], b["agg_ci_upper"])],
+        ], capsize=4)
+        ax.set_ylabel("Weight")
+        ax.set_title(f"Level {lid} posterior weights (95% CI)")
+        path = out_dir / f"level_{lid}_weights.png"
+        fig.savefig(path, dpi=150, bbox_inches="tight")
+        plt.close(fig)
+        written.append(path)
+
+    global_weights = ap["global_weights"]
+    codes = sorted(global_weights, key=lambda c: -global_weights[c])
+    fig, ax = plt.subplots(figsize=(max(6, len(codes) * 0.6), 4))
+    ax.bar(codes, [global_weights[c] for c in codes])
+    ax.set_ylabel("Global weight")
+    ax.set_title("Global leaf weights (fully expanded composite formula)")
+    ax.tick_params(axis="x", rotation=60)
+    path = out_dir / "global_leaf_weights.png"
+    fig.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    written.append(path)
+
+    return written
 
 
 def render_charts(result: Dict[str, Any], out_dir: Path) -> list[Path]:

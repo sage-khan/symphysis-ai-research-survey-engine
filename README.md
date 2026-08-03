@@ -22,11 +22,15 @@ touching the agent, provider, or storage layers.
    See "The Agent Card" below.
 2. **Runs an instrument against each agent.** The instrument owns the prompt
    construction and response schema; agents don't know or care which
-   instrument they're completing. `bwm` (Best-Worst Method) and `ahp`
-   (Analytic Hierarchy Process) are both implemented, selected per survey
-   via `instrument:` in `survey.yaml` or the New Survey form; the interface
+   instrument they're completing. `bwm` (Best-Worst Method), `ahp`
+   (Analytic Hierarchy Process), and `hierarchical_bwm` (several BWM
+   comparisons in one response, for a criteria tree rather than a flat
+   list, see "Hierarchical BWM" below) are all implemented, selected per
+   survey via `instrument:` in `survey.yaml`; the interface
    (`src/agentic_survey/instruments/base.py`) is designed for further
-   methods to be added the same way.
+   methods to be added the same way. `hierarchical_bwm` surveys are
+   currently authored directly in `survey.yaml` rather than through the
+   New Survey form, which only authors a flat `dimensions` list.
 3. **Enforces permissions, not just documents them.** A RAG-enabled agent's
    `corpus_path` must match one of its card's `permissions.data_scopes`
    globs or the agent refuses to start; its provider must be in
@@ -197,8 +201,8 @@ symphysis-ai-research-survey-engine/
 | `reporting.py` | Renders `report.md` and the matplotlib PNG charts (`render_report`, `render_charts`) from a survey's combined result dict. |
 | `app_config.py` | The one place `config/defaults.yaml` and its runtime override are read from: provider base URLs, model/sampling/RAG defaults, the guardrail denylist starting point, and the global rulefile. |
 | `providers/` | One `LLMProvider` implementation per backend: `ollama_provider.py` (local/remote Ollama HTTP API, reads `OLLAMA_BASE_URL`), `anthropic_provider.py`, `openai_compatible.py` (OpenAI, OpenRouter, Groq, Gemini, xAI), `manual_provider.py` (paste-in models with no API), `base.py` (the `LLMProvider` protocol). `__init__.py` is the provider registry (`get_provider`, `reset_provider`). |
-| `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument; `ahp.py` is the Analytic Hierarchy Process instrument (pairwise comparison prompt, response schema, `build_full_matrix`). Both include the `sources_used` citation instruction. |
-| `solvers/` | `bwm_classical.py` (Rezaei 2015 linear program + consistency ratio), `bwm_bayesian.py` (Mohammadi & Rezaei 2020 hierarchical Bayesian model, PyMC/NUTS with a numpy-bootstrap fallback, plus `combine_panels` for HAWC-BWM), `ahp.py` (Saaty 1980 principal-eigenvector priority weights + consistency ratio, plus `aggregate_individual_priorities` for the agent panel). |
+| `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument; `ahp.py` is the Analytic Hierarchy Process instrument (pairwise comparison prompt, response schema, `build_full_matrix`); `hierarchical_bwm.py` runs several BWM comparisons in one agent response, one per named level, for a survey where one level's criterion is itself broken down by another level (see "Hierarchical BWM" below). All include the `sources_used` citation instruction. |
+| `solvers/` | `bwm_classical.py` (Rezaei 2015 linear program + consistency ratio), `bwm_bayesian.py` (Mohammadi & Rezaei 2020 hierarchical Bayesian model, PyMC/NUTS with a numpy-bootstrap fallback, plus `combine_panels` for HAWC-BWM), `ahp.py` (Saaty 1980 principal-eigenvector priority weights + consistency ratio, plus `aggregate_individual_priorities` for the agent panel), `hierarchical_bwm.py` (solves every level with the two BWM solvers above, then multiplies each leaf's weight through its ancestor levels, excluding the root, to get its global weight; see "Hierarchical BWM" below for why the root is excluded). |
 | `rag/retriever.py` | Minimal pluggable RAG: chunks every `.txt`/`.md` file under a corpus directory, retrieves top-k via sentence-transformers cosine similarity or falls back to dependency-free TF-IDF. |
 | `role_packs/` | Standard professional-domain knowledge packs (`packs/*.md`: AI Scientist, Data Engineer, LLMOps Engineer, Knowledge Graph Engineer, Construction Engineer, Wind Energy Engineer, Blockchain Trust Specialist, Cybersecurity Specialist) an agent can attach via its card's `role_pack` field. |
 | `tools/web_search.py` | Real web search for an agent with `web_search` in its card's `tools`, backed by the Tavily API. Raises rather than fabricating a result if unconfigured or unreachable. |
@@ -560,17 +564,50 @@ Implement `agentic_survey.instruments.base.Instrument` (`build_messages` +
 `parse`) and register it in `agentic_survey/orchestrator.py`'s `INSTRUMENTS`
 dict. The agent, provider, guardrail, and storage layers do not change.
 
+## Hierarchical BWM
+
+Some criteria hierarchies are too deep for a single flat BWM comparison:
+TrustRouter/BSI's real weight elicitation, for example, is a composite
+`TrustRouter = DVS x F x (1 + E) x A` at the top, where DVS is itself
+broken down into six trust dimensions (Q, PT, V, IC, L, C), one of which
+(Q) is broken down again into ISO 25012's three quality clusters, and two
+of the top-level factors (A, E) are each broken down into three sub-parts
+of their own. That is seven separate BWM comparisons, not one.
+
+`instrument: hierarchical_bwm` runs all of them off a single
+`instrument_params.levels` list, each entry a normal BWM level
+(`id`, `name`, `description`, `dimensions`, `dimension_labels`) plus an
+optional `parent_level`/`parent_criterion` pair naming which other
+level's criterion this level breaks down further. An agent answers every
+level in one structured JSON response (one call, exactly like `bwm` and
+`ahp`); `solvers/hierarchical_bwm.py` solves each level independently
+(same classical + Bayesian solvers `bwm` uses) and then computes each
+leaf criterion's **global weight** by multiplying its own level's local
+weight through every ancestor level's local weight for the criterion that
+level elaborates, deliberately **excluding the root level's own weight**:
+the root's criteria (DVS, F, E, A) combine multiplicatively, not as a
+weighted sum, so their relative-importance weights are not shares of one
+linear pie the way every other level's weights are, and multiplying a
+deeper leaf by the root's own weight would conflate the two. This was
+verified by reproducing TrustRouter's real published global leaf weights
+(`TRUSTROUTER_EQUATION.md` in the BSI survey-app) from the same local
+level weights, not by assumption. See
+`tests/test_hierarchical_bwm_solver.py` for the worked reproduction and
+`tests/test_orchestrator_hierarchical_bwm.py` for a full run through the
+real seven-level TrustRouter structure.
+
 ## Status / what's deferred
 
 This is a working core plus a web UI MVP, not the full long-term spec.
 Deferred to follow-up work: a resolvable `did:web` variant (current DIDs
 are `did:key`, self-certifying but not resolvable via HTTP), a full
 Cedar/OPA-style policy evaluator for `permissions` (currently a direct
-glob/allowlist check, not a general policy engine), an AHP instrument,
-richer inter-sample agreement metrics for the guardrail's
-agreement-threshold gate, drawio-based architecture diagrams in the
-generated report, structural (not text-pattern) PDF/DOCX parsing, and
-UI polish (dark-themed chart rendering, agent-selection for partial
+glob/allowlist check, not a general policy engine), a New Survey form
+that can author a `hierarchical_bwm` level tree (not just a flat
+`dimensions` list), richer inter-sample agreement metrics for the
+guardrail's agreement-threshold gate, drawio-based architecture diagrams
+in the generated report, structural (not text-pattern) PDF/DOCX parsing,
+and UI polish (dark-themed chart rendering, agent-selection for partial
 survey runs, an "add agent from template" flow).
 
 ## Documentation
@@ -598,8 +635,9 @@ was a bug fix). See `.claude/rules/documentation-maintenance.md`.
 
 ## Future enhancements
 
-Symphysis currently implements one instrument (BWM, plus its Bayesian
-hierarchical variant) and AHP (classical, Saaty 1980), one deployment
+Symphysis currently implements BWM (classical and Bayesian), AHP
+(classical, Saaty 1980), and `hierarchical_bwm` (multiple linked BWM
+levels for a criteria tree, see "Hierarchical BWM" above), one deployment
 shape (a single-server Docker container plus a Vite dev server), and
 independent-sampling agents only (no multi-agent debate yet). The
 instrument interface (`src/agentic_survey/instruments/base.py`) is

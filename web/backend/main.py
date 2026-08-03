@@ -1,4 +1,4 @@
-"""SAGE (Survey Agent Generation Engine) web backend.
+"""Symphysis web backend.
 
     uvicorn web.backend.main:app --reload --port 8000
 
@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import os
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import paths  # noqa: F401 - import for its sys.path side effect
@@ -24,7 +24,7 @@ from agentic_survey import app_config  # noqa: E402 - must follow the `paths` im
 # reverting to localhost / no keys.
 settings.load_settings_into_env()
 
-app = FastAPI(title="SAGE API", version="0.1.0")
+app = FastAPI(title="Symphysis API", version="0.1.0")
 
 # Origins the frontend may be served from. Defaults (config/defaults.yaml's
 # cors.default_origins, overridable via Settings -> Config) cover local
@@ -41,6 +41,18 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def _no_cache(request: Request, call_next):
+    # Every response is generated fresh from disk on every request (no
+    # server-side caching layer exists anywhere in this app); an explicit
+    # no-store header rules out a browser or intermediate proxy silently
+    # serving a stale response instead of hitting this backend, which is
+    # otherwise invisible from the UI when it happens.
+    response = await call_next(request)
+    response.headers["Cache-Control"] = "no-store"
+    return response
+
 
 app.include_router(surveys.router)
 app.include_router(agents.router)

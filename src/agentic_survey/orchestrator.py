@@ -15,18 +15,22 @@ from .agent_card import AgentCardError, load_card
 from .config import SurveyConfig
 from .instruments.ahp import AHPInstrument, build_full_matrix
 from .instruments.bwm import BWMInstrument
+from .instruments.hierarchical_bwm import HierarchicalBWMInstrument
 from .permissions import PermissionError_
 from .providers.base import ProviderError
 from .reporting import (
     render_ahp_charts,
     render_ahp_report,
     render_charts,
+    render_hierarchical_bwm_charts,
+    render_hierarchical_bwm_report,
     render_methodology_section,
     render_per_agent_detail_section,
     render_report,
 )
 from .solvers import ahp as ahp_solver
 from .solvers import bwm_bayesian, bwm_classical
+from .solvers import hierarchical_bwm as hbwm_solver
 from .storage import SurveyStorage
 
 # Every instrument this app can run a survey with. Adding a new method
@@ -34,7 +38,7 @@ from .storage import SurveyStorage
 # Enhancements) means adding a new Instrument implementation plus a
 # _solve_<name> function below and one new entry here; nothing else in
 # this module, in Agent, or in storage needs to change to support it.
-INSTRUMENTS = {"bwm": BWMInstrument(), "ahp": AHPInstrument()}
+INSTRUMENTS = {"bwm": BWMInstrument(), "ahp": AHPInstrument(), "hierarchical_bwm": HierarchicalBWMInstrument()}
 
 
 def _load_human_responses(path: Path) -> List[Dict[str, Any]]:
@@ -53,7 +57,11 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
     instrument = INSTRUMENTS[survey.instrument]
     storage = SurveyStorage(survey.root)
 
-    codes: List[str] = survey.instrument_params["dimensions"]
+    # hierarchical_bwm has no single flat "dimensions" list (see
+    # instruments/hierarchical_bwm.py's instrument_params shape); its
+    # per-level dimensions are read directly from instrument_params by
+    # _solve_hierarchical_bwm instead.
+    codes: List[str] = survey.instrument_params.get("dimensions", [])
 
     agent_payloads: List[Dict[str, Any]] = []
     per_agent_meta: List[Dict[str, Any]] = []
@@ -103,6 +111,18 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
                 }
             )
             answer = {k: v for k, v in payload.items() if k not in ("reasoning", "sources_used")}
+            if "levels" in payload:
+                # hierarchical_bwm's reasoning lives per level, not as one
+                # top-level field; concatenate each level's own reasoning
+                # into one readable block rather than showing "(no
+                # reasoning field returned)" for a response that in fact
+                # gave a full, per-level justification.
+                reasoning = "\n\n".join(
+                    f"[{lid}] {lvl_answer.get('reasoning', '(no reasoning field returned)')}"
+                    for lid, lvl_answer in payload["levels"].items()
+                )
+            else:
+                reasoning = payload.get("reasoning", "(no reasoning field returned)")
             per_agent_detail.append(
                 {
                     "agent_id": card.agent_id,
@@ -112,7 +132,7 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
                     "did": card.did.id,
                     "qa_precheck_passed": qa_status,
                     "answer": answer,
-                    "reasoning": payload.get("reasoning", "(no reasoning field returned)"),
+                    "reasoning": reasoning,
                     "sources_used": payload.get("sources_used"),
                 }
             )
@@ -138,6 +158,10 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
         result = _solve_ahp(survey, codes, agent_payloads, per_agent_meta)
         report_md = render_ahp_report(result)
         chart_paths = render_ahp_charts(result, storage.report_dir / "charts")
+    elif survey.instrument == "hierarchical_bwm":
+        result = _solve_hierarchical_bwm(survey, agent_payloads, per_agent_meta)
+        report_md = render_hierarchical_bwm_report(result)
+        chart_paths = render_hierarchical_bwm_charts(result, storage.report_dir / "charts")
     else:
         result = _solve_bwm(survey, codes, agent_payloads, per_agent_meta)
         report_md = render_report(result)
@@ -228,6 +252,46 @@ def _solve_ahp(
             "per_agent_meta": per_agent_meta,
             "individual_solutions": individual_solutions,
             "aggregated_weights": {c: float(aggregated[i]) for i, c in enumerate(codes)},
+        },
+    }
+
+
+def _solve_hierarchical_bwm(
+    survey: SurveyConfig, agent_payloads: List[Dict[str, Any]], per_agent_meta: List[Dict[str, Any]]
+) -> Dict[str, Any]:
+    level_defs: List[Dict[str, Any]] = survey.instrument_params["levels"]
+
+    level_solutions: Dict[str, hbwm_solver.LevelSolution] = {}
+    levels_result: Dict[str, Any] = {}
+    for lvl in level_defs:
+        lid = lvl["id"]
+        level_payloads = [p["levels"][lid] for p in agent_payloads]
+        solution = hbwm_solver.solve_level(lvl["dimensions"], level_payloads)
+        solution.level_id = lid
+        level_solutions[lid] = solution
+        levels_result[lid] = {
+            "name": lvl.get("name", lid),
+            "codes": solution.codes,
+            "weights": solution.weights,
+            "classical_consistency": solution.classical_consistency,
+            "bayesian": solution.bayesian,
+        }
+
+    global_weights = hbwm_solver.compute_global_weights(level_defs, level_solutions)
+    populated_equations = hbwm_solver.render_populated_equations(level_defs, level_solutions)
+
+    return {
+        "survey_id": survey.id,
+        "title": survey.title,
+        "dimensions": list(global_weights.keys()),
+        "instrument": "hierarchical_bwm",
+        "agent_panel": {
+            "num_agents": len(agent_payloads),
+            "per_agent_meta": per_agent_meta,
+            "levels": levels_result,
+            "global_weights": global_weights,
+            "populated_equations": populated_equations,
+            "composite_formula": survey.instrument_params.get("composite_formula"),
         },
     }
 

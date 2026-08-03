@@ -213,13 +213,28 @@ function KnowledgeTab({ surveyId }) {
 function AnalyticsTab({ surveyId, refreshKey }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [lastFetched, setLastFetched] = useState(null);
 
-  useEffect(() => {
+  function load() {
     api
       .getAnalytics(surveyId)
-      .then(setData)
+      .then((d) => {
+        setData(d);
+        setLastFetched(new Date());
+      })
       .catch((err) => setError(String(err.message || err)));
-  }, [surveyId, refreshKey]);
+  }
+
+  useEffect(load, [surveyId, refreshKey]);
+
+  // This tab shows a live view of an agent panel that a run in another
+  // tab, or a still-in-progress run, can change at any moment: poll while
+  // this tab is mounted rather than only refetching on survey load or
+  // right after a run this same page session triggered.
+  useEffect(() => {
+    const interval = setInterval(load, 8000);
+    return () => clearInterval(interval);
+  }, [surveyId]);
 
   if (error) return <div className="mono-dim">{error}</div>;
   if (!data) return <div className="mono-dim">Loading...</div>;
@@ -230,6 +245,16 @@ function AnalyticsTab({ surveyId, refreshKey }) {
 
   return (
     <div>
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 10, marginBottom: 12 }}>
+        {lastFetched && (
+          <span className="mono-dim" style={{ fontSize: 12 }}>
+            Live, last refreshed {lastFetched.toLocaleTimeString()}
+          </span>
+        )}
+        <button className="btn" onClick={load}>
+          Refresh now
+        </button>
+      </div>
       <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
         Panel participation
       </div>
@@ -305,8 +330,8 @@ function AnalyticsTab({ surveyId, refreshKey }) {
                   <td>{s.index}</td>
                   <td style={{ color: "var(--amber)" }}>{s.best}</td>
                   <td>{s.worst}</td>
-                  <td title={s.reasoning} style={{ maxWidth: 420, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {s.reasoning}
+                  <td style={{ maxWidth: 420 }}>
+                    <div style={{ maxHeight: 120, overflowY: "auto", whiteSpace: "pre-wrap" }}>{s.reasoning}</div>
                   </td>
                 </tr>
               )),

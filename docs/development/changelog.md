@@ -3,6 +3,56 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (hierarchical BWM: the real TrustRouter formula structure)
+
+- The flat, six-dimension BWM survey previously used for TrustRouter/BSI
+  weight elicitation covered only one branch (DVS's own sub-dimensions) of
+  the real framework. The actual TrustRouter composite is
+  `TrustRouter = DVS x F x (1 + E) x A` across four top-level factors, three
+  of which (DVS, A, E) are themselves broken down by their own separate
+  BWM comparison, and one of DVS's own six dimensions (Q) is broken down
+  by a third level again (see `trustrouter.py` in the BSI survey-app for
+  the authoritative structure). Treating the six-dimension survey as "the"
+  TrustRouter calculation was incomplete.
+- New `src/agentic_survey/instruments/hierarchical_bwm.py`: a survey
+  defines multiple named BWM comparison levels, each over its own subset
+  of criteria, with a `parent_level`/`parent_criterion` on any level that
+  elaborates another level's criterion. An agent completes every level in
+  one structured JSON response (one call, same as `bwm`/`ahp`; no change
+  needed to `Agent`, `guardrails.py`, or `storage.py`).
+- New `src/agentic_survey/solvers/hierarchical_bwm.py`: solves each level
+  independently (classical + Bayesian BWM, same solvers `bwm` already
+  uses), then computes each leaf criterion's global weight by multiplying
+  local weights up its ancestor chain. The root level's own weight is
+  deliberately excluded from that multiplication: verified directly
+  against TrustRouter's real, published numbers
+  (`TRUSTROUTER_EQUATION.md`), L1's DVS/F/E/A weights express relative
+  importance among factors combined multiplicatively at the very top, not
+  shares of one linear sum, so multiplying a deeper leaf's weight by L1's
+  own weight would conflate two different kinds of importance. This was
+  confirmed by reproducing the exact published global leaf weights
+  (IQ 0.0615, CQ 0.0629, T_source 0.0654, and so on) from the same local
+  level weights, not by assumption.
+- `orchestrator.py`'s `INSTRUMENTS` registry now has three entries
+  (`bwm`, `ahp`, `hierarchical_bwm`); new `render_hierarchical_bwm_report`/
+  `render_hierarchical_bwm_charts` in `reporting.py` show the composite
+  formula, every level's own solved weights, the populated equations
+  (`DVS = 0.185*Q + ...`, in the same form as the real reference
+  document), and the global leaf weights table.
+- 12 new tests, including one that reproduces the real TrustRouter
+  numbers exactly from the real level structure, and a full end-to-end
+  orchestrator test running all seven real TrustRouter levels through a
+  manual-provider agent; 159/159 pass repo-wide.
+- Also: removed the "01/02/03" numbering glyphs from the sidebar
+  navigation, fixed the Analytics "who said what" table's reasoning
+  column (was CSS-truncated to one line with an ellipsis, relying on a
+  hover tooltip for the rest; now wraps and scrolls in place), added a
+  manual refresh button plus 8-second auto-poll to the Analytics tab
+  (it reflects a panel that a run in another tab or a still-in-progress
+  run can change at any moment), an explicit `Cache-Control: no-store` on
+  every API response, and fixed the backend's FastAPI app title, which
+  still said "SAGE API" from before this project's second rename.
+
 ## 2026-08-03 (concept-driven survey creation)
 
 - New `web/backend/survey_proposer.py` and `POST /api/surveys/propose-concept`:
