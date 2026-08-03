@@ -22,6 +22,7 @@ function blankForm(cfg = {}) {
     display_name: "",
     expertise: "",
     role_pack: null,
+    rulefile: "",
     role: "",
     role_description: "",
     system_prompt_override: "",
@@ -189,6 +190,17 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
           value={form.role_description}
           onChange={(e) => set("role_description", e.target.value)}
           rows={3}
+          style={{ width: "100%" }}
+        />
+      </label>
+
+      <label style={{ display: "block", marginBottom: 16 }}>
+        <div className="mono-dim">Agent-specific rules (optional)</div>
+        <textarea
+          value={form.rulefile || ""}
+          onChange={(e) => set("rulefile", e.target.value)}
+          rows={3}
+          placeholder="Behavioral rules for this agent only, appended after the global rulefile (Settings -> Rules). For example: 'As a construction engineer, weigh legal and contractual sensitivity heavily when judging whether data belongs on a blockchain.'"
           style={{ width: "100%" }}
         />
       </label>

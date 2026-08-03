@@ -30,6 +30,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
+from . import qa_checks
 from .agent_card import AgentCard
 from .guardrails import GuardedRun
 from .providers.base import ProviderResponse
@@ -89,13 +90,30 @@ class SurveyStorage:
         were used, how, when, and on what' is answerable from one file."""
         self.append_conversation(agent_id, {"kind": "tool_call", "tool": tool, **detail})
 
-    def write_introduction(self, agent_id: str, response: ProviderResponse) -> None:
+    def write_qa_precheck(
+        self,
+        agent_id: str,
+        ground_truth: Dict[str, Any],
+        response: ProviderResponse,
+        claimed: Any,
+        verification: Dict[str, Any],
+    ) -> None:
         """Logged as this agent's very first conversation-trace entry (see
-        Agent.introduce): the agent's own stated understanding of who it is
-        and what it's being asked to do, before any Best/Worst attempt, so a
-        human reviewer can check comprehension at a glance instead of
-        inferring it from terse per-sample reasoning."""
-        self.append_conversation(agent_id, {"kind": "introduction", "response": _response_dict(response)})
+        Agent.run_qa_precheck): the agent was told its real configuration and
+        asked to restate it, and that restatement was checked against ground
+        truth deterministically, not merely trusted. Written both to
+        conversation.jsonl (so it appears in the Conversation Log alongside
+        everything else) and to a dedicated qa_precheck.json (so a reviewer
+        or the Analytics tab can check pass/fail without parsing the log)."""
+        d = self.agent_dir(agent_id)
+        entry = {
+            "ground_truth": ground_truth,
+            "response": _response_dict(response),
+            "claimed": claimed,
+            "verification": verification,
+        }
+        self.append_conversation(agent_id, {"kind": "qa_precheck", **entry})
+        (d / "qa_precheck.json").write_text(json.dumps(entry, indent=2), encoding="utf-8")
 
     def write_guarded_run(
         self,
@@ -103,8 +121,10 @@ class SurveyStorage:
         run: GuardedRun,
         card: AgentCard | None = None,
         instrument_params: Dict[str, Any] | None = None,
+        context_chunks: List[str] | None = None,
     ) -> None:
         d = self.agent_dir(agent_id)
+        available_tags = qa_checks.extract_source_tags(context_chunks or [])
 
         for i, response in enumerate(run.raw_completions):
             self.append_conversation(agent_id, {"kind": "raw_completion", "index": i, "response": _response_dict(response)})
@@ -123,24 +143,44 @@ class SurveyStorage:
             "(malformed JSON, a missing rating, a denylist match, etc.); see the Conversation "
             "Log tab for every rejected attempt and why.\n",
         ]
+        sources_checks: List[Dict[str, Any]] = []
         for i, result in enumerate(run.accepted):
             sample_path_json = d / "samples" / f"sample_{i:02d}.json"
             sample_path_md = d / "samples" / f"sample_{i:02d}.md"
             sample_path_json.write_text(json.dumps(result.payload, indent=2), encoding="utf-8")
             reasoning = result.payload.get("reasoning", "(no reasoning field returned)")
             thinking = _extract_thinking(run.accepted_raw[i]) if i < len(run.accepted_raw) else None
+            sources_check = qa_checks.verify_sources_used(result.payload.get("sources_used"), available_tags)
+            sources_checks.append(sources_check)
+            sources_line = _render_sources_check(sources_check)
+            if sources_check["genuine"] is False:
+                # A claimed source that was never actually available: log it
+                # as its own conversation-trace event, not only buried in
+                # thoughts.md, so a reviewer scanning the log for problems
+                # sees it directly.
+                self.append_conversation(
+                    agent_id,
+                    {
+                        "kind": "fabricated_source_citation",
+                        "sample_index": i,
+                        "fabricated": sources_check["fabricated"],
+                        "available_tags": available_tags,
+                    },
+                )
             sample_path_md.write_text(
                 f"# Sample {i + 1} of {len(run.accepted)}\n\n"
                 f"- Best: {result.payload.get('best')}\n"
                 f"- Worst: {result.payload.get('worst')}\n\n"
                 + (f"## Full reasoning trace (model's own \"thinking\")\n\n{thinking}\n\n" if thinking else "")
-                + f"## Stated reasoning (submitted with the answer)\n\n{reasoning}\n",
+                + f"## Stated reasoning (submitted with the answer)\n\n{reasoning}\n\n"
+                + f"## Sources cited\n\n{sources_line}\n",
                 encoding="utf-8",
             )
             thoughts_lines.append(f"## Sample {i + 1} of {len(run.accepted)} (Best: {result.payload.get('best')}, Worst: {result.payload.get('worst')})\n")
             if thinking:
                 thoughts_lines.append(f"**Full reasoning trace (model's own \"thinking\"):**\n\n{thinking}\n")
             thoughts_lines.append(f"**Stated reasoning (submitted with the answer):**\n\n{reasoning}\n")
+            thoughts_lines.append(f"**Sources cited:** {sources_line}\n")
         (d / "thoughts.md").write_text("\n".join(thoughts_lines), encoding="utf-8")
 
         result_summary = {
@@ -149,6 +189,7 @@ class SurveyStorage:
             "rejected_count": len(run.rejected),
             "flagged_low_agreement": run.flagged_low_agreement,
             "accepted_payloads": [r.payload for r in run.accepted],
+            "sources_checks": sources_checks,
         }
         (d / "result.json").write_text(json.dumps(result_summary, indent=2), encoding="utf-8")
 
@@ -222,6 +263,20 @@ def _render_filled_survey(card: AgentCard, instrument_params: Dict[str, Any], ru
         lines.append("_No sample passed the guardrails; see conversation.jsonl for what was rejected and why._\n")
 
     return "\n".join(lines)
+
+
+def _render_sources_check(check: Dict[str, Any]) -> str:
+    """A one-line, human-readable summary of qa_checks.verify_sources_used's
+    result, for embedding directly in thoughts.md and sample_NN.md."""
+    if not check["reported"]:
+        return "not reported by the model (no sources_used field in its response)"
+    if check["genuine"]:
+        return f"{', '.join(check['claimed']) or '(none claimed)'} (all claims verified genuine)"
+    return (
+        f"{', '.join(check['claimed'])}. FLAGGED: claimed "
+        f"{', '.join(check['fabricated'])} which was not actually available in this prompt "
+        f"(available: {', '.join(check['available_tags'])})."
+    )
 
 
 def _extract_thinking(response: ProviderResponse) -> str | None:

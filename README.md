@@ -59,6 +59,30 @@ touching the agent, provider, or storage layers.
    count per criterion, and an honest per-agent participation breakdown
    (`contributed` / `zero_accepted` / `pending_manual` / `skipped` /
    `not_run`, each with why). See "Analytics: who said what" below.
+10. **Grounds each agent in more than its own training data.** Every agent
+    can combine up to four context sources before answering: its own
+    dedicated RAG corpus (`rag.enabled`), the survey's shared knowledge
+    repository (uploaded once per survey via the Knowledge tab, available
+    to every agent automatically), a standard role knowledge pack (a
+    curated professional-domain primer for roles like Data Engineer or
+    Construction Engineer, see `src/agentic_survey/role_packs/`), and real
+    web search (`tools: ["web_search"]`, backed by Tavily). Each source is
+    logged as its own tool-call event, and the survey's shared knowledge
+    and role-pack sources need no per-agent flag beyond selecting a pack.
+11. **Verifies agents rather than trusting them.** Before attempting the
+    actual survey, every non-manual agent runs a QA precheck: it is told
+    its real configuration (ID, role, model, and which knowledge sources
+    it has) and asked to restate it, checked field by field against
+    ground truth rather than assumed correct. Every accepted answer's
+    self-reported `sources_used` is checked the same way: a claimed
+    reference tag that was never actually available in that prompt is
+    flagged as a fabricated citation, not silently accepted. See
+    `src/agentic_survey/qa_checks.py` and the Trace viewer's Conversation
+    log tab.
+12. **Behavioral rules, not just a role description.** A global rulefile
+    (Settings -> Rules, `config/global_rulefile.md`) applies to every agent
+    in every survey; an optional per-agent rulefile on the Agent form adds
+    to it. Both are appended to that agent's system prompt automatically.
 
 ## How it works (request/response pipeline)
 
@@ -146,29 +170,38 @@ symphysis-ai-research-survey-engine/
 |---|---|
 | `cli.py` | Command-line entrypoint: `python -m agentic_survey.cli run <survey-dir>`. |
 | `config.py` | Loads and validates `survey.yaml` into a `SurveyConfig` (instrument, dimensions, weighting, discovered agent cards). |
-| `agent_card.py` | The portable Agent Card: one JSON file that fully defines a spawnable agent (model, RAG, sampling, permissions, guardrails, did). `new_card()` / `load_card()`. |
+| `agent_card.py` | The portable Agent Card: one JSON file that fully defines a spawnable agent (model, RAG, sampling, permissions, guardrails, did, role_pack, rulefile). `new_card()` / `load_card()`. |
 | `did_key.py` | Real `did:key` identity + W3C-shaped Verifiable Credentials (Ed25519), ported from project-cogtwins's `identity.py`. |
-| `agent.py` | One agent instance: resolves its role prompt, builds RAG context if enabled, calls its provider through the guardrails layer, and persists everything via `storage`. |
+| `agent.py` | One agent instance: resolves its role prompt (plus global/agent rulefiles), combines its context sources, runs a QA precheck, calls its provider through the guardrails layer, and persists everything via `storage`. |
+| `qa_checks.py` | Deterministic genuineness checks: verifies a QA precheck restatement against ground truth, and a response's self-reported `sources_used` against what was actually available in that prompt. Never a further model call. |
 | `permissions.py` | Enforces (not just documents) an Agent Card's `data_scopes` and `allowed_providers` before any file is read or provider called. |
 | `guardrails.py` | Schema validation + reject-and-resample, denylist regex scan (prompt-injection / secret-shaped strings), repeated sampling, applied to every provider call. |
 | `orchestrator.py` | Drives one full survey run: spawn every agent, run the instrument, solve the agent-panel posterior, optionally combine with a human panel (HAWC-BWM), write the report. `INSTRUMENTS` registry lives here. |
 | `storage.py` | The per-survey / per-agent runtime folder layout (see "Repository structure" above): every `write_*` call the rest of the package makes. |
 | `reporting.py` | Renders `report.md` and the matplotlib PNG charts (`render_report`, `render_charts`) from a survey's combined result dict. |
-| `providers/` | One `LLMProvider` implementation per backend: `ollama_provider.py` (local/remote Ollama HTTP API, reads `OLLAMA_BASE_URL`), `anthropic_provider.py`, `openai_compatible.py` (OpenAI + OpenRouter), `manual_provider.py` (paste-in models with no API), `base.py` (the `LLMProvider` protocol). `__init__.py` is the provider registry (`get_provider`, `reset_provider`). |
-| `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument (prompt construction + response schema). |
+| `app_config.py` | The one place `config/defaults.yaml` and its runtime override are read from: provider base URLs, model/sampling/RAG defaults, the guardrail denylist starting point, and the global rulefile. |
+| `providers/` | One `LLMProvider` implementation per backend: `ollama_provider.py` (local/remote Ollama HTTP API, reads `OLLAMA_BASE_URL`), `anthropic_provider.py`, `openai_compatible.py` (OpenAI, OpenRouter, Groq, Gemini, xAI), `manual_provider.py` (paste-in models with no API), `base.py` (the `LLMProvider` protocol). `__init__.py` is the provider registry (`get_provider`, `reset_provider`). |
+| `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument (prompt construction, response schema, `sources_used` citation instruction). |
 | `solvers/` | `bwm_classical.py` (Rezaei 2015 linear program + consistency ratio), `bwm_bayesian.py` (Mohammadi & Rezaei 2020 hierarchical Bayesian model, PyMC/NUTS with a numpy-bootstrap fallback, plus `combine_panels` for HAWC-BWM). |
 | `rag/retriever.py` | Minimal pluggable RAG: chunks every `.txt`/`.md` file under a corpus directory, retrieves top-k via sentence-transformers cosine similarity or falls back to dependency-free TF-IDF. |
+| `role_packs/` | Standard professional-domain knowledge packs (`packs/*.md`: AI Scientist, Data Engineer, LLMOps Engineer, Knowledge Graph Engineer, Construction Engineer, Wind Energy Engineer, Blockchain Trust Specialist, Cybersecurity Specialist) an agent can attach via its card's `role_pack` field. |
+| `tools/web_search.py` | Real web search for an agent with `web_search` in its card's `tools`, backed by the Tavily API. Raises rather than fabricating a result if unconfigured or unreachable. |
 
 ### Web backend (`web/backend/`): what each file does
 
 | File | Purpose |
 |---|---|
 | `main.py` | FastAPI app entrypoint; wires up CORS, includes every router, restores persisted LLM settings on startup. |
-| `paths.py` | Resolves `REPO_ROOT`/`SRC_DIR`/`SURVEYS_ROOT` regardless of the process's working directory; puts `src/` on `sys.path`. |
+| `paths.py` | Resolves `REPO_ROOT`/`SRC_DIR`/`SURVEYS_ROOT`/`LIBRARY_ROOT` regardless of the process's working directory; puts `src/` on `sys.path`. |
 | `runs.py` | In-process background-run tracker (a dict + a daemon thread per run): runs a survey without blocking the request/response cycle. |
+| `model_catalog.py` | The live, real model list for a given provider (Ollama's own `/api/tags`, or each hosted provider's own list-models API), never a hardcoded or guessed list. |
+| `agent_proposer.py` | Turns a plain-language requirement plus an LLM call into a reviewable, editable list of proposed agents, flagging any model name the live catalog can't confirm exists. |
 | `routers/surveys.py` | Survey CRUD, document-upload parsing, run/run-status, results, analytics, chart file serving, `.zip` download. |
-| `routers/agents.py` | Agent Card CRUD through the web form, full per-agent trace endpoint, `/api/providers` and `/api/ollama-models`. |
-| `routers/settings.py` | LLM-endpoint settings (`GET/PUT /api/settings/llm`, `GET /api/settings/llm/test`); see "Remote-LLM mode" below. |
+| `routers/agents.py` | Agent Card CRUD through the web form, full per-agent trace endpoint, `/api/providers`, `/api/models/{provider}`, `/api/role-packs`. |
+| `routers/library.py` | Agent Library CRUD (reusable Agent Cards not tied to one survey) and assigning a library agent into a survey. |
+| `routers/proposer.py` | `POST /propose-agents` and `/approve-agents`: the two-endpoint natural-language orchestrator flow. |
+| `routers/knowledge.py` | List/upload/delete for a survey's shared knowledge repository; PDF/DOCX are converted to plain text on upload. |
+| `routers/settings.py` | LLM-endpoint settings, hosted-provider and Tavily API keys, app config (`config/defaults.yaml` overrides), and the global rulefile. See "Remote-LLM mode" below. |
 | `analytics.py` | Pure, FastAPI-free aggregation used by `GET /api/surveys/{id}/analytics`: classifies every configured agent (`contributed`/`zero_accepted`/`pending_manual`/`skipped`/`not_run`) from what's actually on disk, and tallies Best/Worst pick frequency per criterion. See "Analytics: who said what" below. |
 | `parsing/markdown_parser.py` | Parses a structured Markdown survey definition into candidate dimensions. |
 | `parsing/lss_parser.py` | Best-effort LimeSurvey `.lss` (XML) parser; surfaces every question row as a candidate dimension. |
@@ -178,13 +211,14 @@ symphysis-ai-research-survey-engine/
 
 | File | Purpose |
 |---|---|
-| `App.jsx` | Top-level layout: sidebar nav (Surveys / Settings) and page routing. |
+| `App.jsx` | Top-level layout: sidebar nav (Surveys / Agent Library / Settings) and page routing. |
 | `api.js` | The only place that calls the backend: one `fetch`-based function per endpoint. |
 | `pages/SurveysPage.jsx` | Survey list + "New survey" panel (upload a document or enter criteria manually). |
-| `pages/SurveyDetailPage.jsx` | One survey's three tabs: Agents (list/add/edit/delete + per-agent trace), Results (weight tables, charts, rendered report, `.zip` download), and Analytics (panel-participation summary, Best/Worst frequency, the full "who said what" sample table, and a non-contributing-agents table with the reason for each). |
-| `pages/SettingsPage.jsx` | The LLM-endpoint settings page (presets, custom URL, test connection, save); see "Remote-LLM mode" below. |
-| `components/AgentForm.jsx` | The create/edit form for one Agent Card. |
-| `components/TraceViewer.jsx` | Tabbed viewer for one agent's filled survey / reasoning / prompt / raw conversation log. |
+| `pages/SurveyDetailPage.jsx` | One survey's tabs: Agents (list/add/edit/delete + per-agent trace, add from library, natural-language proposer), Knowledge (upload/list/delete the shared knowledge repository), Results (weight tables, charts, rendered report, `.zip` download), and Analytics (panel-participation summary, Best/Worst frequency, the full "who said what" sample table, and a non-contributing-agents table with the reason for each). |
+| `pages/AgentLibraryPage.jsx` | Reusable Agent Card list/create/edit/delete, independent of any one survey. |
+| `pages/SettingsPage.jsx` | Ollama endpoint (presets, custom URL, test connection), hosted-provider and Tavily API keys, config defaults, and the global rulefile; see "Remote-LLM mode" below. |
+| `components/AgentForm.jsx` | The create/edit form for one Agent Card (survey-scoped or library-scoped), including its role pack and rulefile fields. |
+| `components/TraceViewer.jsx` | Tabbed viewer for one agent's filled survey / reasoning / prompt / raw conversation log (QA precheck, model completions, guardrail rejections, tool calls, fabricated-citation flags). |
 | `components/StatusDot.jsx` | The small colored status indicator (`idle`/`running`/`complete`/`error`/`pending_manual`). |
 
 ## Setup
@@ -249,6 +283,17 @@ veritas server (Tailscale-reachable, no system `pip`/`venv` and no
 passwordless `sudo` there, `docker` available). It differs from the local
 "Web UI setup" above only in *how* the two processes get their
 dependencies and get exposed on the network; the app itself is unchanged.
+
+**CI/CD**: `.github/workflows/ci-cd.yml` runs the same recreate-and-restart
+procedure automatically on every push to `main`, after validation and the
+full test suite pass. It needs these GitHub repository secrets configured
+before it can deploy: `SYMPHYSIS_SSH_HOST`, `SYMPHYSIS_SSH_USER`,
+`SYMPHYSIS_SSH_KEY`, `SYMPHYSIS_SSH_PORT` (optional, defaults to 22),
+`SYMPHYSIS_PROJECT_PATH` (the repo checkout path on the server),
+`SYMPHYSIS_CORS_EXTRA_ORIGINS`, and `SYMPHYSIS_SERVER_HOST` (used only for
+the deployment's status-page URL). Without those secrets the validate and
+test jobs still run on every push and PR; only the deploy job is gated on
+`main` and will fail until the secrets exist.
 
 **Backend, in Docker on `--network host`** (so it reaches a local Ollama at
 `localhost:11434` with no extra networking, and is reachable on the host's
@@ -530,6 +575,71 @@ meaningfully alters a file, endpoint, or workflow described here, update
 the relevant section of this README in the same change, and add a dated
 entry to `changelog.md` (with a `diagnostics.md` entry too, if the change
 was a bug fix). See `.claude/rules/documentation-maintenance.md`.
+
+## Future enhancements
+
+Symphysis currently implements one instrument (BWM, plus its Bayesian
+hierarchical variant) and one deployment shape (a single-server Docker
+container plus a Vite dev server). The instrument interface
+(`src/agentic_survey/instruments/base.py`) is deliberately designed so an
+agent never knows or cares which instrument it is completing, which is
+what makes the rest of this list additive rather than a rewrite.
+
+### Additional expert-elicitation and consensus methods
+
+Candidate instruments to add to the registry, roughly in order of how
+directly they extend the current BWM/Bayesian BWM base:
+
+- **AHP (Analytic Hierarchy Process, Saaty 1980)**: pairwise comparison
+  matrices plus a consistency ratio check, the closest sibling to BWM and
+  the most requested addition.
+- **ANP (Analytic Network Process)**: AHP generalized to networks of
+  interdependent criteria rather than a strict hierarchy.
+- **TOPSIS and ELECTRE**: outranking and ideal-solution MCDM methods,
+  useful when the goal is ranking alternatives rather than weighting
+  criteria.
+- **Classical Delphi**: multiple structured rounds with controlled
+  feedback of the group's prior-round statistics between rounds, the
+  method BWM was originally built to make faster and cheaper.
+- **Real-time (rapid) Delphi**: a single continuous round with immediate
+  feedback instead of discrete rounds, well suited to an agent panel since
+  there is no human scheduling constraint forcing rounds apart.
+- **Fuzzy Delphi**: Delphi consensus measured with fuzzy set membership
+  rather than crisp agreement thresholds, useful when criteria are
+  inherently vague (for example, "acceptable data latency").
+- **Rapid expert consultation**: a lighter-weight, single-round elicitation
+  for time-boxed decisions, distinct from a full Delphi study.
+- **Nominal Group Technique**: individual silent generation of options,
+  followed by structured group ranking, useful upstream of BWM or AHP when
+  the criteria list itself is not yet fixed.
+- **Q-methodology**: participants sort statements into a forced
+  distribution to reveal clusters of shared viewpoint, a different kind of
+  output (viewpoint segments) than a single weight vector.
+- **Sensitivity analysis as a first-class post-processing step**: already
+  present for the HAWC-BWM alpha sweep specifically; generalizing it to
+  any instrument (vary an input assumption, re-solve, report how much the
+  ranking changes) would make it a property of the solver layer instead of
+  one instrument's special case.
+- **Pilot testing support**: a small, explicitly-flagged trial run of a
+  survey configuration (fewer agents, fewer repeats) whose results are
+  marked provisional and excluded from a study's final combined result,
+  so a configuration can be shaken out cheaply before a full run.
+- **Inter-rater reliability and cross-validation checks**: reporting
+  agreement statistics (for example Kendall's W or Fleiss' kappa) across
+  agents or across repeated samples from the same agent, as a distinct
+  quality signal from the guardrail-level schema/denylist checks already
+  in place.
+
+### Packaging
+
+- **Linux CLI**: a proper `symphysis` command (create a survey, add an
+  agent, run it, generate a report) as a first-class entry point, not just
+  the web UI. The existing `agentic_survey.cli` module is the CLI-mode
+  precursor this would extend.
+- **Installable Python package**: publish `agentic_survey` to PyPI so the
+  core engine (Agent Cards, providers, instruments, guardrails, solvers)
+  can be depended on directly by another project without cloning this
+  repository, with the web UI remaining an optional extra.
 
 ## Related
 

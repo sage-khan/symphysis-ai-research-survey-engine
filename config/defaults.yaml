@@ -1,10 +1,10 @@
-# SAGE default configuration.
+# Symphysis default configuration.
 #
 # This file ships the versioned baseline. Every value here is adjustable at
 # runtime from the web UI's Settings -> Config section (GET/PUT
 # /api/settings/config), which persists a partial override to the
 # gitignored web/backend/data/config_overrides.json and merges it on top of
-# this file at read time -- this file itself is never modified at runtime.
+# this file at read time; this file itself is never modified at runtime.
 # The CLI and the web backend both read through
 # agentic_survey.app_config.get_config(), never these hardcoded values
 # directly, so there is exactly one source of truth.

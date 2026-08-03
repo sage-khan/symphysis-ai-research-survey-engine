@@ -133,6 +133,7 @@ class AgentCard:
     expertise: str = ""  # short structured profession/expertise line, distinct from the narrative role_description
     system_prompt_override: Optional[str] = None  # literal system-prompt text; takes precedence over system_prompt_template
     role_pack: Optional[str] = None  # id of a standard role knowledge pack (see role_packs/), or None for none
+    rulefile: str = ""  # agent-specific behavioral rules, appended after the global rulefile (see app_config)
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -142,6 +143,7 @@ class AgentCard:
             "display_name": self.display_name,
             "expertise": self.expertise,
             "role_pack": self.role_pack,
+            "rulefile": self.rulefile,
             "role_description": self.role_description,
             "instrument": self.instrument,
             "system_prompt_template": self.system_prompt_template,
@@ -176,6 +178,7 @@ def new_card(
     display_name: Optional[str] = None,
     expertise: str = "",
     role_pack: Optional[str] = None,
+    rulefile: str = "",
     system_prompt_override: Optional[str] = None,
     deterministic_did: bool = True,
     did_seed: str = "agentic-survey-tool-default-seed-v1",
@@ -208,6 +211,7 @@ def new_card(
         display_name=display_name,
         expertise=expertise,
         role_pack=role_pack,
+        rulefile=rulefile,
         system_prompt_override=system_prompt_override,
         did=DidSpec(
             method="did:key",
@@ -246,6 +250,7 @@ def load_card(path: Path) -> AgentCard:
         display_name=data.get("display_name"),
         expertise=data.get("expertise", ""),
         role_pack=data.get("role_pack"),
+        rulefile=data.get("rulefile", ""),
         system_prompt_override=data.get("system_prompt_override"),
         model=ModelSpec(**data["model"]),
         rag=RagSpec(**data.get("rag", {})),

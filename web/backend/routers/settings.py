@@ -252,3 +252,25 @@ def set_app_config(body: Dict[str, Any]) -> Dict[str, Any]:
         for provider in body["provider_base_urls"]:
             providers.reset_provider(provider)
     return updated
+
+
+class GlobalRulefileIn(BaseModel):
+    content: str
+
+
+@router.get("/global-rulefile")
+def get_global_rulefile() -> Dict[str, str]:
+    """The behavioral rules every agent in every survey follows, in addition
+    to its own role and any agent-specific rulefile (see agent_card.py's
+    rulefile field, injected in Agent._role_description)."""
+    from agentic_survey import app_config
+
+    return {"content": app_config.load_global_rulefile()}
+
+
+@router.put("/global-rulefile")
+def set_global_rulefile(body: GlobalRulefileIn) -> Dict[str, str]:
+    from agentic_survey import app_config
+
+    app_config.save_global_rulefile(body.content)
+    return {"content": body.content}

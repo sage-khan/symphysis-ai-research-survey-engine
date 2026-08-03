@@ -1,0 +1,138 @@
+name: CI/CD: Symphysis
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # --------------------------------------------------------------------------
+  # 1. VALIDATE: syntax and lint (runs on every push and PR)
+  # --------------------------------------------------------------------------
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install ruff
+        run: pip install ruff==0.4.7
+
+      - name: Lint Symphysis Python sources
+        run: |
+          ruff check src/ web/backend/ \
+            --select E,W,F \
+            --ignore E501,E402
+
+      - name: Validate docker-compose syntax
+        run: docker compose config -q
+
+  # --------------------------------------------------------------------------
+  # 2. TEST: full pytest suite (unit tests plus web-router tests through
+  #    FastAPI's TestClient)
+  # --------------------------------------------------------------------------
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: validate
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt -r web/backend/requirements.txt
+          pip install httpx
+
+      - name: Run test suite
+        env:
+          PYTHONPATH: ${{ github.workspace }}/src:${{ github.workspace }}/web
+        run: python -m pytest tests/ -q
+
+  # --------------------------------------------------------------------------
+  # 3. DEPLOY: SSH into the veritas server and restart the running stack,
+  #    main branch only. This mirrors the manual deployment procedure
+  #    documented in README.md's "Deploying on a shared server" section: the
+  #    backend runs in a single Docker container on the host network (a
+  #    volume-mounted repo checkout, no baked image), and the frontend is a
+  #    plain nohup'd Vite dev server. Both are recreated on every deploy, so
+  #    a changed requirements.txt or package.json is always picked up, not
+  #    just a changed Python or JS source file.
+  # --------------------------------------------------------------------------
+  deploy:
+    name: Deploy to veritas server
+    runs-on: ubuntu-latest
+    needs: [validate, test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    environment:
+      name: production
+      url: http://${{ secrets.SYMPHYSIS_SERVER_HOST }}:8100/api/health
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SYMPHYSIS_SSH_HOST }}
+          username: ${{ secrets.SYMPHYSIS_SSH_USER }}
+          key: ${{ secrets.SYMPHYSIS_SSH_KEY }}
+          port: ${{ secrets.SYMPHYSIS_SSH_PORT || 22 }}
+          script: |
+            set -e
+            cd "${{ secrets.SYMPHYSIS_PROJECT_PATH }}"
+
+            echo "=== Pulling latest main ==="
+            git fetch origin
+            git reset --hard origin/main
+
+            echo "=== Recreating backend container ==="
+            docker rm -f sage-backend 2>/dev/null || true
+            docker run -d --name sage-backend \
+              --network host \
+              -v "$(pwd)":/app \
+              -w /app \
+              -e OLLAMA_BASE_URL=http://localhost:11434 \
+              -e PYTHONPATH=/app/web:/app/src \
+              -e CORS_EXTRA_ORIGINS="${{ secrets.SYMPHYSIS_CORS_EXTRA_ORIGINS }}" \
+              python:3.11-slim \
+              bash -c "apt-get update -qq && apt-get install -y --no-install-recommends -qq g++ >/dev/null \
+                && pip install -q --no-cache-dir -r requirements.txt -r web/backend/requirements.txt \
+                && exec uvicorn backend.main:app --host 0.0.0.0 --port 8100"
+
+            echo "=== Waiting for backend health check ==="
+            timeout 180 bash -c \
+              'until curl -sf http://localhost:8100/api/health; do sleep 5; done' \
+              && echo "Backend is up"
+
+            echo "=== Restarting frontend dev server ==="
+            pkill -f "vite.*--port 5180" 2>/dev/null || true
+            cd web/frontend
+            npm install --no-audit --no-fund
+            nohup npm run dev -- --host 0.0.0.0 --port 5180 > /tmp/symphysis-vite.log 2>&1 &
+            disown
+            cd -
+
+            echo "=== Waiting for frontend to come up ==="
+            timeout 60 bash -c \
+              'until curl -sf http://localhost:5180 >/dev/null; do sleep 2; done' \
+              && echo "Frontend is up"
+
+            echo "=== Container status ==="
+            docker ps --filter name=sage-backend

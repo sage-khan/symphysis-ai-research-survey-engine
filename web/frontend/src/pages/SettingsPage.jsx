@@ -485,6 +485,71 @@ function ConfigSettings() {
   );
 }
 
+function RulesSettings() {
+  const [content, setContent] = useState("");
+  const [saved, setSaved] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  async function refresh() {
+    const current = await api.getGlobalRulefile();
+    setContent(current.content);
+    setSaved(current.content);
+  }
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  async function handleSave() {
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await api.saveGlobalRulefile(content);
+      setSaved(result.content);
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="panel" style={{ padding: 24, maxWidth: 640, marginBottom: 24 }}>
+      <h3 style={{ marginBottom: 4 }}>Global rules</h3>
+      <div className="mono-dim" style={{ marginBottom: 18 }}>
+        Behavioral rules every agent in every survey follows, appended after that agent's own role
+        description and before any agent-specific rules set on its own Agent form. Stored in{" "}
+        <code>config/global_rulefile.md</code>, editable here or by editing that file directly.
+      </div>
+
+      <textarea
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        rows={12}
+        style={{ width: "100%", marginBottom: 12, fontFamily: "var(--font-mono, monospace)", fontSize: 13 }}
+      />
+
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <button className="btn btn-primary" onClick={handleSave} disabled={busy}>
+          Save global rules
+        </button>
+        {saved === content && (
+          <span className="mono-dim" style={{ color: "var(--green)" }}>
+            Saved, active for the next run
+          </span>
+        )}
+      </div>
+
+      {error && (
+        <div className="mono-dim" style={{ color: "var(--red)", marginTop: 8 }}>
+          {error}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function SettingsPage() {
   return (
     <div>
@@ -526,6 +591,7 @@ export default function SettingsPage() {
         keyProviders={[{ key: "tavily", label: "Tavily" }]}
       />
       <ConfigSettings />
+      <RulesSettings />
     </div>
   );
 }

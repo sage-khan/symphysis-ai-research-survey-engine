@@ -54,6 +54,10 @@ export const api = {
   getAppConfig: () => request("/api/settings/config"),
   saveAppConfig: (body) => request("/api/settings/config", { method: "PUT", body: JSON.stringify(body) }),
 
+  getGlobalRulefile: () => request("/api/settings/global-rulefile"),
+  saveGlobalRulefile: (content) =>
+    request("/api/settings/global-rulefile", { method: "PUT", body: JSON.stringify({ content }) }),
+
   listAgents: (surveyId) => request(`/api/surveys/${surveyId}/agents`),
   getAgent: (surveyId, agentId) => request(`/api/surveys/${surveyId}/agents/${agentId}`),
   createAgent: (surveyId, body) => request(`/api/surveys/${surveyId}/agents`, { method: "POST", body: JSON.stringify(body) }),

@@ -24,6 +24,7 @@ import yaml
 _REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULTS_PATH = _REPO_ROOT / "config" / "defaults.yaml"
 OVERRIDES_PATH = _REPO_ROOT / "web" / "backend" / "data" / "config_overrides.json"
+GLOBAL_RULEFILE_PATH = _REPO_ROOT / "config" / "global_rulefile.md"
 
 
 def _deep_merge(base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
@@ -88,3 +89,19 @@ def rag_defaults() -> Dict[str, Any]:
 
 def guardrail_default_denylist() -> list:
     return list(get_config().get("guardrail_default_denylist", []))
+
+
+def load_global_rulefile() -> str:
+    """The behavioral rules every agent in every survey follows, in addition
+    to its own role description and any agent-specific rulefile. Plain text
+    (not YAML/JSON), edited directly through Settings, not layered with an
+    override file the way get_config() is, since there is only one value
+    here, not a set of individually overridable keys."""
+    if not GLOBAL_RULEFILE_PATH.exists():
+        return ""
+    return GLOBAL_RULEFILE_PATH.read_text(encoding="utf-8")
+
+
+def save_global_rulefile(content: str) -> None:
+    GLOBAL_RULEFILE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    GLOBAL_RULEFILE_PATH.write_text(content, encoding="utf-8")

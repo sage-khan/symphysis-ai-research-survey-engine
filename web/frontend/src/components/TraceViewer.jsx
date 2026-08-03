@@ -5,10 +5,11 @@ import { api } from "../api.js";
 const TABS = ["Filled survey", "Reasoning", "Prompt", "Conversation log"];
 
 const KIND_LABEL = {
-  introduction: "Self-introduction",
+  qa_precheck: "QA precheck",
   raw_completion: "Model completion",
   rejected: "Rejected (guardrail)",
   tool_call: "Tool call",
+  fabricated_source_citation: "Fabricated source citation",
 };
 
 function downloadJson(filename, data) {
@@ -131,13 +132,16 @@ export default function TraceViewer({ surveyId, agentId, onClose }) {
               <div className="mono-dim" style={{ marginBottom: 16, padding: 12, border: "1px solid var(--border)", borderRadius: "var(--radius)" }}>
                 This is the complete, timestamped event-by-event trace for this agent, in the exact
                 order it happened. The <strong>first</strong> entry is always this agent's own
-                self-introduction (it states its ID, model, and role, and confirms its understanding
-                of the task, before attempting anything). After that: every model completion
-                (<em>Model completion</em>), every attempt guardrails rejected and why
-                (<em>Rejected (guardrail)</em>: schema errors, denylist matches, etc., nothing is
-                silently dropped), and any tool use (<em>Tool call</em>, e.g. RAG retrieval: what was
-                searched and what came back). Use "Download full log .jsonl" above to save the raw
-                file.
+                QA precheck: it was told its real configuration (ID, role, model, and which
+                knowledge sources it has) and asked to restate it, checked field by field against
+                the truth, before attempting anything, so a mismatch is caught rather than assumed
+                away. After that: every model completion (<em>Model completion</em>), every attempt
+                guardrails rejected and why (<em>Rejected (guardrail)</em>: schema errors, denylist
+                matches, etc., nothing is silently dropped), any tool use (<em>Tool call</em>, e.g.
+                RAG retrieval: what was searched and what came back), and any
+                <em>Fabricated source citation</em>: a claimed reference source that was not
+                actually available in that prompt. Use "Download full log .jsonl" above to save the
+                raw file.
               </div>
               {trace.conversation.length === 0 && <div className="mono-dim">No events logged yet.</div>}
               {trace.conversation.map((entry, i) => (
@@ -147,8 +151,52 @@ export default function TraceViewer({ surveyId, agentId, onClose }) {
                     <span className="mono-dim">{entry.logged_at}</span>
                   </div>
 
-                  {entry.kind === "introduction" && (
-                    <div style={{ marginTop: 8, whiteSpace: "pre-wrap" }}>{entry.response?.text}</div>
+                  {entry.kind === "qa_precheck" && (
+                    <div style={{ marginTop: 8 }}>
+                      <div
+                        style={{
+                          color: entry.verification?.all_match ? "var(--green)" : "var(--red)",
+                          marginBottom: 6,
+                        }}
+                      >
+                        {entry.verification?.all_match
+                          ? "Passed: every field matches its real configuration."
+                          : "FAILED: at least one field does not match this agent's real configuration."}
+                      </div>
+                      <table style={{ width: "100%", fontSize: 12, marginBottom: 8 }}>
+                        <thead>
+                          <tr>
+                            <th style={{ textAlign: "left" }}>Field</th>
+                            <th style={{ textAlign: "left" }}>Match</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {entry.verification?.field_matches &&
+                            Object.entries(entry.verification.field_matches).map(([field, ok]) => (
+                              <tr key={field}>
+                                <td>{field}</td>
+                                <td style={{ color: ok ? "var(--green)" : "var(--red)" }}>{ok ? "match" : "MISMATCH"}</td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                      <details>
+                        <summary className="mono-dim" style={{ cursor: "pointer" }}>
+                          Ground truth vs. what the agent claimed (click to expand)
+                        </summary>
+                        <pre style={{ whiteSpace: "pre-wrap", fontSize: 11, marginTop: 6 }}>
+                          {JSON.stringify({ ground_truth: entry.ground_truth, claimed: entry.claimed }, null, 2)}
+                        </pre>
+                      </details>
+                    </div>
+                  )}
+
+                  {entry.kind === "fabricated_source_citation" && (
+                    <div style={{ marginTop: 8, color: "var(--red)" }}>
+                      Sample {entry.sample_index}: claimed {(entry.fabricated || []).join(", ")}, which
+                      was not among the sources actually available in that prompt (
+                      {(entry.available_tags || []).join(", ")}).
+                    </div>
                   )}
 
                   {entry.kind === "raw_completion" && (

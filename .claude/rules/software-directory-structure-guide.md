@@ -189,7 +189,7 @@ Thumbs.db
   - You do not make new unneccessary document to show what changes you have done unless specifically asked to do so. Best is to update the existing document to show what changes you have done.
   - Development changes to be in changelog.md file and not in README.md file. Any error or bugfix can be in diagnostics.md file. Any new feature can be in feature.md file. Any new model can be in model.md file. Any new prompt can be in prompt.md file. Any new architecture can be in architecture.md file. These are all to be in the development folder in the docs folder. 
   - In case these documents are too big to read, you can split them into smaller documents like changelog-1.md, changelog-2.md and so on and read them. You can write them in same way if they are too big to read. But do not make multiple readme.md file in every folder.
-  - **README.md naming rule (mandatory):** There must be exactly ONE `README.md` file per project, located at the project root. Any documentation file in a subdirectory that you might be tempted to name `README.md` must instead be named descriptively after the folder's purpose and topic, e.g. `trust-scenarios-overview.md`, `bsi-survey-app-guide.md`, `p12-survey-paper-details.md`. Use lowercase-hyphenated names that describe what the file covers. Never create `README.md` inside any subdirectory — only at the repository root.
+  - **README.md naming rule (mandatory):** There must be exactly ONE `README.md` file per project, located at the project root. Any documentation file in a subdirectory that you might be tempted to name `README.md` must instead be named descriptively after the folder's purpose and topic, e.g. `trust-scenarios-overview.md`, `bsi-survey-app-guide.md`, `p12-survey-paper-details.md`. Use lowercase-hyphenated names that describe what the file covers. Never create `README.md` inside any subdirectory; only at the repository root.
   - The main Readme.md file should give the over view of the project and point to specific documents in docs folder which has the deeper details like installation, deployment, configurations, tests, errorhandling etc.
 ---
 
@@ -204,4 +204,4 @@ Thumbs.db
 
 ---
 
-### 🌊 Remember: “A clean structure is self-documenting — your project should explain itself without opening a single file.”
+### 🌊 Remember: “A clean structure is self-documenting. Your project should explain itself without opening a single file.”

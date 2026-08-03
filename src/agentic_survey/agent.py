@@ -3,11 +3,13 @@ elicitation run, with permissions enforced from the same card."""
 
 from __future__ import annotations
 
+import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
-from . import app_config, role_packs
+from . import app_config, qa_checks, role_packs
 from .agent_card import AgentCard
 from .guardrails import GuardedRun, run_with_guardrails
 from .instruments.base import Instrument
@@ -22,6 +24,21 @@ KNOWLEDGE_REPO_DIRNAME = "knowledge_repo"
 
 def _has_retrievable_content(path: Path) -> bool:
     return path.is_dir() and (any(path.rglob("*.txt")) or any(path.rglob("*.md")))
+
+
+def _extract_json_object(raw_text: str) -> Optional[Any]:
+    """Best-effort JSON extraction from a raw completion, tolerant of a
+    model wrapping its answer in prose. Returns None (never raises, never
+    invents a value) if no JSON object is found or it doesn't parse, so a
+    caller can log that failure as its own genuineness signal rather than
+    crashing on a malformed QA precheck response."""
+    match = re.search(r"\{.*\}", raw_text, re.DOTALL)
+    if not match:
+        return None
+    try:
+        return json.loads(match.group(0))
+    except json.JSONDecodeError:
+        return None
 
 
 class Agent:
@@ -62,35 +79,86 @@ class Agent:
             # not run through .format(), since free-typed text may contain
             # stray "{"/"}" that would raise on a template substitution never
             # intended to apply to it.
-            return self.card.system_prompt_override
-        template_path = Path(self.card.system_prompt_template)
-        template = template_path.read_text(encoding="utf-8")
-        return template.format(role=self.card.role, role_description=self.card.role_description)
+            base = self.card.system_prompt_override
+        else:
+            template_path = Path(self.card.system_prompt_template)
+            template = template_path.read_text(encoding="utf-8")
+            base = template.format(role=self.card.role, role_description=self.card.role_description)
+        return base + self._rules_section()
 
-    def _introduction_prompt(self, survey_title: str, survey_description: str) -> str:
+    def _rules_section(self) -> str:
+        # The global rulefile (every agent, every survey) and this agent's
+        # own rulefile are appended after the role description, not woven
+        # into it, so they read as explicit standing instructions rather
+        # than part of the character the model is asked to play.
+        global_rules = app_config.load_global_rulefile().strip()
+        agent_rules = self.card.rulefile.strip()
+        parts = []
+        if global_rules:
+            parts.append(f"\n\n## Rules you must follow\n\n{global_rules}")
+        if agent_rules:
+            parts.append(f"\n\n## Additional rules for this agent\n\n{agent_rules}")
+        return "".join(parts)
+
+    def _qa_precheck_ground_truth(self) -> Dict[str, Any]:
+        return qa_checks.build_precheck_ground_truth(
+            agent_id=self.card.agent_id,
+            role=self.card.role,
+            provider=self.card.model.provider,
+            model_name=self.card.model.name,
+            has_dedicated_rag=bool(self._retriever),
+            has_shared_knowledge_repo=bool(self._knowledge_repo_retriever),
+            role_pack=self.card.role_pack if role_packs.get_role_pack_text(self.card.role_pack) else None,
+            has_web_search="web_search" in self.card.tools,
+        )
+
+    def _qa_precheck_prompt(self, ground_truth: Dict[str, Any], survey_title: str, survey_description: str) -> str:
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
         display = self.card.display_name or self.card.role
         project_line = survey_title if not survey_description else f"{survey_title}: {survey_description}"
+        caps = ground_truth["capabilities"]
         return (
-            "Before starting the task, introduce yourself in 2-4 sentences, in character, so a "
-            "human reviewer can confirm you understood the assignment before you attempt it. "
-            f"State clearly: your agent ID ({self.card.agent_id}), your display name ({display}), "
-            f"your base model ({self.card.model.provider}/{self.card.model.name}), the current date "
-            f"and time ({now}), the project you are working on ({project_line}), your role "
-            f"({self.card.role}), and that you will attempt this task as an expert in that role. "
-            "Do not answer the actual survey questions yet: this turn is only your introduction."
+            "Before starting the actual survey task, confirm your configuration so a human "
+            "reviewer can verify you understood it correctly, rather than assuming you did.\n\n"
+            f"You are agent ID \"{ground_truth['agent_id']}\", display name \"{display}\", role "
+            f"\"{ground_truth['role']}\", running as model \"{ground_truth['model']}\". The current "
+            f"date and time is {now}. The project you are working on is \"{project_line}\".\n\n"
+            "For this survey you have been granted exactly these capabilities: "
+            f"dedicated RAG corpus: {caps['dedicated_rag_corpus']}. Shared survey knowledge "
+            f"repository: {caps['shared_knowledge_repo']}. Standard role knowledge pack: "
+            f"{caps['role_pack'] or 'none'}. Web search: {caps['web_search']}.\n\n"
+            "Respond with ONLY a JSON object, no other text, in exactly this shape, restating the "
+            "configuration above accurately. Do not add any capability or knowledge source beyond "
+            "what was just stated, and do not answer the actual survey questions yet: this turn "
+            "is only your configuration check.\n"
+            "{\n"
+            '  "agent_id": "<copy exactly>",\n'
+            '  "role": "<copy exactly>",\n'
+            '  "model": "<copy exactly, provider/name>",\n'
+            '  "capabilities": {\n'
+            '    "dedicated_rag_corpus": <true or false>,\n'
+            '    "shared_knowledge_repo": <true or false>,\n'
+            '    "role_pack": "<pack name, or null if none>",\n'
+            '    "web_search": <true or false>\n'
+            "  },\n"
+            '  "acknowledgement": "<1-2 sentences confirming you understand the assignment and '
+            'will attempt it as an expert in your role>"\n'
+            "}"
         )
 
-    def introduce(self, survey_title: str, survey_description: str = "") -> None:
+    def run_qa_precheck(self, survey_title: str, survey_description: str = "") -> None:
         """A single, un-repeated preliminary turn logged as the first entry in
-        this agent's conversation trace: the agent states its own identity and
-        understanding of the task in plain language, so a human reviewer can
-        see immediately whether the model understood the assignment, rather
-        than only being able to infer that from terse per-sample reasoning."""
+        this agent's conversation trace: the agent is told its real, actual
+        configuration and asked to restate it, and that restatement is
+        verified against ground truth deterministically (see qa_checks.py),
+        not merely trusted. A mismatch (a hallucinated capability, or a
+        comprehension failure) is logged plainly, not hidden, so a human
+        reviewer can see it before trusting this agent's actual answers."""
+        ground_truth = self._qa_precheck_ground_truth()
         provider = get_provider(self.card.model.provider)
         messages = [
             {"role": "system", "content": self._role_description()},
-            {"role": "user", "content": self._introduction_prompt(survey_title, survey_description)},
+            {"role": "user", "content": self._qa_precheck_prompt(ground_truth, survey_title, survey_description)},
         ]
         response = provider.complete(
             messages,
@@ -100,7 +168,9 @@ class Agent:
             top_p=self.card.model.top_p,
             seed=self.card.model.seed,
         )
-        self.storage.write_introduction(self.card.agent_id, response)
+        claimed = _extract_json_object(response.text)
+        verification = qa_checks.verify_precheck_response(claimed, ground_truth)
+        self.storage.write_qa_precheck(self.card.agent_id, ground_truth, response, claimed, verification)
 
     def _context_chunks(self, query: str) -> List[str]:
         return (
@@ -189,11 +259,11 @@ class Agent:
         survey_title: str = "",
         survey_description: str = "",
     ) -> GuardedRun:
-        # Manual-provider agents skip the automated introduction: a human is
+        # Manual-provider agents skip the automated QA precheck: a human is
         # already pasting every one of that agent's responses by hand, so an
-        # automated self-introduction call has no model to call.
+        # automated self-verification call has no model to call.
         if self.card.model.provider != "manual":
-            self.introduce(survey_title, survey_description)
+            self.run_qa_precheck(survey_title, survey_description)
 
         role_description = self._role_description()
         # Same derived query drives every context source (dedicated RAG,
@@ -227,5 +297,7 @@ class Agent:
             denylist_patterns=self.card.guardrails.denylist_patterns,
             extra_call_kwargs=extra_call_kwargs,
         )
-        self.storage.write_guarded_run(self.card.agent_id, run, card=self.card, instrument_params=instrument_params)
+        self.storage.write_guarded_run(
+            self.card.agent_id, run, card=self.card, instrument_params=instrument_params, context_chunks=context_chunks
+        )
         return run

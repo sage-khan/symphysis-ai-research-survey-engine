@@ -6,7 +6,7 @@ every main file does, the repository structure) and
 `docs/development/changelog.md` (what changed, when, and why), paired with
 `docs/development/diagnostics.md` (bugs found, root cause, fix) per
 `software-directory-structure-guide.md`'s documentation convention. Nothing
-else in this repo narrates "what changed" -- there is deliberately no
+else in this repo narrates "what changed": there is deliberately no
 per-feature status doc, no `NOTES.md`, no second README in a subdirectory.
 
 ## The rule
@@ -15,7 +15,7 @@ per-feature status doc, no `NOTES.md`, no second README in a subdirectory.
 module, endpoint, CLI command, environment variable, or workflow described
 in `README.md` must update the relevant section of `README.md` in the same
 change.** Do not defer this to a follow-up commit and do not treat it as
-optional polish -- an out-of-date README is actively misleading (it tells
+optional polish: an out-of-date README is actively misleading (it tells
 the next reader, human or AI, to run a command that no longer exists, or
 fails to mention one that now does) and is a documentation *defect*, per
 this repo's own `software-directory-structure-guide.md`: "Outdated
@@ -25,7 +25,7 @@ documentation is treated as a defect."
 entry (`## YYYY-MM-DD (short topic tag)`, following the existing entries'
 format) describing what changed and, briefly, why. If the change was a bug
 fix, also add a `docs/development/diagnostics.md` entry: found (how/when),
-root cause, fix -- this repo has a documented history of the same root
+root cause, fix. This repo has a documented history of the same root
 cause being independently rediscovered when it wasn't logged (see the
 manual-provider sample-index bug's two separate discovery entries in
 `diagnostics.md`), which wastes real time.

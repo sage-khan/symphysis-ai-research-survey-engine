@@ -3,6 +3,74 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (CI/CD pipeline, QA genuineness checks, global and per-agent rules)
+
+- New `.github/workflows/ci-cd.yml`: validate (ruff lint, docker-compose
+  syntax check), test (full pytest suite), and deploy (SSH into the
+  veritas server, recreate the backend container, restart the frontend,
+  health-check both) on every push to `main`, modeled on
+  project-cogtwins's own CI/CD workflow. Needs `SYMPHYSIS_SSH_HOST`,
+  `SYMPHYSIS_SSH_USER`, `SYMPHYSIS_SSH_KEY`, `SYMPHYSIS_SSH_PORT`,
+  `SYMPHYSIS_PROJECT_PATH`, `SYMPHYSIS_CORS_EXTRA_ORIGINS`, and
+  `SYMPHYSIS_SERVER_HOST` configured as GitHub repository secrets before
+  the deploy job can run; validate and test run regardless.
+- New `src/agentic_survey/qa_checks.py`: deterministic verification, not a
+  further model call. `build_precheck_ground_truth`/
+  `verify_precheck_response` compare an agent's restated configuration
+  against its real one field by field; `extract_source_tags`/
+  `verify_sources_used` compare a response's claimed `sources_used` against
+  what reference material was actually present in that prompt.
+- `Agent.introduce()` replaced with `Agent.run_qa_precheck()`: still the
+  first turn of every non-manual agent's run, but now tells the agent its
+  real agent ID, role, model, and which knowledge sources it has
+  (dedicated RAG, shared knowledge repo, role pack, web search), and asks
+  it to restate that configuration as JSON rather than free prose. The
+  restatement is checked field by field against ground truth; any
+  mismatch (a hallucinated capability, or a comprehension failure) is
+  logged plainly as `qa_precheck.json` and a `qa_precheck` conversation
+  entry, not hidden. This directly answers the requirement that agent
+  identity/role/model/knowledge-base claims must not be taken on faith.
+- `BWMInstrument`'s response schema gains a `sources_used` field: the
+  prompt lists the exact reference-material tags actually present (or
+  states none were given), and the agent must cite only from that closed
+  vocabulary or `general_knowledge`. `storage.write_guarded_run` checks
+  every accepted sample's claim against what was truly available and logs
+  a `fabricated_source_citation` conversation entry for any citation that
+  was never actually provided, surfaced in the Trace viewer.
+- New global and per-agent rulefiles: `config/global_rulefile.md` (ships a
+  default: never fabricate a source, cite by exact tag, answer only from
+  what you were actually given, restate configuration accurately, explain
+  real reasoning) applies to every agent in every survey; a new
+  `AgentCard.rulefile` field lets one agent add its own rules on top. Both
+  are appended to that agent's system prompt. Editable from Settings
+  (global) and the Agent form (per-agent), or by editing
+  `config/global_rulefile.md` directly.
+- README: added a Future enhancements section (candidate MCDM/consensus
+  instruments: AHP, ANP, TOPSIS, ELECTRE, classical and real-time and
+  fuzzy Delphi, rapid expert consultation, Nominal Group Technique,
+  Q-methodology, generalized sensitivity analysis, pilot-testing support,
+  inter-rater reliability checks; plus a Linux CLI and a PyPI package as
+  packaging goals), a CI/CD note under Deploying, and caught up several
+  files that earlier feature work had left undocumented in the "what each
+  file does" tables and the "What it does" list (`app_config.py`,
+  `role_packs/`, `tools/web_search.py`, `qa_checks.py`, the Agent Library
+  and knowledge-repo and natural-language-proposer routers/pages).
+- 8 new tests (`tests/test_qa_precheck.py`) covering the QA precheck's
+  pass/fail/unparseable-response paths, rulefile injection into the system
+  prompt, and the fabricated-source-citation check; 103/103 tests pass
+  repo-wide.
+- Repo-wide prose cleanup: every ` -- ` and em dash used as a sentence
+  connective, across code comments, docstrings, markdown docs, and UI
+  text, rewritten with a comma, colon, period, or semicolon per
+  `.claude/rules/writing-style.md`'s zero-tolerance rule, including
+  several instances the file-type-scoped sweep missed on the first pass
+  (`config/defaults.yaml`, `.env.example`, and this repo's own
+  `.claude/rules/` files). Three structural exceptions confirmed and left
+  alone: `markdown_parser.py`'s and `document_parser.py`'s delimiter
+  regexes (detecting a real end-user data-format convention, not
+  connective prose) and the npm CLI argument-passthrough syntax in the
+  frontend dev-server launch command.
+
 ## 2026-08-03 (standard role knowledge packs)
 
 - New `src/agentic_survey/role_packs/` package: eight curated,

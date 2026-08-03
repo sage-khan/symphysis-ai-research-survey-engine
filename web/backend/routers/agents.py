@@ -95,6 +95,7 @@ class AgentIn(BaseModel):
     display_name: Optional[str] = None
     expertise: str = ""
     role_pack: Optional[str] = None
+    rulefile: str = ""
     role_description: str
     instrument: str = "bwm"
     system_prompt_template: Optional[str] = None
@@ -154,6 +155,7 @@ def list_agents(survey_id: str) -> List[Dict[str, Any]]:
                 "display_name": card.display_name,
                 "expertise": card.expertise,
                 "role_pack": card.role_pack,
+                "rulefile": card.rulefile,
                 "role": card.role,
                 "provider": card.model.provider,
                 "model": card.model.name,
@@ -203,6 +205,7 @@ def create_agent(survey_id: str, body: AgentIn) -> Dict[str, Any]:
         display_name=body.display_name,
         expertise=body.expertise,
         role_pack=body.role_pack,
+        rulefile=body.rulefile,
         system_prompt_override=body.system_prompt_override or None,
         did_seed=body.did_seed,
     )
@@ -243,6 +246,7 @@ def update_agent(survey_id: str, agent_id: str, body: AgentIn) -> Dict[str, Any]
         display_name=body.display_name,
         expertise=body.expertise,
         role_pack=body.role_pack,
+        rulefile=body.rulefile,
     )
     card.write(path)
     return card.to_dict()

@@ -10,11 +10,11 @@ This repository follows GitOps principles. All system behavior is derived from v
 
 ## 1. Core Principles
 
-1. **Declarative over imperative** — Desired state is fully declared in version control. Scripts assist but are never the source of truth.
-2. **Git is the source of truth** — If it is not committed, it does not exist. Runtime drift is corrected by reconcilers, not humans.
-3. **Pull requests are mandatory** — No direct commits to `main`. All changes require review.
-4. **Continuous reconciliation** — Systems converge automatically. Manual fixes are treated as incidents requiring follow-up commits.
-5. **Minimal blast radius** — Each change touches one logical concern and one environment.
+1. **Declarative over imperative**: Desired state is fully declared in version control. Scripts assist but are never the source of truth.
+2. **Git is the source of truth**: If it is not committed, it does not exist. Runtime drift is corrected by reconcilers, not humans.
+3. **Pull requests are mandatory**: No direct commits to `main`. All changes require review.
+4. **Continuous reconciliation**: Systems converge automatically. Manual fixes are treated as incidents requiring follow-up commits.
+5. **Minimal blast radius**: Each change touches one logical concern and one environment.
 
 ---
 
@@ -37,9 +37,9 @@ feature/* → dev → main
 ## 3. Change Management
 
 Every change must be:
-- **Traceable** — linked to an intent (issue, task, or explicit instruction).
-- **Reversible** — rollback strategy is known before merge.
-- **Reviewable** — diff is minimal and self-explanatory.
+- **Traceable**: linked to an intent (issue, task, or explicit instruction).
+- **Reversible**: rollback strategy is known before merge.
+- **Reviewable**: diff is minimal and self-explanatory.
 
 Pull request descriptions must include:
 - What changed and why.
@@ -73,7 +73,7 @@ Validation failures must never be bypassed without a documented, time-bounded ex
 
 ## 5. Secrets and Sensitive Data
 
-**Hard rules — no exceptions:**
+**Hard rules: no exceptions:**
 - No secrets in Git. Not in code, configs, comments, examples, or documentation.
 - No base64-encoded secrets pretending to be safe.
 - No credentials in environment variable defaults or docker-compose files.
