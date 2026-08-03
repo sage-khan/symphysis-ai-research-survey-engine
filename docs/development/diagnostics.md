@@ -509,3 +509,56 @@ regression tests: `tests/test_guardrails_repair.py` (repair turn
 content, no repair turn on the final allowed attempt, denylist
 rejections stay a fresh resample not a repair turn) and one new case in
 `tests/test_manual_provider.py`. Full suite: 169 passed.
+
+## Reject-and-repair still produced `accepted_count: 0` for every agent: the validator hid every error but the first
+
+**Found:** the reject-and-repair fix above was deployed to the veritas server
+and the `bsi-hawc-bwm` survey (7-level hierarchical TrustRouter, qwen2.5:14b)
+was re-run live. Every one of its four completed agents still finished
+`accepted_count: 0` out of 15 samples. Reading `conversation.jsonl` for
+`bim-coordinator-base-ollama` sample by sample: attempt 0 was rejected for
+`"Level 'L1': best_to_others[best] must be 1, got 9"`; the repair turn fixed
+exactly that field; attempt 1 was rejected for `"Level 'L1':
+others_to_worst[worst] must be 1, got 9"` (the *other* self-rating field in
+the *same* level, never mentioned in attempt 0's single-error message);
+attempt 2 (the last allowed attempt for that sample) surfaced a brand-new
+`"Level 'L2': best_to_others[best] must be 1, got 9"` and the sample was
+exhausted. Every one of the 15 samples showed the same shape: one new error
+discovered per attempt, never more than one at a time, regardless of how
+many levels actually had the mistake.
+
+**Root cause:** `HierarchicalBWMInstrument.parse` (`instruments/hierarchical_bwm.py`)
+accumulates every level's problems into one shared `errors` list across the
+whole multi-level response, but two checks per level (`best_to_others[best]
+must be 1`, `others_to_worst[worst] must be 1`) were gated on `if not
+errors:` meaning "the *entire response's* errors list is still empty," not
+"this level's own checks haven't failed yet." The very first error found
+anywhere (L1's `best_to_others`) made `errors` non-empty for the rest of the
+parse call, so every later level's self-rating checks, and even that same
+level's own second self-rating check, were silently skipped rather than
+evaluated and reported. Against a 14B local model that applies one
+systematic misconvention (self-comparison rated 9, an "importance score"
+reading, instead of the correct ratio-to-self of 1) identically across every
+level, this meant at most one of the model's N identical mistakes was ever
+named to it, so the repair loop could only ever whack one mole per retry.
+With 7 levels and a `max_retries_on_malformed` budget of 2 (3 attempts per
+sample), the response never converged within budget: fixing the reported
+error just uncovered the next one, one level at a time, and every sample
+exhausted its retries with several unreported errors still present.
+
+**Fix:** each level now accumulates into its own local `level_errors` list,
+only merged into the shared `errors` list at the end of that level's
+iteration; the two self-rating gates now check `if not level_errors:`
+(this level's own problems so far), not the shared list. A single parse
+call now reports every level's self-rating mistake at once, so one repair
+turn (already prompted to "fix only these specific problems," plural) can
+in principle fix all of them together instead of needing one repair round
+per level. New regression test:
+`tests/test_hierarchical_bwm_instrument.py::test_parse_reports_a_self_rating_error_in_every_level_that_has_one`,
+which plants the same self-rating mistake in two different levels and
+asserts both are reported from one `parse()` call (fails against the
+pre-fix code, since the second level's identical mistake was silently
+dropped). Full suite: 170 passed. Not yet re-verified against a fresh live
+run against qwen2.5:14b (a real re-run of `bsi-hawc-bwm` is the next step
+to confirm this actually converges the whole panel to `accepted_count > 0`,
+not just that the parser now reports correctly in isolation).

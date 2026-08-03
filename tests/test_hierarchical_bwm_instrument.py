@@ -107,6 +107,26 @@ def test_parse_rejects_non_json_text():
     assert not result.valid
 
 
+def test_parse_reports_a_self_rating_error_in_every_level_that_has_one():
+    # Regression test: a model with one systematic misconvention (rating
+    # Best-to-itself as 9, an "importance score" reading, instead of the
+    # correct ratio-to-self of 1) applies it identically across every
+    # level, not just the first. The parser previously gated each level's
+    # self-rating check on whether the shared `errors` list was still
+    # empty, so once L1's mistake was recorded, L2's identical mistake
+    # was silently never checked at all, and a repair loop shown only
+    # L1's error could never learn about L2's. Both must be reported from
+    # a single parse call so one repair turn can fix everything at once.
+    instrument = HierarchicalBWMInstrument()
+    payload = _valid_payload()
+    payload["levels"]["L1"]["best_to_others"]["DVS"] = 9  # best rated 9 against itself
+    payload["levels"]["L2"]["best_to_others"]["C"] = 9  # same mistake, different level
+    result = instrument.parse(json.dumps(payload), PARAMS)
+    assert not result.valid
+    assert any("L1" in e and "best_to_others[best] must be 1" in e for e in result.errors)
+    assert any("L2" in e and "best_to_others[best] must be 1" in e for e in result.errors)
+
+
 def test_build_messages_lists_available_source_tags_when_context_present():
     instrument = HierarchicalBWMInstrument()
     messages = instrument.build_messages(

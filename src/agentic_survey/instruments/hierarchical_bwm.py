@@ -181,6 +181,24 @@ class HierarchicalBWMInstrument:
         for lvl in levels:
             lid = lvl["id"]
             codes = set(lvl["dimensions"])
+            # Accumulated per-level, not into the shared `errors` list, and
+            # only merged in at the end of this iteration: every check below
+            # that gates on "no problems so far" must mean "no problems in
+            # THIS level", never "no problems in any level processed before
+            # this one". Gating on the shared `errors` list directly used to
+            # mean that once level 1 produced any error, every later level's
+            # self-rating check (`best_to_others[best] must be 1`) was
+            # silently skipped for the rest of this parse call, surfacing at
+            # most one such error per response no matter how many levels
+            # actually had it. Against a model with one systematic
+            # misconvention repeated identically across every level (rating
+            # self-comparisons as 9 instead of 1), that meant the
+            # reject-and-repair loop could only ever whack one mole per
+            # retry and never converged within its retry budget, so the
+            # whole agent, and often the whole panel, ended up
+            # `accepted_count: 0` in production even though every rejected
+            # sample was one small, repair-loop-fixable convention mistake.
+            level_errors: List[str] = []
             if lid not in level_answers:
                 errors.append(f"Missing level '{lid}'")
                 continue
@@ -190,37 +208,40 @@ class HierarchicalBWMInstrument:
                 continue
             for key in ("best", "worst", "best_to_others", "others_to_worst"):
                 if key not in answer:
-                    errors.append(f"Level '{lid}' missing key '{key}'")
-            if errors and any(e.startswith(f"Level '{lid}' missing") for e in errors):
+                    level_errors.append(f"Level '{lid}' missing key '{key}'")
+            if level_errors:
+                errors.extend(level_errors)
                 continue
 
             if answer["best"] not in codes:
-                errors.append(f"Level '{lid}': best='{answer['best']}' is not a known code {sorted(codes)}")
+                level_errors.append(f"Level '{lid}': best='{answer['best']}' is not a known code {sorted(codes)}")
             if answer["worst"] not in codes:
-                errors.append(f"Level '{lid}': worst='{answer['worst']}' is not a known code {sorted(codes)}")
+                level_errors.append(f"Level '{lid}': worst='{answer['worst']}' is not a known code {sorted(codes)}")
             if answer.get("best") == answer.get("worst"):
-                errors.append(f"Level '{lid}': best and worst must differ")
+                level_errors.append(f"Level '{lid}': best and worst must differ")
 
             for field_name in ("best_to_others", "others_to_worst"):
                 vec = answer.get(field_name, {})
                 if not isinstance(vec, dict):
-                    errors.append(f"Level '{lid}': {field_name} must be an object")
+                    level_errors.append(f"Level '{lid}': {field_name} must be an object")
                     continue
                 missing = codes - set(vec)
                 if missing:
-                    errors.append(f"Level '{lid}': {field_name} missing ratings for {sorted(missing)}")
+                    level_errors.append(f"Level '{lid}': {field_name} missing ratings for {sorted(missing)}")
                 for code, value in vec.items():
                     if not isinstance(value, int) or isinstance(value, bool) or not (1 <= value <= 9):
-                        errors.append(f"Level '{lid}': {field_name}[{code}]={value!r} is not an integer in 1-9")
+                        level_errors.append(f"Level '{lid}': {field_name}[{code}]={value!r} is not an integer in 1-9")
 
-            if not errors and answer.get("best") in codes:
+            if not level_errors and answer.get("best") in codes:
                 bto = answer["best_to_others"].get(answer["best"])
                 if bto != 1:
-                    errors.append(f"Level '{lid}': best_to_others[best] must be 1, got {bto}")
-            if not errors and answer.get("worst") in codes:
+                    level_errors.append(f"Level '{lid}': best_to_others[best] must be 1, got {bto}")
+            if not level_errors and answer.get("worst") in codes:
                 otw = answer["others_to_worst"].get(answer["worst"])
                 if otw != 1:
-                    errors.append(f"Level '{lid}': others_to_worst[worst] must be 1, got {otw}")
+                    level_errors.append(f"Level '{lid}': others_to_worst[worst] must be 1, got {otw}")
+
+            errors.extend(level_errors)
 
         if "sources_used" in data and not isinstance(data["sources_used"], list):
             errors.append(f"sources_used must be a list, got {type(data['sources_used']).__name__}")
