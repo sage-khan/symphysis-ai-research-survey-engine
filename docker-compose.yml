@@ -11,9 +11,13 @@ services:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
+      - SEARXNG_BASE_URL=${SEARXNG_BASE_URL:-http://searxng:8080}
+      - CRAWL4AI_BASE_URL=${CRAWL4AI_BASE_URL:-http://crawl4ai:11235}
     command: ["run", "/app/surveys/bsi-hawc-bwm"]
     depends_on:
       - ollama
+      - searxng
+      - crawl4ai
 
   ollama:
     image: ollama/ollama:latest
@@ -21,6 +25,28 @@ services:
       - ollama-models:/root/.ollama
     ports:
       - "11434:11434"
+
+  # Discovery half of the web_search tool (query -> candidate URLs +
+  # snippets). See infrastructure/searxng/settings.yml for why json
+  # format and the rate limiter are configured the way they are: this
+  # instance is reachable only by sibling containers on this compose
+  # network, never the public internet.
+  searxng:
+    image: searxng/searxng:latest
+    volumes:
+      - ./infrastructure/searxng/settings.yml:/etc/searxng/settings.yml:ro
+    # No published port: only the `sage` service needs to reach this,
+    # over the compose network's internal DNS (http://searxng:8080).
+
+  # Extraction half of the web_search tool (URL -> clean markdown). Uses
+  # a real headless browser under the hood, hence the shm_size bump
+  # (Chromium needs more /dev/shm than Docker's tiny 64MB default, and
+  # otherwise crashes or badly throttles under any real load).
+  crawl4ai:
+    image: unclecode/crawl4ai:latest
+    shm_size: "1g"
+    # No published port: only the `sage` service needs to reach this,
+    # over the compose network's internal DNS (http://crawl4ai:11235).
 
 volumes:
   ollama-models:

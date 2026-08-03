@@ -47,10 +47,12 @@ API_KEY_ENV_VARS = {
     "groq": "GROQ_API_KEY",
     "gemini": "GEMINI_API_KEY",
     "xai": "XAI_API_KEY",
-    # Not an LLM provider: Tavily is the web_search tool's backing search
-    # API (see agentic_survey.tools.web_search), but it's stored and
-    # persisted through the exact same key/env-var mechanism as the LLM
-    # provider keys above, so it doesn't need its own duplicate machinery.
+    # Legacy: web_search was backed by the Tavily API when this entry was
+    # added. It's now backed by self-hosted SearXNG + Crawl4AI (see
+    # agentic_survey.tools.web_search), which need no API key, so this
+    # entry is inert. Kept only so an already-persisted TAVILY_API_KEY in
+    # an existing deployment's llm_settings.json doesn't become an
+    # unrecognized key on load; the Settings UI no longer exposes it.
     "tavily": "TAVILY_API_KEY",
 }
 

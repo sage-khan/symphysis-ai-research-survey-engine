@@ -574,22 +574,19 @@ export default function SettingsPage() {
         }
         keyProviders={API_PROVIDERS}
       />
-      <ApiKeySettings
-        title="Web search"
-        description={
-          <>
-            Lets an agent with <code>web_search</code> in its Agent Card's tools look things up
-            live instead of relying only on its own training data or a static RAG corpus. Backed by{" "}
-            <a href="https://tavily.com" target="_blank" rel="noreferrer">
-              Tavily
-            </a>
-            , an API built for LLM-agent search. Without a key here, any agent granted
-            <code> web_search</code> simply proceeds without search results (logged, not
-            fabricated) rather than failing.
-          </>
-        }
-        keyProviders={[{ key: "tavily", label: "Tavily" }]}
-      />
+      <div className="panel" style={{ padding: 24, maxWidth: 640, marginBottom: 24 }}>
+        <h3 style={{ marginTop: 0 }}>Web search</h3>
+        <div className="mono-dim">
+          Lets an agent with <code>web_search</code> in its Agent Card's tools look things up live
+          instead of relying only on its own training data or a static RAG corpus. Backed by two
+          self-hosted, open-source services, SearXNG (discovery) and Crawl4AI (extraction), no API
+          key needed: see <code>SEARXNG_BASE_URL</code> / <code>CRAWL4AI_BASE_URL</code> in{" "}
+          <code>.env.example</code> and the <code>searxng</code>/<code>crawl4ai</code> services in{" "}
+          <code>docker-compose.yml</code>. If either is unreachable or misconfigured, any agent
+          granted <code>web_search</code> proceeds without search results (logged, not fabricated)
+          rather than failing.
+        </div>
+      </div>
       <ConfigSettings />
       <RulesSettings />
     </div>

@@ -96,7 +96,7 @@ def test_web_search_called_when_tool_granted(tmp_path, monkeypatch):
 
 def test_web_search_failure_degrades_gracefully_and_is_logged(tmp_path, monkeypatch):
     def raise_error(q, top_k=5):
-        raise WebSearchError("TAVILY_API_KEY is not set")
+        raise WebSearchError("SearXNG search request failed: connection refused")
 
     monkeypatch.setattr(agent_module, "search_as_dicts", raise_error)
     agent = _make_agent(tmp_path, tools=["web_search"])
@@ -105,4 +105,4 @@ def test_web_search_failure_degrades_gracefully_and_is_logged(tmp_path, monkeypa
 
     conversation = (agent.storage.agent_dir(agent.card.agent_id) / "conversation.jsonl").read_text(encoding="utf-8")
     assert "web_search" in conversation
-    assert "TAVILY_API_KEY" in conversation
+    assert "SearXNG" in conversation

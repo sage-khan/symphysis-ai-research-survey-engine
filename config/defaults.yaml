@@ -38,6 +38,17 @@ rag_defaults:
   chunk_size: 800
   chunk_overlap: 100
 
+# Two self-hosted, open-source services backing the web_search tool
+# (see agentic_survey.tools.web_search): SearXNG for discovery (query ->
+# candidate URLs + snippets) and Crawl4AI for extraction (URL -> clean
+# markdown). Overridable via SEARXNG_BASE_URL / CRAWL4AI_BASE_URL env
+# vars, or here. The docker-compose defaults below assume both run as
+# sibling services on the compose network (see docker-compose.yml).
+web_search:
+  searxng_base_url: http://searxng:8080
+  crawl4ai_base_url: http://crawl4ai:11235
+  discover_top_k: 5
+
 # Regex patterns every new agent's guardrails.denylist_patterns starts with
 # (prompt-injection markers, secret-shaped strings). A survey or agent can
 # still add/remove patterns per card; this is only the starting point.

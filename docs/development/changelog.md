@@ -4,6 +4,32 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (replace Tavily web_search with self-hosted SearXNG + Crawl4AI)
+
+- `tools/web_search.py` rewritten from a Tavily-backed single API call to a two-stage,
+  fully open-source pipeline: SearXNG (`GET /search?format=json`) for discovery, Crawl4AI
+  (`POST /crawl`) for extracting each candidate URL's full markdown content, per the
+  open-source-by-default rule and since no `TAVILY_API_KEY` was ever configured in any real
+  deployment of this app, leaving the tool permanently dead. `search()`/`search_as_dicts()` keep
+  their exact same `{title, url, content}` shape, so `agent.py`'s `_web_search_chunks` and every
+  instrument prompt needed no change. Still raises `WebSearchError` (not a silent empty list) if
+  SearXNG itself is unreachable or misconfigured; a single URL's extraction failing falls back to
+  SearXNG's own snippet rather than dropping that result, since a transient single-page failure
+  isn't the same failure as the whole service being down.
+- New `docker-compose.yml` services (`searxng`, `crawl4ai`, both internal-only, no published
+  port), new `infrastructure/searxng/settings.yml` (JSON format and the bot-detection rate
+  limiter are both off by default upstream; enabled/disabled respectively for this internal-only
+  use case), new `SEARXNG_BASE_URL`/`CRAWL4AI_BASE_URL` env vars (`.env.example`,
+  `app_config.web_search_config()`, `config/defaults.yaml`'s new `web_search` section).
+- Web UI: the "Web search" Settings section no longer asks for a Tavily API key (there's nothing
+  to configure any more); it's now an informational panel pointing at the new env vars and
+  compose services. `routers/settings.py`'s `tavily` entry in `API_KEY_ENV_VARS` stays, inert, so
+  an already-persisted `TAVILY_API_KEY` in an existing deployment's `llm_settings.json` doesn't
+  become an unrecognized key on load.
+- New `tests/test_web_search.py` (10 cases covering discovery, extraction, both fallback paths,
+  structured vs. plain-string markdown responses, and both failure modes).
+
+
 ## 2026-08-03 (PyPI trusted-publisher release workflow)
 
 - New `.github/workflows/publish.yml`: builds the sdist/wheel, verifies the built wheel installs

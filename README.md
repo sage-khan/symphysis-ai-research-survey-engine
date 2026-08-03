@@ -82,7 +82,8 @@ for how to set up a development environment and submit a pull request.
     to every agent automatically), a standard role knowledge pack (a
     curated professional-domain primer for roles like Data Engineer or
     Construction Engineer, see `src/agentic_survey/role_packs/`), and real
-    web search (`tools: ["web_search"]`, backed by Tavily). Each source is
+    web search (`tools: ["web_search"]`, backed by self-hosted SearXNG +
+    Crawl4AI, no API key needed). Each source is
     logged as its own tool-call event, and the survey's shared knowledge
     and role-pack sources need no per-agent flag beyond selecting a pack.
 11. **Verifies agents rather than trusting them.** Before attempting the
@@ -222,7 +223,7 @@ symphysis-ai-research-survey-engine/
 | `solvers/` | `bwm_classical.py` (Rezaei 2015 linear program + consistency ratio), `bwm_bayesian.py` (Mohammadi & Rezaei 2020 hierarchical Bayesian model, PyMC/NUTS with a numpy-bootstrap fallback, plus `combine_panels` for HAWC-BWM), `ahp.py` (Saaty 1980 principal-eigenvector priority weights + consistency ratio, plus `aggregate_individual_priorities` for the agent panel), `hierarchical_bwm.py` (solves every level with the two BWM solvers above, then multiplies each leaf's weight through its ancestor levels, excluding the root, to get its global weight; see "Hierarchical BWM" below for why the root is excluded). |
 | `rag/retriever.py` | Minimal pluggable RAG: chunks every `.txt`/`.md` file under a corpus directory, retrieves top-k via sentence-transformers cosine similarity or falls back to dependency-free TF-IDF. |
 | `role_packs/` | Standard professional-domain knowledge packs (`packs/*.md`: AI Scientist, Data Engineer, LLMOps Engineer, Knowledge Graph Engineer, Construction Engineer, Wind Energy Engineer, Blockchain Trust Specialist, Cybersecurity Specialist) an agent can attach via its card's `role_pack` field. |
-| `tools/web_search.py` | Real web search for an agent with `web_search` in its card's `tools`, backed by the Tavily API. Raises rather than fabricating a result if unconfigured or unreachable. |
+| `tools/web_search.py` | Real web search for an agent with `web_search` in its card's `tools`, backed by self-hosted SearXNG (discovery) and Crawl4AI (extraction), no API key needed. Raises rather than fabricating a result if SearXNG is unreachable or misconfigured. |
 
 ### Web backend (`web/backend/`): what each file does
 
@@ -240,7 +241,7 @@ symphysis-ai-research-survey-engine/
 | `routers/proposer.py` | `POST /propose-agents` and `/approve-agents`: the two-endpoint natural-language orchestrator flow. |
 | `routers/knowledge.py` | List/upload/delete for a survey's shared knowledge repository; PDF/DOCX are converted to plain text on upload. |
 | `routers/knowledge_bases.py` | CRUD for named, reusable knowledge bases under `agents_library/knowledge_bases/<kb_id>/` (upload once, point any agent's `rag.corpus_path` at the same directory to reuse it, instead of re-uploading the same files per agent). Same upload/PDF-conversion pattern as `knowledge.py`, but library-scoped rather than survey-scoped. |
-| `routers/settings.py` | LLM-endpoint settings, hosted-provider and Tavily API keys, app config (`config/defaults.yaml` overrides), and the global rulefile. See "Remote-LLM mode" below. |
+| `routers/settings.py` | LLM-endpoint settings, hosted-provider API keys, app config (`config/defaults.yaml` overrides), and the global rulefile. See "Remote-LLM mode" below. |
 | `analytics.py` | Pure, FastAPI-free aggregation used by `GET /api/surveys/{id}/analytics`: classifies every configured agent (`contributed`/`zero_accepted`/`pending_manual`/`skipped`/`not_run`) from what's actually on disk, and tallies Best/Worst pick frequency per criterion. See "Analytics: who said what" below. |
 | `parsing/markdown_parser.py` | Parses a structured Markdown survey definition into candidate dimensions. |
 | `parsing/lss_parser.py` | Best-effort LimeSurvey `.lss` (XML) parser; surfaces every question row as a candidate dimension. |
@@ -255,7 +256,7 @@ symphysis-ai-research-survey-engine/
 | `pages/SurveysPage.jsx` | Survey list + "New survey" panel (upload a document or enter criteria manually). |
 | `pages/SurveyDetailPage.jsx` | One survey's tabs: Agents (list/add/edit/delete + per-agent trace, add from library, natural-language proposer), Knowledge (upload/list/delete the shared knowledge repository), Results (weight tables, charts, rendered report, `.zip` download), and Analytics (panel-participation summary, Best/Worst frequency, the full "who said what" sample table, and a non-contributing-agents table with the reason for each). |
 | `pages/AgentLibraryPage.jsx` | Reusable Agent Card list/create/edit/delete, independent of any one survey; tabbed with `components/KnowledgeBasesTab.jsx`. |
-| `pages/SettingsPage.jsx` | Ollama endpoint (presets, custom URL, test connection), hosted-provider and Tavily API keys, config defaults, and the global rulefile; see "Remote-LLM mode" below. |
+| `pages/SettingsPage.jsx` | Ollama endpoint (presets, custom URL, test connection), hosted-provider API keys, config defaults, and the global rulefile; see "Remote-LLM mode" below. |
 | `components/AgentForm.jsx` | The create/edit form for one Agent Card (survey-scoped or library-scoped), including its role pack and rulefile fields; its RAG section can link an existing knowledge base or take a free-text corpus path, and auto-derives the `permissions.data_scopes` entry a RAG-enabled corpus_path needs. |
 | `components/KnowledgeBasesTab.jsx` | Create/delete a named, reusable knowledge base and upload/delete its files; each one's `corpus_path` can be copied into any agent's RAG corpus field. |
 | `components/TraceViewer.jsx` | Tabbed viewer for one agent's filled survey / reasoning / prompt / raw conversation log (QA precheck, model completions, guardrail rejections, tool calls, fabricated-citation flags). |

@@ -87,6 +87,10 @@ def rag_defaults() -> Dict[str, Any]:
     return get_config().get("rag_defaults", {})
 
 
+def web_search_config() -> Dict[str, Any]:
+    return get_config().get("web_search", {})
+
+
 def guardrail_default_denylist() -> list:
     return list(get_config().get("guardrail_default_denylist", []))
 
