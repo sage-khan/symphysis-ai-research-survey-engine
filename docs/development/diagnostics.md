@@ -430,3 +430,52 @@ produces"), and lists 7 of the 8 runtime files storage.py writes, but
 `card.json` was missing from the list.
 
 **Fix:** added `surveys/*/agents/*/card.json` to .gitignore.
+
+## Every agent in the live 7-level TrustRouter run was zero_accepted
+
+**Found:** while the `bsi-hawc-bwm` survey (qwen2.5:14b, 15 samples per
+agent) was running, every agent that finished had `accepted_count: 0` out
+of 15 attempts, `finish_reason: "stop"` on every completion (not
+truncation, `eval_count` 626-807 tokens, well under any configured
+token limit). The validator's `errors` list showed two distinct, repeated
+failure modes across every rejected sample:
+
+1. `"Level 'L2': best_to_others missing ratings for ['IC', 'L', 'V']"`:
+   for a 6-criterion level (Q, PT, V, IC, L, C), the model's JSON
+   consistently included only 3 of the 6 keys, always dropping a
+   contiguous run from the middle of the list (V, IC, L), never the
+   first or last criterion named in the prompt.
+2. `"Level 'L1': best_to_others[best] must be 1, got 9"`: the model
+   rated its chosen best criterion as 9 against itself (and the worst
+   criterion as 9 in `others_to_worst`), i.e. it applied an "importance
+   score" reading (big number = important) to both dictionaries instead
+   of the ratio-to-self=1 convention, despite the intro's explicit
+   worked example.
+
+**Root cause:** `HierarchicalBWMInstrument.build_messages`
+(`instruments/hierarchical_bwm.py`) asks for all 7 levels (up to 24
+criteria total) in a single completion, and the final JSON-shape schema
+shown to the model truncated each level's example to its first 2 codes
+plus `", ..."` (`codes[:2]`), never spelling out the complete key set a
+level actually needs. A 14B local model given a long, abstract
+per-level instruction ("rate every criterion j") but a concrete schema
+example showing only 2 keys and an ellipsis appears to pattern-match on
+the concrete example over the abstract instruction, and drops criteria
+it has less "attention budget" left for by the time it reaches the
+middle of a longer level's list.
+
+**Fix:** `build_messages` now emits the full, untruncated key list for
+every level in the JSON-shape schema (`full_pair`, replacing
+`example_pair`'s `codes[:2]` truncation), and the instruction
+immediately preceding the schema now states explicitly that a level
+with N criteria needs N keys in both `best_to_others` and
+`others_to_worst`, including the best/worst criteria themselves rated 1
+against themselves. This targets failure mode 1 (missing middle
+criteria) directly; failure mode 2 (self-rating as 9) is a genuine
+qwen2.5:14b comprehension limit on this specific ratio convention that
+the existing worked example did not fully prevent, and remains an open
+item, most likely to be resolved by decomposing the single 7-level
+completion into one completion per level (smaller structured-output
+task per call) rather than a further prompt-wording change, which is a
+larger change deferred pending a decision on the resulting increase in
+inference calls per sample.

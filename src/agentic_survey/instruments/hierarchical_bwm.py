@@ -117,10 +117,10 @@ class HierarchicalBWMInstrument:
                     dimension_list=dim_lines,
                 )
             )
-            example_pair = ", ".join(f'"{c}": <1-9 int>' for c in codes[:2]) + (", ..." if len(codes) > 2 else "")
+            full_pair = ", ".join(f'"{c}": <1-9 int>' for c in codes)
             schema_lines.append(
                 f'    "{lvl["id"]}": {{"best": "<code>", "worst": "<code>", '
-                f'"best_to_others": {{{example_pair}}}, "others_to_worst": {{{example_pair}}}, '
+                f'"best_to_others": {{{full_pair}}}, "others_to_worst": {{{full_pair}}}, '
                 f'"reasoning": "<the actual logic for this level>"}}'
             )
 
@@ -142,7 +142,10 @@ class HierarchicalBWMInstrument:
         sections.append(
             f"\n{sources_instruction}\n\n"
             "Respond with ONLY a JSON object, no other text, in exactly this shape, one entry "
-            "per level:\n{\n"
+            "per level. Every criterion code listed for a level below MUST appear as a key in "
+            "both that level's best_to_others and others_to_worst objects, including the best "
+            "and worst criteria themselves (rated 1 against themselves, per the ratio rule "
+            "above): a level with 6 criteria needs 6 keys in each object, never fewer:\n{\n"
             f'  "levels": {{\n{joined_schema_lines}\n  }},\n'
             '  "sources_used": ["<label>", ...]\n'
             "}"
