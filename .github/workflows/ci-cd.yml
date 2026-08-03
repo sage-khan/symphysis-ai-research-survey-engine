@@ -173,7 +173,7 @@ jobs:
 
             echo "=== Waiting for backend health check ==="
             timeout 180 bash -c \
-              'until curl -sf http://localhost:8100/api/health; do sleep 5; done' \
+              'until curl -sf http://localhost:8100/api/health; do echo "  ...still waiting on backend"; sleep 5; done' \
               && echo "Backend is up"
 
             echo "=== Restarting frontend dev server ==="
@@ -186,7 +186,7 @@ jobs:
 
             echo "=== Waiting for frontend to come up ==="
             timeout 60 bash -c \
-              'until curl -sf http://localhost:5180 >/dev/null; do sleep 2; done' \
+              'until curl -sf http://localhost:5180 >/dev/null; do echo "  ...still waiting on frontend"; sleep 2; done' \
               && echo "Frontend is up"
 
             echo "=== Container status ==="
