@@ -715,6 +715,8 @@ directly they extend the current base (AHP is implemented; see
 
 ### Packaging
 
+See `docs/packaging-plan.md` for the detailed, step-by-step plan behind this section.
+
 - **Linux CLI**: a proper `symphysis` command (create a survey, add an
   agent, run it, generate a report) as a first-class entry point, not just
   the web UI. The existing `agentic_survey.cli` module is the CLI-mode

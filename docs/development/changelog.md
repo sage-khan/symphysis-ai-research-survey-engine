@@ -4,6 +4,15 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (Python packaging + CLI plan)
+
+- New `docs/packaging-plan.md`: a step-by-step plan for making `agentic_survey` a real
+  installable PyPI package (`pyproject.toml`, dependency/extras split, versioning) and giving
+  `symphysis` a proper CLI entry point beyond its current single `run` subcommand (`new`,
+  `add-agent`, `report`), plus a publish-on-tag CI job using PyPI's trusted-publisher OIDC flow.
+  A plan to review, not yet implemented. README's "Packaging" section now points to it.
+
+
 ## 2026-08-03 ("?" help tooltips for non-technical users)
 
 - New `HelpTooltip.jsx`: a small clickable "?" icon that pops a plain-language explanation next
