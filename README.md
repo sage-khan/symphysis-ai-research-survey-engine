@@ -111,6 +111,14 @@ for how to set up a development environment and submit a pull request.
     reasoning, and a criteria list, an LLM call that writes nothing to
     disk. Everything proposed is editable before creating the survey,
     same review-before-materializing shape as the agent proposer above.
+14. **Checks LLM providers are ready before running anything.** `symphysis
+    run` checks every distinct provider a survey's agents actually use
+    (Ollama reachable with at least one model pulled, hosted-provider API
+    key set) as the very first thing it does, printed before any agent is
+    spawned, and aborts with a clear message rather than discovering a
+    dead backend after RAG indexing/QA prechecks/sampling have already run.
+    The web UI shows the same check as a status panel on the survey page,
+    next to the Run button. See `src/symphysis/preflight.py`.
 
 ## How it works (request/response pipeline)
 
@@ -193,8 +201,11 @@ symphysis-ai-research-survey-engine/
 │   └── frontend/                # React/Vite app: see table below
 ├── infrastructure/
 │   ├── docker/Dockerfile          # container build for the backend/CLI (see docker-compose.yml)
+│   ├── searxng/settings.yml       # web_search discovery backend config (JSON format + limiter, see below)
 │   └── kubernetes/                # reserved for a future Kubernetes manifest set; not yet implemented
-├── docker-compose.yml
+├── docker-compose.yml              # sage (backend/CLI), ollama, searxng + crawl4ai (web_search backend)
+├── pyproject.toml                  # PEP 621: the installable `symphysis` PyPI package (see "Packaging")
+├── scripts/verify_clean_install.py # clean-venv, outside-the-repo smoke test; run by CI's Package job
 ├── requirements.txt              # core package deps
 ├── pytest.ini
 ├── .env.example                  # documents every env var this app reads
@@ -209,8 +220,10 @@ symphysis-ai-research-survey-engine/
 
 | File | Purpose |
 |---|---|
-| `cli.py` | Command-line entrypoint: `python -m symphysis.cli run <survey-dir>`. |
+| `cli.py` | The `symphysis` Typer CLI: `new`/`add-agent`/`run`/`report`/`fix-survey`, a first-class alternative to the web UI. |
 | `config.py` | Loads and validates `survey.yaml` into a `SurveyConfig` (instrument, dimensions, weighting, discovered agent cards). |
+| `survey_checks.py` | `fix_survey()`: static validation of a survey's configuration (schema, hierarchical_bwm level-graph integrity, dangling RAG/role-pack/prompt-template references) without running anything. Backs the CLI's `fix-survey` subcommand. |
+| `preflight.py` | `check_survey_providers()`: whether every provider a survey's agents actually use is reachable right now (Ollama with models pulled, hosted-provider API keys set). Single source of truth reused by `cli.py`'s `run` (checked first, before any agent runs) and `web/backend/routers/surveys.py`'s `GET /{id}/preflight`. |
 | `agent_card.py` | The portable Agent Card: one JSON file that fully defines a spawnable agent (model, RAG, sampling, permissions, guardrails, did, role_pack, rulefile). `new_card()` / `load_card()`. |
 | `did_key.py` | Real `did:key` identity + W3C-shaped Verifiable Credentials (Ed25519), ported from project-cogtwins's `identity.py`. |
 | `agent.py` | One agent instance: resolves its role prompt (plus global/agent rulefiles), combines its context sources, runs a QA precheck, calls its provider through the guardrails layer, and persists everything via `storage`. |
@@ -238,7 +251,7 @@ symphysis-ai-research-survey-engine/
 | `model_catalog.py` | The live, real model list for a given provider (Ollama's own `/api/tags`, or each hosted provider's own list-models API), never a hardcoded or guessed list. |
 | `agent_proposer.py` | Turns a plain-language requirement plus an LLM call into a reviewable, editable list of proposed agents, flagging any model name the live catalog can't confirm exists. |
 | `survey_proposer.py` | Turns a plain-language study description plus an LLM call into a reviewable, editable survey draft (title, description, instrument choice with justification, criteria). |
-| `routers/surveys.py` | Survey CRUD, document-upload parsing, `propose-concept`, run/run-status, results, analytics, chart file serving, integrity manifest/verify, survey rulefile, `.zip` download. |
+| `routers/surveys.py` | Survey CRUD, document-upload parsing, `propose-concept`, provider preflight, run/run-status, results, analytics, chart file serving, integrity manifest/verify, survey rulefile, `.zip` download. |
 | `routers/agents.py` | Agent Card CRUD through the web form, full per-agent trace endpoint, `/api/providers`, `/api/models/{provider}`, `/api/role-packs`. |
 | `routers/library.py` | Agent Library CRUD (reusable Agent Cards not tied to one survey) and assigning a library agent into a survey. |
 | `routers/proposer.py` | `POST /propose-agents` and `/approve-agents`: the two-endpoint natural-language orchestrator flow. |
@@ -257,7 +270,7 @@ symphysis-ai-research-survey-engine/
 | `App.jsx` | Top-level layout: sidebar nav (Surveys / Agent Library / Settings) and page routing. |
 | `api.js` | The only place that calls the backend: one `fetch`-based function per endpoint. |
 | `pages/SurveysPage.jsx` | Survey list + "New survey" panel (upload a document or enter criteria manually). |
-| `pages/SurveyDetailPage.jsx` | One survey's tabs: Agents (list/add/edit/delete + per-agent trace, add from library, natural-language proposer), Knowledge (upload/list/delete the shared knowledge repository), Results (weight tables, charts, rendered report, `.zip` download), and Analytics (panel-participation summary, Best/Worst frequency, the full "who said what" sample table, and a non-contributing-agents table with the reason for each). |
+| `pages/SurveyDetailPage.jsx` | A provider-preflight status panel (green/red, per-provider detail, Recheck button) above the tabs, next to the Run button; then Agents (list/add/edit/delete + per-agent trace, add from library, natural-language proposer), Knowledge (upload/list/delete the shared knowledge repository), Results (weight tables, charts, rendered report, `.zip` download), and Analytics (panel-participation summary, Best/Worst frequency, the full "who said what" sample table, and a non-contributing-agents table with the reason for each). |
 | `pages/AgentLibraryPage.jsx` | Reusable Agent Card list/create/edit/delete, independent of any one survey; tabbed with `components/KnowledgeBasesTab.jsx`. |
 | `pages/SettingsPage.jsx` | Ollama endpoint (presets, custom URL, test connection), hosted-provider API keys, config defaults, and the global rulefile; see "Remote-LLM mode" below. |
 | `components/AgentForm.jsx` | The create/edit form for one Agent Card (survey-scoped or library-scoped), including its role pack and rulefile fields; its RAG section can link an existing knowledge base or take a free-text corpus path, and auto-derives the `permissions.data_scopes` entry a RAG-enabled corpus_path needs. |
@@ -329,22 +342,26 @@ passwordless `sudo` there, `docker` available). It differs from the local
 dependencies and get exposed on the network; the app itself is unchanged.
 
 **CI/CD**: `.github/workflows/ci-cd.yml` runs the same recreate-and-restart
-procedure automatically on every push to `main`, after validation and the
-full test suite pass. It needs these GitHub repository secrets configured
-before it can deploy: `SYMPHYSIS_SSH_HOST`, `SYMPHYSIS_SSH_USER`,
-`SYMPHYSIS_SSH_KEY`, `SYMPHYSIS_SSH_PORT` (optional, defaults to 22),
-`SYMPHYSIS_PROJECT_PATH` (the repo checkout path on the server),
-`SYMPHYSIS_CORS_EXTRA_ORIGINS`, and `SYMPHYSIS_SERVER_HOST` (used only for
-the deployment's status-page URL). Without those secrets the validate and
-test jobs still run on every push and PR; only the deploy job is gated on
-`main` and will fail until the secrets exist.
+procedure automatically on every push to `main`, after validation, the
+full test suite, and a package-install smoke test all pass. It needs
+these GitHub repository (or `production` environment) secrets configured
+before it can deploy: `SYMPHYSIS_SSH_HOST` (the server's actual
+internet-routable address the runner can reach; a Tailscale-only IP will
+not work from a GitHub-hosted runner, which is not on your tailnet),
+`SYMPHYSIS_SSH_USER`, `SYMPHYSIS_SSH_KEY`, `SYMPHYSIS_SSH_PORT` (optional,
+defaults to 22), `SYMPHYSIS_PROJECT_PATH` (the repo checkout path on the
+server), and `SYMPHYSIS_CORS_EXTRA_ORIGINS` (optional). Without those
+secrets the validate/test/package jobs still run on every push and PR;
+only the deploy job is gated on `main` and will fail with "missing server
+host" (or a connection timeout, if the host secret points at a
+tailnet-only address) until the secrets are set correctly.
 
 **Backend, in Docker on `--network host`** (so it reaches a local Ollama at
 `localhost:11434` with no extra networking, and is reachable on the host's
 own IP/Tailscale address on whatever port you publish):
 
 ```bash
-docker run -d --name agentic-survey-backend \
+docker run -d --name sage-backend \
   --network host \
   -v /path/to/symphysis-ai-research-survey-engine:/app \
   -w /app \
@@ -388,7 +405,7 @@ that's on the same Tailscale network. Both processes are long-lived
 (the Docker container restarts-on-demand; the Vite dev server keeps running
 in the background via `nohup`/`disown`); no need to redeploy between
 survey runs, only when the source changes (the backend needs a
-`docker restart agentic-survey-backend` to pick up a code change since
+`docker restart sage-backend` to pick up a code change since
 Python doesn't hot-reload; the frontend picks up changes immediately via
 Vite's HMR).
 

@@ -9,11 +9,26 @@ this repository's own example surveys were actually authored and run.
 
 ## Walkthrough 1: a minimal survey, zero setup
 
-Create a survey folder with a `survey.yaml` and one agent card by hand.
-This is the same shape every survey in `surveys/` uses; there is no
-scaffolding CLI yet (see the README's "Future enhancements" section), so
-authoring one of these two files directly, or via the web UI's New Survey
-form, is the way to create one today.
+Two ways to get the same `survey.yaml` + agent card on disk: the
+`symphysis` CLI (fastest), or hand-authoring the two files directly (shown
+below, useful for understanding the actual format the CLI generates).
+
+**The fast way**, once `symphysis` is installed (`pip install symphysis`,
+or `pip install -e .` from a checkout of this repo):
+
+```bash
+symphysis new getting-started-demo --dimensions LATENCY,COST,ACCURACY --output surveys/getting-started-demo
+symphysis add-agent surveys/getting-started-demo \
+  --agent-id reviewer-one --role "Site Reliability Engineer" \
+  --provider manual --model claude-opus-5
+symphysis fix-survey surveys/getting-started-demo   # sanity-check before running
+```
+
+This produces the same `survey.yaml` and `agents/reviewer-one.json` shown
+below (edit `role_description` and `instrument_params.dimension_labels`
+afterward for the same result), then skip ahead to "Run it."
+
+**The hand-authored way**, for the same result without the CLI:
 
 ```bash
 mkdir -p surveys/getting-started-demo/agents
@@ -52,7 +67,7 @@ means):
   "permissions": {"data_scopes": [], "network": [], "allowed_providers": ["manual"], "max_cost_usd": null},
   "guardrails": {"schema_validation": true, "denylist_patterns": ["ignore (all|any|the) (previous|prior|above) instructions"]},
   "did": {"method": "did:key", "id": "did:key:z6Mkf5rGMhcVXX8XvBWfxwbdxLnwqYE1DKJnpi9GkyKtRK4E", "public_key_multibase": "z6Mkf5rGMhcVXX8XvBWfxwbdxLnwqYE1DKJnpi9GkyKtRK4E", "deterministic": true, "seed_derivation": "sha256('getting-started-demo:reviewer-one')"},
-  "environment": {"runtime": "agentic-survey-tool", "runtime_version": "0.1.0", "python_version": "3.11", "platform": "generic", "container_image": null}
+  "environment": {"runtime": "symphysis", "runtime_version": "0.1.0", "python_version": "3.11", "platform": "generic", "container_image": null}
 }
 ```
 
@@ -83,9 +98,12 @@ block to:
 and its `permissions.allowed_providers` to `["ollama"]`. Delete the
 `surveys/getting-started-demo/agents/reviewer-one/` runtime folder if the
 manual walkthrough above already created one (a fresh agent identity
-folder is created on the next run), then re-run the same CLI command. No
-`manual_input` step this time: the agent calls Ollama directly and the
-report is written in one pass. If a level's response gets cut off or
+folder is created on the next run), then re-run the same CLI command.
+`symphysis run` checks Ollama's reachable with that model pulled as its
+very first step, printed before anything else; if that check fails, fix
+Ollama first rather than waiting to see the same failure deeper into the
+run. Once it passes: no `manual_input` step this time; the agent calls
+Ollama directly and the report is written in one pass. If a level's response gets cut off or
 rejected by the guardrails, see the "Hierarchical BWM" section of the
 README and `docs/development/diagnostics.md` for the two most common
 causes (an undersized `max_tokens` for the task, and a model that

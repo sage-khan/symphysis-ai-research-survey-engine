@@ -4,6 +4,26 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (documentation pass: README, getting-started, CI/CD secrets accuracy)
+
+- README: added item 14 to "What it does" (the preflight check), added `preflight.py` and
+  `survey_checks.py` to the core-package file table, updated the repository-structure tree
+  (`infrastructure/searxng/`, `pyproject.toml`, `scripts/verify_clean_install.py`,
+  docker-compose's new services), and fixed two pre-existing inaccuracies found while doing this
+  pass: the manual-deploy example used the container name `agentic-survey-backend` where the
+  actual CI/CD workflow uses `sage-backend`, and the CI/CD secrets list named a
+  `SYMPHYSIS_SERVER_HOST` secret the workflow never actually reads. Also documents (from this
+  session's own CI/CD debugging) that `SYMPHYSIS_SSH_HOST` must be the server's real
+  internet-routable address, not a Tailscale-only IP, since a GitHub-hosted runner isn't on the
+  tailnet.
+- `docs/getting-started.md`: Walkthrough 1 now shows the `symphysis` CLI (`new`/`add-agent`/
+  `fix-survey`) as the fast path, ahead of the pre-existing hand-authored-JSON walkthrough (kept,
+  since it still teaches the actual on-disk format); fixed a stale `"runtime": "agentic-survey-tool"`
+  in its example Agent Card JSON to `"symphysis"`, and a stale "there is no scaffolding CLI yet"
+  claim. Walkthrough 2 now mentions the preflight check running before Ollama is actually called.
+  Every CLI command shown was re-run end to end to confirm it produces exactly what the doc claims.
+
+
 ## 2026-08-03 (LLM/provider preflight check: CLI and web UI)
 
 - New `symphysis/preflight.py`: checks whether a survey's actual providers are reachable right
