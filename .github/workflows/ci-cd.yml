@@ -69,7 +69,7 @@ jobs:
   # --------------------------------------------------------------------------
   # 3. PACKAGE: build the sdist/wheel and verify the published package
   #    actually works installed standalone, in a clean venv with no repo
-  #    checkout on PYTHONPATH -- the concrete difference between "works when
+  #    checkout on PYTHONPATH: the concrete difference between "works when
   #    cloned" and "works when installed" that docs/plan/packaging-plan.md
   #    calls out as the thing to verify before ever cutting a PyPI release.
   #    Catches a packaging regression (missing package-data, a dependency

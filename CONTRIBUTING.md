@@ -11,6 +11,14 @@ cd symphysis-ai-research-survey-engine
 pip install -r requirements.txt -r web/backend/requirements.txt
 ```
 
+Or, for just the core engine and its `symphysis` CLI, an editable install
+via `pyproject.toml`:
+
+```bash
+pip install -e ".[dev]"
+symphysis --help
+```
+
 See `docs/getting-started.md` for two runnable walkthroughs (one needs no
 external accounts at all) and the README's "Setup" section for running
 the web UI.

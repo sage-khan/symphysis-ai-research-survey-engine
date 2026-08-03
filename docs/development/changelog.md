@@ -4,6 +4,70 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (PyPI trusted-publisher release workflow)
+
+- New `.github/workflows/publish.yml`: builds the sdist/wheel, verifies the built wheel installs
+  and runs standalone in a clean venv (`scripts/verify_clean_install.py`, plus a `symphysis --help`
+  smoke check), then publishes to PyPI via the trusted-publisher OIDC flow (`id-token: write` +
+  the `pypi` environment), triggered on `release: types: [published]`, kept separate from
+  `ci-cd.yml`'s per-push checks since publishing is a distinct, rarer, higher-stakes event. Not
+  yet usable end to end: PyPI's trusted-publisher entry for this repo/workflow/environment still
+  needs a one-time setup on pypi.org before the first release is cut.
+
+
+## 2026-08-03 (real `symphysis` CLI: new, add-agent, fix-survey, report)
+
+- Replaced `cli.py`'s 50-line argparse script (one subcommand, `run`) with a Typer app: `new`
+  (scaffold `survey.yaml` + `agents/` for bwm/ahp/hierarchical_bwm), `add-agent` (copy a card from
+  the Agent Library via `--from-library`, or create one fresh from role/provider/model flags),
+  `run` (unchanged behavior), `report` (regenerate the report/charts by replaying each agent's
+  already-accepted `samples/*.json` from disk and re-solving, without calling any provider,
+  useful after hand-correcting a malformed sample), and `fix-survey` (static validation via new
+  `survey_checks.py`: schema, hierarchical_bwm level-graph integrity, dangling RAG corpus paths,
+  unknown role packs, missing prompt templates).
+- New `orchestrator.regenerate_report()`, sharing a factored-out `_solve_and_write_report()` with
+  `run_survey()` so both the live-run path and the disk-replay path solve/render identically.
+- A freshly created agent card (via `add-agent` without `--from-library`) gets its own copy of a
+  new bundled default system-prompt template (`_bundled_prompts/expert_panel_system.txt`) written
+  as an *absolute* path inside the survey folder, so a generated survey works regardless of the
+  process's CWD, unlike the example cards' repo-root-relative convention.
+- Verified against a genuinely clean pip install (build the wheel, install into a fresh venv, run
+  every subcommand from an arbitrary directory with no repo checkout at all), in addition to new
+  `tests/test_cli.py` (CliRunner, 12 cases), `tests/test_regenerate_report.py` (3 cases), and
+  `tests/test_survey_checks.py` (6 cases).
+
+
+## 2026-08-03 (package `agentic_survey` for PyPI as `symphysis`)
+
+- New `pyproject.toml` (PEP 621): core dependencies are only what `agentic_survey` needs
+  unconditionally at import time (`pyyaml`, `requests`, `cryptography`, `numpy`, `scipy`, `pymc`,
+  `matplotlib`, `typer`); hosted-provider SDKs, the embedding-based RAG backend, and the FastAPI
+  web stack move to optional extras (`providers`/`rag`/`web`/`all`), matching how those imports
+  are already guarded in code. `[project.scripts]`: `symphysis = agentic_survey.cli:main`.
+- New `scripts/verify_clean_install.py`: runs a full BWM survey end to end via a manual-provider
+  agent, using only the installed package, from outside this repo entirely. Runs in CI as a new
+  `Package` job (`.github/workflows/ci-cd.yml`) on every push, so a packaging regression (missing
+  package-data, a dependency only satisfied by this repo's own dev environment) is caught
+  immediately rather than only once by hand before a release.
+- README's "Packaging" section rewritten from a future-enhancements wishlist to describe what's
+  actually implemented now.
+
+
+## 2026-08-03 (fix: CI/CD lint failures, and the real non-contributing-agent bug)
+
+- Fixed 13 ruff lint errors (ambiguous variable name `l` in `reporting.py`, unused imports across
+  several `web/backend/` modules, an f-string without placeholders in `bwm_classical.py`) that had
+  been failing the `Validate` job on every push, silently blocking `Test` and `Deploy` from ever
+  running.
+- Found and fixed the actual root cause of every agent finishing `accepted_count: 0` on a live
+  `bsi-hawc-bwm` re-run, even after the reject-and-repair fix (see the entry above this one in
+  `diagnostics.md`) had already been deployed: `HierarchicalBWMInstrument.parse` gated its
+  self-rating checks on the *shared* errors list across all 7 levels, not the current level's own
+  problems, so once any level had an error every later level's identical mistake was silently
+  never even checked. See `diagnostics.md` for the full root-cause writeup and the new
+  regression test.
+
+
 ## 2026-08-03 (Python packaging + CLI plan)
 
 - New `docs/packaging-plan.md`: a step-by-step plan for making `agentic_survey` a real

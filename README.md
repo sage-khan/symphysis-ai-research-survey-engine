@@ -715,16 +715,29 @@ directly they extend the current base (AHP is implemented; see
 
 ### Packaging
 
-See `docs/packaging-plan.md` for the detailed, step-by-step plan behind this section.
-
-- **Linux CLI**: a proper `symphysis` command (create a survey, add an
-  agent, run it, generate a report) as a first-class entry point, not just
-  the web UI. The existing `agentic_survey.cli` module is the CLI-mode
-  precursor this would extend.
-- **Installable Python package**: publish `agentic_survey` to PyPI so the
-  core engine (Agent Cards, providers, instruments, guardrails, solvers)
-  can be depended on directly by another project without cloning this
-  repository, with the web UI remaining an optional extra.
+- **Linux CLI (done)**: `symphysis` (`pyproject.toml`'s `[project.scripts]`
+  entry point, built with Typer in `src/agentic_survey/cli.py`) covers
+  `new` (scaffold a survey), `add-agent` (from the Agent Library or from
+  flags), `run`, `report` (regenerate the report/charts from
+  already-accepted samples on disk without calling any provider), and
+  `fix-survey` (static validation of a survey's config, see
+  `survey_checks.py`): a first-class alternative to the web UI, not a
+  stripped-down fallback for it.
+- **Installable Python package (done)**: `agentic_survey` installs
+  standalone via `pip install symphysis` (the PyPI distribution name; the
+  importable module stays `agentic_survey` for backward compatibility
+  with every existing survey folder). Core dependencies are only what the
+  engine needs unconditionally at import time; hosted-provider SDKs, the
+  embedding-based RAG backend, and the web UI are optional extras
+  (`symphysis[providers]`, `symphysis[rag]`, `symphysis[web]`,
+  `symphysis[all]`). Verified against a genuinely clean virtualenv with no
+  repo checkout on disk (`scripts/verify_clean_install.py`, run in CI as
+  the `Package` job on every push, and again before any PyPI release via
+  `.github/workflows/publish.yml`'s trusted-publisher OIDC flow).
+- **PyPI release**: not yet cut. `publish.yml` triggers on a GitHub
+  Release being published; PyPI's trusted-publisher entry for this
+  repo/workflow/environment still needs a one-time setup on pypi.org
+  before the first `v0.1.0` tag.
 - **Kubernetes manifests**: `infrastructure/kubernetes/` is reserved for
   this (Deployment, Service, a ConfigMap for `config/defaults.yaml`, a
   PersistentVolumeClaim for `surveys/` and `agents_library/`) once a
