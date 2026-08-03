@@ -45,7 +45,7 @@ function blankForm(cfg = {}) {
   };
 }
 
-export default function AgentForm({ surveyId, existing, onSaved, onCancel }) {
+export default function AgentForm({ surveyId, scope = "survey", existing, onSaved, onCancel }) {
   const [form, setForm] = useState(existing || blankForm());
   const [providers, setProviders] = useState([]);
   const [ollamaModels, setOllamaModels] = useState([]);
@@ -88,7 +88,10 @@ export default function AgentForm({ surveyId, existing, onSaved, onCancel }) {
           allowed_providers: form.permissions.allowed_providers || [form.model.provider],
         },
       };
-      if (isEdit) {
+      if (scope === "library") {
+        if (isEdit) await api.updateLibraryAgent(form.agent_id, body);
+        else await api.createLibraryAgent(body);
+      } else if (isEdit) {
         await api.updateAgent(surveyId, form.agent_id, body);
       } else {
         await api.createAgent(surveyId, body);
@@ -104,7 +107,7 @@ export default function AgentForm({ surveyId, existing, onSaved, onCancel }) {
   return (
     <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20 }}>
-        <h3>{isEdit ? `Edit ${existing.agent_id}` : "New agent"}</h3>
+        <h3>{isEdit ? `Edit ${existing.agent_id}` : scope === "library" ? "New library agent" : "New agent"}</h3>
         <button className="btn" onClick={onCancel}>
           Close
         </button>
@@ -244,9 +247,19 @@ export default function AgentForm({ surveyId, existing, onSaved, onCancel }) {
           <input
             value={form.rag.corpus_path || ""}
             onChange={(e) => set("rag.corpus_path", e.target.value)}
-            placeholder={`surveys/${surveyId}/rag_corpora/${form.agent_id || "<agent-id>"}`}
+            placeholder={
+              scope === "library"
+                ? `agents_library/rag_corpora/${form.agent_id || "<agent-id>"}`
+                : `surveys/${surveyId}/rag_corpora/${form.agent_id || "<agent-id>"}`
+            }
             style={{ width: "100%" }}
           />
+          {scope === "library" && (
+            <div className="mono-dim" style={{ marginTop: 4 }}>
+              A RAG corpus set here travels with this agent wherever it's assigned. Make sure the
+              path exists before running a survey it's assigned to (this form doesn't upload files).
+            </div>
+          )}
         </label>
       )}
 

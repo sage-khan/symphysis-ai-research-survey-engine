@@ -60,4 +60,13 @@ export const api = {
     request(`/api/surveys/${surveyId}/agents/${agentId}`, { method: "PUT", body: JSON.stringify(body) }),
   deleteAgent: (surveyId, agentId) => request(`/api/surveys/${surveyId}/agents/${agentId}`, { method: "DELETE" }),
   getTrace: (surveyId, agentId) => request(`/api/surveys/${surveyId}/agents/${agentId}/trace`),
+
+  listLibraryAgents: () => request("/api/library/agents"),
+  getLibraryAgent: (agentId) => request(`/api/library/agents/${agentId}`),
+  createLibraryAgent: (body) => request("/api/library/agents", { method: "POST", body: JSON.stringify(body) }),
+  updateLibraryAgent: (agentId, body) =>
+    request(`/api/library/agents/${agentId}`, { method: "PUT", body: JSON.stringify(body) }),
+  deleteLibraryAgent: (agentId) => request(`/api/library/agents/${agentId}`, { method: "DELETE" }),
+  assignLibraryAgentToSurvey: (agentId, surveyId) =>
+    request(`/api/library/agents/${agentId}/assign/${surveyId}`, { method: "POST" }),
 };

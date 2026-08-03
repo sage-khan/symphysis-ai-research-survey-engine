@@ -1,11 +1,13 @@
 import { useState } from "react";
 import SurveysPage from "./pages/SurveysPage.jsx";
 import SurveyDetailPage from "./pages/SurveyDetailPage.jsx";
+import AgentLibraryPage from "./pages/AgentLibraryPage.jsx";
 import SettingsPage from "./pages/SettingsPage.jsx";
 
 const NAV = [
   { key: "surveys", label: "Surveys", glyph: "01" },
-  { key: "settings", label: "Settings", glyph: "02" },
+  { key: "library", label: "Agent Library", glyph: "02" },
+  { key: "settings", label: "Settings", glyph: "03" },
 ];
 
 export default function App() {
@@ -78,6 +80,8 @@ export default function App() {
       <main style={{ flex: 1, padding: "32px 40px", maxWidth: 1400 }}>
         {page === "settings" ? (
           <SettingsPage />
+        ) : page === "library" ? (
+          <AgentLibraryPage />
         ) : selectedSurvey ? (
           <SurveyDetailPage surveyId={selectedSurvey} onBack={() => setSelectedSurvey(null)} />
         ) : (

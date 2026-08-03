@@ -3,6 +3,38 @@
 All notable changes to SAGE (formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (Agent Library: reusable agents across surveys)
+
+- New `agents_library/` (sibling to `surveys/`): Agent Cards that aren't
+  tied to any one survey. `web/backend/routers/library.py` provides full
+  CRUD (`GET/POST /api/library/agents`, `GET/PUT/DELETE
+  /api/library/agents/{id}`) plus `POST /api/library/agents/{id}/assign/{survey_id}`,
+  which copies (materializes) the library card into that survey's own
+  `agents/` directory -- same `agent_id`, same `did:key` identity -- so the
+  existing orchestrator/storage/run pipeline (which only ever reads
+  `surveys/<id>/agents/*.json`) needed no changes at all. Reuses
+  `agents.py`'s `AgentIn` Pydantic schema and helpers rather than
+  duplicating it; library and survey-scoped agents are the exact same
+  Agent Card shape, just rooted in a different directory.
+- New **Agent Library** page (sidebar nav, between Surveys and Settings):
+  lists every reusable agent (ID, display name, role/expertise,
+  provider/model, RAG, tools, DID) with create/edit/delete, reusing
+  `AgentForm` in a new `scope="library"` mode.
+- Survey detail page's Agents tab gained a **"+ Add from library"** picker
+  alongside "+ Add agent": pick any library agent and assign it into the
+  current survey with one click.
+- `tests/test_web_library.py`: the first FastAPI `TestClient`-based test in
+  this repo (httpx is already a transitive dependency), covering create,
+  list, duplicate-create rejection, assign, duplicate-assign rejection,
+  404s for a missing agent/survey, delete, and that deleting the library
+  original leaves an already-assigned survey copy untouched. 47/47 tests
+  pass.
+- Live-verified beyond the test: created a real library agent via the API,
+  assigned it into the live `trustrouter-agent-panel-live-20260803`
+  survey, confirmed the identical DID appeared in that survey's agent
+  list, confirmed the duplicate-assign 409, and confirmed the picker
+  renders correctly on the actual running page (screenshot).
+
 ## 2026-08-03 (rename executed: sage -> survey-agent-generation-engine)
 
 - GitHub repo renamed again, same day: `sage-khan/sage` ->

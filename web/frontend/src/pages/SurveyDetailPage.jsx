@@ -209,9 +209,63 @@ function AnalyticsTab({ surveyId, refreshKey }) {
   );
 }
 
+function AddFromLibrary({ surveyId, onAdded, onCancel }) {
+  const [libraryAgents, setLibraryAgents] = useState([]);
+  const [selected, setSelected] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    api.listLibraryAgents().then(setLibraryAgents);
+  }, []);
+
+  async function handleAssign() {
+    if (!selected) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await api.assignLibraryAgentToSurvey(selected, surveyId);
+      onAdded();
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="panel" style={{ padding: 24, marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-end" }}>
+      <label style={{ flex: 1 }}>
+        <div className="mono-dim">Library agent</div>
+        <select value={selected} onChange={(e) => setSelected(e.target.value)} style={{ width: "100%" }}>
+          <option value="">select an agent from the library...</option>
+          {libraryAgents.map((a) => (
+            <option key={a.agent_id} value={a.agent_id}>
+              {a.agent_id} -- {a.display_name || a.role} ({a.provider}/{a.model})
+            </option>
+          ))}
+        </select>
+        {libraryAgents.length === 0 && (
+          <div className="mono-dim" style={{ marginTop: 4 }}>
+            No library agents yet -- create one on the Agent Library page first.
+          </div>
+        )}
+      </label>
+      <button className="btn btn-primary" onClick={handleAssign} disabled={busy || !selected}>
+        Add to survey
+      </button>
+      <button className="btn" onClick={onCancel}>
+        Cancel
+      </button>
+      {error && <div style={{ color: "var(--red)" }}>{error}</div>}
+    </div>
+  );
+}
+
 function AgentsTab({ surveyId, onChanged }) {
   const [agents, setAgents] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [showLibraryPicker, setShowLibraryPicker] = useState(false);
   const [editing, setEditing] = useState(null);
   const [traceAgent, setTraceAgent] = useState(null);
 
@@ -232,7 +286,10 @@ function AgentsTab({ surveyId, onChanged }) {
 
   return (
     <div>
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 16 }}>
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginBottom: 16 }}>
+        <button className="btn" onClick={() => setShowLibraryPicker((v) => !v)}>
+          {showLibraryPicker ? "Cancel" : "+ Add from library"}
+        </button>
         <button
           className="btn btn-primary"
           onClick={() => {
@@ -243,6 +300,17 @@ function AgentsTab({ surveyId, onChanged }) {
           + Add agent
         </button>
       </div>
+
+      {showLibraryPicker && (
+        <AddFromLibrary
+          surveyId={surveyId}
+          onAdded={() => {
+            setShowLibraryPicker(false);
+            refresh();
+          }}
+          onCancel={() => setShowLibraryPicker(false)}
+        />
+      )}
 
       {showForm && (
         <AgentForm

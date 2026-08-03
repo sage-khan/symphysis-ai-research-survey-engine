@@ -15,7 +15,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import paths  # noqa: F401 - import for its sys.path side effect
-from .routers import agents, settings, surveys
+from .routers import agents, library, settings, surveys
 
 from agentic_survey import app_config  # noqa: E402 - must follow the `paths` import above
 
@@ -44,6 +44,7 @@ app.add_middleware(
 
 app.include_router(surveys.router)
 app.include_router(agents.router)
+app.include_router(library.router)
 app.include_router(settings.router)
 
 
