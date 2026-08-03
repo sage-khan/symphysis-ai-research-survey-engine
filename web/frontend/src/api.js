@@ -39,7 +39,7 @@ export const api = {
   downloadUrl: (id) => `${BASE}/api/surveys/${id}/download`,
 
   listProviders: () => request("/api/providers"),
-  listOllamaModels: () => request("/api/ollama-models"),
+  listModelsForProvider: (provider) => request(`/api/models/${provider}`),
 
   getLlmSettings: () => request("/api/settings/llm"),
   saveLlmSettings: (body) => request("/api/settings/llm", { method: "PUT", body: JSON.stringify(body) }),

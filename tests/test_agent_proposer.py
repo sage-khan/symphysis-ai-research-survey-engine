@@ -65,10 +65,10 @@ def test_rejects_invalid_source_value():
         parse_proposals(raw, known_library_ids=[])
 
 
-def test_flags_hallucinated_ollama_model_not_actually_pulled(monkeypatch):
-    from backend import agent_proposer
+def test_flags_hallucinated_model_not_actually_available(monkeypatch):
+    from backend import agent_proposer, model_catalog
 
-    monkeypatch.setattr(agent_proposer, "_ollama_models_available", lambda: ["qwen2.5:14b", "mistral:7b"])
+    monkeypatch.setattr(model_catalog, "list_models", lambda p: {"models": ["qwen2.5:14b", "mistral:7b"], "error": None})
     proposals = [
         {"source": "new", "agent_id": "a", "model": {"provider": "ollama", "name": "qwen2.5:14b"}},
         {"source": "new", "agent_id": "b", "model": {"provider": "ollama", "name": "code-davinci"}},
@@ -80,10 +80,21 @@ def test_flags_hallucinated_ollama_model_not_actually_pulled(monkeypatch):
     assert "model_available" not in proposals[2]
 
 
-def test_skips_availability_check_when_ollama_unreachable(monkeypatch):
-    from backend import agent_proposer
+def test_skips_availability_check_for_manual_provider(monkeypatch):
+    from backend import agent_proposer, model_catalog
 
-    monkeypatch.setattr(agent_proposer, "_ollama_models_available", lambda: [])
+    calls = []
+    monkeypatch.setattr(model_catalog, "list_models", lambda p: calls.append(p) or {"models": [], "error": "no list"})
+    proposals = [{"source": "new", "agent_id": "a", "model": {"provider": "manual", "name": "gemini-2.5-pro"}}]
+    agent_proposer._annotate_model_availability(proposals)
+    assert "model_available" not in proposals[0]
+    assert calls == []  # never even asked -- manual has no API list by definition
+
+
+def test_gives_benefit_of_the_doubt_when_catalog_unreachable(monkeypatch):
+    from backend import agent_proposer, model_catalog
+
+    monkeypatch.setattr(model_catalog, "list_models", lambda p: {"models": [], "error": "unreachable"})
     proposals = [{"source": "new", "agent_id": "a", "model": {"provider": "ollama", "name": "anything"}}]
     agent_proposer._annotate_model_availability(proposals)
     assert proposals[0]["model_available"] is True

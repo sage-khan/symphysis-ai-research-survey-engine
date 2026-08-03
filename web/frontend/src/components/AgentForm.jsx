@@ -48,18 +48,29 @@ function blankForm(cfg = {}) {
 export default function AgentForm({ surveyId, scope = "survey", existing, onSaved, onCancel }) {
   const [form, setForm] = useState(existing || blankForm());
   const [providers, setProviders] = useState([]);
-  const [ollamaModels, setOllamaModels] = useState([]);
+  const [modelCatalog, setModelCatalog] = useState({ models: [], error: null });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const isEdit = Boolean(existing);
 
   useEffect(() => {
     api.listProviders().then(setProviders);
-    api.listOllamaModels().then((r) => setOllamaModels(r.models || []));
     if (!isEdit) {
       api.getAppConfig().then((cfg) => setForm(blankForm(cfg))).catch(() => {});
     }
   }, []);
+
+  // Re-fetch the real, live model list every time the provider changes --
+  // never a hardcoded or remembered list, since a hosted provider's
+  // catalog (or whether its API key is even configured) can change.
+  useEffect(() => {
+    const provider = form.model.provider;
+    if (provider === "manual") {
+      setModelCatalog({ models: [], error: null });
+      return;
+    }
+    api.listModelsForProvider(provider).then(setModelCatalog);
+  }, [form.model.provider]);
 
   function set(path, value) {
     setForm((prev) => {
@@ -182,10 +193,10 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
         </label>
         <label>
           <div className="mono-dim">Model name</div>
-          {form.model.provider === "ollama" && ollamaModels.length > 0 ? (
+          {modelCatalog.models.length > 0 ? (
             <select value={form.model.name} onChange={(e) => set("model.name", e.target.value)} style={{ width: "100%" }}>
               <option value="">select a model...</option>
-              {ollamaModels.map((m) => (
+              {modelCatalog.models.map((m) => (
                 <option key={m} value={m}>
                   {m}
                 </option>
@@ -198,6 +209,12 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
               placeholder={form.model.provider === "manual" ? "gemini-2.5-pro" : "model name"}
               style={{ width: "100%" }}
             />
+          )}
+          {form.model.provider !== "manual" && modelCatalog.error && (
+            <div className="mono-dim" style={{ color: "var(--amber)", marginTop: 4 }}>
+              ⚠ Couldn't fetch {form.model.provider}'s real model list ({modelCatalog.error}) -- typing a model name
+              here is not validated against anything real.
+            </div>
           )}
         </label>
       </div>

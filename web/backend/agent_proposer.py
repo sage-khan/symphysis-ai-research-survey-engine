@@ -55,20 +55,6 @@ def _build_user_prompt(requirement: str, survey_context: Dict[str, Any], library
     )
 
 
-def _ollama_models_available() -> List[str]:
-    import os
-
-    import requests
-
-    base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
-    try:
-        resp = requests.get(f"{base_url}/api/tags", timeout=5)
-        resp.raise_for_status()
-        return [m["name"] for m in resp.json().get("models", [])]
-    except requests.RequestException:
-        return []
-
-
 class ProposalError(Exception):
     """Raised when the model's response can't be parsed into valid
     proposals. Carries the raw text so the caller can show the user
@@ -136,19 +122,28 @@ def propose_agents(
 
 def _annotate_model_availability(proposals: List[Dict[str, Any]]) -> None:
     """The orchestrator LLM can (and does, observed live) hallucinate a
-    plausible-sounding but non-existent Ollama model name (e.g. proposing
-    "code-davinci" as an "ollama" model). That's not caught by
-    parse_proposals's schema validation -- it's a real model name, just not
-    one actually pulled on this Ollama host. Rather than silently letting
-    that through (where it would only fail once the survey is actually run,
-    long after approval) or silently rejecting the whole proposal (the
-    model list is a live, mutable fact the human reviewing it can just as
-    easily fix), annotate each "new" ollama entry with whether its model is
-    currently available, so the review UI can flag it and a human decides
-    what to do -- pick a real model, or leave it and pull that model first."""
-    new_ollama_entries = [p for p in proposals if p.get("source") == "new" and p.get("model", {}).get("provider") == "ollama"]
-    if not new_ollama_entries:
-        return
-    available = set(_ollama_models_available())
-    for entry in new_ollama_entries:
-        entry["model_available"] = (not available) or (entry["model"]["name"] in available)
+    plausible-sounding but non-existent model name for ANY provider, not
+    just Ollama (observed: "code-davinci"/"legal-expert"/"llama-2-7b-chat"
+    for provider: ollama; the same failure mode applies just as easily to
+    a hosted provider name). That's not caught by parse_proposals's schema
+    validation -- it's a syntactically real model name, just not one this
+    provider actually serves. Rather than silently letting that through
+    (where it would only fail once the survey is actually run, long after
+    approval) or silently rejecting the whole proposal (the model list is
+    a live, mutable fact the human reviewing it can just as easily fix),
+    annotate every "new" entry with whether its model is confirmed
+    available in that provider's real catalog (model_catalog.py), so the
+    review UI can flag it and a human decides what to do -- pick a real
+    model, or leave it and pull/enable that model first. `provider:
+    manual` entries are skipped -- there is no API model list for them by
+    definition."""
+    from .model_catalog import model_is_available
+
+    for entry in proposals:
+        if entry.get("source") != "new":
+            continue
+        provider = entry.get("model", {}).get("provider")
+        name = entry.get("model", {}).get("name")
+        if not provider or not name or provider == "manual":
+            continue
+        entry["model_available"] = model_is_available(provider, name)

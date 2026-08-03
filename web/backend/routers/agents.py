@@ -3,12 +3,10 @@
 from __future__ import annotations
 
 import json
-import os
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import requests
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
@@ -121,16 +119,15 @@ def list_providers() -> List[str]:
     return KNOWN_PROVIDERS
 
 
-@router.get("/ollama-models")
-def list_ollama_models() -> Dict[str, Any]:
-    base_url = os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
-    try:
-        resp = requests.get(f"{base_url}/api/tags", timeout=5)
-        resp.raise_for_status()
-        data = resp.json()
-        return {"base_url": base_url, "models": [m["name"] for m in data.get("models", [])]}
-    except requests.RequestException as exc:
-        return {"base_url": base_url, "models": [], "error": str(exc)}
+@router.get("/models/{provider}")
+def list_models_for_provider(provider: str) -> Dict[str, Any]:
+    """The live, real model list for `provider` -- Ollama's own /api/tags,
+    or each hosted provider's own list-models API, never a hardcoded or
+    guessed list. Every model picker in the UI reads through this, so a
+    user can only select a model that's actually confirmed available."""
+    from ..model_catalog import list_models
+
+    return list_models(provider)
 
 
 @router.get("/surveys/{survey_id}/agents")

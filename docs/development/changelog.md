@@ -3,6 +3,46 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (anti-hallucination: real, live model lists for every provider)
+
+- New `web/backend/model_catalog.py`: `list_models(provider)` fetches the
+  actual, live model list directly from that provider -- Ollama's own
+  `/api/tags`, or each hosted provider's own list-models API (OpenAI,
+  OpenRouter, Groq, and Gemini via its OpenAI-compat endpoint all expose
+  `GET {base}/models`; Anthropic has its own `GET /v1/models` with an
+  `x-api-key` header). Never a hardcoded list, never trusting an LLM's
+  guess. Degrades to `{"models": [], "error": "..."}` rather than raising
+  when a provider is unreachable or has no API key configured, so callers
+  (a UI dropdown, a validation check) can show *why* instead of crashing.
+  `model_is_available(provider, model)` gives the benefit of the doubt
+  (returns `True`) when the catalog itself couldn't be fetched -- absence
+  of evidence isn't evidence of a hallucination.
+- `GET /api/models/{provider}` replaces the Ollama-only
+  `GET /api/ollama-models`; every model picker in the UI (the Agent
+  form, the natural-language proposer's model picker) now re-fetches the
+  real list every time the selected provider changes, for every provider,
+  not just Ollama. Falls back to a free-text field with a visible warning
+  when the list can't be fetched (no key configured, unreachable).
+- `agent_proposer._annotate_model_availability` (added last session for
+  Ollama-only) now checks every provider's "new" proposal against
+  `model_catalog.model_is_available`, skipping `provider: manual` entries
+  (no API list exists for those by definition). This is the fix Dan asked
+  for directly after seeing the Ollama-only version catch a hallucinated
+  model name -- the same failure mode applies to every hosted provider,
+  not just Ollama.
+- `tests/test_model_catalog.py`: 9 new tests (one per provider's request
+  shape, missing-key handling, manual/unknown-provider handling,
+  unreachable-host degradation, benefit-of-the-doubt behaviour).
+  `tests/test_agent_proposer.py`'s two Ollama-only availability tests
+  rewritten against the generalized implementation. 67/67 tests pass.
+- Live-verified: `GET /api/models/{provider}` for all 8 providers on the
+  real deployment (Ollama returns its 9 real pulled models; every
+  hosted provider correctly reports its missing API key rather than
+  crashing); a real browser screenshot shows the Agent form's model field
+  switching from a real Ollama dropdown to a free-text field with the
+  "ANTHROPIC_API_KEY is not set" warning the moment the provider is
+  changed to Anthropic.
+
 ## 2026-08-03 (rename executed, again: survey-agent-generation-engine -> Symphysis)
 
 - GitHub repo renamed a third time, same day: `sage-khan/survey-agent-generation-engine`

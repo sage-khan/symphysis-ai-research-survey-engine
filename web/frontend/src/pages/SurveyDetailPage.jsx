@@ -266,7 +266,7 @@ function AgentProposer({ surveyId, onApproved, onCancel }) {
   const [requirement, setRequirement] = useState("");
   const [providers, setProviders] = useState([]);
   const [provider, setProvider] = useState("ollama");
-  const [ollamaModels, setOllamaModels] = useState([]);
+  const [modelCatalog, setModelCatalog] = useState({ models: [], error: null });
   const [model, setModel] = useState("");
   const [proposals, setProposals] = useState(null);
   const [results, setResults] = useState(null);
@@ -275,11 +275,14 @@ function AgentProposer({ surveyId, onApproved, onCancel }) {
 
   useEffect(() => {
     api.listProviders().then(setProviders);
-    api.listOllamaModels().then((r) => {
-      setOllamaModels(r.models || []);
+  }, []);
+
+  useEffect(() => {
+    api.listModelsForProvider(provider).then((r) => {
+      setModelCatalog(r);
       if (r.models?.length) setModel(r.models[0]);
     });
-  }, []);
+  }, [provider]);
 
   async function handlePropose() {
     setBusy(true);
@@ -357,9 +360,9 @@ function AgentProposer({ surveyId, onApproved, onCancel }) {
         </label>
         <label>
           <div className="mono-dim">Model</div>
-          {provider === "ollama" && ollamaModels.length > 0 ? (
+          {modelCatalog.models.length > 0 ? (
             <select value={model} onChange={(e) => setModel(e.target.value)} style={{ width: "100%" }}>
-              {ollamaModels.map((m) => (
+              {modelCatalog.models.map((m) => (
                 <option key={m} value={m}>
                   {m}
                 </option>
@@ -367,6 +370,11 @@ function AgentProposer({ surveyId, onApproved, onCancel }) {
             </select>
           ) : (
             <input value={model} onChange={(e) => setModel(e.target.value)} style={{ width: "100%" }} />
+          )}
+          {modelCatalog.error && (
+            <div className="mono-dim" style={{ color: "var(--amber)", marginTop: 4 }}>
+              ⚠ {modelCatalog.error}
+            </div>
           )}
         </label>
         <button className="btn btn-primary" onClick={handlePropose} disabled={busy || !requirement.trim() || !model}>
