@@ -3,6 +3,48 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (agent tools: real web search + shared survey-level knowledge repo)
+
+- New `src/agentic_survey/tools/web_search.py`: real web search via the
+  Tavily API (built specifically for LLM-agent tool use). Requires
+  `TAVILY_API_KEY`; raises `WebSearchError` (never fabricates a result) if
+  it's not set or the request fails.
+- `Agent` (`agent.py`) now combines three context sources before every
+  prompt, not just RAG: (1) the agent's own dedicated RAG corpus if
+  `rag.enabled`, unchanged; (2) the survey's shared knowledge repository
+  (`surveys/<id>/knowledge_repo/`) -- picked up automatically for every
+  agent in that survey, no per-agent flag, matching how shared reference
+  material works for a human panel; (3) a real web search if `"web_search"`
+  is in the agent's `tools` list. A web search failure degrades to no
+  results (logged via `storage.write_tool_call`, same mechanism RAG
+  retrieval already used) rather than failing the agent -- an optional
+  grounding tool being briefly unavailable shouldn't block an otherwise
+  answerable survey.
+- New `web/backend/routers/knowledge.py`:
+  `GET/POST /api/surveys/{id}/knowledge` (list/upload) and
+  `DELETE .../knowledge/{filename}`. `.md`/`.txt` stored as-is; `.pdf`/
+  `.docx` converted to plain text at upload time via the same full-text
+  extraction the survey-criteria document parser uses internally (its
+  *public* `parse_pdf`/`parse_docx` only keep lines matching a narrow
+  "CODE: Label" heuristic, which would silently discard almost all of a
+  real prose document -- caught this before it shipped, not after).
+- New **Knowledge** tab on the survey detail page (upload/list/delete), a
+  **Web search** section on Settings (Tavily key, alongside the existing
+  hosted-LLM-provider keys but visually separate since Tavily is a search
+  API, not a selectable agent provider), and a `web_search` tools checkbox
+  on the Agent form (previously `tools: []` had no UI control at all).
+- `tests/test_web_search.py` (5), `tests/test_agent_tools.py` (6): 11 new
+  tests covering the Tavily client, the shared-knowledge auto-pickup, the
+  web_search tool only firing when granted, and graceful degradation on
+  failure (with the failure itself logged). 78/78 tests pass repo-wide.
+- **Live-verified with a real Ollama call, not just mocked tests**: created
+  a throwaway survey, uploaded a knowledge file containing a fictional,
+  invented-for-this-test marker phrase that exists nowhere else, ran a
+  real agent against it, and confirmed that exact phrase appears in the
+  real outgoing `prompt.md` sent to mistral:7b, labelled
+  `[shared knowledge: kb_marker.md]` -- proof the retrieval is real, not
+  simulated. Test survey deleted afterward.
+
 ## 2026-08-03 (anti-hallucination: real, live model lists for every provider)
 
 - New `web/backend/model_catalog.py`: `list_models(provider)` fetches the

@@ -74,4 +74,13 @@ export const api = {
     request(`/api/surveys/${surveyId}/propose-agents`, { method: "POST", body: JSON.stringify(body) }),
   approveAgents: (surveyId, proposals) =>
     request(`/api/surveys/${surveyId}/approve-agents`, { method: "POST", body: JSON.stringify({ proposals }) }),
+
+  listKnowledgeFiles: (surveyId) => request(`/api/surveys/${surveyId}/knowledge`),
+  uploadKnowledgeFile: (surveyId, file) => {
+    const form = new FormData();
+    form.append("file", file);
+    return request(`/api/surveys/${surveyId}/knowledge`, { method: "POST", body: form });
+  },
+  deleteKnowledgeFile: (surveyId, filename) =>
+    request(`/api/surveys/${surveyId}/knowledge/${encodeURIComponent(filename)}`, { method: "DELETE" }),
 };

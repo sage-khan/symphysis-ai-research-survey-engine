@@ -48,6 +48,11 @@ API_KEY_ENV_VARS = {
     "groq": "GROQ_API_KEY",
     "gemini": "GEMINI_API_KEY",
     "xai": "XAI_API_KEY",
+    # Not an LLM provider -- Tavily is the web_search tool's backing search
+    # API (see agentic_survey.tools.web_search) -- but it's stored and
+    # persisted through the exact same key/env-var mechanism as the LLM
+    # provider keys above, so it doesn't need its own duplicate machinery.
+    "tavily": "TAVILY_API_KEY",
 }
 
 
@@ -82,6 +87,7 @@ class ApiKeysIn(BaseModel):
     groq: Optional[str] = None
     gemini: Optional[str] = None
     xai: Optional[str] = None
+    tavily: Optional[str] = None
 
 
 def _read_persisted() -> Dict[str, Any]:

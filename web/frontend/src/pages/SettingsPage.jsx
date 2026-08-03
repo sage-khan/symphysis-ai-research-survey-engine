@@ -199,7 +199,7 @@ function OllamaEndpointSettings() {
   );
 }
 
-function ApiKeySettings() {
+function ApiKeySettings({ title, description, keyProviders }) {
   const [status, setStatus] = useState({});
   const [values, setValues] = useState({});
   const [saved, setSaved] = useState(false);
@@ -231,16 +231,13 @@ function ApiKeySettings() {
   }
 
   return (
-    <div className="panel" style={{ padding: 24, maxWidth: 640 }}>
-      <h3 style={{ marginBottom: 4 }}>Hosted-provider API keys</h3>
+    <div className="panel" style={{ padding: 24, maxWidth: 640, marginBottom: 24 }}>
+      <h3 style={{ marginBottom: 4 }}>{title}</h3>
       <div className="mono-dim" style={{ marginBottom: 18 }}>
-        Lets agents use hosted models (Claude, ChatGPT, OpenRouter, Groq, Gemini, Grok) in addition
-        to local Ollama models. Keys are stored on this machine only (gitignored,{" "}
-        <code>web/backend/data/llm_settings.json</code>), applied to the running process, and never
-        sent back to the browser once saved -- only whether a key is currently set is shown.
+        {description}
       </div>
 
-      {API_PROVIDERS.map((p) => (
+      {keyProviders.map((p) => (
         <label key={p.key} style={{ display: "block", marginBottom: 14 }}>
           <div className="mono-dim">
             {p.label} {status[p.key] && <span style={{ color: "var(--green)" }}>-- key configured</span>}
@@ -499,7 +496,35 @@ export default function SettingsPage() {
       </div>
 
       <OllamaEndpointSettings />
-      <ApiKeySettings />
+      <ApiKeySettings
+        title="Hosted-provider API keys"
+        description={
+          <>
+            Lets agents use hosted models (Claude, ChatGPT, OpenRouter, Groq, Gemini, Grok) in
+            addition to local Ollama models. Keys are stored on this machine only (gitignored,{" "}
+            <code>web/backend/data/llm_settings.json</code>), applied to the running process, and
+            never sent back to the browser once saved -- only whether a key is currently set is
+            shown.
+          </>
+        }
+        keyProviders={API_PROVIDERS}
+      />
+      <ApiKeySettings
+        title="Web search"
+        description={
+          <>
+            Lets an agent with <code>web_search</code> in its Agent Card's tools look things up
+            live instead of relying only on its own training data or a static RAG corpus. Backed by{" "}
+            <a href="https://tavily.com" target="_blank" rel="noreferrer">
+              Tavily
+            </a>
+            , an API built for LLM-agent search. Without a key here, any agent granted
+            <code> web_search</code> simply proceeds without search results (logged, not
+            fabricated) rather than failing.
+          </>
+        }
+        keyProviders={[{ key: "tavily", label: "Tavily" }]}
+      />
       <ConfigSettings />
     </div>
   );

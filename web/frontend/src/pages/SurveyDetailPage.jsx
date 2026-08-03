@@ -57,6 +57,97 @@ const STATUS_COLOR = {
   not_run: "var(--muted, #888)",
 };
 
+function formatBytes(n) {
+  if (n < 1024) return `${n} B`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(1)} KB`;
+  return `${(n / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function KnowledgeTab({ surveyId }) {
+  const [files, setFiles] = useState([]);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  async function refresh() {
+    setFiles(await api.listKnowledgeFiles(surveyId));
+  }
+
+  useEffect(() => {
+    refresh();
+  }, [surveyId]);
+
+  async function handleUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setBusy(true);
+    setError(null);
+    try {
+      await api.uploadKnowledgeFile(surveyId, file);
+      await refresh();
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+      e.target.value = "";
+    }
+  }
+
+  async function handleDelete(filename) {
+    if (!confirm(`Delete "${filename}" from the shared knowledge repository?`)) return;
+    await api.deleteKnowledgeFile(surveyId, filename);
+    refresh();
+  }
+
+  return (
+    <div>
+      <div className="mono-dim" style={{ marginBottom: 16, maxWidth: 720 }}>
+        Files uploaded here are shared, survey-wide background material -- every agent in this
+        survey retrieves relevant chunks from it automatically when the survey runs, with no
+        per-agent setup needed (distinct from a single role's own dedicated RAG corpus, configured
+        on that agent). .md/.txt are stored as-is; .pdf/.docx are converted to plain text on upload
+        (best-effort extraction, review the result if formatting mattered).
+      </div>
+
+      <div style={{ marginBottom: 20 }}>
+        <input type="file" accept=".md,.markdown,.txt,.pdf,.docx" onChange={handleUpload} disabled={busy} />
+        {error && <div style={{ color: "var(--red)", marginTop: 8 }}>{error}</div>}
+      </div>
+
+      <div className="panel">
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Size</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {files.map((f) => (
+              <tr key={f.filename}>
+                <td>{f.filename}</td>
+                <td className="mono-dim">{formatBytes(f.size_bytes)}</td>
+                <td style={{ textAlign: "right" }}>
+                  <button className="btn btn-danger" onClick={() => handleDelete(f.filename)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {files.length === 0 && (
+              <tr>
+                <td colSpan={3} className="mono-dim">
+                  No shared knowledge files yet.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 function AnalyticsTab({ surveyId, refreshKey }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
@@ -740,19 +831,20 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
       )}
 
       <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
-        {["agents", "results", "analytics"].map((t) => (
+        {["agents", "knowledge", "results", "analytics"].map((t) => (
           <button
             key={t}
             className="btn"
             style={tab === t ? { borderColor: "var(--amber)", color: "var(--amber)" } : {}}
             onClick={() => setTab(t)}
           >
-            {{ agents: "Agents", results: "Results", analytics: "Analytics" }[t]}
+            {{ agents: "Agents", knowledge: "Knowledge", results: "Results", analytics: "Analytics" }[t]}
           </button>
         ))}
       </div>
 
       {tab === "agents" && <AgentsTab surveyId={surveyId} />}
+      {tab === "knowledge" && <KnowledgeTab surveyId={surveyId} />}
       {tab === "results" && <ResultsTab surveyId={surveyId} refreshKey={resultsKey} />}
       {tab === "analytics" && <AnalyticsTab surveyId={surveyId} refreshKey={resultsKey} />}
     </div>

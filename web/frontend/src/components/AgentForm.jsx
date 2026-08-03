@@ -280,6 +280,25 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
         </label>
       )}
 
+      <div className="mono-dim" style={{ marginBottom: 8 }}>
+        Tools
+      </div>
+      <label style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+        <input
+          type="checkbox"
+          checked={form.tools.includes("web_search")}
+          onChange={(e) =>
+            set("tools", e.target.checked ? [...form.tools, "web_search"] : form.tools.filter((t) => t !== "web_search"))
+          }
+        />
+        <span>Web search (real-time lookup via Tavily -- configure the API key in Settings)</span>
+      </label>
+      <div className="mono-dim" style={{ marginBottom: 16 }}>
+        Every agent in a survey automatically has access to that survey's shared knowledge
+        repository (Knowledge tab) with no separate toggle -- same as a project's shared reference
+        material for a human panel.
+      </div>
+
       <label style={{ display: "block", marginBottom: 16 }}>
         <div className="mono-dim">Denylist patterns (one regex per line, guardrail scan)</div>
         <textarea
