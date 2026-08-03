@@ -3,6 +3,23 @@
 All notable changes to SAGE (formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (rename executed: sage -> survey-agent-generation-engine)
+
+- GitHub repo renamed again, same day: `sage-khan/sage` ->
+  `sage-khan/survey-agent-generation-engine` (the full descriptive name,
+  not the short acronym, as the project's canonical identity -- "SAGE"
+  stays the UI's display name/acronym). GitHub redirects both the original
+  `agentic-survey-tool` URL and the intermediate `sage` URL.
+- veritas server: checkout moved `/home/veritas/projects/sage` ->
+  `/home/veritas/projects/survey-agent-generation-engine`; backend
+  container recreated with the updated volume mount; Vite frontend
+  restarted from the new path. Same container name (`sage-backend`), same
+  ports/env vars. Verified: 46/46 tests pass, health checks green, browser
+  screenshot shows SAGE branding with zero console errors.
+- Fixed the two remaining literal `sage` path references from the previous
+  rename pass (README's repository-structure tree root and Docker volume
+  mount example; `project-details.md`'s Repository line).
+
 ## 2026-08-03 (de-hardcoded config: one source of truth, adjustable in UI or by editing a file)
 
 - New `config/defaults.yaml` (versioned baseline) + `agentic_survey/app_config.py`

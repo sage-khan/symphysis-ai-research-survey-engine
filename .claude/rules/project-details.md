@@ -22,8 +22,8 @@ SAGE as the project moves toward being a standalone product rather than a
 component scoped to one VERITAS paper.
 
 **Owner:** Muhammad Danyal (Sage) Khan (`dan@go.ugr.es`)
-**Repository:** `github.com/sage-khan/sage` (private, renamed from
-`agentic-survey-tool` on 2026-08-03; GitHub redirects the old URL)
+**Repository:** `github.com/sage-khan/survey-agent-generation-engine` (private, renamed from
+`agentic-survey-tool` on 2026-08-03, then again the same day to its current full name; GitHub redirects both old URLs)
 **Status:** Early, active development. Core (agents, providers, BWM
 instrument, guardrails, solvers, reporting) is built and tested; the web UI
 and multi-format survey parsing are being added.

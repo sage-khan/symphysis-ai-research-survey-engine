@@ -101,7 +101,7 @@ charts, per-agent trace files) as JSON/file responses.
 ## Repository structure
 
 ```
-sage/
+survey-agent-generation-engine/
 ├── src/agentic_survey/          # the core package -- see table below (import name kept stable)
 ├── config/
 │   └── prompts/                 # shared system-prompt templates (referenced by agent cards)
@@ -257,7 +257,7 @@ own IP/Tailscale address on whatever port you publish):
 ```bash
 docker run -d --name agentic-survey-backend \
   --network host \
-  -v /path/to/sage:/app \
+  -v /path/to/survey-agent-generation-engine:/app \
   -w /app \
   -e OLLAMA_BASE_URL=http://localhost:11434 \
   -e PYTHONPATH=/app/web:/app/src \
