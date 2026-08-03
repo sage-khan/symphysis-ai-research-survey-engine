@@ -15,6 +15,14 @@ This repository follows GitOps principles. All system behavior is derived from v
 3. **Pull requests are mandatory**: No direct commits to `main`. All changes require review.
 4. **Continuous reconciliation**: Systems converge automatically. Manual fixes are treated as incidents requiring follow-up commits.
 5. **Minimal blast radius**: Each change touches one logical concern and one environment.
+6. **Open source by default**: when choosing a library, service, or infrastructure component
+   (a search backend, a reranker, a vector database, an orchestration tool, anything), default
+   to a fully open-source option end to end. Only reach for a closed-source or SaaS-only
+   component when no viable open-source alternative exists for the actual requirement, and
+   record that reasoning in the decision (a commit message, an ADR, or a code comment) rather
+   than leaving it implicit. In practice there is very rarely no open-source option: evaluate at
+   least two real open-source alternatives before concluding otherwise. This is why Tavily
+   (closed-source web search) is being replaced; see the RAG/search-stack architecture proposal.
 
 ---
 
