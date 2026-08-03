@@ -921,6 +921,7 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
   const [tab, setTab] = useState("agents");
   const [status, setStatus] = useState({ status: "idle" });
   const [resultsKey, setResultsKey] = useState(0);
+  const [progress, setProgress] = useState(null);
 
   useEffect(() => {
     api.getSurvey(surveyId).then((s) => {
@@ -930,10 +931,18 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
   }, [surveyId]);
 
   useEffect(() => {
-    if (status.status !== "running") return;
+    if (status.status !== "running") {
+      setProgress(null);
+      return;
+    }
     const interval = setInterval(async () => {
       const s = await api.runStatus(surveyId);
       setStatus(s);
+      // Progress is derived from the same on-disk truth /analytics already
+      // classifies (see analytics.py): an agent that has moved out of
+      // "not_run" has been attempted, regardless of whether it ended up
+      // contributing, so this is real progress, not a separate estimate.
+      api.getAnalytics(surveyId).then(setProgress).catch(() => {});
       if (s.status !== "running") {
         clearInterval(interval);
         setResultsKey((k) => k + 1);
@@ -998,6 +1007,45 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
         <div className="panel" style={{ padding: 16, marginBottom: 20, borderColor: "var(--amber-dim)" }}>
           <div style={{ color: "var(--amber)", marginBottom: 4 }}>⚠ Waiting on manually-pasted responses</div>
           <div className="mono-dim">{status.message} Check each manual agent's Trace tab for its exact prompt to paste.</div>
+        </div>
+      )}
+
+      {status.status === "running" && progress && (
+        <div className="panel" style={{ padding: 16, marginBottom: 20 }}>
+          {(() => {
+            const total = progress.per_agent.length;
+            const done = total - (progress.summary.not_run || 0);
+            const pct = total ? Math.round((done / total) * 100) : 0;
+            return (
+              <>
+                <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
+                  <div>Run in progress: {done} of {total} agent{total === 1 ? "" : "s"} attempted</div>
+                  <div className="mono-dim">{pct}%</div>
+                </div>
+                <div style={{ height: 6, borderRadius: 3, background: "var(--bg-raised)", overflow: "hidden", marginBottom: 12 }}>
+                  <div style={{ height: "100%", width: `${pct}%`, background: "var(--amber)", transition: "width 1.5s linear" }} />
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                  {progress.per_agent.map((a) => (
+                    <span
+                      key={a.agent_id}
+                      className="mono-dim"
+                      title={a.detail || ""}
+                      style={{
+                        padding: "2px 8px",
+                        borderRadius: 4,
+                        border: `1px solid ${a.status === "not_run" ? "var(--border)" : STATUS_COLOR[a.status]}`,
+                        color: a.status === "not_run" ? "var(--text-dim)" : STATUS_COLOR[a.status],
+                      }}
+                    >
+                      {a.display_name || a.agent_id}
+                      {a.status === "not_run" ? " (waiting)" : ` (${STATUS_LABEL[a.status]})`}
+                    </span>
+                  ))}
+                </div>
+              </>
+            );
+          })()}
         </div>
       )}
 

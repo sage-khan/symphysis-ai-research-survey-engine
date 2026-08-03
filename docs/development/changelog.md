@@ -4,6 +4,18 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (live progress panel while a survey is running)
+
+- SurveyDetailPage now shows a progress panel while a run is in flight: a percentage bar
+  ("N of M agents attempted") plus a colored chip per agent (waiting / contributed / zero
+  accepted / skipped), polled every 2 seconds alongside the existing run-status poll. Derived
+  from the same `/analytics` classification the Analytics tab already computes from what's
+  actually on disk (an agent counts as "attempted" once it has moved out of `not_run`); no new
+  backend endpoint needed. Previously the only run-in-progress feedback was the sidebar's
+  spinner/"Running..." label, with no visibility into which agents had finished or how many
+  were left, which mattered in practice on this session's own long qwen2.5:32b runs.
+
+
 ## 2026-08-03 (Swagger/OpenAPI documentation description)
 
 - `web/backend/main.py`'s FastAPI app now has a real `description` (previously blank),
