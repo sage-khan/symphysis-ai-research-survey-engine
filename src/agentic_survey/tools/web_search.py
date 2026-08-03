@@ -5,7 +5,7 @@ needed on this side.
 
 Requires TAVILY_API_KEY (Settings -> Config, "Web search" section, or the
 environment variable directly). If it's not set, or the request fails,
-`search()` raises `WebSearchError` -- callers must not substitute a
+`search()` raises `WebSearchError`. Callers must not substitute a
 plausible-looking fallback; an agent that can't search should say so in its
 guardrail-visible trace, not silently proceed as if it had real results.
 """
@@ -36,7 +36,7 @@ class SearchResult:
 def search(query: str, top_k: int = 5) -> List[SearchResult]:
     api_key = os.environ.get("TAVILY_API_KEY")
     if not api_key:
-        raise WebSearchError("TAVILY_API_KEY is not set -- configure it in Settings before granting an agent web_search.")
+        raise WebSearchError("TAVILY_API_KEY is not set. Configure it in Settings before granting an agent web_search.")
 
     try:
         resp = requests.post(

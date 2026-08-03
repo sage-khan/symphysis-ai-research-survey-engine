@@ -5,21 +5,21 @@ unit-testable and so the router stays thin (HTTP in, JSON out).
 
 A survey's `agents/<id>.json` lists every *configured* agent; not every one
 necessarily produced data. This module classifies each configured agent into
-exactly one status, purely from what's actually on disk -- it never assumes
+exactly one status, purely from what's actually on disk. It never assumes
 "configured" means "ran", and never fabricates a result for an agent that
 didn't produce one:
 
 - ``contributed``: `agents/<id>/result.json` exists with accepted_count > 0.
 - ``zero_accepted``: `result.json` exists but accepted_count == 0 and
-  rejected_count > 0 -- the agent ran to completion but every sample was
+  rejected_count > 0: the agent ran to completion but every sample was
   rejected by guardrails (e.g. malformed JSON, a "thinking" model spending
   its whole token budget before an answer, missing a required rating).
 - ``pending_manual``: `result.json` exists with accepted_count == 0 and
   rejected_count == 0, and a `manual_input/prompt_*.md` file is waiting to
-  be answered -- a manual-provider agent that hasn't been given its pasted
+  be answered: a manual-provider agent that hasn't been given its pasted
   response(s) yet.
 - ``skipped``: no `result.json` at all, even though the agent's runtime
-  folder exists -- the orchestrator caught a ProviderError/PermissionError_/
+  folder exists: the orchestrator caught a ProviderError/PermissionError_/
   AgentCardError before any sample could be attempted (most commonly: no
   API key configured for that provider) and moved on to the next agent.
 - ``not_run``: the agent is configured but the survey has never been run
@@ -108,7 +108,7 @@ def compute_analytics(survey_dir: Path) -> Dict[str, Any]:
             entry["status"] = "zero_accepted"
             entry["detail"] = (
                 f"Ran to completion but every one of {rejected_count} attempt(s) was rejected by "
-                "guardrails (schema validation, denylist, or repeated-sampling checks) -- see this "
+                "guardrails (schema validation, denylist, or repeated-sampling checks); see this "
                 "agent's Trace / Conversation log for the exact rejection reasons."
             )
             counts["zero_accepted"] += 1

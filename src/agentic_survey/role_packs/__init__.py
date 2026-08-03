@@ -9,10 +9,10 @@ Each pack is a single markdown file in role_packs/, shaped as:
     # <Title>
     Summary: <one-line description shown in the picker>
 
-    <body -- the actual reference content included as agent context>
+    <body: the actual reference content included as agent context>
 
 This is genuine, well-established professional-domain knowledge (named
-standards, common failure modes, evaluation heuristics) -- not
+standards, common failure modes, evaluation heuristics), not
 survey-specific facts, and not a substitute for an agent's own dedicated
 RAG corpus or the survey's shared knowledge repo. It plays the same role
 a textbook chapter or onboarding primer would play for a new human
@@ -51,7 +51,7 @@ def _parse(path: Path) -> RolePackInfo:
 
 
 def list_role_packs() -> List[Dict[str, str]]:
-    """Every available pack, discovered from the filesystem -- never a
+    """Every available pack, discovered from the filesystem: never a
     hardcoded list, so adding a new .md file to role_packs/ is enough to
     expose a new pack in the UI picker without a code change."""
     if not ROLE_PACKS_DIR.is_dir():
@@ -62,7 +62,7 @@ def list_role_packs() -> List[Dict[str, str]]:
 
 def get_role_pack_text(pack_id: Optional[str]) -> Optional[str]:
     """The pack's body content (title/summary header stripped), or None if
-    pack_id is unset or no longer matches any known pack -- an agent whose
+    pack_id is unset or no longer matches any known pack. An agent whose
     role_pack was hand-typed or whose pack file was removed degrades to no
     extra context, exactly like an agent with no role_pack set at all."""
     if not pack_id:

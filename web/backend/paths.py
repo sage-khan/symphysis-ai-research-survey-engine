@@ -14,7 +14,7 @@ SURVEYS_ROOT = Path(os.environ.get("SURVEYS_ROOT", REPO_ROOT / "surveys"))
 CONFIG_DIR = REPO_ROOT / "config"
 # Reusable Agent Cards not tied to any one survey (see routers/library.py).
 # "Assigning" one to a survey copies its card into that survey's own
-# agents/ directory -- the orchestrator/storage/run pipeline only ever
+# agents/ directory. The orchestrator/storage/run pipeline only ever
 # reads surveys/<id>/agents/*.json, so this keeps that pipeline unchanged.
 LIBRARY_ROOT = Path(os.environ.get("LIBRARY_ROOT", REPO_ROOT / "agents_library"))
 

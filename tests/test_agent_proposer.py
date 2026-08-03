@@ -88,7 +88,7 @@ def test_skips_availability_check_for_manual_provider(monkeypatch):
     proposals = [{"source": "new", "agent_id": "a", "model": {"provider": "manual", "name": "gemini-2.5-pro"}}]
     agent_proposer._annotate_model_availability(proposals)
     assert "model_available" not in proposals[0]
-    assert calls == []  # never even asked -- manual has no API list by definition
+    assert calls == []  # never even asked: manual has no API list by definition
 
 
 def test_gives_benefit_of_the_doubt_when_catalog_unreachable(monkeypatch):

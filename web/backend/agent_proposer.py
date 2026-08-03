@@ -1,12 +1,12 @@
 """Natural-language agent proposal: "describe what kind of panel you need,
-in plain English, and get a reviewable list of agents back" -- either
+in plain English, and get a reviewable list of agents back", either
 reusing an existing Agent Library entry or proposing a brand new one.
 
 Deliberately named differently from `agentic_survey.orchestrator` (which
 drives an already-configured survey's actual run): this module never
 drives a survey run and never creates anything by itself. It only proposes
 a JSON structure for a human to review, edit, and explicitly approve
-(`routers/proposer.py`'s two-endpoint flow) -- nothing here writes an Agent
+(`routers/proposer.py`'s two-endpoint flow); nothing here writes an Agent
 Card to disk. If the model's response can't be parsed as valid proposals,
 that is surfaced as an error, never silently replaced with a plausible-
 looking fabrication.
@@ -34,7 +34,7 @@ Respond with ONLY a JSON array, no other text, in exactly this shape:
 
 Rules:
 - Every "new" entry's model.provider must be one of: ollama, anthropic, openai, openrouter, groq, gemini, xai. Prefer "ollama" with a locally-available model unless the requirement clearly calls for a specific hosted model.
-- Every "library" entry's agent_id MUST be one of the ids listed below -- never invent one.
+- Every "library" entry's agent_id MUST be one of the ids listed below. Never invent one.
 - Propose between 1 and 8 agents, covering distinct, non-redundant professional perspectives relevant to the requirement and the survey's criteria.
 - Do not propose two "new" agents with the same agent_id, and do not propose a "new" agent whose agent_id collides with an existing library agent_id.
 """
@@ -44,7 +44,7 @@ def _build_user_prompt(requirement: str, survey_context: Dict[str, Any], library
     criteria = survey_context.get("dimensions") or []
     lib_lines = (
         "\n".join(f"- {a['agent_id']}: {a.get('role', '')} ({a.get('provider', '')}/{a.get('model', '')})" for a in library_agents)
-        or "(none yet -- every proposal should be \"new\")"
+        or "(none yet: every proposal should be \"new\")"
     )
     return (
         f"Survey: {survey_context.get('title', '(untitled)')}\n"
@@ -126,16 +126,16 @@ def _annotate_model_availability(proposals: List[Dict[str, Any]]) -> None:
     just Ollama (observed: "code-davinci"/"legal-expert"/"llama-2-7b-chat"
     for provider: ollama; the same failure mode applies just as easily to
     a hosted provider name). That's not caught by parse_proposals's schema
-    validation -- it's a syntactically real model name, just not one this
+    validation: it's a syntactically real model name, just not one this
     provider actually serves. Rather than silently letting that through
     (where it would only fail once the survey is actually run, long after
     approval) or silently rejecting the whole proposal (the model list is
     a live, mutable fact the human reviewing it can just as easily fix),
     annotate every "new" entry with whether its model is confirmed
     available in that provider's real catalog (model_catalog.py), so the
-    review UI can flag it and a human decides what to do -- pick a real
+    review UI can flag it and a human decides what to do: pick a real
     model, or leave it and pull/enable that model first. `provider:
-    manual` entries are skipped -- there is no API model list for them by
+    manual` entries are skipped. There is no API model list for them by
     definition."""
     from .model_catalog import model_is_available
 

@@ -9,13 +9,13 @@ data-protection-specific obligations, and the OWASP Top 10 for application-layer
 
 Risk-based evaluation weighs asset value, threat likelihood, and vulnerability together;
 controls should be proportionate to actual data sensitivity and a realistic threat model, not
-maximal by default -- over-controlling low-value assets wastes resources that under-controlled
+maximal by default: over-controlling low-value assets wastes resources that under-controlled
 high-value assets actually need.
 
 Evidence a specialist looks for before trusting a system: least-privilege access-control
 enforcement that is actually tested (not just documented), complete and reviewed audit
 logging, a track record of incident response, a real patch and update cadence, and separation
-of duties -- observable practice, not a policy document alone.
+of duties, observable practice rather than a policy document alone.
 
 Common failure modes: security theatre, where controls look rigorous on paper but are never
 tested under realistic conditions; single points of trust, where one compromised credential or

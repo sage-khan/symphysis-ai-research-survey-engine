@@ -3,8 +3,8 @@ import { api } from "../api.js";
 
 // Emergency fallback only, used if /api/settings/config can't be reached
 // before this form mounts. The real source of truth is the backend's
-// config/defaults.yaml (see Settings -> Config), not this constant --
-// once that request resolves, blankForm(cfg) below uses the fetched
+// config/defaults.yaml (see Settings -> Config), not this constant.
+// Once that request resolves, blankForm(cfg) below uses the fetched
 // values instead.
 const FALLBACK_DENYLIST = [
   "ignore (all|any|the) (previous|prior|above) instructions",
@@ -63,7 +63,7 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
     }
   }, []);
 
-  // Re-fetch the real, live model list every time the provider changes --
+  // Re-fetch the real, live model list every time the provider changes:
   // never a hardcoded or remembered list, since a hosted provider's
   // catalog (or whether its API key is even configured) can change.
   useEffect(() => {
@@ -199,7 +199,7 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
           value={form.system_prompt_override || ""}
           onChange={(e) => set("system_prompt_override", e.target.value || null)}
           rows={4}
-          placeholder="Overrides the shared template just for this agent. Plain text -- no {role}/{role_description} substitution here, write it out directly."
+          placeholder="Overrides the shared template just for this agent. Plain text, no {role}/{role_description} substitution here, write it out directly."
           style={{ width: "100%" }}
         />
       </label>
@@ -236,7 +236,7 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
           )}
           {form.model.provider !== "manual" && modelCatalog.error && (
             <div className="mono-dim" style={{ color: "var(--amber)", marginTop: 4 }}>
-              ⚠ Couldn't fetch {form.model.provider}'s real model list ({modelCatalog.error}) -- typing a model name
+              ⚠ Couldn't fetch {form.model.provider}'s real model list ({modelCatalog.error}). Typing a model name
               here is not validated against anything real.
             </div>
           )}
@@ -315,11 +315,11 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
             set("tools", e.target.checked ? [...form.tools, "web_search"] : form.tools.filter((t) => t !== "web_search"))
           }
         />
-        <span>Web search (real-time lookup via Tavily -- configure the API key in Settings)</span>
+        <span>Web search (real-time lookup via Tavily: configure the API key in Settings)</span>
       </label>
       <div className="mono-dim" style={{ marginBottom: 16 }}>
         Every agent in a survey automatically has access to that survey's shared knowledge
-        repository (Knowledge tab) with no separate toggle -- same as a project's shared reference
+        repository (Knowledge tab) with no separate toggle, the same as a project's shared reference
         material for a human panel.
       </div>
 

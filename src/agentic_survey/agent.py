@@ -40,8 +40,8 @@ class Agent:
 
         # The survey's shared knowledge repository (uploaded once per
         # survey, distinct from any one agent's own dedicated RAG corpus)
-        # is available to every agent in that survey automatically -- no
-        # per-agent flag required, matching how a project's shared
+        # is available to every agent in that survey automatically. No
+        # per-agent flag is required, matching how a project's shared
         # reference material works for a human panel. Its absence (most
         # surveys won't have one) is the normal case, not an error, unlike
         # a misconfigured *dedicated* corpus_path.
@@ -58,7 +58,7 @@ class Agent:
 
     def _role_description(self) -> str:
         if self.card.system_prompt_override:
-            # Literal, user-edited text (e.g. from the web UI's Agent panel) --
+            # Literal, user-edited text (e.g. from the web UI's Agent panel):
             # not run through .format(), since free-typed text may contain
             # stray "{"/"}" that would raise on a template substitution never
             # intended to apply to it.
@@ -70,7 +70,7 @@ class Agent:
     def _introduction_prompt(self, survey_title: str, survey_description: str) -> str:
         now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
         display = self.card.display_name or self.card.role
-        project_line = survey_title if not survey_description else f"{survey_title} -- {survey_description}"
+        project_line = survey_title if not survey_description else f"{survey_title}: {survey_description}"
         return (
             "Before starting the task, introduce yourself in 2-4 sentences, in character, so a "
             "human reviewer can confirm you understood the assignment before you attempt it. "
@@ -78,7 +78,7 @@ class Agent:
             f"your base model ({self.card.model.provider}/{self.card.model.name}), the current date "
             f"and time ({now}), the project you are working on ({project_line}), your role "
             f"({self.card.role}), and that you will attempt this task as an expert in that role. "
-            "Do not answer the actual survey questions yet -- this turn is only your introduction."
+            "Do not answer the actual survey questions yet: this turn is only your introduction."
         )
 
     def introduce(self, survey_title: str, survey_description: str = "") -> None:
@@ -112,8 +112,8 @@ class Agent:
 
     def _role_pack_chunks(self) -> List[str]:
         # A standard role knowledge pack is a fixed professional-domain
-        # primer (see role_packs/), not something retrieved by relevance --
-        # it is included in full, every run, exactly like a human panelist
+        # primer (see role_packs/), not something retrieved by relevance.
+        # It is included in full, every run, exactly like a human panelist
         # in that role would already know this material going in, rather
         # than looking it up per question.
         text = role_packs.get_role_pack_text(self.card.role_pack)
@@ -166,7 +166,7 @@ class Agent:
             results = search_as_dicts(query, top_k=5)
         except WebSearchError as exc:
             # An optional grounding tool being unavailable (no API key,
-            # network failure) does not fail the agent -- it proceeds with
+            # network failure) does not fail the agent: it proceeds with
             # whatever other context it has, exactly like a RAG corpus
             # that happens to retrieve nothing. The failure is logged, not
             # hidden, so a reviewer can see the agent never actually got
@@ -180,7 +180,7 @@ class Agent:
             tool="web_search",
             detail={"query": query, "results": results},
         )
-        return [f"[web: {r['title']} -- {r['url']}] {r['content']}" for r in results]
+        return [f"[web: {r['title']} ({r['url']})] {r['content']}" for r in results]
 
     def run(
         self,
@@ -197,7 +197,7 @@ class Agent:
 
         role_description = self._role_description()
         # Same derived query drives every context source (dedicated RAG,
-        # the survey's shared knowledge repo, and web search) -- role plus
+        # the survey's shared knowledge repo, and web search): role plus
         # the criteria being weighed is the one query that's actually
         # available before the model has said anything.
         query_for_context = f"{self.card.role}: {instrument_params.get('dimensions', [])}"

@@ -1,7 +1,7 @@
 """Live model catalogs, per provider.
 
 The single source of truth for "what models can this provider actually
-serve right now" -- Ollama's own `/api/tags`, or each hosted provider's own
+serve right now": Ollama's own `/api/tags`, or each hosted provider's own
 list-models API (OpenAI-compatible providers all expose `GET {base}/models`;
 Anthropic has its own `GET /v1/models`). Never a hardcoded list, never an
 LLM's guess: every model picker in the UI and the natural-language agent
@@ -10,7 +10,7 @@ model name is only ever treated as real because it was actually seen coming
 back from that provider, not because it looked plausible.
 
 `provider: "manual"` (paste-in models with no API, e.g. a web chat UI) has
-no list to fetch by definition -- callers should skip validation for it
+no list to fetch by definition, so callers should skip validation for it
 rather than calling `list_models("manual")`.
 """
 
@@ -93,7 +93,7 @@ def list_models(provider: str) -> Dict[str, Any]:
             return {"models": _openai_compatible_models(base_url, api_key), "error": None}
 
         if provider == "manual":
-            return {"models": [], "error": "provider: manual has no API model list -- any label is valid"}
+            return {"models": [], "error": "provider: manual has no API model list; any label is valid"}
 
         return {"models": [], "error": f"Unknown provider '{provider}'"}
     except requests.RequestException as exc:
@@ -103,7 +103,7 @@ def list_models(provider: str) -> Dict[str, Any]:
 def model_is_available(provider: str, model_name: str) -> bool:
     """True if `model_name` is confirmed present in `provider`'s live
     catalog. If the catalog can't be fetched at all (unreachable, no key),
-    returns True -- absence of evidence isn't evidence of a hallucination,
+    returns True: absence of evidence isn't evidence of a hallucination,
     and this should never block on a check that couldn't run. Only used to
     flag likely hallucinations for human review, never to silently reject
     anything."""

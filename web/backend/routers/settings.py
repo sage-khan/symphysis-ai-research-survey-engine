@@ -6,13 +6,13 @@ Previously OLLAMA_BASE_URL was read once from the environment when the
 `ollama` provider was first constructed and then cached for the life of the
 process (see agentic_survey.providers). That's fine for the CLI (a fresh
 process per run) but meant the long-lived web backend could never actually
-change endpoint at runtime -- only at process start. This router writes the
+change endpoint at runtime, only at process start. This router writes the
 new value to os.environ AND drops the cached provider instance
 (`providers.reset_provider`) so the very next run picks it up. The same
 pattern applies to API keys: setting one here writes it to os.environ and
 drops that provider's cached instance.
 
-Nothing here is specific to any one deployment -- there is no hardcoded
+Nothing here is specific to any one deployment: there is no hardcoded
 remote-server address. "Local" is the only built-in preset; anyone can save
 their own named remote endpoint (their own machine, a lab server, whatever)
 under any label they choose, and it persists across restarts.
@@ -48,8 +48,8 @@ API_KEY_ENV_VARS = {
     "groq": "GROQ_API_KEY",
     "gemini": "GEMINI_API_KEY",
     "xai": "XAI_API_KEY",
-    # Not an LLM provider -- Tavily is the web_search tool's backing search
-    # API (see agentic_survey.tools.web_search) -- but it's stored and
+    # Not an LLM provider: Tavily is the web_search tool's backing search
+    # API (see agentic_survey.tools.web_search), but it's stored and
     # persisted through the exact same key/env-var mechanism as the LLM
     # provider keys above, so it doesn't need its own duplicate machinery.
     "tavily": "TAVILY_API_KEY",
@@ -143,7 +143,7 @@ def get_llm_settings() -> Dict[str, Any]:
 @router.get("/llm/test")
 def test_llm_endpoint(base_url: Optional[str] = None) -> Dict[str, Any]:
     """Ping a candidate endpoint (or the currently configured one, if
-    base_url is omitted) without saving anything -- lets the UI verify
+    base_url is omitted) without saving anything, so the UI can verify
     reachability before committing to a setting."""
     url = (base_url or os.environ.get("OLLAMA_BASE_URL", DEFAULT_BASE_URL)).strip().rstrip("/")
     if not (url.startswith("http://") or url.startswith("https://")):
@@ -197,7 +197,7 @@ def delete_preset(label: str) -> Dict[str, Any]:
 def get_api_key_status() -> Dict[str, bool]:
     """Never returns the actual key values, only whether each provider
     currently has one configured (persisted or set directly in the process
-    environment) -- so the UI can show a check mark, not the secret."""
+    environment), so the UI can show a check mark, not the secret."""
     persisted = _read_persisted().get("api_keys") or {}
     return {
         provider: bool(persisted.get(provider) or os.environ.get(env_var))
@@ -229,7 +229,7 @@ def set_api_keys(body: ApiKeysIn) -> Dict[str, bool]:
 def get_app_config() -> Dict[str, Any]:
     """The effective, merged app-wide config: provider base URLs, default
     model/sampling/RAG hyperparameters for new agents, and the guardrail
-    denylist starting point -- config/defaults.yaml (versioned baseline)
+    denylist starting point: config/defaults.yaml (versioned baseline)
     with any Settings -> Config override applied on top. See
     agentic_survey/app_config.py; this is the one place these values live,
     not hardcoded in the frontend or scattered across backend modules."""
@@ -242,7 +242,7 @@ def get_app_config() -> Dict[str, Any]:
 def set_app_config(body: Dict[str, Any]) -> Dict[str, Any]:
     """Accepts any partial subset of the config shape (e.g. just
     {"provider_base_urls": {"groq": "https://my-proxy/openai/v1"}}) and
-    deep-merges it into the persisted override -- config/defaults.yaml
+    deep-merges it into the persisted override. config/defaults.yaml
     itself is never modified. Providers with a cached instance are reset so
     the very next call picks up the change without a backend restart."""
     from agentic_survey import app_config, providers

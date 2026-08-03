@@ -116,11 +116,11 @@ class SurveyStorage:
             f"# Reasoning trace: {agent_id}\n",
             "**What a \"Sample\" is:** this agent was asked the exact same Best-Worst "
             f"comparison task independently {total_attempts} time(s) in total (not a sequence "
-            "of different questions) -- repeated, independent sampling is a guardrail against "
+            "of different questions). Repeated, independent sampling is a guardrail against "
             "treating any single completion as ground truth. "
             f"{len(run.accepted)} of those attempt(s) passed schema validation and are shown "
             f"below, numbered in the order they were accepted; {len(run.rejected)} were rejected "
-            "(malformed JSON, a missing rating, a denylist match, etc.) -- see the Conversation "
+            "(malformed JSON, a missing rating, a denylist match, etc.); see the Conversation "
             "Log tab for every rejected attempt and why.\n",
         ]
         for i, result in enumerate(run.accepted):
@@ -137,7 +137,7 @@ class SurveyStorage:
                 + f"## Stated reasoning (submitted with the answer)\n\n{reasoning}\n",
                 encoding="utf-8",
             )
-            thoughts_lines.append(f"## Sample {i + 1} of {len(run.accepted)} -- Best: {result.payload.get('best')}, Worst: {result.payload.get('worst')}\n")
+            thoughts_lines.append(f"## Sample {i + 1} of {len(run.accepted)} (Best: {result.payload.get('best')}, Worst: {result.payload.get('worst')})\n")
             if thinking:
                 thoughts_lines.append(f"**Full reasoning trace (model's own \"thinking\"):**\n\n{thinking}\n")
             thoughts_lines.append(f"**Stated reasoning (submitted with the answer):**\n\n{reasoning}\n")
@@ -178,7 +178,7 @@ def _render_filled_survey(card: AgentCard, instrument_params: Dict[str, Any], ru
     lines = [
         f"# Filled survey: {card.display_name or card.agent_id}\n",
         f"- Agent ID: `{card.agent_id}`",
-        f"- Role / expertise: {card.role}" + (f" -- {card.expertise}" if card.expertise else ""),
+        f"- Role / expertise: {card.role}" + (f" ({card.expertise})" if card.expertise else ""),
         f"- Model: {card.model.provider}/{card.model.name}",
         f"- DID: `{card.did.id}`",
         f"- RAG: {'enabled, corpus ' + card.rag.corpus_path if card.rag.enabled else 'disabled'}",

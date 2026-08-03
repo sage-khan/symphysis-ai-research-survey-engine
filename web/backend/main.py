@@ -30,7 +30,7 @@ app = FastAPI(title="SAGE API", version="0.1.0")
 # cors.default_origins, overridable via Settings -> Config) cover local
 # Vite dev; CORS_EXTRA_ORIGINS (comma-separated env var) adds more, e.g.
 # when the UI is reached over Tailscale at the server's own IP instead of
-# localhost -- that's a deployment-time concern, appropriately an env var
+# localhost. That's a deployment-time concern, appropriately an env var
 # rather than a versioned config value.
 _default_origins = app_config.get_config().get("cors", {}).get("default_origins", ["http://localhost:5173", "http://127.0.0.1:5173"])
 _extra_origins = [o.strip() for o in os.environ.get("CORS_EXTRA_ORIGINS", "").split(",") if o.strip()]

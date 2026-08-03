@@ -3,7 +3,7 @@ agent.
 
 This is the single-file "agent spec" that project-cogtwins's own design
 docs (URD Amendment v2.0 S19, "Agent Identity & Policy Enforcement")
-describe wanting but never built -- that project's agents are Python
+describe wanting but never built: that project's agents are Python
 objects assembled from a hardcoded registry plus two small config tables,
 not a portable file anyone can pick up and replicate. An Agent Card closes
 that gap: give someone this JSON (and, if the DID is deterministic, the
@@ -261,7 +261,7 @@ def rehydrate_identity(card: AgentCard, did_seed: Optional[str] = None) -> Agent
     """Reconstruct the signing identity from a loaded card. For a
     deterministic card this requires the same seed used to create it (the
     card documents the derivation but, correctly, does not store the seed
-    itself -- that would defeat the point of a keyed derivation)."""
+    itself, since that would defeat the point of a keyed derivation)."""
     if not card.did.deterministic:
         raise AgentCardError(
             f"Card {card.agent_id} has a randomly generated DID; its private key was never persisted "

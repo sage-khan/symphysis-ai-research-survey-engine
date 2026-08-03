@@ -85,7 +85,7 @@ function OllamaEndpointSettings() {
       <h3 style={{ marginBottom: 4 }}>Ollama endpoint</h3>
       <div className="mono-dim" style={{ marginBottom: 18 }}>
         Everything else (guardrails, the Bayesian solve, storage, reporting) always runs on this
-        machine. Only the <code>provider: ollama</code> HTTP calls go wherever this points --
+        machine. Only the <code>provider: ollama</code> HTTP calls go wherever this points:
         "Local" for Ollama running on this same machine, or save any remote host (your own server,
         a lab machine, anything reachable) under a label of your choosing to keep LLM compute off
         this machine while you iterate.
@@ -164,7 +164,7 @@ function OllamaEndpointSettings() {
         </button>
         {!isDirty && saved && (
           <span className="mono-dim" style={{ color: "var(--green)" }}>
-            Saved -- active for the next run
+            Saved, active for the next run
           </span>
         )}
       </div>
@@ -181,7 +181,7 @@ function OllamaEndpointSettings() {
         >
           {testResult.reachable ? (
             <>
-              <div style={{ color: "var(--green)" }}>Reachable -- {testResult.models.length} model(s) pulled</div>
+              <div style={{ color: "var(--green)" }}>Reachable: {testResult.models.length} model(s) pulled</div>
               <div style={{ marginTop: 6 }}>{testResult.models.join(", ") || "(no models pulled yet)"}</div>
             </>
           ) : (
@@ -240,7 +240,7 @@ function ApiKeySettings({ title, description, keyProviders }) {
       {keyProviders.map((p) => (
         <label key={p.key} style={{ display: "block", marginBottom: 14 }}>
           <div className="mono-dim">
-            {p.label} {status[p.key] && <span style={{ color: "var(--green)" }}>-- key configured</span>}
+            {p.label} {status[p.key] && <span style={{ color: "var(--green)" }}>(key configured)</span>}
           </div>
           <input
             type="password"
@@ -319,7 +319,7 @@ function ConfigSettings() {
 
   return (
     <div className="panel" style={{ padding: 24, maxWidth: 640, marginBottom: 24 }}>
-      <h3 style={{ marginBottom: 4 }}>Config -- defaults for new agents</h3>
+      <h3 style={{ marginBottom: 4 }}>Config: defaults for new agents</h3>
       <div className="mono-dim" style={{ marginBottom: 18 }}>
         Nothing here is hardcoded in the app: this is{" "}
         <code>config/defaults.yaml</code>, editable here or by editing that
@@ -503,7 +503,7 @@ export default function SettingsPage() {
             Lets agents use hosted models (Claude, ChatGPT, OpenRouter, Groq, Gemini, Grok) in
             addition to local Ollama models. Keys are stored on this machine only (gitignored,{" "}
             <code>web/backend/data/llm_settings.json</code>), applied to the running process, and
-            never sent back to the browser once saved -- only whether a key is currently set is
+            never sent back to the browser once saved: only whether a key is currently set is
             shown.
           </>
         }

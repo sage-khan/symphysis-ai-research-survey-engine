@@ -22,8 +22,8 @@ and a genuine tension between confidentiality (commercially or contractually sen
 between competing parties) and the transparency needed for long-term maintenance and liability
 records.
 
-When judging whether a specific piece of project data -- an inspection record, a design
-decision, a change order -- belongs on an immutable, tamper-evident ledger versus a
+When judging whether a specific piece of project data (an inspection record, a design
+decision, a change order) belongs on an immutable, tamper-evident ledger versus a
 conventional access-controlled database, weigh the legal/contractual sensitivity of the
 record, whether multiple mutually untrusting parties genuinely need a shared audit trail, and
 the operational cost of that guarantee against simpler, cheaper storage that would suffice if

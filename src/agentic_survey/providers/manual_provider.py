@@ -6,7 +6,7 @@ provider's completion, including through the same guardrails.
 Two-step, resumable, per-agent workflow:
 1. First call for a given manual_dir with no response file present: writes
    the exact outgoing prompt to `<manual_dir>/prompt_NN.md` and raises
-   ManualResponsePending — a clear, actionable stop, not a crash.
+   ManualResponsePending: a clear, actionable stop, not a crash.
 2. Copy that prompt into the model's chat UI, paste the reply into
    `<manual_dir>/response_NN.txt`, and re-run. The agent picks up exactly
    where it left off; already-answered samples are not re-asked.
@@ -32,7 +32,7 @@ from .base import ProviderError, ProviderResponse
 
 class ManualResponsePending(ProviderError):
     """Raised when a manual response is needed but hasn't been pasted yet.
-    Not a failure of the pipeline -- it's a stop-and-wait-for-a-human signal,
+    Not a failure of the pipeline: it's a stop-and-wait-for-a-human signal,
     logged and surfaced distinctly so it's never confused with a real
     provider outage."""
 

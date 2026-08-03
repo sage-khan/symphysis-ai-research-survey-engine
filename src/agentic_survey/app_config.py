@@ -8,7 +8,7 @@ module is the one place that owns them.
 
 `config/defaults.yaml` ships the versioned baseline (checked into git).
 `web/backend/data/config_overrides.json` (gitignored, machine-specific) is
-an optional partial override merged on top at read time -- defaults.yaml
+an optional partial override merged on top at read time; defaults.yaml
 itself is never written to at runtime. Both the CLI and the web backend
 read through `get_config()`, never the raw files directly.
 """

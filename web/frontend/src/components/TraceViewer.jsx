@@ -134,7 +134,7 @@ export default function TraceViewer({ surveyId, agentId, onClose }) {
                 self-introduction (it states its ID, model, and role, and confirms its understanding
                 of the task, before attempting anything). After that: every model completion
                 (<em>Model completion</em>), every attempt guardrails rejected and why
-                (<em>Rejected (guardrail)</em> -- schema errors, denylist matches, etc., nothing is
+                (<em>Rejected (guardrail)</em>: schema errors, denylist matches, etc., nothing is
                 silently dropped), and any tool use (<em>Tool call</em>, e.g. RAG retrieval: what was
                 searched and what came back). Use "Download full log .jsonl" above to save the raw
                 file.
@@ -162,7 +162,7 @@ export default function TraceViewer({ surveyId, agentId, onClose }) {
                         </details>
                       )}
                       <div className="mono-dim">Final answer:</div>
-                      <pre style={{ whiteSpace: "pre-wrap", fontSize: 12, marginTop: 4 }}>{entry.response?.text || "(empty -- see finish_reason)"}</pre>
+                      <pre style={{ whiteSpace: "pre-wrap", fontSize: 12, marginTop: 4 }}>{entry.response?.text || "(empty, see finish_reason)"}</pre>
                       {entry.response?.finish_reason && (
                         <div className="mono-dim">finish_reason: {entry.response.finish_reason}</div>
                       )}

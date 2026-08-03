@@ -1,4 +1,4 @@
-# Symphysis -- AI Research Survey Engine
+# Symphysis: AI Research Survey Engine
 
 Config-driven, replicable agent panels for expert-elicitation surveys.
 Formerly named `agentic-survey-tool` (that's still the internal Python
@@ -54,7 +54,7 @@ touching the agent, provider, or storage layers.
    both as files on disk and embedded in the web UI's results page.
 9. **Analytics: who said what.** A dedicated Analytics tab (and
    `GET /api/surveys/{id}/analytics`) answers "which agent said what, and
-   who didn't respond at all" directly -- a per-sample table of every
+   who didn't respond at all" directly: a per-sample table of every
    accepted Best/Worst pick and its reasoning, a Best/Worst pick-frequency
    count per criterion, and an honest per-agent participation breakdown
    (`contributed` / `zero_accepted` / `pending_manual` / `skipped` /
@@ -102,7 +102,7 @@ charts, per-agent trace files) as JSON/file responses.
 
 ```
 symphysis-ai-research-survey-engine/
-├── src/agentic_survey/          # the core package -- see table below (import name kept stable)
+├── src/agentic_survey/          # the core package: see table below (import name kept stable)
 ├── config/
 │   └── prompts/                 # shared system-prompt templates (referenced by agent cards)
 ├── surveys/<survey-id>/         # one directory per survey project
@@ -114,7 +114,7 @@ symphysis-ai-research-survey-engine/
 │   │   ├── card.json            #   copy of the card actually used for this run
 │   │   ├── did.json             #   this agent's did:key + public key (from the card)
 │   │   ├── prompt.md            #   the exact outgoing prompt, every provider
-│   │   ├── manual_input/        #   provider: manual agents only -- prompt_NN.md / response_NN.txt
+│   │   ├── manual_input/        #   provider: manual agents only, prompt_NN.md / response_NN.txt
 │   │   ├── conversation.jsonl   #   every raw completion, rejection, and tool call (RAG retrieval)
 │   │   ├── thoughts.md          #   human-readable reasoning trace
 │   │   ├── samples/             #   sample_NN.{json,md}, each accepted schema-valid response
@@ -125,9 +125,9 @@ symphysis-ai-research-survey-engine/
 │       ├── combined_results.json
 │       └── charts/*.png         #   PNG charts (also served by the web UI, see below)
 ├── web/
-│   ├── backend/                 # FastAPI app -- see table below
+│   ├── backend/                 # FastAPI app: see table below
 │   │   └── data/                #   gitignored: llm_settings.json (machine-specific runtime state)
-│   └── frontend/                # React/Vite app -- see table below
+│   └── frontend/                # React/Vite app: see table below
 ├── docker/Dockerfile
 ├── docker-compose.yml
 ├── requirements.txt              # core package deps
@@ -140,7 +140,7 @@ symphysis-ai-research-survey-engine/
 └── tests/                         # pytest, mirrors src/agentic_survey's layout
 ```
 
-### Core package: `src/agentic_survey/` -- what each file does
+### Core package (`src/agentic_survey/`): what each file does
 
 | File | Purpose |
 |---|---|
@@ -150,39 +150,39 @@ symphysis-ai-research-survey-engine/
 | `did_key.py` | Real `did:key` identity + W3C-shaped Verifiable Credentials (Ed25519), ported from project-cogtwins's `identity.py`. |
 | `agent.py` | One agent instance: resolves its role prompt, builds RAG context if enabled, calls its provider through the guardrails layer, and persists everything via `storage`. |
 | `permissions.py` | Enforces (not just documents) an Agent Card's `data_scopes` and `allowed_providers` before any file is read or provider called. |
-| `guardrails.py` | Schema validation + reject-and-resample, denylist regex scan (prompt-injection / secret-shaped strings), repeated sampling -- applied to every provider call. |
+| `guardrails.py` | Schema validation + reject-and-resample, denylist regex scan (prompt-injection / secret-shaped strings), repeated sampling, applied to every provider call. |
 | `orchestrator.py` | Drives one full survey run: spawn every agent, run the instrument, solve the agent-panel posterior, optionally combine with a human panel (HAWC-BWM), write the report. `INSTRUMENTS` registry lives here. |
-| `storage.py` | The per-survey / per-agent runtime folder layout (see "Repository structure" above) -- every `write_*` call the rest of the package makes. |
+| `storage.py` | The per-survey / per-agent runtime folder layout (see "Repository structure" above): every `write_*` call the rest of the package makes. |
 | `reporting.py` | Renders `report.md` and the matplotlib PNG charts (`render_report`, `render_charts`) from a survey's combined result dict. |
 | `providers/` | One `LLMProvider` implementation per backend: `ollama_provider.py` (local/remote Ollama HTTP API, reads `OLLAMA_BASE_URL`), `anthropic_provider.py`, `openai_compatible.py` (OpenAI + OpenRouter), `manual_provider.py` (paste-in models with no API), `base.py` (the `LLMProvider` protocol). `__init__.py` is the provider registry (`get_provider`, `reset_provider`). |
 | `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument (prompt construction + response schema). |
 | `solvers/` | `bwm_classical.py` (Rezaei 2015 linear program + consistency ratio), `bwm_bayesian.py` (Mohammadi & Rezaei 2020 hierarchical Bayesian model, PyMC/NUTS with a numpy-bootstrap fallback, plus `combine_panels` for HAWC-BWM). |
 | `rag/retriever.py` | Minimal pluggable RAG: chunks every `.txt`/`.md` file under a corpus directory, retrieves top-k via sentence-transformers cosine similarity or falls back to dependency-free TF-IDF. |
 
-### Web backend: `web/backend/` -- what each file does
+### Web backend (`web/backend/`): what each file does
 
 | File | Purpose |
 |---|---|
 | `main.py` | FastAPI app entrypoint; wires up CORS, includes every router, restores persisted LLM settings on startup. |
 | `paths.py` | Resolves `REPO_ROOT`/`SRC_DIR`/`SURVEYS_ROOT` regardless of the process's working directory; puts `src/` on `sys.path`. |
-| `runs.py` | In-process background-run tracker (a dict + a daemon thread per run) -- runs a survey without blocking the request/response cycle. |
+| `runs.py` | In-process background-run tracker (a dict + a daemon thread per run): runs a survey without blocking the request/response cycle. |
 | `routers/surveys.py` | Survey CRUD, document-upload parsing, run/run-status, results, analytics, chart file serving, `.zip` download. |
 | `routers/agents.py` | Agent Card CRUD through the web form, full per-agent trace endpoint, `/api/providers` and `/api/ollama-models`. |
-| `routers/settings.py` | LLM-endpoint settings (`GET/PUT /api/settings/llm`, `GET /api/settings/llm/test`) -- see "Remote-LLM mode" below. |
+| `routers/settings.py` | LLM-endpoint settings (`GET/PUT /api/settings/llm`, `GET /api/settings/llm/test`); see "Remote-LLM mode" below. |
 | `analytics.py` | Pure, FastAPI-free aggregation used by `GET /api/surveys/{id}/analytics`: classifies every configured agent (`contributed`/`zero_accepted`/`pending_manual`/`skipped`/`not_run`) from what's actually on disk, and tallies Best/Worst pick frequency per criterion. See "Analytics: who said what" below. |
 | `parsing/markdown_parser.py` | Parses a structured Markdown survey definition into candidate dimensions. |
 | `parsing/lss_parser.py` | Best-effort LimeSurvey `.lss` (XML) parser; surfaces every question row as a candidate dimension. |
 | `parsing/document_parser.py` | Best-effort PDF/DOCX candidate-dimension extraction (text-pattern heuristic, not structural). |
 
-### Web frontend: `web/frontend/src/` -- what each file does
+### Web frontend (`web/frontend/src/`): what each file does
 
 | File | Purpose |
 |---|---|
 | `App.jsx` | Top-level layout: sidebar nav (Surveys / Settings) and page routing. |
-| `api.js` | The only place that calls the backend -- one `fetch`-based function per endpoint. |
+| `api.js` | The only place that calls the backend: one `fetch`-based function per endpoint. |
 | `pages/SurveysPage.jsx` | Survey list + "New survey" panel (upload a document or enter criteria manually). |
 | `pages/SurveyDetailPage.jsx` | One survey's three tabs: Agents (list/add/edit/delete + per-agent trace), Results (weight tables, charts, rendered report, `.zip` download), and Analytics (panel-participation summary, Best/Worst frequency, the full "who said what" sample table, and a non-contributing-agents table with the reason for each). |
-| `pages/SettingsPage.jsx` | The LLM-endpoint settings page (presets, custom URL, test connection, save) -- see "Remote-LLM mode" below. |
+| `pages/SettingsPage.jsx` | The LLM-endpoint settings page (presets, custom URL, test connection, save); see "Remote-LLM mode" below. |
 | `components/AgentForm.jsx` | The create/edit form for one Agent Card. |
 | `components/TraceViewer.jsx` | Tabbed viewer for one agent's filled survey / reasoning / prompt / raw conversation log. |
 | `components/StatusDot.jsx` | The small colored status indicator (`idle`/`running`/`complete`/`error`/`pending_manual`). |
@@ -209,7 +209,7 @@ docker compose up --build
 Output lands in `surveys/bsi-hawc-bwm/report/report.md` and `.../charts/`.
 
 The example survey's agent roster spans 6 diverse Ollama model families
-(Qwen, Gemma, Llama, Mistral, DeepSeek, Phi -- one per domain-persona role,
+(Qwen, Gemma, Llama, Mistral, DeepSeek, Phi, one per domain-persona role,
 so base-vs-RAG comparisons hold the model constant within a role) plus a
 5-agent "independent reviewer" cross-check tier (Claude Opus/Sonnet/Haiku
 via the Anthropic API, and manually-pasted Gemini/GPT).
@@ -240,7 +240,7 @@ and watch its status (`idle` / `running` / `awaiting paste` / `complete` /
 `error`); view each agent's full trace (filled survey, reasoning, exact
 prompt, raw conversation log) plus the combined results and charts, with a
 one-click `.zip` download of everything; and see the whole panel's Analytics
-tab (who said what, and who didn't) -- see "Analytics: who said what" below.
+tab (who said what, and who didn't); see "Analytics: who said what" below.
 
 ## Deploying on a shared server (no local pip/venv, no passwordless sudo)
 
@@ -275,7 +275,7 @@ needs to be explicitly allowed alongside the two local-dev defaults (see
 the host already listens there.
 
 **Frontend, via whatever Node the server has** (a system Node install, or a
-version manager like `nvm` if that's what's available -- no Docker needed
+version manager like `nvm` if that's what's available: no Docker needed
 for this side, it's just a static dev server):
 
 ```bash
@@ -297,7 +297,7 @@ curl -o /dev/null -w '%{http_code}\n' http://<server-tailscale-ip>:5180/   # 200
 Then open `http://<server-tailscale-ip>:5180` in a browser on any device
 that's on the same Tailscale network. Both processes are long-lived
 (the Docker container restarts-on-demand; the Vite dev server keeps running
-in the background via `nohup`/`disown`) -- no need to redeploy between
+in the background via `nohup`/`disown`); no need to redeploy between
 survey runs, only when the source changes (the backend needs a
 `docker restart agentic-survey-backend` to pick up a code change since
 Python doesn't hot-reload; the frontend picks up changes immediately via
@@ -306,7 +306,7 @@ Vite's HMR).
 ## Where everything lives
 
 - **The UI**: `http://<server-tailscale-ip>:5180` (frontend) talking to
-  `http://<server-tailscale-ip>:8100` (backend API) -- see "Deploying on a
+  `http://<server-tailscale-ip>:8100` (backend API); see "Deploying on a
   shared server" above for how those get started.
 - **Every survey's project folder**: `surveys/<survey-id>/` in the repo
   checkout the backend was started from (see "Repository structure" above
@@ -314,7 +314,7 @@ Vite's HMR).
   `rag_corpora/`, and, once run, each agent's `agents/<id>/` runtime folder
   plus the survey-level `report/` folder).
 - **Fastest way to grab everything for one survey**: click "Download .zip"
-  on that survey's page (or `GET /api/surveys/{id}/download`) -- it zips
+  on that survey's page (or `GET /api/surveys/{id}/download`); it zips
   the entire `surveys/<survey-id>/` folder, configs and runtime output
   together.
 - **One agent's full reasoning trace**: that agent's row's "Trace" button
@@ -325,21 +325,21 @@ Vite's HMR).
   table + posterior chart + full rendered report), or
   `surveys/<survey-id>/report/{report.md,combined_results.json,charts/*.png}`
   on disk.
-- **Who said what, and who didn't**: the Analytics tab -- see next section.
+- **Who said what, and who didn't**: the Analytics tab. See next section.
 
 ## Analytics: who said what
 
 The Analytics tab (`GET /api/surveys/{id}/analytics`) is the single place
 to see the whole panel's actual weight-elicitation responses side by side,
 and to see honestly which configured agents *didn't* produce a response
-and why -- rather than only being able to check one agent's Trace at a
+and why, rather than only being able to check one agent's Trace at a
 time, or inferring non-response from an agent's absence in the results
 table.
 
 It shows three things, computed purely from what's on disk (never
 fabricated for an agent that didn't produce a result):
 
-1. **Panel participation**: a count of every configured agent by status --
+1. **Panel participation**: a count of every configured agent by status:
    `contributed` (at least one accepted sample), `zero_accepted` (ran to
    completion but every sample was rejected by guardrails), `pending_manual`
    (a `provider: manual` agent still waiting for a pasted-back response),
@@ -347,14 +347,14 @@ fabricated for an agent that didn't produce a result):
    error, most commonly a missing API key, before any sample could be
    attempted), or `not_run` (configured but the survey has never been run).
 2. **Best/Worst pick frequency**: across every accepted sample, how many
-   times each criterion was picked Best and how many times Worst -- the
+   times each criterion was picked Best and how many times Worst: the
    fastest way to see which dimension the panel actually converged on
    before even looking at the solved posterior weights.
-3. **Weight elicitation details -- who said what**: one row per accepted
+3. **Weight elicitation details: who said what**: one row per accepted
    sample (agent, role, model, RAG on/off, Best, Worst, reasoning), and a
    second table for every non-contributing agent with its status and the
    specific reason (e.g. "every one of 15 attempts was rejected by
-   guardrails" vs. "no result.json was ever written -- missing API key").
+   guardrails" vs. "no result.json was ever written, missing API key").
 
 See `web/backend/analytics.py` (`compute_analytics`) for the exact
 classification logic and `tests/test_web_analytics.py` for the cases it's
@@ -378,19 +378,19 @@ regardless of where `OLLAMA_BASE_URL` points; only the `ollama`-provider
 HTTP calls leave the machine. See `.env.example`.
 
 **Web UI:** use the **Settings** page rather than an environment variable.
-It's a runtime setting, not just a documented env var -- switching it takes
+It's a runtime setting, not just a documented env var: switching it takes
 effect on the very next survey run, no backend restart required. Pick a
 preset (Local / Veritas server (Tailscale)) or enter a custom URL, click
 "Test connection" to confirm the host is reachable and see which models it
 has pulled, then Save. The choice persists across backend restarts
-(`web/backend/data/llm_settings.json`, gitignored, machine-specific -- not
+(`web/backend/data/llm_settings.json`, gitignored, machine-specific: not
 something to commit or share). See `GET/PUT /api/settings/llm` and
 `GET /api/settings/llm/test` if driving this from a script instead of the
 UI.
 
 Why this needed a settings page instead of just an env var: the CLI is a
 fresh process every run, so it re-reads `OLLAMA_BASE_URL` every time. The
-web backend is a long-lived process -- without `routers/settings.py` and
+web backend is a long-lived process: without `routers/settings.py` and
 `providers.reset_provider()`, whatever `OLLAMA_BASE_URL` was set to at
 backend startup would be stuck for the process's whole life. See
 `docs/development/changelog.md`'s 2026-08-02 "LLM-endpoint settings" entry.
@@ -399,7 +399,7 @@ backend startup would be stuck for the process's whole life. See
 
 project-cogtwins (VERITAS's precursor project) documents wanting exactly
 this kind of portable agent spec in its URD (Amendment v2.0, S19, "Agent
-Identity & Policy Enforcement") but never built one -- its agents are
+Identity & Policy Enforcement") but never built one: its agents are
 Python objects assembled from a hardcoded registry plus two Postgres
 tables, not a file anyone can pick up and replicate. This is that file.
 
@@ -453,7 +453,7 @@ prints "Waiting on manually-pasted responses" and writes each pending
 sample's exact prompt to
 `surveys/<id>/agents/<agent-id>/manual_input/prompt_NN.md`. Paste that
 into the model's chat UI, paste the reply into the matching
-`response_NN.txt` in the same folder, and re-run -- already-answered
+`response_NN.txt` in the same folder, and re-run: already-answered
 samples are never re-asked, and nothing is skipped or invented if you stop
 partway through.
 
@@ -473,8 +473,8 @@ one. This is fixed at the source in `src/agentic_survey/solvers/bwm_bayesian.py`
 
 Every bug found since (timeout tuning, per-agent failure isolation, the
 manual provider's sample-index tracking, the negative-error-bar chart
-crash) is logged with its root cause in `docs/development/diagnostics.md`
--- check there before re-diagnosing something that already has a documented
+crash) is logged with its root cause in `docs/development/diagnostics.md`;
+check there before re-diagnosing something that already has a documented
 cause.
 
 ## Adding an agent

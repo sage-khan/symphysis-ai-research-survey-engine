@@ -121,7 +121,7 @@ the same identical values by two different floating-point code paths
 (`np.mean` vs `np.percentile`) and can disagree by a few ULPs, landing the
 "lower" bound a sliver above the mean. matplotlib rejects any negative
 `yerr` outright rather than clamping it, so this crashed chart generation
--- after `report.md` and `combined_results.json` had already been written,
+after `report.md` and `combined_results.json` had already been written,
 so a run with perfectly valid results still surfaced as a hard failure.
 
 **Fix:** `reporting.py` clips each error-bar half to `max(0.0, ...)` before
@@ -144,11 +144,11 @@ trailing slash) before ever reading a file inside it. Every shipped example
 card, the web UI's `create_agent` default, and the README's own sample
 Agent Card grant that corpus via a `<root>/**` scope. `fnmatch(path, scope)`
 requires a literal `/` after `<root>` to satisfy a `/**` suffix, so the bare
-root path -- which has no trailing slash -- never matched its own scope.
+root path, which has no trailing slash, never matched its own scope.
 `check_data_scope` therefore raised `PermissionError_` for every single
 RAG-enabled agent ever created via the documented pattern, which
 `orchestrator.py`'s per-agent exception handling correctly (per its own
-design) logs as "skipped" and continues past -- so the failure was silent
+design) logs as "skipped" and continues past, so the failure was silent
 by design, not a crash, and easy to miss without checking each agent's
 runtime folder individually. The existing unit tests for
 `check_data_scope` never caught this because they only ever passed a *file

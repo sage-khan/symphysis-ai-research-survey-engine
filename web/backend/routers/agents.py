@@ -122,7 +122,7 @@ def list_providers() -> List[str]:
 
 @router.get("/models/{provider}")
 def list_models_for_provider(provider: str) -> Dict[str, Any]:
-    """The live, real model list for `provider` -- Ollama's own /api/tags,
+    """The live, real model list for `provider`: Ollama's own /api/tags,
     or each hosted provider's own list-models API, never a hardcoded or
     guessed list. Every model picker in the UI reads through this, so a
     user can only select a model that's actually confirmed available."""
@@ -134,7 +134,7 @@ def list_models_for_provider(provider: str) -> Dict[str, Any]:
 @router.get("/role-packs")
 def list_role_packs() -> List[Dict[str, str]]:
     """Standard professional-domain knowledge packs available to attach to
-    an agent (see agentic_survey/role_packs/) -- discovered from disk, so
+    an agent (see agentic_survey/role_packs/), discovered from disk, so
     the picker always reflects exactly what packs actually ship."""
     from agentic_survey import role_packs
 

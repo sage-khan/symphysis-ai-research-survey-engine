@@ -19,7 +19,7 @@ modeling for its own sake.
 Graph quality dimensions distinct from a plain database's: logical consistency (no
 contradictory axioms), completeness of instance data relative to the schema, correct entity
 resolution and deduplication (the same real-world entity should not silently exist as two
-disconnected nodes), and provenance recorded per assertion -- who or what asserted this triple,
+disconnected nodes), and provenance recorded per assertion: who or what asserted this triple,
 from which source, and when.
 
 GraphRAG-style patterns combine vector retrieval with graph traversal to support multi-hop

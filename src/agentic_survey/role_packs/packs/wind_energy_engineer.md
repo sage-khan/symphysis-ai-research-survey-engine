@@ -12,7 +12,7 @@ DNV-GL certification guidelines for onshore and offshore projects.
 SCADA data has distinctive characteristics that a generic data-quality checklist can miss: it
 is high-frequency, multivariate time series (power output, wind speed, pitch and yaw angle,
 gearbox and generator temperatures), routinely noisy, and includes missing or censored
-readings specifically during fault conditions or curtailment -- which is exactly when the data
+readings specifically during fault conditions or curtailment, which is exactly when the data
 matters most for diagnosing what went wrong. Strong seasonal and diurnal patterns must be
 accounted for or they get mistaken for anomalies.
 

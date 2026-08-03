@@ -35,7 +35,7 @@ export default function AgentLibraryPage() {
         <div>
           <h1>Agent Library</h1>
           <div className="mono-dim" style={{ marginTop: 6 }}>
-            {agents.length} reusable agent{agents.length === 1 ? "" : "s"} -- assign any of these to a survey from
+            {agents.length} reusable agent{agents.length === 1 ? "" : "s"}: assign any of these to a survey from
             that survey's Agents tab, or create new ones here
           </div>
         </div>
@@ -80,7 +80,7 @@ export default function AgentLibraryPage() {
             {agents.map((a) => (
               <tr key={a.agent_id}>
                 <td>{a.agent_id}</td>
-                <td>{a.display_name || <span className="mono-dim">—</span>}</td>
+                <td>{a.display_name || <span className="mono-dim">-</span>}</td>
                 <td>
                   {a.role}
                   {a.expertise && <div className="mono-dim">{a.expertise}</div>}
@@ -88,8 +88,8 @@ export default function AgentLibraryPage() {
                 <td>
                   {a.provider}/{a.model}
                 </td>
-                <td>{a.rag_enabled ? "yes" : "—"}</td>
-                <td>{a.tools && a.tools.length ? a.tools.join(", ") : "—"}</td>
+                <td>{a.rag_enabled ? "yes" : "-"}</td>
+                <td>{a.tools && a.tools.length ? a.tools.join(", ") : "-"}</td>
                 <td className="mono-dim" title={a.did}>
                   {shortDid(a.did)}
                 </td>
@@ -114,7 +114,7 @@ export default function AgentLibraryPage() {
               <tr>
                 <td colSpan={8} className="mono-dim">
                   No library agents yet. Create one, or add one from an existing survey's Agents tab
-                  (not yet supported -- library agents currently start here).
+                  (not yet supported; library agents currently start here).
                 </td>
               </tr>
             )}

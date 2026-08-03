@@ -9,26 +9,26 @@ are tracked separately in `diagnostics.md`.
   professional-domain knowledge primers (`packs/*.md`) covering AI/ML
   Scientist, Data Engineer, LLMOps Engineer, Knowledge Graph Engineer,
   Construction/Civil Engineer, Wind Energy/SCADA Engineer, Blockchain &
-  Distributed Trust Specialist, and Cybersecurity/GRC Specialist -- named
+  Distributed Trust Specialist, and Cybersecurity/GRC Specialist, named
   standards, common failure modes, and evaluation heuristics each of
   those professions actually uses, not survey-specific claims. This is
   the standard-role grounding the user asked for so an agent created as
   "Data Engineer" speaks from that standpoint immediately rather than
   from a blank `role_description` alone.
 - `AgentCard` gains an optional `role_pack` field (an id, e.g.
-  `"data_engineer"`, not a fuzzy match against the freeform `role` text
-  -- deliberately explicit so a reviewer can see exactly which pack, if
+  `"data_engineer"`, not a fuzzy match against the freeform `role` text,
+  deliberately explicit so a reviewer can see exactly which pack, if
   any, was attached and never has to guess whether a role string was
   matched correctly).
 - `Agent` now includes the pack's full body as the first context source
   on every run, ahead of the agent's own RAG corpus, the survey's shared
-  knowledge repo, and web search -- a fixed professional baseline, not
+  knowledge repo, and web search: a fixed professional baseline, not
   something retrieved by relevance, mirroring how a human panelist in
   that role already knows this material walking in rather than looking
   it up per question. Logged via `write_tool_call` like every other
   context source, so a reviewer can see exactly what was injected.
 - New `GET /api/role-packs` endpoint (discovers packs from disk, so
-  adding a `.md` file is enough to expose a new pack -- no code change);
+  adding a `.md` file is enough to expose a new pack, no code change);
   `AgentIn.role_pack` threaded through both `agents.py` and `library.py`'s
   create/update routes.
 - New "Standard role knowledge pack" dropdown on the Agent form (survey
@@ -50,12 +50,12 @@ are tracked separately in `diagnostics.md`.
 - `Agent` (`agent.py`) now combines three context sources before every
   prompt, not just RAG: (1) the agent's own dedicated RAG corpus if
   `rag.enabled`, unchanged; (2) the survey's shared knowledge repository
-  (`surveys/<id>/knowledge_repo/`) -- picked up automatically for every
+  (`surveys/<id>/knowledge_repo/`), picked up automatically for every
   agent in that survey, no per-agent flag, matching how shared reference
   material works for a human panel; (3) a real web search if `"web_search"`
   is in the agent's `tools` list. A web search failure degrades to no
   results (logged via `storage.write_tool_call`, same mechanism RAG
-  retrieval already used) rather than failing the agent -- an optional
+  retrieval already used) rather than failing the agent: an optional
   grounding tool being briefly unavailable shouldn't block an otherwise
   answerable survey.
 - New `web/backend/routers/knowledge.py`:
@@ -65,7 +65,7 @@ are tracked separately in `diagnostics.md`.
   extraction the survey-criteria document parser uses internally (its
   *public* `parse_pdf`/`parse_docx` only keep lines matching a narrow
   "CODE: Label" heuristic, which would silently discard almost all of a
-  real prose document -- caught this before it shipped, not after).
+  real prose document; caught this before it shipped, not after).
 - New **Knowledge** tab on the survey detail page (upload/list/delete), a
   **Web search** section on Settings (Tavily key, alongside the existing
   hosted-LLM-provider keys but visually separate since Tavily is a search
@@ -80,13 +80,13 @@ are tracked separately in `diagnostics.md`.
   invented-for-this-test marker phrase that exists nowhere else, ran a
   real agent against it, and confirmed that exact phrase appears in the
   real outgoing `prompt.md` sent to mistral:7b, labelled
-  `[shared knowledge: kb_marker.md]` -- proof the retrieval is real, not
+  `[shared knowledge: kb_marker.md]`, proof the retrieval is real, not
   simulated. Test survey deleted afterward.
 
 ## 2026-08-03 (anti-hallucination: real, live model lists for every provider)
 
 - New `web/backend/model_catalog.py`: `list_models(provider)` fetches the
-  actual, live model list directly from that provider -- Ollama's own
+  actual, live model list directly from that provider: Ollama's own
   `/api/tags`, or each hosted provider's own list-models API (OpenAI,
   OpenRouter, Groq, and Gemini via its OpenAI-compat endpoint all expose
   `GET {base}/models`; Anthropic has its own `GET /v1/models` with an
@@ -95,8 +95,8 @@ are tracked separately in `diagnostics.md`.
   when a provider is unreachable or has no API key configured, so callers
   (a UI dropdown, a validation check) can show *why* instead of crashing.
   `model_is_available(provider, model)` gives the benefit of the doubt
-  (returns `True`) when the catalog itself couldn't be fetched -- absence
-  of evidence isn't evidence of a hallucination.
+  (returns `True`) when the catalog itself couldn't be fetched, since
+  absence of evidence isn't evidence of a hallucination.
 - `GET /api/models/{provider}` replaces the Ollama-only
   `GET /api/ollama-models`; every model picker in the UI (the Agent
   form, the natural-language proposer's model picker) now re-fetches the
@@ -108,7 +108,7 @@ are tracked separately in `diagnostics.md`.
   `model_catalog.model_is_available`, skipping `provider: manual` entries
   (no API list exists for those by definition). This is the fix Dan asked
   for directly after seeing the Ollama-only version catch a hallucinated
-  model name -- the same failure mode applies to every hosted provider,
+  model name: the same failure mode applies to every hosted provider,
   not just Ollama.
 - `tests/test_model_catalog.py`: 9 new tests (one per provider's request
   shape, missing-key handling, manual/unknown-provider handling,
@@ -127,7 +127,7 @@ are tracked separately in `diagnostics.md`.
 
 - GitHub repo renamed a third time, same day: `sage-khan/survey-agent-generation-engine`
   -> `sage-khan/symphysis-ai-research-survey-engine` (final name; GitHub
-  redirects all three prior URLs -- `agentic-survey-tool`, `sage`,
+  redirects all three prior URLs: `agentic-survey-tool`, `sage`,
   `survey-agent-generation-engine`).
 - veritas server checkout moved to
   `/home/veritas/projects/symphysis-ai-research-survey-engine`; backend
@@ -147,7 +147,7 @@ are tracked separately in `diagnostics.md`.
 
 - New `web/backend/agent_proposer.py` + `routers/proposer.py`:
   `POST /api/surveys/{id}/propose-agents` takes a plain-language requirement
-  and calls an LLM (any configured provider) to propose a panel -- each
+  and calls an LLM (any configured provider) to propose a panel: each
   entry either `{"source": "library", "agent_id": ...}` (reuse an existing
   Agent Library entry) or `{"source": "new", ...}` (a fully-specified new
   agent). Nothing is written to disk by this call; it only returns the
@@ -156,11 +156,11 @@ are tracked separately in `diagnostics.md`.
   entries are created in the Agent Library first (so they're reusable
   going forward, not one-off) and then assigned into the survey; "library"
   entries are assigned directly. Each entry is handled independently and
-  reports its own status -- one bad entry doesn't block the rest.
+  reports its own status: one bad entry doesn't block the rest.
 - **Real finding from live testing, fixed same session**: the orchestrator
   LLM (qwen2.5:14b, phi4:14b, and others tried) reliably hallucinates
   plausible-sounding but non-existent Ollama model names for new agents
-  (observed: "code-davinci", "legal-expert", "llama-2-7b-chat" -- none
+  (observed: "code-davinci", "legal-expert", "llama-2-7b-chat", none
   ever pulled on the test host). `parse_proposals`'s schema validation
   didn't catch this (it's a syntactically valid model name, just not an
   available one). Added `_annotate_model_availability`: every "new"
@@ -169,7 +169,7 @@ are tracked separately in `diagnostics.md`.
   UI can warn a human before approval rather than the agent silently
   failing only once the survey is actually run. Degrades safely if the
   Ollama host can't be reached (doesn't false-flag everything). This is
-  advisory, not a hard block -- approving an unfixed flagged entry is
+  advisory, not a hard block: approving an unfixed flagged entry is
   still possible (matches the general design: a human reviews and decides,
   nothing is auto-corrected on their behalf); confirmed live that both
   paths work (fixing the model before approving, and knowingly approving
@@ -197,7 +197,7 @@ are tracked separately in `diagnostics.md`.
   CRUD (`GET/POST /api/library/agents`, `GET/PUT/DELETE
   /api/library/agents/{id}`) plus `POST /api/library/agents/{id}/assign/{survey_id}`,
   which copies (materializes) the library card into that survey's own
-  `agents/` directory -- same `agent_id`, same `did:key` identity -- so the
+  `agents/` directory, keeping the same `agent_id` and `did:key` identity, so the
   existing orchestrator/storage/run pipeline (which only ever reads
   `surveys/<id>/agents/*.json`) needed no changes at all. Reuses
   `agents.py`'s `AgentIn` Pydantic schema and helpers rather than
@@ -226,7 +226,7 @@ are tracked separately in `diagnostics.md`.
 
 - GitHub repo renamed again, same day: `sage-khan/sage` ->
   `sage-khan/survey-agent-generation-engine` (the full descriptive name,
-  not the short acronym, as the project's canonical identity -- "SAGE"
+  not the short acronym, as the project's canonical identity; "SAGE"
   stays the UI's display name/acronym). GitHub redirects both the original
   `agentic-survey-tool` URL and the intermediate `sage` URL.
 - veritas server: checkout moved `/home/veritas/projects/sage` ->
@@ -247,25 +247,25 @@ are tracked separately in `diagnostics.md`.
   agents, and the guardrail denylist starting point. Previously these were
   hardcoded literals duplicated across `agent_card.py`'s dataclass
   defaults, `web/backend/routers/agents.py`'s Pydantic defaults, and
-  `AgentForm.jsx`'s `blankForm()` -- three copies that could (and did, for
+  `AgentForm.jsx`'s `blankForm()`: three copies that could (and did, for
   the denylist) drift out of sync.
 - `GroqProvider`/`GeminiProvider`/`XaiProvider`/`OpenAIProvider`/
   `OpenRouterProvider` now read their base URL from config (overridable
   without a code change, e.g. to point at a proxy or a different API
   version), falling back to the previous hardcoded URL only if
   `app_config` itself can't be imported.
-- New `GET/PUT /api/settings/config` and a "Config -- defaults for new
+- New `GET/PUT /api/settings/config` and a "Config: defaults for new
   agents" section on the Settings page: every value above is editable from
   the UI (persisted to gitignored `web/backend/data/config_overrides.json`,
-  deep-merged onto `defaults.yaml` at read time -- that file is never
+  deep-merged onto `defaults.yaml` at read time; that file is never
   written to at runtime) or by editing `config/defaults.yaml` directly.
   Verified live: changing the default temperature via the API and then
   creating a new agent with no `model.temperature` supplied picked up the
   new value immediately, no backend restart.
 - CORS's two local-dev default origins also now come from
   `config/defaults.yaml`'s `cors.default_origins` rather than a literal in
-  `main.py` (the deployment-time `CORS_EXTRA_ORIGINS` env var is unchanged
-  -- that's legitimately a per-deployment concern, not a versioned default).
+  `main.py` (the deployment-time `CORS_EXTRA_ORIGINS` env var is unchanged;
+  that's legitimately a per-deployment concern, not a versioned default).
 
 ## 2026-08-03 (rebrand executed: repo + folder renamed, veritas-server deployment moved)
 
@@ -280,7 +280,7 @@ are tracked separately in `diagnostics.md`.
   frontend), same `OLLAMA_BASE_URL`/`CORS_EXTRA_ORIGINS` env vars. Verified:
   46/46 tests pass from the new location, health checks green, full browser
   screenshot pass shows SAGE branding with zero console errors.
-- Nothing else about the deployment changed -- see this same date's earlier
+- Nothing else about the deployment changed. See this same date's earlier
   entries for the feature/UX work the rename followed.
 
 ## 2026-08-03 (self-introduction turn, editable per-agent prompts, generic multi-provider settings, survey rename/created-at)
@@ -306,7 +306,7 @@ are tracked separately in `diagnostics.md`.
   `storage._extract_thinking`).
 - **Conversation Log tab rewritten**: an explanatory banner at the top, and
   each event kind (introduction / model completion / rejected / tool call)
-  rendered readably instead of a raw JSON dump -- a reasoning model's
+  rendered readably instead of a raw JSON dump. A reasoning model's
   "thinking" is in a collapsible `<details>`, a rejected attempt shows its
   guardrail error(s) in red plus the raw text, etc.
 - **Downloads added** to the Trace viewer: "Download agent card .json" and
@@ -326,8 +326,8 @@ are tracked separately in `diagnostics.md`.
   (`PUT /api/settings/llm`'s new `save_preset_label`,
   `DELETE /api/settings/llm/presets/{label}`). Added a
   **Hosted-provider API keys** section (`GET/PUT /api/settings/api-keys`)
-  covering Anthropic, OpenAI, OpenRouter, Groq, Gemini, and xAI (Grok) --
-  keys are stored locally (gitignored `llm_settings.json`), applied to the
+  covering Anthropic, OpenAI, OpenRouter, Groq, Gemini, and xAI (Grok).
+  Keys are stored locally (gitignored `llm_settings.json`), applied to the
   process environment, and never echoed back once saved (only whether a key
   is set is shown). New provider classes `GroqProvider`, `GeminiProvider`
   (via Google's OpenAI-compatibility endpoint), `XaiProvider` in
@@ -335,7 +335,7 @@ are tracked separately in `diagnostics.md`.
 - **Survey `created_at` and rename**: `create_survey` now stamps a real UTC
   timestamp; the Surveys list shows a Created column. A new
   `PATCH /api/surveys/{id}` endpoint (and a Rename button on the survey
-  detail page) lets the display title be changed after creation -- the
+  detail page) lets the display title be changed after creation. The
   survey `id` itself (the directory name every agent card's
   `permissions.data_scopes`/`rag.corpus_path` bakes in) stays immutable by
   design; see the endpoint's docstring for why. Also added an optional
@@ -361,7 +361,7 @@ are tracked separately in `diagnostics.md`.
   procedure used to run this app on the veritas server, where there's no
   system pip/venv and no passwordless sudo), and "Where everything lives"
   (UI URLs, project-folder layout, `.zip` download, trace files, report
-  files) -- previously this was only ever explained ad hoc, not documented.
+  files); previously this was only ever explained ad hoc, not documented.
 
 ## 2026-08-03 (live 17-agent run against the real uploaded survey; RAG-permission bug fix)
 
@@ -407,7 +407,7 @@ are tracked separately in `diagnostics.md`.
   the relevant README section in the same change, and that any change
   worth a commit gets a `changelog.md` entry (with a `diagnostics.md`
   entry too, if it was a bug fix). Written after noticing this README had
-  drifted -- it described "Quick start" and "Web UI" as separate,
+  drifted: it described "Quick start" and "Web UI" as separate,
   loosely-connected sections with no full file-level reference, even
   though the repo had grown to 30+ source files across three languages.
 

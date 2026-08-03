@@ -1,7 +1,7 @@
 """Natural-language agent proposal endpoints: propose (an LLM call, nothing
 written to disk) then approve (user-reviewed, now actually create/assign).
 Two separate endpoints so a human always reviews and can edit before
-anything is materialized -- see ../agent_proposer.py's module docstring.
+anything is materialized. See ../agent_proposer.py's module docstring.
 """
 
 from __future__ import annotations
@@ -72,7 +72,7 @@ def approve_agents_endpoint(survey_id: str, body: ApproveIn) -> List[Dict[str, A
     "library" entries are assigned into this survey as-is; "new" entries
     are created in the Agent Library first (so they're reusable going
     forward, same as any other library agent) and then assigned. Each
-    entry is handled independently and reports its own status/error --
+    entry is handled independently and reports its own status/error:
     one bad entry doesn't block the rest, matching how the survey run
     itself never lets one agent's failure take down the whole panel."""
     from .library import assign_to_survey, create_library_agent

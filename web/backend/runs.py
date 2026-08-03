@@ -2,7 +2,7 @@
 
 A survey run calls real LLMs and a PyMC sampler, both slow enough that they
 must not block the request/response cycle. This is a single-process,
-in-memory tracker (a dict + a thread per run) -- adequate for one person
+in-memory tracker (a dict + a thread per run), adequate for one person
 running this as an internal tool, not a distributed job queue.
 """
 

@@ -3,7 +3,7 @@ import { api } from "../api.js";
 import StatusDot from "../components/StatusDot.jsx";
 
 function formatDate(iso) {
-  if (!iso) return "—";
+  if (!iso) return "-";
   try {
     return new Date(iso).toISOString().slice(0, 16).replace("T", " ") + " UTC";
   } catch {
@@ -137,13 +137,13 @@ function NewSurveyPanel({ onCreated, onClose }) {
       </div>
 
       <label style={{ display: "block", marginBottom: 18 }}>
-        <div className="mono-dim">Description (optional -- what this project is about; shown to agents in their introduction)</div>
+        <div className="mono-dim">Description (optional: what this project is about; shown to agents in their introduction)</div>
         <textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={2} style={{ width: "100%" }} />
       </label>
 
       <div className="mono-dim" style={{ marginBottom: 8 }}>
         Criteria being weighed against each other (edit freely before creating).{" "}
-        <strong>Code</strong> is a short technical ID used internally and in charts (e.g. "Q", "PT" --
+        <strong>Code</strong> is a short technical ID used internally and in charts (e.g. "Q", "PT":
         keep it brief, no spaces). <strong>Label</strong> is the full human-readable name and definition
         shown to agents and in reports (e.g. "Quality: is the data technically sound?").
       </div>
@@ -272,7 +272,7 @@ export default function SurveysPage({ onOpenSurvey }) {
                   <td>
                     <StatusDot status={s.run_status} />
                   </td>
-                  <td>{s.has_results ? "yes" : "—"}</td>
+                  <td>{s.has_results ? "yes" : "-"}</td>
                   <td style={{ textAlign: "right" }}>
                     <button className="btn" onClick={() => onOpenSurvey(s.id)} style={{ marginRight: 8 }}>
                       Open

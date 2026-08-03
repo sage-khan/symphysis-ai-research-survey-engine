@@ -101,7 +101,7 @@ function KnowledgeTab({ surveyId }) {
   return (
     <div>
       <div className="mono-dim" style={{ marginBottom: 16, maxWidth: 720 }}>
-        Files uploaded here are shared, survey-wide background material -- every agent in this
+        Files uploaded here are shared, survey-wide background material. Every agent in this
         survey retrieves relevant chunks from it automatically when the survey runs, with no
         per-agent setup needed (distinct from a single role's own dedicated RAG corpus, configured
         on that agent). .md/.txt are stored as-is; .pdf/.docx are converted to plain text on upload
@@ -214,7 +214,7 @@ function AnalyticsTab({ surveyId, refreshKey }) {
       </div>
 
       <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
-        Weight elicitation details — who said what
+        Weight elicitation details: who said what
       </div>
       <div className="panel" style={{ marginBottom: 24 }}>
         <table>
@@ -239,7 +239,7 @@ function AnalyticsTab({ surveyId, refreshKey }) {
                   <td>
                     {a.provider}/{a.model}
                   </td>
-                  <td>{a.rag_enabled ? "yes" : "—"}</td>
+                  <td>{a.rag_enabled ? "yes" : "-"}</td>
                   <td>{s.index}</td>
                   <td style={{ color: "var(--amber)" }}>{s.best}</td>
                   <td>{s.worst}</td>
@@ -332,13 +332,13 @@ function AddFromLibrary({ surveyId, onAdded, onCancel }) {
           <option value="">select an agent from the library...</option>
           {libraryAgents.map((a) => (
             <option key={a.agent_id} value={a.agent_id}>
-              {a.agent_id} -- {a.display_name || a.role} ({a.provider}/{a.model})
+              {a.agent_id}: {a.display_name || a.role} ({a.provider}/{a.model})
             </option>
           ))}
         </select>
         {libraryAgents.length === 0 && (
           <div className="mono-dim" style={{ marginTop: 4 }}>
-            No library agents yet -- create one on the Agent Library page first.
+            No library agents yet. Create one on the Agent Library page first.
           </div>
         )}
       </label>
@@ -422,8 +422,8 @@ function AgentProposer({ surveyId, onApproved, onCancel }) {
         </button>
       </div>
       <div className="mono-dim" style={{ marginBottom: 16 }}>
-        Write your requirement in plain language. An LLM (picked below) proposes agents -- reusing
-        Agent Library entries where they fit, or drafting new ones -- as an editable list. Nothing
+        Write your requirement in plain language. An LLM (picked below) proposes agents, reusing
+        Agent Library entries where they fit, or drafting new ones, as an editable list. Nothing
         is created until you review and click Approve.
       </div>
 
@@ -478,7 +478,7 @@ function AgentProposer({ surveyId, onApproved, onCancel }) {
       {proposals && (
         <div>
           <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
-            Proposed agents -- review and edit before approving
+            Proposed agents: review and edit before approving
           </div>
           <table style={{ marginBottom: 16 }}>
             <thead>
@@ -504,14 +504,14 @@ function AgentProposer({ surveyId, onApproved, onCancel }) {
                         style={{ width: "100%" }}
                       />
                     ) : (
-                      "—"
+                      "-"
                     )}
                   </td>
                   <td>
                     {p.source === "new" ? (
                       <input value={p.role || ""} onChange={(e) => updateProposal(i, "role", e.target.value)} style={{ width: "100%" }} />
                     ) : (
-                      "—"
+                      "-"
                     )}
                   </td>
                   <td>
@@ -524,12 +524,12 @@ function AgentProposer({ surveyId, onApproved, onCancel }) {
                         />
                         {p.model_available === false && (
                           <div style={{ color: "var(--amber)", fontSize: 12 }}>
-                            ⚠ not found on this Ollama host -- pick a real model or pull this one first
+                            ⚠ not found on this Ollama host. Pick a real model or pull this one first
                           </div>
                         )}
                       </div>
                     ) : (
-                      "—"
+                      "-"
                     )}
                   </td>
                   <td>
@@ -655,7 +655,7 @@ function AgentsTab({ surveyId, onChanged }) {
             {agents.map((a) => (
               <tr key={a.agent_id}>
                 <td>{a.agent_id}</td>
-                <td>{a.display_name || <span className="mono-dim">—</span>}</td>
+                <td>{a.display_name || <span className="mono-dim">-</span>}</td>
                 <td>
                   {a.role}
                   {a.expertise && <div className="mono-dim">{a.expertise}</div>}
@@ -663,8 +663,8 @@ function AgentsTab({ surveyId, onChanged }) {
                 <td>
                   {a.provider}/{a.model}
                 </td>
-                <td>{a.rag_enabled ? "yes" : "—"}</td>
-                <td>{a.tools && a.tools.length ? a.tools.join(", ") : "—"}</td>
+                <td>{a.rag_enabled ? "yes" : "-"}</td>
+                <td>{a.tools && a.tools.length ? a.tools.join(", ") : "-"}</td>
                 <td className="mono-dim" title={a.did}>
                   {shortDid(a.did)}
                 </td>

@@ -64,7 +64,7 @@ class OpenAICompatibleProvider:
 def _configured_base_url(provider: str, fallback: str | None) -> str | None:
     """Every OpenAI-compatible provider's base URL comes from
     config/defaults.yaml (overridable via Settings -> Config /
-    PUT /api/settings/config), not a literal baked into this class --
+    PUT /api/settings/config), not a literal baked into this class.
     `fallback` only covers the case where app_config.py itself can't be
     imported (e.g. a partial/broken install), so a hardcoded URL is never
     silently used over an explicit user override."""

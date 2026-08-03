@@ -1,7 +1,7 @@
 """Agent Library: reusable Agent Cards not tied to any one survey.
 
 "Assigning" a library agent to a survey materializes (copies) its card into
-that survey's own agents/ directory -- the orchestrator/storage/run
+that survey's own agents/ directory. The orchestrator/storage/run
 pipeline only ever reads surveys/<id>/agents/*.json, so library agents
 themselves are never run directly; a library entry is a reusable
 template/registry entry that a survey pulls a copy of, keeping the exact
@@ -11,7 +11,7 @@ they can respawn an identical agent, anywhere") rather than inventing a
 second identity concept.
 
 Reuses agents.py's request models and helpers (AgentIn and friends) rather
-than duplicating ~80 lines of Pydantic schema -- library and survey-scoped
+than duplicating ~80 lines of Pydantic schema: library and survey-scoped
 agents are the exact same Agent Card shape, just rooted in a different
 directory.
 """
@@ -147,7 +147,7 @@ def delete_library_agent(agent_id: str) -> Dict[str, str]:
 @router.post("/agents/{agent_id}/assign/{survey_id}")
 def assign_to_survey(agent_id: str, survey_id: str) -> Dict[str, Any]:
     """Copy this library agent's card into the given survey's agents/
-    directory -- same agent_id, same did:key identity -- so the
+    directory, keeping the same agent_id and did:key identity, so the
     orchestrator picks it up on the survey's next run. Refuses if the
     survey already has an agent with this id (use the survey's own Agents
     tab to edit that copy instead; the two are independent files once

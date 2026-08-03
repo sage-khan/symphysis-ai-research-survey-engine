@@ -3,7 +3,7 @@
 Per-agent config now lives entirely in agent_card.py's AgentCard (portable
 JSON, one file per agent, see agents/*.json under a survey directory). This
 module only owns the survey manifest (survey.yaml): which instrument, which
-dimensions, and the HAWC-BWM weighting/sensitivity-sweep settings -- things
+dimensions, and the HAWC-BWM weighting/sensitivity-sweep settings, things
 that describe the survey as a whole, not any one agent.
 """
 

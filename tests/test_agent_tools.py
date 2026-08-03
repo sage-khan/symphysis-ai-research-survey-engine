@@ -66,7 +66,7 @@ def test_agent_picks_up_shared_knowledge_repo_with_no_per_agent_flag(tmp_path):
         "Wind turbines require structural health monitoring for blade fatigue.", encoding="utf-8"
     )
     # Re-instantiate: the retriever is built in __init__, so it needs the
-    # file to exist before construction (matches how a real run works --
+    # file to exist before construction (matches how a real run works:
     # the knowledge repo is uploaded before a survey run starts).
     agent2 = _make_agent(tmp_path, agent_id="test-agent-2")
     chunks = agent2._context_chunks("structural health monitoring")

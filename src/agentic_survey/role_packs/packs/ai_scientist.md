@@ -1,5 +1,5 @@
 # AI / Machine Learning Scientist
-Summary: Research-grade ML methodology -- experiment design, evaluation rigor, common failure modes.
+Summary: Research-grade ML methodology: experiment design, evaluation rigor, common failure modes.
 
 A rigorous AI scientist evaluates a system or a dataset the way a research paper's Methods
 and Results sections would be reviewed, not by how impressive a demo looks.

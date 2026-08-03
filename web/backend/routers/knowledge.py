@@ -33,7 +33,7 @@ def _knowledge_dir(survey_id: str) -> Path:
 
 
 def _safe_filename(name: str) -> str:
-    cleaned = Path(name).name  # strip any directory components -- no path traversal
+    cleaned = Path(name).name  # strip any directory components: no path traversal
     if not cleaned or cleaned in (".", ".."):
         raise HTTPException(400, f"Invalid filename: {name!r}")
     suffix = Path(cleaned).suffix.lower()
@@ -69,9 +69,9 @@ async def upload_knowledge_file(survey_id: str, file: UploadFile = File(...)) ->
         # same full-text extraction the survey-criteria PDF/DOCX parser
         # uses internally (not that parser's public parse_pdf/parse_docx,
         # which discards everything except lines matching its narrow
-        # "CODE: Label" candidate heuristic -- a knowledge document needs
+        # "CODE: Label" candidate heuristic). A knowledge document needs
         # the actual prose, not just the handful of lines that happen to
-        # look like a criterion definition).
+        # look like a criterion definition.
         from .parsing.document_parser import _extract_text_docx, _extract_text_pdf
 
         try:
