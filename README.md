@@ -142,6 +142,17 @@ this same pipeline: it does not reimplement any of it, it calls
 (`web/backend/runs.py`) and serves the same on-disk artifacts (report,
 charts, per-agent trace files) as JSON/file responses.
 
+## API documentation
+
+The backend is a standard FastAPI app, so its interactive OpenAPI/Swagger
+documentation is live at `/docs` (Swagger UI) and `/redoc` (ReDoc) on
+whatever host the backend is running on, with the raw schema at
+`/openapi.json`, no extra setup required. This README documents the
+concepts (Agent Cards, instruments, guardrails, RAG, knowledge bases); the
+`/docs` page documents the concrete request/response shape of every
+endpoint, grouped by router tag (`surveys`, `agents`, `library`,
+`knowledge`, `knowledge-bases`, `proposer`, `settings`).
+
 ## Repository structure
 
 ```

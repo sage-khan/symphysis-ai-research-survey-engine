@@ -4,6 +4,14 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (Swagger/OpenAPI documentation description)
+
+- `web/backend/main.py`'s FastAPI app now has a real `description` (previously blank),
+  shown on the auto-generated `/docs` (Swagger UI) and `/redoc` pages, which were already live
+  and functional (FastAPI generates them automatically) but undocumented in this README.
+  README: new "API documentation" section pointing to `/docs`, `/redoc`, and `/openapi.json`.
+
+
 ## 2026-08-03 (reusable knowledge bases; L1 self-comparison rule restated per level; latent RAG permission gap fixed)
 
 - New `agents_library/knowledge_bases/<kb_id>/`: named, reusable domain-knowledge collections,

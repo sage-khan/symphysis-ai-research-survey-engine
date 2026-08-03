@@ -24,7 +24,18 @@ from agentic_survey import app_config  # noqa: E402 - must follow the `paths` im
 # reverting to localhost / no keys.
 settings.load_settings_into_env()
 
-app = FastAPI(title="Symphysis API", version="0.1.0")
+app = FastAPI(
+    title="Symphysis API",
+    version="0.1.0",
+    description=(
+        "REST API for Symphysis: config-driven agent panels for expert-elicitation surveys. "
+        "Create a survey, add agents (from a JSON Agent Card or the reusable Agent Library), "
+        "run it against real LLM providers, and read back the solved weights, a generated "
+        "report, and a full per-agent audit trail. See this repository's README for the "
+        "conceptual overview (Agent Cards, instruments, guardrails, RAG and knowledge bases); "
+        "this page documents the concrete request/response shape of every endpoint."
+    ),
+)
 
 # Origins the frontend may be served from. Defaults (config/defaults.yaml's
 # cors.default_origins, overridable via Settings -> Config) cover local
