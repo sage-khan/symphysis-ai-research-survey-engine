@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { api } from "../api.js";
 import AgentForm from "../components/AgentForm.jsx";
+import KnowledgeBasesTab from "../components/KnowledgeBasesTab.jsx";
 
 function shortDid(did) {
   if (!did) return "";
@@ -8,6 +9,7 @@ function shortDid(did) {
 }
 
 export default function AgentLibraryPage() {
+  const [tab, setTab] = useState("agents"); // "agents" | "knowledge-bases"
   const [agents, setAgents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -31,13 +33,40 @@ export default function AgentLibraryPage() {
 
   return (
     <div>
+      <div style={{ marginBottom: 20 }}>
+        <h1>Agent Library</h1>
+      </div>
+
+      <div style={{ display: "flex", gap: 8, marginBottom: 24, borderBottom: "1px solid var(--border)" }}>
+        {[
+          { key: "agents", label: "Agents" },
+          { key: "knowledge-bases", label: "Knowledge Bases" },
+        ].map((t) => (
+          <button
+            key={t.key}
+            className="btn"
+            onClick={() => setTab(t.key)}
+            style={{
+              border: "none",
+              borderBottom: tab === t.key ? "2px solid var(--amber)" : "2px solid transparent",
+              borderRadius: 0,
+              color: tab === t.key ? "var(--amber)" : "var(--text-dim)",
+              paddingBottom: 10,
+            }}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === "knowledge-bases" ? (
+        <KnowledgeBasesTab />
+      ) : (
+        <>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 28 }}>
-        <div>
-          <h1>Agent Library</h1>
-          <div className="mono-dim" style={{ marginTop: 6 }}>
-            {agents.length} reusable agent{agents.length === 1 ? "" : "s"}: assign any of these to a survey from
-            that survey's Agents tab, or create new ones here
-          </div>
+        <div className="mono-dim">
+          {agents.length} reusable agent{agents.length === 1 ? "" : "s"}: assign any of these to a survey from
+          that survey's Agents tab, or create new ones here
         </div>
         <button
           className="btn btn-primary"
@@ -121,6 +150,8 @@ export default function AgentLibraryPage() {
           </tbody>
         </table>
       </div>
+        </>
+      )}
     </div>
   );
 }

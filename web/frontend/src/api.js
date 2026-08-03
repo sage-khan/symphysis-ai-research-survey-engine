@@ -96,4 +96,15 @@ export const api = {
   getSurveyRulefile: (surveyId) => request(`/api/surveys/${surveyId}/rulefile`),
   saveSurveyRulefile: (surveyId, content) =>
     request(`/api/surveys/${surveyId}/rulefile`, { method: "PUT", body: JSON.stringify({ content }) }),
+
+  listKnowledgeBases: () => request("/api/knowledge-bases"),
+  createKnowledgeBase: (body) => request("/api/knowledge-bases", { method: "POST", body: JSON.stringify(body) }),
+  deleteKnowledgeBase: (kbId) => request(`/api/knowledge-bases/${kbId}`, { method: "DELETE" }),
+  uploadKnowledgeBaseFile: (kbId, file) => {
+    const form = new FormData();
+    form.append("file", file);
+    return request(`/api/knowledge-bases/${kbId}/files`, { method: "POST", body: form });
+  },
+  deleteKnowledgeBaseFile: (kbId, filename) =>
+    request(`/api/knowledge-bases/${kbId}/files/${encodeURIComponent(filename)}`, { method: "DELETE" }),
 };

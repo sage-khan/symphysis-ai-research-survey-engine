@@ -4,6 +4,32 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (reusable knowledge bases; L1 self-comparison rule restated per level; latent RAG permission gap fixed)
+
+- New `agents_library/knowledge_bases/<kb_id>/`: named, reusable domain-knowledge collections,
+  upload once (`.md`/`.txt` as-is, `.pdf`/`.docx` converted to `.md` on upload, matching the
+  existing per-survey `knowledge_repo` upload pattern), reuse across any agent by pointing its
+  `rag.corpus_path` at the same directory instead of re-uploading the same files into a one-off
+  per-agent corpus every time. New `web/backend/routers/knowledge_bases.py`
+  (list/create/delete a knowledge base, list/upload/delete its files) and a new "Knowledge
+  Bases" tab on the Agent Library page (`KnowledgeBasesTab.jsx`) for managing them without
+  touching a JSON file by hand.
+- `AgentForm.jsx`'s RAG section now offers a dropdown of existing knowledge bases (selecting
+  one sets `corpus_path` to that knowledge base) alongside the existing free-text path field,
+  addressing that RAG configuration previously offered only an enabled/disabled checkbox plus a
+  path an operator had to already know and had no way to populate through this app.
+- Fixed a latent gap in the same form: saving a RAG-enabled agent never added a matching entry
+  to `permissions.data_scopes`, so any agent actually created through this form (rather than by
+  hand-editing a JSON card, which is how every real agent card in this repo so far was
+  authored) would fail at run time with a permission error the moment it tried to read its own
+  configured corpus. `handleSave` now derives and appends the needed `<corpus_path>/**` scope
+  automatically if the agent's own scopes don't already cover it.
+- `instruments/hierarchical_bwm.py`'s per-level task template now restates the
+  self-comparison-is-1 rule inline for every level, not just a pointer back to the shared intro
+  (see diagnostics.md: even qwen2.5:32b still rated Best-to-itself as 9 specifically on L1 with
+  only the intro-level statement).
+
+
 ## 2026-08-03 (survey rulefile rewritten for the real hierarchy; real input documents; reputable-source-only rule)
 
 - `surveys/bsi-hawc-bwm/rulefile.md` was still describing the old flat

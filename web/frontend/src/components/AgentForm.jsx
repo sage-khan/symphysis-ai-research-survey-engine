@@ -52,6 +52,7 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
   const [providers, setProviders] = useState([]);
   const [modelCatalog, setModelCatalog] = useState({ models: [], error: null });
   const [rolePacks, setRolePacks] = useState([]);
+  const [knowledgeBases, setKnowledgeBases] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const isEdit = Boolean(existing);
@@ -59,6 +60,7 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
   useEffect(() => {
     api.listProviders().then(setProviders);
     api.listRolePacks().then(setRolePacks).catch(() => setRolePacks([]));
+    api.listKnowledgeBases().then(setKnowledgeBases).catch(() => setKnowledgeBases([]));
     if (!isEdit) {
       api.getAppConfig().then((cfg) => setForm(blankForm(cfg))).catch(() => {});
     }
@@ -94,12 +96,27 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
       if (!form.agent_id || !form.role || !form.model.name) {
         throw new Error("agent_id, role, and model.name are required.");
       }
+      const corpusPath = form.rag.enabled ? form.rag.corpus_path : null;
+      // A RAG-enabled agent's corpus_path is checked against
+      // permissions.data_scopes at run time (see permissions.py's
+      // check_data_scope); an agent saved from this form with RAG on but
+      // no matching scope would fail the moment it actually ran. This
+      // form has no separate data-scopes editor, so derive the scope this
+      // corpus_path needs and add it automatically rather than silently
+      // producing an agent that cannot run its own configured RAG.
+      const dataScopes = [...form.permissions.data_scopes];
+      if (corpusPath) {
+        const needed = `${corpusPath}/**`;
+        const alreadyCovered = dataScopes.some((s) => s === needed || s === corpusPath);
+        if (!alreadyCovered) dataScopes.push(needed);
+      }
       const body = {
         ...form,
         model: { ...form.model, seed: form.model.seed === "" ? null : Number(form.model.seed) },
-        rag: { ...form.rag, corpus_path: form.rag.enabled ? form.rag.corpus_path : null },
+        rag: { ...form.rag, corpus_path: corpusPath },
         permissions: {
           ...form.permissions,
+          data_scopes: dataScopes,
           allowed_providers: form.permissions.allowed_providers || [form.model.provider],
         },
       };
@@ -295,25 +312,46 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
         <span>RAG-augmented (give this agent a domain corpus)</span>
       </label>
       {form.rag.enabled && (
-        <label style={{ display: "block", marginBottom: 16 }}>
-          <div className="mono-dim">Corpus path (relative to repo root)</div>
-          <input
-            value={form.rag.corpus_path || ""}
-            onChange={(e) => set("rag.corpus_path", e.target.value)}
-            placeholder={
-              scope === "library"
-                ? `agents_library/rag_corpora/${form.agent_id || "<agent-id>"}`
-                : `surveys/${surveyId}/rag_corpora/${form.agent_id || "<agent-id>"}`
-            }
-            style={{ width: "100%" }}
-          />
-          {scope === "library" && (
-            <div className="mono-dim" style={{ marginTop: 4 }}>
-              A RAG corpus set here travels with this agent wherever it's assigned. Make sure the
-              path exists before running a survey it's assigned to (this form doesn't upload files).
-            </div>
+        <div style={{ marginBottom: 16 }}>
+          {knowledgeBases.length > 0 && (
+            <label style={{ display: "block", marginBottom: 8 }}>
+              <div className="mono-dim">Or link an existing knowledge base (uploaded once, reused here)</div>
+              <select
+                value={knowledgeBases.some((kb) => kb.corpus_path === form.rag.corpus_path) ? form.rag.corpus_path : ""}
+                onChange={(e) => e.target.value && set("rag.corpus_path", e.target.value)}
+                style={{ width: "100%" }}
+              >
+                <option value="">Custom path (type it below)</option>
+                {knowledgeBases.map((kb) => (
+                  <option key={kb.id} value={kb.corpus_path}>
+                    {kb.name} ({kb.file_count} file{kb.file_count === 1 ? "" : "s"})
+                  </option>
+                ))}
+              </select>
+              <div className="mono-dim" style={{ marginTop: 4 }}>
+                Manage knowledge bases, and upload files to them, from Agent Library &rarr; Knowledge Bases.
+              </div>
+            </label>
           )}
-        </label>
+          <label style={{ display: "block" }}>
+            <div className="mono-dim">Corpus path (relative to repo root)</div>
+            <input
+              value={form.rag.corpus_path || ""}
+              onChange={(e) => set("rag.corpus_path", e.target.value)}
+              placeholder={
+                scope === "library"
+                  ? `agents_library/rag_corpora/${form.agent_id || "<agent-id>"}`
+                  : `surveys/${surveyId}/rag_corpora/${form.agent_id || "<agent-id>"}`
+              }
+              style={{ width: "100%" }}
+            />
+            <div className="mono-dim" style={{ marginTop: 4 }}>
+              Either pick a knowledge base above, or point this at any directory of .md/.txt files
+              (a dedicated per-agent corpus you upload to separately). This form does not itself
+              upload files to an arbitrary custom path; use a knowledge base for upload-through-the-UI.
+            </div>
+          </label>
+        </div>
       )}
 
       <div className="mono-dim" style={{ marginBottom: 8 }}>

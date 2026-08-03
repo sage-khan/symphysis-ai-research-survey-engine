@@ -222,6 +222,7 @@ symphysis-ai-research-survey-engine/
 | `routers/library.py` | Agent Library CRUD (reusable Agent Cards not tied to one survey) and assigning a library agent into a survey. |
 | `routers/proposer.py` | `POST /propose-agents` and `/approve-agents`: the two-endpoint natural-language orchestrator flow. |
 | `routers/knowledge.py` | List/upload/delete for a survey's shared knowledge repository; PDF/DOCX are converted to plain text on upload. |
+| `routers/knowledge_bases.py` | CRUD for named, reusable knowledge bases under `agents_library/knowledge_bases/<kb_id>/` (upload once, point any agent's `rag.corpus_path` at the same directory to reuse it, instead of re-uploading the same files per agent). Same upload/PDF-conversion pattern as `knowledge.py`, but library-scoped rather than survey-scoped. |
 | `routers/settings.py` | LLM-endpoint settings, hosted-provider and Tavily API keys, app config (`config/defaults.yaml` overrides), and the global rulefile. See "Remote-LLM mode" below. |
 | `analytics.py` | Pure, FastAPI-free aggregation used by `GET /api/surveys/{id}/analytics`: classifies every configured agent (`contributed`/`zero_accepted`/`pending_manual`/`skipped`/`not_run`) from what's actually on disk, and tallies Best/Worst pick frequency per criterion. See "Analytics: who said what" below. |
 | `parsing/markdown_parser.py` | Parses a structured Markdown survey definition into candidate dimensions. |
@@ -236,9 +237,10 @@ symphysis-ai-research-survey-engine/
 | `api.js` | The only place that calls the backend: one `fetch`-based function per endpoint. |
 | `pages/SurveysPage.jsx` | Survey list + "New survey" panel (upload a document or enter criteria manually). |
 | `pages/SurveyDetailPage.jsx` | One survey's tabs: Agents (list/add/edit/delete + per-agent trace, add from library, natural-language proposer), Knowledge (upload/list/delete the shared knowledge repository), Results (weight tables, charts, rendered report, `.zip` download), and Analytics (panel-participation summary, Best/Worst frequency, the full "who said what" sample table, and a non-contributing-agents table with the reason for each). |
-| `pages/AgentLibraryPage.jsx` | Reusable Agent Card list/create/edit/delete, independent of any one survey. |
+| `pages/AgentLibraryPage.jsx` | Reusable Agent Card list/create/edit/delete, independent of any one survey; tabbed with `components/KnowledgeBasesTab.jsx`. |
 | `pages/SettingsPage.jsx` | Ollama endpoint (presets, custom URL, test connection), hosted-provider and Tavily API keys, config defaults, and the global rulefile; see "Remote-LLM mode" below. |
-| `components/AgentForm.jsx` | The create/edit form for one Agent Card (survey-scoped or library-scoped), including its role pack and rulefile fields. |
+| `components/AgentForm.jsx` | The create/edit form for one Agent Card (survey-scoped or library-scoped), including its role pack and rulefile fields; its RAG section can link an existing knowledge base or take a free-text corpus path, and auto-derives the `permissions.data_scopes` entry a RAG-enabled corpus_path needs. |
+| `components/KnowledgeBasesTab.jsx` | Create/delete a named, reusable knowledge base and upload/delete its files; each one's `corpus_path` can be copied into any agent's RAG corpus field. |
 | `components/TraceViewer.jsx` | Tabbed viewer for one agent's filled survey / reasoning / prompt / raw conversation log (QA precheck, model completions, guardrail rejections, tool calls, fabricated-citation flags). |
 | `components/StatusDot.jsx` | The small colored status indicator (`idle`/`running`/`complete`/`error`/`pending_manual`). |
 

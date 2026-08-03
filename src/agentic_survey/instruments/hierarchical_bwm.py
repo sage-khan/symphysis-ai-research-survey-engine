@@ -54,9 +54,10 @@ Criteria in this level:
 {dimension_list}
 
 Choose the single BEST (most important) and single WORST (least important) criterion in \
-this level. Then, for every criterion j in this level (including Best itself), rate \
-Best-to-Others (see the ratio rule above). Then, for every criterion j (including Worst \
-itself), rate Others-to-Worst (see the ratio rule above).
+this level. Then, for every criterion j in this level, rate Best-to-Others: a ratio, not an \
+importance score, so Best-to-itself is exactly 1, never 9 (see the ratio rule above for why). \
+Then, for every criterion j, rate Others-to-Worst: Worst-to-itself is exactly 1, never 9, for \
+the same reason.
 """
 
 _INTRO_TEMPLATE = """\

@@ -15,7 +15,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import paths  # noqa: F401 - import for its sys.path side effect
-from .routers import agents, knowledge, library, proposer, settings, surveys
+from .routers import agents, knowledge, knowledge_bases, library, proposer, settings, surveys
 
 from agentic_survey import app_config  # noqa: E402 - must follow the `paths` import above
 
@@ -59,6 +59,7 @@ app.include_router(agents.router)
 app.include_router(library.router)
 app.include_router(proposer.router)
 app.include_router(knowledge.router)
+app.include_router(knowledge_bases.router)
 app.include_router(settings.router)
 
 

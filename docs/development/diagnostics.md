@@ -3,6 +3,55 @@
 Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
+## qwen2.5:32b still rated Best-to-itself as 9 on L1 with the ratio rule stated once, up front
+
+**Found:** after swapping to qwen2.5:32b (see the entry above), re-ran and checked
+blockchain-engineer-base-ollama's fresh output specifically (isolated from older, accumulated
+batches in the same conversation.jsonl by its own qa_precheck timestamp, since a separate
+tooling issue, described below, meant the file was never actually cleared between runs): 12 of
+15 attempts still failed with `Level 'L1': best_to_others[best] must be 1, got 9`. The
+ratio-vs-score rule was confirmed present in the exact prompt this agent received. L1 was the
+only level with this failure; L2 through L3e, further from the rule statement in the prompt,
+mostly succeeded at it.
+
+**Root cause:** the ratio rule was stated once, in the shared intro, before all seven levels;
+each level's own task text only pointed back to it ("see the ratio rule above"). L1 being the
+level closest to that statement, not the farthest, ruled out "the rule faded from context" as
+the explanation; something about L1 specifically (its four abstract, headline-sounding
+criteria: Data Value Score, Technical Feasibility Fit, Economic Value, Attack Resistance) seems
+to prime a "this is the most important decision, rate it emphatically" response that overrides
+a rule stated once and only referenced, not restated, at the point of generation.
+
+**Fix:** `instruments/hierarchical_bwm.py`'s per-level task template now restates the
+self-comparison-is-1 rule locally, inline, for every level ("a ratio, not an importance score,
+so Best-to-itself is exactly 1, never 9"), instead of only pointing back to the shared intro.
+Deliberately kept in lowercase ("a ratio") rather than repeating "RATIO" in capitals seven
+times, so the existing regression test asserting the canonical rule statement appears exactly
+once still holds.
+
+## docker exec's glob was expanded by the host shell, not the container's, so cleanup silently no-op'd
+
+**Found:** while trying to isolate a specific run's rejection data, found the same agent's
+`conversation.jsonl` contained multiple batches from different runs/models concatenated
+together, even though each run was preceded by an explicit cleanup command.
+
+**Root cause:** the cleanup was run as `ssh host "docker exec <container> rm -rf /app/surveys/.../*/conversation.jsonl"`.
+The `*` glob is expanded by whichever shell first parses the command line, here the remote
+host's own login shell (since the whole `docker exec ...` string is one argument to the outer
+`ssh`), not a shell running inside the container. `/app/...` does not exist on the host
+filesystem (it is a path inside the container's own filesystem namespace), so the host shell's
+glob matched nothing and, per default (non-nullglob) bash behavior, passed the literal
+unexpanded string `*/conversation.jsonl` through to `rm -rf` inside the container, which
+silently found no file by that literal name (`-f` suppresses the "no such file" error) and
+deleted nothing.
+
+**Fix:** wrap the remote command in an explicit `bash -c '...'` so glob expansion happens
+inside the container's own shell, where `/app/...` is real: `docker exec <container> bash -c
+'rm -rf /app/surveys/.../*/conversation.jsonl ...'`. This is an operational mistake in how the
+cleanup was invoked from outside the app, not a bug in Symphysis's own code; noted here because
+it directly caused several minutes of misdiagnosis (attributing a fresh model's behavior to
+stale leftover data from an earlier run) before being caught.
+
 ## Every small/mid local Ollama model failed the full seven-level hierarchical_bwm task
 
 **Found:** after fixing max_tokens and the ratio-vs-score prompt warning (see the entry above),
