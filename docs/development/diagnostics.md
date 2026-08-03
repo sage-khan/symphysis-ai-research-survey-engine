@@ -3,6 +3,29 @@
 Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
+## hierarchical_bwm agents had every sample rejected: max_tokens left over from the old flat-BWM survey
+
+**Found:** running the newly-converted bsi-hawc-bwm survey (see the hierarchical BWM changelog
+entries), every Ollama-backed agent showed `zero_accepted` in `/analytics`, several with
+malformed-JSON rejection reasons ("Expecting ',' delimiter", "No JSON object found in
+response"). Checked one agent's raw completion log directly: `"finish_reason": "length"`, with
+the response cut off mid-way through the very first level's `reasoning` field.
+
+**Root cause:** every agent card in this survey still had `model.max_tokens: 1024`, sized for
+the old flat `bwm` instrument's single-level response (one best/worst pick plus up to six
+1-9 ratings each way, comfortably under 1024 tokens). `hierarchical_bwm` asks for the same
+shape seven times in one response (L1 through L3e) plus a reasoning sentence per level; the
+real response is several times longer than what these agents were ever configured to produce,
+so Ollama's `num_predict` (which `max_tokens` maps to directly) cut every response off before
+the JSON object closed.
+
+**Fix:** raised `model.max_tokens` to 6144 across every agent in this survey. Also relevant but
+not the primary cause: `deepseek-r1:14b` is a reasoning model whose visible completion can
+include a chain-of-thought preamble before its final JSON, which eats further into a small
+token budget; the more generous ceiling covers this too. Re-run and re-check `/analytics`
+after any future instrument change that meaningfully lengthens the expected response shape,
+rather than assuming an existing per-agent `max_tokens` value still fits.
+
 
 ## CI/CD workflow YAML was invalid, blocking every run since it was added
 

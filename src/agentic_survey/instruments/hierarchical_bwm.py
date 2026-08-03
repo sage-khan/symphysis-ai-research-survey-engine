@@ -54,11 +54,9 @@ Criteria in this level:
 {dimension_list}
 
 Choose the single BEST (most important) and single WORST (least important) criterion in \
-this level. Then, for every criterion j in this level (including Best itself), rate how many \
-times more important Best is than j on a 1-9 integer scale (Best-to-Others; Best compared to \
-itself is always exactly 1). Then, for every criterion j (including Worst itself), rate how \
-many times more important j is than Worst on a 1-9 integer scale (Others-to-Worst; Worst \
-compared to itself is always exactly 1).
+this level. Then, for every criterion j in this level (including Best itself), rate \
+Best-to-Others (see the ratio rule above). Then, for every criterion j (including Worst \
+itself), rate Others-to-Worst (see the ratio rule above).
 """
 
 _INTRO_TEMPLATE = """\
@@ -66,6 +64,16 @@ You are completing a hierarchical Best-Worst Method (BWM) elicitation with {n_le
 separate comparison levels. {composite_note}Complete every level below independently: a \
 criterion being "best" in one level says nothing about how it should be rated in a different \
 level.
+
+Ratio rule, applies to every level below: Best-to-Others and Others-to-Worst are RATIOS on a \
+1-9 integer scale, not absolute importance scores. Best-to-itself is always exactly 1 (one \
+time as more important as itself), never 9; the same applies to Worst-to-itself in \
+Others-to-Worst. A rating of 9 for Best-to-Best would claim Best is nine times more important \
+than itself, which is never correct. Worked example with placeholder criteria X, Y, Z (not \
+any level's real criteria) where X is Best and Z is Worst: best_to_others = {{"X": 1, "Y": 4, \
+"Z": 7}} (X vs itself is 1; X is rated 4x more important than Y and 7x more important than Z). \
+others_to_worst = {{"X": 7, "Y": 3, "Z": 1}} (Z vs itself is 1; X is rated 7x more important \
+than Z and Y is rated 3x more important than Z).
 
 """
 

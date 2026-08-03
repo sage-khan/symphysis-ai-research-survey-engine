@@ -10,7 +10,7 @@
     "provider": "manual",
     "name": "gpt-5",
     "temperature": 0.7,
-    "max_tokens": 1024,
+    "max_tokens": 6144,
     "top_p": 1.0,
     "seed": null,
     "model_hash": null

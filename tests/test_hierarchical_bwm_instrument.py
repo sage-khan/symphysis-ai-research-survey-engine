@@ -50,6 +50,23 @@ def test_build_messages_includes_every_level_and_its_dimensions():
     assert "TrustRouter = DVS x F x (1 + E) x A" in user_content
 
 
+def test_build_messages_includes_the_ratio_vs_score_warning_once():
+    # Regression test: an earlier version of this instrument's per-level
+    # template omitted the "this is a ratio, not an absolute score, never 9
+    # for self-comparison" warning that instruments/bwm.py's flat template
+    # already carries (added there after real Ollama models rated
+    # Best-to-itself as 9). qwen2.5:14b reproduced exactly that failure
+    # ("best_to_others[best] must be 1, got 9") on a live hierarchical_bwm
+    # run once the per-level template dropped the warning. State it once in
+    # the shared intro rather than per level, to avoid repeating it seven
+    # times in one prompt.
+    instrument = HierarchicalBWMInstrument()
+    messages = instrument.build_messages("You are a blockchain trust specialist.", [], PARAMS)
+    user_content = messages[1]["content"]
+    assert "never 9" in user_content
+    assert user_content.count("RATIO") == 1
+
+
 def test_parse_accepts_a_well_formed_multi_level_response():
     instrument = HierarchicalBWMInstrument()
     raw = f"Here is my answer:\n{json.dumps(_valid_payload())}\nThanks."
