@@ -17,6 +17,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from . import paths  # noqa: F401 - import for its sys.path side effect
 from .routers import agents, settings, surveys
 
+from agentic_survey import app_config  # noqa: E402 - must follow the `paths` import above
+
 # Restore any previously-saved LLM endpoint/API keys before anything else
 # runs, so those settings survive a backend restart instead of silently
 # reverting to localhost / no keys.
@@ -24,10 +26,13 @@ settings.load_settings_into_env()
 
 app = FastAPI(title="SAGE API", version="0.1.0")
 
-# Origins the frontend may be served from. Defaults cover local Vite dev;
-# CORS_EXTRA_ORIGINS (comma-separated) adds more, e.g. when the UI is
-# reached over Tailscale at the server's own IP instead of localhost.
-_default_origins = ["http://localhost:5173", "http://127.0.0.1:5173"]
+# Origins the frontend may be served from. Defaults (config/defaults.yaml's
+# cors.default_origins, overridable via Settings -> Config) cover local
+# Vite dev; CORS_EXTRA_ORIGINS (comma-separated env var) adds more, e.g.
+# when the UI is reached over Tailscale at the server's own IP instead of
+# localhost -- that's a deployment-time concern, appropriately an env var
+# rather than a versioned config value.
+_default_origins = app_config.get_config().get("cors", {}).get("default_origins", ["http://localhost:5173", "http://127.0.0.1:5173"])
 _extra_origins = [o.strip() for o in os.environ.get("CORS_EXTRA_ORIGINS", "").split(",") if o.strip()]
 
 app.add_middleware(

@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from . import __version__ as RUNTIME_VERSION
+from . import app_config
 from .did_key import AgentIdentity
 
 SCHEMA_VERSION = "1.0"
@@ -32,14 +33,30 @@ class AgentCardError(Exception):
     pass
 
 
+def _model_default(key: str, fallback: Any) -> Any:
+    # Read through app_config (config/defaults.yaml, overridable via
+    # Settings -> Config) rather than a literal, so changing the default
+    # for newly-created agents never requires a code change. `fallback`
+    # only applies if the config file itself is missing/unreadable.
+    return app_config.model_defaults().get(key, fallback)
+
+
+def _sampling_default(key: str, fallback: Any) -> Any:
+    return app_config.sampling_defaults().get(key, fallback)
+
+
+def _rag_default(key: str, fallback: Any) -> Any:
+    return app_config.rag_defaults().get(key, fallback)
+
+
 @dataclass
 class ModelSpec:
     provider: str
     name: str
-    temperature: float = 0.7
-    max_tokens: int = 1024
-    top_p: float = 1.0
-    seed: Optional[int] = None
+    temperature: float = field(default_factory=lambda: _model_default("temperature", 0.7))
+    max_tokens: int = field(default_factory=lambda: _model_default("max_tokens", 1024))
+    top_p: float = field(default_factory=lambda: _model_default("top_p", 1.0))
+    seed: Optional[int] = field(default_factory=lambda: _model_default("seed", None))
     model_hash: Optional[str] = None  # optional content/digest binding, if the provider reports one
 
 
@@ -47,17 +64,17 @@ class ModelSpec:
 class RagSpec:
     enabled: bool = False
     corpus_path: Optional[str] = None
-    top_k: int = 5
-    embedding_model: Optional[str] = None
-    chunk_size: int = 800
-    chunk_overlap: int = 100
+    top_k: int = field(default_factory=lambda: _rag_default("top_k", 5))
+    embedding_model: Optional[str] = field(default_factory=lambda: _rag_default("embedding_model", None))
+    chunk_size: int = field(default_factory=lambda: _rag_default("chunk_size", 800))
+    chunk_overlap: int = field(default_factory=lambda: _rag_default("chunk_overlap", 100))
 
 
 @dataclass
 class SamplingSpec:
-    repeats: int = 3
-    max_retries_on_malformed: int = 2
-    agreement_threshold: float = 0.0
+    repeats: int = field(default_factory=lambda: _sampling_default("repeats", 3))
+    max_retries_on_malformed: int = field(default_factory=lambda: _sampling_default("max_retries_on_malformed", 2))
+    agreement_threshold: float = field(default_factory=lambda: _sampling_default("agreement_threshold", 0.0))
 
 
 @dataclass

@@ -10,7 +10,7 @@ from typing import Any, Dict, List, Optional
 
 import requests
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from ..paths import CONFIG_DIR, survey_dir
 
@@ -18,12 +18,24 @@ router = APIRouter(prefix="/api", tags=["agents"])
 
 _ID_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9_-]{0,63}$")
 KNOWN_PROVIDERS = ["ollama", "anthropic", "openai", "openrouter", "groq", "gemini", "xai", "manual"]
-DEFAULT_DENYLIST = [
-    r"ignore (all|any|the) (previous|prior|above) instructions",
-    r"sk-[A-Za-z0-9]{20,}",
-    r"-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----",
-]
 DEFAULT_PROMPT_TEMPLATE = str((CONFIG_DIR / "prompts" / "expert_panel_system.txt").resolve())
+
+
+def _cfg():
+    # Imported lazily, same reason as _agent_card_module() below: paths.py
+    # must have already put src/ on sys.path.
+    from agentic_survey import app_config
+
+    return app_config
+
+
+def _default_denylist() -> List[str]:
+    configured = _cfg().guardrail_default_denylist()
+    return configured or [
+        r"ignore (all|any|the) (previous|prior|above) instructions",
+        r"sk-[A-Za-z0-9]{20,}",
+        r"-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----",
+    ]
 
 
 def _safe_id(value: str, kind: str = "id") -> str:
@@ -42,25 +54,31 @@ def _survey_or_404(survey_id: str) -> Path:
 class ModelIn(BaseModel):
     provider: str
     name: str
-    temperature: float = 0.7
-    max_tokens: int = 1024
-    top_p: float = 1.0
-    seed: Optional[int] = None
+    temperature: float = Field(default_factory=lambda: _cfg().model_defaults().get("temperature", 0.7))
+    max_tokens: int = Field(default_factory=lambda: _cfg().model_defaults().get("max_tokens", 1024))
+    top_p: float = Field(default_factory=lambda: _cfg().model_defaults().get("top_p", 1.0))
+    seed: Optional[int] = Field(default_factory=lambda: _cfg().model_defaults().get("seed"))
 
 
 class RagIn(BaseModel):
     enabled: bool = False
     corpus_path: Optional[str] = None
-    top_k: int = 5
-    embedding_model: Optional[str] = "sentence-transformers/all-MiniLM-L6-v2"
-    chunk_size: int = 800
-    chunk_overlap: int = 100
+    top_k: int = Field(default_factory=lambda: _cfg().rag_defaults().get("top_k", 5))
+    embedding_model: Optional[str] = Field(
+        default_factory=lambda: _cfg().rag_defaults().get("embedding_model", "sentence-transformers/all-MiniLM-L6-v2")
+    )
+    chunk_size: int = Field(default_factory=lambda: _cfg().rag_defaults().get("chunk_size", 800))
+    chunk_overlap: int = Field(default_factory=lambda: _cfg().rag_defaults().get("chunk_overlap", 100))
 
 
 class SamplingIn(BaseModel):
-    repeats: int = 3
-    max_retries_on_malformed: int = 2
-    agreement_threshold: float = 0.0
+    repeats: int = Field(default_factory=lambda: _cfg().sampling_defaults().get("repeats", 3))
+    max_retries_on_malformed: int = Field(
+        default_factory=lambda: _cfg().sampling_defaults().get("max_retries_on_malformed", 2)
+    )
+    agreement_threshold: float = Field(
+        default_factory=lambda: _cfg().sampling_defaults().get("agreement_threshold", 0.0)
+    )
 
 
 class PermissionsIn(BaseModel):
@@ -70,7 +88,7 @@ class PermissionsIn(BaseModel):
 
 
 class GuardrailsIn(BaseModel):
-    denylist_patterns: List[str] = DEFAULT_DENYLIST
+    denylist_patterns: List[str] = Field(default_factory=_default_denylist)
 
 
 class AgentIn(BaseModel):

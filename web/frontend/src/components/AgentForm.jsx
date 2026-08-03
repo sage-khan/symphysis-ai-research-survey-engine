@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import { api } from "../api.js";
 
-const DEFAULT_DENYLIST = [
+// Emergency fallback only, used if /api/settings/config can't be reached
+// before this form mounts. The real source of truth is the backend's
+// config/defaults.yaml (see Settings -> Config), not this constant --
+// once that request resolves, blankForm(cfg) below uses the fetched
+// values instead.
+const FALLBACK_DENYLIST = [
   "ignore (all|any|the) (previous|prior|above) instructions",
   "sk-[A-Za-z0-9]{20,}",
   "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----",
 ];
 
-function blankForm() {
+function blankForm(cfg = {}) {
+  const model = cfg.model_defaults || {};
+  const sampling = cfg.sampling_defaults || {};
+  const rag = cfg.rag_defaults || {};
+  const denylist = cfg.guardrail_default_denylist;
   return {
     agent_id: "",
     display_name: "",
@@ -16,11 +25,22 @@ function blankForm() {
     role_description: "",
     system_prompt_override: "",
     instrument: "bwm",
-    model: { provider: "ollama", name: "", temperature: 0.7, max_tokens: 1024, top_p: 1.0, seed: 42 },
-    rag: { enabled: false, corpus_path: "", top_k: 5 },
-    sampling: { repeats: 3, max_retries_on_malformed: 2, agreement_threshold: 0.0 },
+    model: {
+      provider: "ollama",
+      name: "",
+      temperature: model.temperature ?? 0.7,
+      max_tokens: model.max_tokens ?? 1024,
+      top_p: model.top_p ?? 1.0,
+      seed: model.seed ?? 42,
+    },
+    rag: { enabled: false, corpus_path: "", top_k: rag.top_k ?? 5 },
+    sampling: {
+      repeats: sampling.repeats ?? 3,
+      max_retries_on_malformed: sampling.max_retries_on_malformed ?? 2,
+      agreement_threshold: sampling.agreement_threshold ?? 0.0,
+    },
     permissions: { data_scopes: [], allowed_providers: null, max_cost_usd: null },
-    guardrails: { denylist_patterns: DEFAULT_DENYLIST },
+    guardrails: { denylist_patterns: denylist && denylist.length ? denylist : FALLBACK_DENYLIST },
     tools: [],
   };
 }
@@ -36,6 +56,9 @@ export default function AgentForm({ surveyId, existing, onSaved, onCancel }) {
   useEffect(() => {
     api.listProviders().then(setProviders);
     api.listOllamaModels().then((r) => setOllamaModels(r.models || []));
+    if (!isEdit) {
+      api.getAppConfig().then((cfg) => setForm(blankForm(cfg))).catch(() => {});
+    }
   }, []);
 
   function set(path, value) {

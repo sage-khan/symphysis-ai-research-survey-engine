@@ -271,6 +271,223 @@ function ApiKeySettings() {
   );
 }
 
+const BASE_URL_PROVIDERS = [
+  { key: "openrouter", label: "OpenRouter" },
+  { key: "groq", label: "Groq" },
+  { key: "gemini", label: "Gemini" },
+  { key: "xai", label: "xAI (Grok)" },
+];
+
+function ConfigSettings() {
+  const [cfg, setCfg] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState(null);
+
+  async function refresh() {
+    setCfg(await api.getAppConfig());
+  }
+
+  useEffect(() => {
+    refresh();
+  }, []);
+
+  function setPath(path, value) {
+    setCfg((prev) => {
+      const next = structuredClone(prev);
+      let obj = next;
+      const keys = path.split(".");
+      for (let i = 0; i < keys.length - 1; i++) obj = obj[keys[i]];
+      obj[keys[keys.length - 1]] = value;
+      return next;
+    });
+    setSaved(false);
+  }
+
+  async function handleSave() {
+    setBusy(true);
+    setError(null);
+    try {
+      const updated = await api.saveAppConfig(cfg);
+      setCfg(updated);
+      setSaved(true);
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (!cfg) return null;
+
+  return (
+    <div className="panel" style={{ padding: 24, maxWidth: 640, marginBottom: 24 }}>
+      <h3 style={{ marginBottom: 4 }}>Config -- defaults for new agents</h3>
+      <div className="mono-dim" style={{ marginBottom: 18 }}>
+        Nothing here is hardcoded in the app: this is{" "}
+        <code>config/defaults.yaml</code>, editable here or by editing that
+        file directly. Changes apply to newly-created agents and providers;
+        existing agents keep whatever values their card already has.
+      </div>
+
+      <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+        Hosted-provider base URLs
+      </div>
+      {BASE_URL_PROVIDERS.map((p) => (
+        <label key={p.key} style={{ display: "block", marginBottom: 12 }}>
+          <div className="mono-dim">{p.label}</div>
+          <input
+            value={cfg.provider_base_urls?.[p.key] || ""}
+            onChange={(e) => setPath(`provider_base_urls.${p.key}`, e.target.value)}
+            style={{ width: "100%" }}
+          />
+        </label>
+      ))}
+
+      <div className="mono-dim" style={{ margin: "18px 0 8px", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+        Default model hyperparameters
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 18 }}>
+        <label>
+          <div className="mono-dim">Temperature</div>
+          <input
+            type="number"
+            step="0.1"
+            value={cfg.model_defaults?.temperature ?? 0.7}
+            onChange={(e) => setPath("model_defaults.temperature", Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+        <label>
+          <div className="mono-dim">Max tokens</div>
+          <input
+            type="number"
+            value={cfg.model_defaults?.max_tokens ?? 1024}
+            onChange={(e) => setPath("model_defaults.max_tokens", Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+        <label>
+          <div className="mono-dim">Top P</div>
+          <input
+            type="number"
+            step="0.1"
+            value={cfg.model_defaults?.top_p ?? 1.0}
+            onChange={(e) => setPath("model_defaults.top_p", Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+        <label>
+          <div className="mono-dim">Seed</div>
+          <input
+            value={cfg.model_defaults?.seed ?? ""}
+            onChange={(e) => setPath("model_defaults.seed", e.target.value === "" ? null : Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+      </div>
+
+      <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+        Default sampling
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, marginBottom: 18 }}>
+        <label>
+          <div className="mono-dim">Repeats</div>
+          <input
+            type="number"
+            value={cfg.sampling_defaults?.repeats ?? 3}
+            onChange={(e) => setPath("sampling_defaults.repeats", Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+        <label>
+          <div className="mono-dim">Max retries on malformed</div>
+          <input
+            type="number"
+            value={cfg.sampling_defaults?.max_retries_on_malformed ?? 2}
+            onChange={(e) => setPath("sampling_defaults.max_retries_on_malformed", Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+        <label>
+          <div className="mono-dim">Agreement threshold</div>
+          <input
+            type="number"
+            step="0.1"
+            value={cfg.sampling_defaults?.agreement_threshold ?? 0.0}
+            onChange={(e) => setPath("sampling_defaults.agreement_threshold", Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+      </div>
+
+      <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+        Default RAG
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
+        <label>
+          <div className="mono-dim">Top K</div>
+          <input
+            type="number"
+            value={cfg.rag_defaults?.top_k ?? 5}
+            onChange={(e) => setPath("rag_defaults.top_k", Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+        <label>
+          <div className="mono-dim">Chunk size</div>
+          <input
+            type="number"
+            value={cfg.rag_defaults?.chunk_size ?? 800}
+            onChange={(e) => setPath("rag_defaults.chunk_size", Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+        <label>
+          <div className="mono-dim">Chunk overlap</div>
+          <input
+            type="number"
+            value={cfg.rag_defaults?.chunk_overlap ?? 100}
+            onChange={(e) => setPath("rag_defaults.chunk_overlap", Number(e.target.value))}
+            style={{ width: "100%" }}
+          />
+        </label>
+      </div>
+      <label style={{ display: "block", marginBottom: 18 }}>
+        <div className="mono-dim">Embedding model</div>
+        <input
+          value={cfg.rag_defaults?.embedding_model || ""}
+          onChange={(e) => setPath("rag_defaults.embedding_model", e.target.value)}
+          style={{ width: "100%" }}
+        />
+      </label>
+
+      <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+        Default guardrail denylist (one regex per line)
+      </div>
+      <textarea
+        value={(cfg.guardrail_default_denylist || []).join("\n")}
+        onChange={(e) => setPath("guardrail_default_denylist", e.target.value.split("\n").filter(Boolean))}
+        rows={3}
+        style={{ width: "100%", marginBottom: 18 }}
+      />
+
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <button className="btn btn-primary" onClick={handleSave} disabled={busy}>
+          Save config
+        </button>
+        {saved && <span className="mono-dim" style={{ color: "var(--green)" }}>Saved</span>}
+      </div>
+
+      {error && (
+        <div className="mono-dim" style={{ color: "var(--red)", marginTop: 8 }}>
+          {error}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function SettingsPage() {
   return (
     <div>
@@ -283,6 +500,7 @@ export default function SettingsPage() {
 
       <OllamaEndpointSettings />
       <ApiKeySettings />
+      <ConfigSettings />
     </div>
   );
 }

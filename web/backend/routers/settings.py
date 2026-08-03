@@ -217,3 +217,32 @@ def set_api_keys(body: ApiKeysIn) -> Dict[str, bool]:
         providers.reset_provider(provider)
     _write_persisted(persisted)
     return get_api_key_status()
+
+
+@router.get("/config")
+def get_app_config() -> Dict[str, Any]:
+    """The effective, merged app-wide config: provider base URLs, default
+    model/sampling/RAG hyperparameters for new agents, and the guardrail
+    denylist starting point -- config/defaults.yaml (versioned baseline)
+    with any Settings -> Config override applied on top. See
+    agentic_survey/app_config.py; this is the one place these values live,
+    not hardcoded in the frontend or scattered across backend modules."""
+    from agentic_survey import app_config
+
+    return app_config.get_config()
+
+
+@router.put("/config")
+def set_app_config(body: Dict[str, Any]) -> Dict[str, Any]:
+    """Accepts any partial subset of the config shape (e.g. just
+    {"provider_base_urls": {"groq": "https://my-proxy/openai/v1"}}) and
+    deep-merges it into the persisted override -- config/defaults.yaml
+    itself is never modified. Providers with a cached instance are reset so
+    the very next call picks up the change without a backend restart."""
+    from agentic_survey import app_config, providers
+
+    updated = app_config.save_overrides(body)
+    if "provider_base_urls" in body:
+        for provider in body["provider_base_urls"]:
+            providers.reset_provider(provider)
+    return updated

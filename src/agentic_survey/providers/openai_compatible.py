@@ -61,23 +61,43 @@ class OpenAICompatibleProvider:
         )
 
 
+def _configured_base_url(provider: str, fallback: str | None) -> str | None:
+    """Every OpenAI-compatible provider's base URL comes from
+    config/defaults.yaml (overridable via Settings -> Config /
+    PUT /api/settings/config), not a literal baked into this class --
+    `fallback` only covers the case where app_config.py itself can't be
+    imported (e.g. a partial/broken install), so a hardcoded URL is never
+    silently used over an explicit user override."""
+    try:
+        from ..app_config import provider_base_url
+
+        configured = provider_base_url(provider)
+        return configured if configured is not None else fallback
+    except Exception:
+        return fallback
+
+
 class OpenAIProvider(OpenAICompatibleProvider):
     def __init__(self, api_key: str | None = None) -> None:
-        super().__init__(api_key_env="OPENAI_API_KEY", base_url=None, api_key=api_key)
+        super().__init__(api_key_env="OPENAI_API_KEY", base_url=_configured_base_url("openai", None), api_key=api_key)
 
 
 class OpenRouterProvider(OpenAICompatibleProvider):
     def __init__(self, api_key: str | None = None) -> None:
         super().__init__(
             api_key_env="OPENROUTER_API_KEY",
-            base_url="https://openrouter.ai/api/v1",
+            base_url=_configured_base_url("openrouter", "https://openrouter.ai/api/v1"),
             api_key=api_key,
         )
 
 
 class GroqProvider(OpenAICompatibleProvider):
     def __init__(self, api_key: str | None = None) -> None:
-        super().__init__(api_key_env="GROQ_API_KEY", base_url="https://api.groq.com/openai/v1", api_key=api_key)
+        super().__init__(
+            api_key_env="GROQ_API_KEY",
+            base_url=_configured_base_url("groq", "https://api.groq.com/openai/v1"),
+            api_key=api_key,
+        )
 
 
 class GeminiProvider(OpenAICompatibleProvider):
@@ -88,11 +108,15 @@ class GeminiProvider(OpenAICompatibleProvider):
     def __init__(self, api_key: str | None = None) -> None:
         super().__init__(
             api_key_env="GEMINI_API_KEY",
-            base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
+            base_url=_configured_base_url("gemini", "https://generativelanguage.googleapis.com/v1beta/openai/"),
             api_key=api_key,
         )
 
 
 class XaiProvider(OpenAICompatibleProvider):
     def __init__(self, api_key: str | None = None) -> None:
-        super().__init__(api_key_env="XAI_API_KEY", base_url="https://api.x.ai/v1", api_key=api_key)
+        super().__init__(
+            api_key_env="XAI_API_KEY",
+            base_url=_configured_base_url("xai", "https://api.x.ai/v1"),
+            api_key=api_key,
+        )

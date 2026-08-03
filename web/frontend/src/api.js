@@ -50,6 +50,9 @@ export const api = {
   getApiKeyStatus: () => request("/api/settings/api-keys"),
   saveApiKeys: (body) => request("/api/settings/api-keys", { method: "PUT", body: JSON.stringify(body) }),
 
+  getAppConfig: () => request("/api/settings/config"),
+  saveAppConfig: (body) => request("/api/settings/config", { method: "PUT", body: JSON.stringify(body) }),
+
   listAgents: (surveyId) => request(`/api/surveys/${surveyId}/agents`),
   getAgent: (surveyId, agentId) => request(`/api/surveys/${surveyId}/agents/${agentId}`),
   createAgent: (surveyId, body) => request(`/api/surveys/${surveyId}/agents`, { method: "POST", body: JSON.stringify(body) }),

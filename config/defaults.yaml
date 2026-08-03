@@ -1,0 +1,55 @@
+# SAGE default configuration.
+#
+# This file ships the versioned baseline. Every value here is adjustable at
+# runtime from the web UI's Settings -> Config section (GET/PUT
+# /api/settings/config), which persists a partial override to the
+# gitignored web/backend/data/config_overrides.json and merges it on top of
+# this file at read time -- this file itself is never modified at runtime.
+# The CLI and the web backend both read through
+# agentic_survey.app_config.get_config(), never these hardcoded values
+# directly, so there is exactly one source of truth.
+
+# Base URL for each OpenAI-compatible hosted provider. `null` means "use
+# that provider SDK's own default" (currently only true for openai itself).
+# Override here to point at a proxy, a different API version, Azure OpenAI,
+# etc., without touching code.
+provider_base_urls:
+  openai: null
+  openrouter: https://openrouter.ai/api/v1
+  groq: https://api.groq.com/openai/v1
+  gemini: https://generativelanguage.googleapis.com/v1beta/openai/
+  xai: https://api.x.ai/v1
+
+# Applied when a new Agent Card is created and a field is left unset.
+model_defaults:
+  temperature: 0.7
+  max_tokens: 1024
+  top_p: 1.0
+  seed: 42
+
+sampling_defaults:
+  repeats: 3
+  max_retries_on_malformed: 2
+  agreement_threshold: 0.0
+
+rag_defaults:
+  top_k: 5
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+  chunk_size: 800
+  chunk_overlap: 100
+
+# Regex patterns every new agent's guardrails.denylist_patterns starts with
+# (prompt-injection markers, secret-shaped strings). A survey or agent can
+# still add/remove patterns per card; this is only the starting point.
+guardrail_default_denylist:
+  - "ignore (all|any|the) (previous|prior|above) instructions"
+  - "sk-[A-Za-z0-9]{20,}"
+  - "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+
+ollama:
+  timeout_seconds: 900
+
+cors:
+  default_origins:
+    - http://localhost:5173
+    - http://127.0.0.1:5173

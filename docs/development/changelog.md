@@ -3,6 +3,34 @@
 All notable changes to SAGE (formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (de-hardcoded config: one source of truth, adjustable in UI or by editing a file)
+
+- New `config/defaults.yaml` (versioned baseline) + `agentic_survey/app_config.py`
+  (`get_config()`/`save_overrides()`): the single source of truth for
+  provider base URLs, default model/sampling/RAG hyperparameters for new
+  agents, and the guardrail denylist starting point. Previously these were
+  hardcoded literals duplicated across `agent_card.py`'s dataclass
+  defaults, `web/backend/routers/agents.py`'s Pydantic defaults, and
+  `AgentForm.jsx`'s `blankForm()` -- three copies that could (and did, for
+  the denylist) drift out of sync.
+- `GroqProvider`/`GeminiProvider`/`XaiProvider`/`OpenAIProvider`/
+  `OpenRouterProvider` now read their base URL from config (overridable
+  without a code change, e.g. to point at a proxy or a different API
+  version), falling back to the previous hardcoded URL only if
+  `app_config` itself can't be imported.
+- New `GET/PUT /api/settings/config` and a "Config -- defaults for new
+  agents" section on the Settings page: every value above is editable from
+  the UI (persisted to gitignored `web/backend/data/config_overrides.json`,
+  deep-merged onto `defaults.yaml` at read time -- that file is never
+  written to at runtime) or by editing `config/defaults.yaml` directly.
+  Verified live: changing the default temperature via the API and then
+  creating a new agent with no `model.temperature` supplied picked up the
+  new value immediately, no backend restart.
+- CORS's two local-dev default origins also now come from
+  `config/defaults.yaml`'s `cors.default_origins` rather than a literal in
+  `main.py` (the deployment-time `CORS_EXTRA_ORIGINS` env var is unchanged
+  -- that's legitimately a per-deployment concern, not a versioned default).
+
 ## 2026-08-03 (rebrand executed: repo + folder renamed, veritas-server deployment moved)
 
 - GitHub repo renamed `sage-khan/agentic-survey-tool` -> `sage-khan/sage`
