@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional
 
 from . import integrity
 from .agent import Agent
-from .agent_card import AgentCardError, load_card
+from .agent_card import AgentCard, AgentCardError, load_card
 from .config import SurveyConfig
 from .instruments.ahp import AHPInstrument, build_full_matrix
 from .instruments.bwm import BWMInstrument
@@ -49,6 +49,89 @@ def _load_human_responses(path: Path) -> List[Dict[str, Any]]:
     if not isinstance(data, list):
         raise ValueError(f"Expected a JSON list of expert responses in {path}")
     return data
+
+
+def _per_agent_entries(
+    card: AgentCard, qa_status: Optional[bool], payload: Dict[str, Any]
+) -> tuple[Dict[str, Any], Dict[str, Any]]:
+    """One (per_agent_meta, per_agent_detail) pair for a single accepted
+    sample payload. Factored out of the run_survey() loop so
+    regenerate_report() can build the exact same shapes when replaying
+    already-accepted samples from disk instead of freshly-run ones."""
+    meta = {
+        "agent_id": card.agent_id,
+        "did": card.did.id,
+        "role": card.role,
+        "model": card.model.name,
+        "provider": card.model.provider,
+        "rag_enabled": card.rag.enabled,
+    }
+    answer = {k: v for k, v in payload.items() if k not in ("reasoning", "sources_used")}
+    if "levels" in payload:
+        # hierarchical_bwm's reasoning lives per level, not as one
+        # top-level field; concatenate each level's own reasoning into one
+        # readable block rather than showing "(no reasoning field
+        # returned)" for a response that in fact gave a full, per-level
+        # justification.
+        reasoning = "\n\n".join(
+            f"[{lid}] {lvl_answer.get('reasoning', '(no reasoning field returned)')}"
+            for lid, lvl_answer in payload["levels"].items()
+        )
+    else:
+        reasoning = payload.get("reasoning", "(no reasoning field returned)")
+    detail = {
+        "agent_id": card.agent_id,
+        "display_name": card.display_name,
+        "role": card.role,
+        "model": f"{card.model.provider}/{card.model.name}",
+        "did": card.did.id,
+        "qa_precheck_passed": qa_status,
+        "answer": answer,
+        "reasoning": reasoning,
+        "sources_used": payload.get("sources_used"),
+    }
+    return meta, detail
+
+
+def _solve_and_write_report(
+    survey: SurveyConfig,
+    codes: List[str],
+    storage: SurveyStorage,
+    agent_payloads: List[Dict[str, Any]],
+    per_agent_meta: List[Dict[str, Any]],
+    per_agent_detail: List[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """Solve the configured instrument over already-collected agent
+    payloads and write the report/charts/combined_results/integrity
+    manifest. Shared by run_survey() (payloads from a live agent panel run)
+    and regenerate_report() (payloads replayed from each agent's own
+    already-accepted samples/*.json on disk, so a hand-edited sample or a
+    hand-edited rulefile that doesn't change any answer still gets
+    reflected without re-running the whole survey against live providers)."""
+    if survey.instrument == "ahp":
+        result = _solve_ahp(survey, codes, agent_payloads, per_agent_meta)
+        report_md = render_ahp_report(result)
+        chart_paths = render_ahp_charts(result, storage.report_dir / "charts")
+    elif survey.instrument == "hierarchical_bwm":
+        result = _solve_hierarchical_bwm(survey, agent_payloads, per_agent_meta)
+        report_md = render_hierarchical_bwm_report(result)
+        chart_paths = render_hierarchical_bwm_charts(result, storage.report_dir / "charts")
+    else:
+        result = _solve_bwm(survey, codes, agent_payloads, per_agent_meta)
+        report_md = render_report(result)
+        chart_paths = render_charts(result, storage.report_dir / "charts")
+
+    report_md += "\n\n" + render_methodology_section(survey.instrument, len(agent_payloads), chart_paths)
+    report_md += "\n\n" + render_per_agent_detail_section(per_agent_detail)
+    storage.write_report(report_md)
+
+    storage.write_combined_results(result)
+    # Written last, after every other output file exists: a SHA-256 of
+    # everything the run actually produced, plus a plain SHA256SUMS file a
+    # reviewer can check with nothing but sha256sum -c, no copy of this
+    # app required. See integrity.py.
+    integrity.write_manifest(survey.root)
+    return result
 
 
 def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
@@ -100,42 +183,9 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
 
         for payload in [r.payload for r in run.accepted]:
             agent_payloads.append(payload)
-            per_agent_meta.append(
-                {
-                    "agent_id": card.agent_id,
-                    "did": card.did.id,
-                    "role": card.role,
-                    "model": card.model.name,
-                    "provider": card.model.provider,
-                    "rag_enabled": card.rag.enabled,
-                }
-            )
-            answer = {k: v for k, v in payload.items() if k not in ("reasoning", "sources_used")}
-            if "levels" in payload:
-                # hierarchical_bwm's reasoning lives per level, not as one
-                # top-level field; concatenate each level's own reasoning
-                # into one readable block rather than showing "(no
-                # reasoning field returned)" for a response that in fact
-                # gave a full, per-level justification.
-                reasoning = "\n\n".join(
-                    f"[{lid}] {lvl_answer.get('reasoning', '(no reasoning field returned)')}"
-                    for lid, lvl_answer in payload["levels"].items()
-                )
-            else:
-                reasoning = payload.get("reasoning", "(no reasoning field returned)")
-            per_agent_detail.append(
-                {
-                    "agent_id": card.agent_id,
-                    "display_name": card.display_name,
-                    "role": card.role,
-                    "model": f"{card.model.provider}/{card.model.name}",
-                    "did": card.did.id,
-                    "qa_precheck_passed": qa_status,
-                    "answer": answer,
-                    "reasoning": reasoning,
-                    "sources_used": payload.get("sources_used"),
-                }
-            )
+            meta, detail = _per_agent_entries(card, qa_status, payload)
+            per_agent_meta.append(meta)
+            per_agent_detail.append(detail)
 
     if skipped_notices:
         print("Skipped agents (misconfigured or uncredentialed):")
@@ -154,30 +204,59 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
             + (" Some agents were skipped; see notices above." if skipped_notices else "")
         )
 
-    if survey.instrument == "ahp":
-        result = _solve_ahp(survey, codes, agent_payloads, per_agent_meta)
-        report_md = render_ahp_report(result)
-        chart_paths = render_ahp_charts(result, storage.report_dir / "charts")
-    elif survey.instrument == "hierarchical_bwm":
-        result = _solve_hierarchical_bwm(survey, agent_payloads, per_agent_meta)
-        report_md = render_hierarchical_bwm_report(result)
-        chart_paths = render_hierarchical_bwm_charts(result, storage.report_dir / "charts")
-    else:
-        result = _solve_bwm(survey, codes, agent_payloads, per_agent_meta)
-        report_md = render_report(result)
-        chart_paths = render_charts(result, storage.report_dir / "charts")
+    return _solve_and_write_report(survey, codes, storage, agent_payloads, per_agent_meta, per_agent_detail)
 
-    report_md += "\n\n" + render_methodology_section(survey.instrument, len(agent_payloads), chart_paths)
-    report_md += "\n\n" + render_per_agent_detail_section(per_agent_detail)
-    storage.write_report(report_md)
 
-    storage.write_combined_results(result)
-    # Written last, after every other output file exists: a SHA-256 of
-    # everything the run actually produced, plus a plain SHA256SUMS file a
-    # reviewer can check with nothing but sha256sum -c, no copy of this
-    # app required. See integrity.py.
-    integrity.write_manifest(survey.root)
-    return result
+def regenerate_report(survey: SurveyConfig) -> Dict[str, Any]:
+    """Re-solve and re-render the report/charts from each agent's own
+    already-accepted samples/*.json on disk, without calling any provider
+    or LLM. For an agent whose samples were hand-edited after the original
+    run (correcting a malformed value, say), this picks up that edit; for
+    every other agent it reproduces the exact same accepted payloads the
+    original run already collected. Agents with no samples on disk (never
+    run, or every sample was rejected) are skipped, exactly like a live
+    run skips a misconfigured agent, and are reported the same way."""
+    storage = SurveyStorage(survey.root)
+    codes: List[str] = survey.instrument_params.get("dimensions", [])
+
+    agent_payloads: List[Dict[str, Any]] = []
+    per_agent_meta: List[Dict[str, Any]] = []
+    per_agent_detail: List[Dict[str, Any]] = []
+    skipped_notices: List[str] = []
+
+    for card_path in survey.agent_cards:
+        card = load_card(card_path)
+        agent_dir = storage.agents_dir / card.agent_id
+        samples_dir = agent_dir / "samples"
+        sample_paths = sorted(samples_dir.glob("sample_*.json")) if samples_dir.exists() else []
+        if not sample_paths:
+            skipped_notices.append(f"[{card.agent_id}] no accepted samples found on disk to replay")
+            continue
+
+        qa_status: Optional[bool] = None
+        qa_path = agent_dir / "qa_precheck.json"
+        if qa_path.exists():
+            qa_status = json.loads(qa_path.read_text(encoding="utf-8"))["verification"]["all_match"]
+
+        for sample_path in sample_paths:
+            payload = json.loads(sample_path.read_text(encoding="utf-8"))
+            agent_payloads.append(payload)
+            meta, detail = _per_agent_entries(card, qa_status, payload)
+            per_agent_meta.append(meta)
+            per_agent_detail.append(detail)
+
+    if skipped_notices:
+        print("Skipped agents (no accepted samples to replay):")
+        for notice in skipped_notices:
+            print(f"  - {notice}")
+
+    if not agent_payloads:
+        raise RuntimeError(
+            "No agent has any accepted sample on disk to replay; nothing to solve. "
+            "Run the survey at least once first (`symphysis run`)."
+        )
+
+    return _solve_and_write_report(survey, codes, storage, agent_payloads, per_agent_meta, per_agent_detail)
 
 
 def _solve_bwm(

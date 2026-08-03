@@ -94,6 +94,7 @@ include = ["agentic_survey*"]
 
 [tool.setuptools.package-data]
 "agentic_survey.role_packs" = ["packs/*.md"]
+"agentic_survey" = ["_bundled_prompts/*.txt"]
 
 [tool.ruff]
 line-length = 120
