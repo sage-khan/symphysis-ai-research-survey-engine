@@ -4,6 +4,7 @@ import { api } from "../api.js";
 import StatusDot from "../components/StatusDot.jsx";
 import AgentForm from "../components/AgentForm.jsx";
 import TraceViewer from "../components/TraceViewer.jsx";
+import HelpTooltip from "../components/HelpTooltip.jsx";
 
 function shortDid(did) {
   if (!did) return "";
@@ -21,8 +22,23 @@ function WeightTable({ title, bayesian }) {
         <thead>
           <tr>
             <th>Criterion</th>
-            <th>Mean</th>
-            <th>95% CI lower</th>
+            <th>
+              Mean
+              <HelpTooltip>
+                This criterion's weight, on average across every agent's accepted answers. All
+                the weights in one table add up to 1 (or 100%): a higher number means the panel,
+                on the whole, judged this criterion more important than the others.
+              </HelpTooltip>
+            </th>
+            <th>
+              95% CI lower
+              <HelpTooltip>
+                CI means confidence interval: the range this criterion's true weight most likely
+                falls in, based on how much the agents actually agreed or disagreed. A narrow
+                range (lower and upper close together) means strong agreement; a wide range means
+                the panel was split on how important this criterion really is.
+              </HelpTooltip>
+            </th>
             <th>95% CI upper</th>
           </tr>
         </thead>

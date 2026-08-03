@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { api } from "../api.js";
+import HelpTooltip from "./HelpTooltip.jsx";
 
 // Emergency fallback only, used if /api/settings/config can't be reached
 // before this form mounts. The real source of truth is the backend's
@@ -274,7 +275,15 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 16 }}>
         <label>
-          <div className="mono-dim">Temperature</div>
+          <div className="mono-dim">
+            Temperature
+            <HelpTooltip>
+              How random the model's answers are. 0 is the most consistent and predictable
+              (the same question tends to get the same answer); higher values, up to about 1,
+              let it vary more from one attempt to the next. 0.7 is a reasonable default for an
+              opinionated but not erratic answer.
+            </HelpTooltip>
+          </div>
           <input
             type="number"
             step="0.1"
@@ -284,7 +293,15 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
           />
         </label>
         <label>
-          <div className="mono-dim">Max tokens</div>
+          <div className="mono-dim">
+            Max tokens
+            <HelpTooltip>
+              The longest response this agent is allowed to write, in roughly 3/4-word units.
+              Too low and a long, detailed answer gets cut off mid-sentence and rejected as
+              incomplete; too high just wastes a little time waiting. If this agent's answers
+              keep getting rejected as truncated, raise this value.
+            </HelpTooltip>
+          </div>
           <input
             type="number"
             value={form.model.max_tokens}
@@ -293,11 +310,26 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
           />
         </label>
         <label>
-          <div className="mono-dim">Seed</div>
+          <div className="mono-dim">
+            Seed
+            <HelpTooltip>
+              A fixed starting number for the model's randomness. The same seed plus the same
+              temperature and prompt tends to produce a repeatable answer, which matters for
+              being able to reproduce a survey's results later. Leave it as-is unless you have a
+              specific reason to change it.
+            </HelpTooltip>
+          </div>
           <input value={form.model.seed ?? ""} onChange={(e) => set("model.seed", e.target.value)} style={{ width: "100%" }} />
         </label>
         <label>
-          <div className="mono-dim">Repeats (samples)</div>
+          <div className="mono-dim">
+            Repeats (samples)
+            <HelpTooltip>
+              How many times this one agent answers the same survey. More repeats mean a single
+              odd or malformed answer matters less, since it is one sample among several rather
+              than the agent's only word on the subject. 3 to 5 is typical.
+            </HelpTooltip>
+          </div>
           <input
             type="number"
             value={form.sampling.repeats}
@@ -310,6 +342,12 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
       <label style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
         <input type="checkbox" checked={form.rag.enabled} onChange={(e) => set("rag.enabled", e.target.checked)} />
         <span>RAG-augmented (give this agent a domain corpus)</span>
+        <HelpTooltip>
+          RAG stands for Retrieval-Augmented Generation. When this is on, before answering, the
+          agent is shown the most relevant excerpts from a set of reference documents you provide
+          (a knowledge base or a folder of files), so its answer is grounded in that material
+          instead of only what the underlying model already happens to know.
+        </HelpTooltip>
       </label>
       {form.rag.enabled && (
         <div style={{ marginBottom: 16 }}>
@@ -366,6 +404,12 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
           }
         />
         <span>Web search (real-time lookup via Tavily: configure the API key in Settings)</span>
+        <HelpTooltip>
+          Lets this agent look something up on the live internet mid-answer, instead of relying
+          only on its training data or the reference material you've given it. Needs a Tavily
+          API key configured in Settings; without one, this agent will report that it could not
+          search rather than pretend it did.
+        </HelpTooltip>
       </label>
       <div className="mono-dim" style={{ marginBottom: 16 }}>
         Every agent in a survey automatically has access to that survey's shared knowledge
@@ -374,7 +418,16 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
       </div>
 
       <label style={{ display: "block", marginBottom: 16 }}>
-        <div className="mono-dim">Denylist patterns (one regex per line, guardrail scan)</div>
+        <div className="mono-dim">
+          Denylist patterns (one regex per line, guardrail scan)
+          <HelpTooltip>
+            A safety net, not a knowledge setting. Every response this agent produces is scanned
+            against these patterns before being accepted; a match (for example, something that
+            looks like a leaked API key, or text trying to override this agent's instructions) is
+            rejected automatically. The defaults cover common cases; only edit this if you know
+            you need a different pattern.
+          </HelpTooltip>
+        </div>
         <textarea
           value={form.guardrails.denylist_patterns.join("\n")}
           onChange={(e) => set("guardrails.denylist_patterns", e.target.value.split("\n").filter(Boolean))}

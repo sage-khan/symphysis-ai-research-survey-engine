@@ -4,6 +4,19 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 ("?" help tooltips for non-technical users)
+
+- New `HelpTooltip.jsx`: a small clickable "?" icon that pops a plain-language explanation next
+  to it, for exactly the fields a non-technical user would otherwise have to guess at.
+- Applied to `AgentForm.jsx`'s most jargon-heavy inputs (temperature, max tokens, seed, sampling
+  repeats, RAG-augmented, web search, guardrail denylist patterns) and to the results table's
+  most jargon-heavy output (the Bayesian weight table's "Mean" and "95% CI" columns).
+  Deliberately scoped to the fields most likely to confuse a non-technical reader rather than
+  every input across the whole app; the rest of the UI's fields already carry a plain-language
+  `mono-dim` description line beneath them (see `role_pack`, `rulefile`, `system_prompt_override`
+  for examples of that existing pattern), so a tooltip there would be redundant.
+
+
 ## 2026-08-03 (fix: an in-flight agent was misreported as "skipped")
 
 - `analytics.py`'s `compute_analytics()` now distinguishes an agent that genuinely errored out
