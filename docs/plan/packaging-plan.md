@@ -80,7 +80,9 @@ clarity a public repository does.
   (`symphysis`) belong in the PyPI package name too, for discoverability, even though the
   internal import name would stay `agentic_survey` for backward compatibility with every
   existing survey folder's `PYTHONPATH=src` assumption?
+  Answer by Dan: symphysis (or if that is not available use Symphsisai or some variation in line with this, confirm from me) is the name we will use through and through. nothing has been puhsed to pypi as of now.
 - Should the CLI's new subcommands (`new`, `add-agent`, `report`) ship in the same first release
   as the PyPI package itself, or should the first release be `run`-only (matching what already
   exists and is tested today) with the richer CLI as a fast follow-up once the package itself is
   confirmed to install and import cleanly for someone outside this repository?
+  Answer by Dan: CLI and pypi should be in line. Make sure it works well in all edge cases we can predict. Thiws needs to be weorking . i want to publish this publically.

@@ -1,0 +1,284 @@
+can you please make this idea into a draw.io format text so i can copyy pastet and see a good visually attractive diagram of?
+
+Researcher provides prompt, requirement document,  survey document (if not provided, one generated based on the concept after clarification of all possible points from user), Knowledge document for all panel to have access to which agents will refer in point of view of their roles and personality. 
+
+↓
+
+Select AI personality panel (AI personalities with own unique DID, agent card which is exportable and reproducible as all the models, weight, sys prompts etc are written in this etc etc, tools access, own knowledge base, they can even have their own CV as well), 
+
+✓ AI Statistician
+
+✓ HCI Professor
+
+✓ Policy Expert
+
+✓ UX Researcher
+
+✓ Clinical Psychologist
+
+↓
+
+Agents answer independently and individual agent report and logs are generated
+
+↓
+
+Agents debate disagreements and then Agent debate disagreements  and report and logs are generated
+
+↓
+
+Consensus report generated
+
+↓
+
+Confidence score
+
+↓
+
+Supporting citations, diagram representation (plots graphs etc)
+
+↓
+
+Export to md/docx/pdf/html/Qualtrics/SPSS/CSV
+
+---
+
+
+git@github.com:sage-khan/symphysis-ai-research-survey-engine.git
+
+---
+flowchart TD
+
+    A["👤 Researcher"] --> B
+
+    subgraph INPUT["Research Inputs"]
+        B["Research Prompt"]
+        C["Requirement Document"]
+        D["Survey Document<br/>(or AI Generated Survey)"]
+        E["Shared Knowledge Base"]
+    end
+
+    B --> F
+    C --> F
+    D --> F
+    E --> F
+
+    F["Research Orchestrator"] --> G
+
+    subgraph PANEL["AI Expert Panel Selection"]
+
+        G["Agent Registry"]
+
+        S["📊 AI Statistician"]
+        H["💻 HCI Professor"]
+        P["🏛 Policy Expert"]
+        U["🎨 UX Researcher"]
+        C1["🧠 Clinical Psychologist"]
+
+        G --> S
+        G --> H
+        G --> P
+        G --> U
+        G --> C1
+
+    end
+
+    subgraph AGENTS["Each AI Agent Contains"]
+
+        AC["Unique DID"]
+
+        AD["Agent Card"]
+
+        CV["CV & Biography"]
+
+        SYS["System Prompt"]
+
+        MODEL["Model + Version + Weights"]
+
+        TOOLS["Tool Permissions"]
+
+        KB["Private Knowledge Base"]
+
+        MEM["Memory"]
+
+        PERS["Role & Personality"]
+
+    end
+
+    S -.uses.-> AC
+    H -.uses.-> AC
+    P -.uses.-> AC
+    U -.uses.-> AC
+    C1 -.uses.-> AC
+
+    AC --> AD
+    AD --> CV
+    CV --> SYS
+    SYS --> MODEL
+    MODEL --> TOOLS
+    TOOLS --> KB
+    KB --> MEM
+    MEM --> PERS
+
+    G --> I
+
+    I["Independent Survey Completion"] --> J
+
+    subgraph OUTPUT1["Per-Agent Outputs"]
+
+        J["Survey Responses"]
+
+        K["Reasoning Logs"]
+
+        L["Evidence Used"]
+
+        M["Confidence"]
+
+        N["Individual Report"]
+
+    end
+
+    N --> O
+
+    O["Multi-Agent Debate"] --> P
+
+    subgraph OUTPUT2["Debate Outputs"]
+
+        P["Agreement Analysis"]
+
+        Q["Disagreements"]
+
+        R["Negotiation"]
+
+        S1["Debate Logs"]
+
+        T["Revised Opinions"]
+
+    end
+
+    T --> U1
+
+    U1["Consensus Builder"] --> V
+
+    subgraph FINAL["Research Outputs"]
+
+        V["Consensus Report"]
+
+        W["Confidence Scores"]
+
+        X["Supporting Citations"]
+
+        Y["Visualisations<br/>Plots · Tables · Graphs"]
+
+        Z["Export"]
+
+    end
+
+    Z --> AA["Markdown"]
+
+    Z --> AB["DOCX"]
+
+    Z --> AC1["PDF"]
+
+    Z --> AD1["HTML"]
+
+    Z --> AE["Qualtrics"]
+
+    Z --> AF["SPSS"]
+
+    Z --> AG["CSV"]
+
+
+
+
+---
+
+
+
+
+
+
+
+──────────────────────────────────────────────
+            RESEARCHER LAYER
+──────────────────────────────────────────────
+Prompt
+Requirements
+Survey
+Knowledge Base
+Research Goal
+
+                │
+                ▼
+
+──────────────────────────────────────────────
+          ORCHESTRATION LAYER
+──────────────────────────────────────────────
+Survey Generator
+Task Planner
+Panel Selector
+Context Manager
+Knowledge Distributor
+
+                │
+                ▼
+
+──────────────────────────────────────────────
+           AI PANEL LAYER
+──────────────────────────────────────────────
+
+┌─────────────┐
+│Statistician │
+├─────────────┤
+│ DID         │
+│ Agent Card  │
+│ CV          │
+│ Personality │
+│ Tools       │
+│ Knowledge   │
+└─────────────┘
+
+┌─────────────┐
+│HCI Professor│
+└─────────────┘
+
+┌─────────────┐
+│UX Researcher│
+└─────────────┘
+
+...
+
+                │
+                ▼
+
+──────────────────────────────────────────────
+          COLLABORATION LAYER
+──────────────────────────────────────────────
+Independent Responses
+↓
+
+Reasoning Logs
+↓
+
+Debate
+↓
+
+Consensus
+↓
+
+Confidence Estimation
+↓
+
+Evidence Collection
+↓
+
+Visualization
+↓
+
+Export
+
+
+
+---
+
+
+Now for cli and pytthon package what i see is something like symphasis --project name <projecvt name> --prompt <prompt> --conceptdoc<conceptdoc> --config <config> --surveyfile (if not given, create this -- output --fix-survey (if added, means that the given survety file needs to be checked and improved). In config file we rerer we should have api key, local llms or 3rd party, data folder, project folder, exp[ert agent details, orchestrator agent detail (we need to set this up on UI as well where we can setup agent card of orchestrator as well which runs the whole survey etc). Do your own research on this as well and improve this concept. also in our pipeline, I had somehting liek this in mind. Researcher Layer (Prompt → Requirements → Survey → Knowledge Base → Research Goal) → Orchestration Layer (Survey Generator → Task Planner → Panel Selector → Context Manager → Knowledge Distributor) → AI Panel Layer (Statistician Agent [DID, Agent Card, CV, Personality, Tools, Knowledge], HCI Professor Agent, UX Researcher Agent, Policy Expert Agent, Clinical Psychologist Agent, …) → Collaboration Layer (Independent Responses → Reasoning Logs → Multi-Agent Debate → Consensus → Confidence Estimation → Evidence Collection → Visualization → Export to Markdown/DOCX/PDF/HTML/Qualtrics/SPSS/CSV). Make sure it is implemented in code, in ui, in reporting etc everywhere. we also need to  update the documentation, diagrams etc accordingly. we need a good documentation for CLI and python docs on how to work with this. I want to push this to pypi as well so make sure you check for all errors and do the neccesary tests. Make sure ddeploy.yaml and cicd pipeline is working. check how we made text2officeprocessor in ~/ProgramFiles to work and push to pypi and work as CLI tool.  PLAN THIS in depth and tell me in ~/Downloads for this. i will read the plan then we start working on it.
