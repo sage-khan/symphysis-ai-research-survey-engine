@@ -204,6 +204,12 @@ jobs:
               kill "$(cat /tmp/symphysis-vite.pid)" 2>/dev/null || true
             fi
             (
+              # node/npm are managed via nvm, whose PATH setup lives in
+              # ~/.bashrc; a non-interactive SSH exec session (this one)
+              # doesn't source that file, unlike an interactive login
+              # shell, so `npm` isn't found on PATH without this.
+              export NVM_DIR="$HOME/.nvm"
+              [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
               cd web/frontend
               npm install --no-audit --no-fund
               exec npm run dev -- --host 0.0.0.0 --port 5180
@@ -222,6 +228,6 @@ jobs:
             && echo "Backend is up"
 
           echo "=== Waiting for frontend to come up ==="
-          timeout 60 bash -c \
+          timeout 180 bash -c \
             'until curl -sf http://${{ secrets.SYMPHYSIS_SSH_HOST }}:5180 >/dev/null; do echo "  ...still waiting on frontend"; sleep 2; done' \
             && echo "Frontend is up"
