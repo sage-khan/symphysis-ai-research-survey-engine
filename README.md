@@ -10,6 +10,10 @@ HAWC-BWM (Human-AI Weighted Consensus Best-Worst Method) use case, but
 designed so a survey can plug in a different instrument (AHP, etc.) without
 touching the agent, provider, or storage layers.
 
+Licensed under [Apache 2.0](LICENSE). See [`CITATION.cff`](CITATION.cff)
+for how to cite this repository, and [`CONTRIBUTING.md`](CONTRIBUTING.md)
+for how to set up a development environment and submit a pull request.
+
 ## What it does
 
 1. **Spawns agents from a portable Agent Card.** Every agent is fully

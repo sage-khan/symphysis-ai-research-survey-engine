@@ -4,6 +4,24 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (launch-readiness: LICENSE, CITATION.cff, CONTRIBUTING.md)
+
+- `LICENSE`: the real, unmodified Apache License 2.0 text (copied from a genuine
+  GitHub-picker-generated Apache-2.0 LICENSE already in use on another of the author's own
+  repos, byte-identical except the filled-in copyright line, rather than reconstructed from
+  memory, per the standing instruction to use GitHub's own generator text rather than
+  hand-write it).
+- `CITATION.cff`: a Citation File Format entry so GitHub renders a "Cite this repository"
+  button and gives anyone citing Symphysis in a paper (starting with the TrustRouter/BSI paper
+  itself) the exact author, title, and version to use.
+- `CONTRIBUTING.md`: how to run the test suite and linter (the exact commands CI runs), the
+  documentation-update-in-the-same-change rule, and where to file issues.
+- README: links to all three from the top of the file.
+- Repository is not yet public; GitHub repo metadata (description, topics, social preview
+  image) still needs setting manually via GitHub's own UI, since this session has no working
+  GitHub API/CLI credentials to set it programmatically.
+
+
 ## 2026-08-03 (docker/ -> infrastructure/docker/, infrastructure/kubernetes/ reserved)
 
 - `docker/Dockerfile` moved to `infrastructure/docker/Dockerfile`; `infrastructure/kubernetes/`
