@@ -3,22 +3,33 @@
 venv/
 __pycache__/
 *.pyc
+*.pyo
 
 # Test/build artifacts
 .pytest_cache/
 *.egg-info/
 .ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
 /dist/
 /build/
 
 # Environment files
 .env
 .env.local
+.env.*.local
 
 # IDE & OS
 .vscode/
 .idea/
+*.iml
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
 
 # draw.io desktop app's own lock/backup files for an open .drawio file,
 # not source content.
@@ -38,9 +49,12 @@ surveys/*/agents/*/filled_survey.md
 surveys/*/agents/*/manual_input/
 surveys/*/report/
 
-# Web UI
+# Web UI (web/backend/__pycache__/ is already covered by the blanket
+# __pycache__/ rule above; no need to repeat it per-subdirectory)
 web/frontend/node_modules/
 web/frontend/dist/
-web/backend/__pycache__/
-web/backend/**/__pycache__/
+web/frontend/.vite/
 web/backend/data/*.json
+
+# Scratch/temp working files
+tmp/

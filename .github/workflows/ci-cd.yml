@@ -118,6 +118,14 @@ jobs:
   #    plain nohup'd Vite dev server. Both are recreated on every deploy, so
   #    a changed requirements.txt or package.json is always picked up, not
   #    just a changed Python or JS source file.
+  #
+  #    The server's only internet-routable address (its campus IP) timed
+  #    out from a GitHub-hosted runner (confirmed live: "dial tcp ...: i/o
+  #    timeout"), presumably a campus firewall allowlist that doesn't cover
+  #    GitHub's ephemeral runner IP ranges. The runner instead joins the
+  #    same Tailscale network the server is already on, then reaches it at
+  #    its stable Tailscale IP (SYMPHYSIS_SSH_HOST), which needs no
+  #    firewall change on the campus network's side.
   # --------------------------------------------------------------------------
   deploy:
     name: Deploy to veritas server
@@ -129,6 +137,11 @@ jobs:
       name: production
 
     steps:
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v4
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
