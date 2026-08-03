@@ -3,6 +3,41 @@
 Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
+## GPU vs CPU inference on the veritas server: partially used, not unused, and not fixed here
+
+**Found:** `nvidia-smi` fails outright on the veritas server (`Failed to initialize NVML:
+Driver/library version mismatch`), which makes it look like the GPU is unreachable. Checking
+further: `/proc/driver/nvidia/gpus/*/information` confirms a real GPU, an NVIDIA GeForce RTX
+5080; `/proc/driver/nvidia/version` reports the loaded kernel module at `595.71.05`, while
+NVML's userspace library reports `595.84`, a real version mismatch between the two halves of
+the driver stack (usually caused by a package update that installed new userspace libraries
+without the kernel module being rebuilt/reloaded, or vice versa; typically fixed by a driver
+package realignment followed by a reboot to load the matching kernel module).
+
+Despite `nvidia-smi` itself being broken, Ollama's own runtime does not go through it and still
+partially uses the GPU: `ollama ps` consistently reported a `32%/68% CPU/GPU` split for
+`qwen2.5:32b` throughout this session's slow validation run, and `top` confirmed genuine,
+sustained CPU compute (1900%+, 19+ cores) alongside it, not an idle GPU. The RTX 5080 has 16GB
+of VRAM; `qwen2.5:32b`'s own weights are 22GB, so roughly a third of its layers cannot fit in
+VRAM and fall back to CPU regardless of driver health. `qwen2.5:14b` (9.0GB) and the other
+already-pulled 7B-14B models comfortably fit within 16GB with room for context, and should run
+without CPU spillover.
+
+**Not fixed here, deliberately:** realigning the driver stack most likely requires an
+`apt`-level driver package update and a reboot. This is a shared server currently running many
+other stateful services (Postgres/TimescaleDB, Neo4j, Qdrant, OpenSearch, Redis, MinIO, and
+several `veritas-svc-*` containers) that a reboot or a broken driver reinstall attempt could
+disrupt; this was not attempted mid-session without the user's explicit go-ahead and without a
+maintenance window that accounts for those other services.
+
+**What this means practically:** for any model whose weights exceed roughly 14-15GB (leaving
+headroom for context) on this specific GPU, expect partial CPU fallback and materially slower
+generation, independent of whether the driver mismatch above is ever fixed. Prefer a model that
+fits comfortably within 16GB VRAM when speed matters more than raw model size; the driver
+mismatch is a separate, real issue worth fixing at a planned maintenance window, not a cause of
+the specific slowness observed with `qwen2.5:32b` this session (that was VRAM capacity, not the
+driver bug).
+
 ## Analytics classified an agent that was still running as "skipped"
 
 **Found:** while investigating why a live run's `/analytics` showed a large number of agents as
