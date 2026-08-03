@@ -1,0 +1,104 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "symphysis"
+version = "0.1.0"
+description = "Config-driven agent panels for expert-elicitation surveys (Best-Worst Method, AHP, and hierarchical variants), against a panel of real, individually configured AI agents."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Muhammad Danyal (Sage) Khan", email = "sagekhanofficial@gmail.com" }
+]
+keywords = [
+    "expert-elicitation", "best-worst-method", "analytic-hierarchy-process",
+    "multi-agent-systems", "large-language-models", "decision-analysis",
+    "research-tooling", "survey",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+
+# Only what agentic_survey actually needs, unconditionally, at import time
+# to run a survey and produce a report: yaml/requests (config + Ollama/HTTP
+# provider calls), cryptography (Agent Card did:key identity), numpy/scipy
+# (classical BWM/AHP solvers), pymc (Bayesian BWM; falls back to a numpy
+# bootstrap at call time if unavailable, but is cheap enough and central
+# enough to the reported confidence intervals to ship as core rather than
+# an extra), matplotlib (report charts; report generation itself already
+# degrades to markdown-only if this import fails, but every real report
+# wants its charts), and typer (the symphysis CLI itself). Everything else
+# (hosted-provider SDKs, the embedding-based RAG backend, the FastAPI web
+# app) is genuinely optional: agentic_survey runs, end to end, against the
+# local Ollama provider with the dependency-free TF-IDF RAG fallback and
+# no hosted-provider SDK installed at all.
+dependencies = [
+    "pyyaml>=6.0",
+    "requests>=2.31",
+    "cryptography>=42.0",
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pymc>=5.10",
+    "matplotlib>=3.8",
+    "typer>=0.12.3",
+]
+
+[project.optional-dependencies]
+# Hosted LLM provider SDKs. ollama (the default) needs only `requests`,
+# already a core dependency; add this extra only to use Anthropic/OpenAI/
+# OpenRouter/Groq/Gemini/xAI agents (all speak the OpenAI-compatible wire
+# format via the openai SDK, save Anthropic's own).
+providers = ["anthropic>=0.40", "openai>=1.50"]
+# Embedding-based RAG retrieval. Without this extra, RAG-enabled agents
+# still work via the dependency-free TF-IDF fallback in rag/retriever.py.
+rag = ["sentence-transformers>=3.0"]
+# The FastAPI + React web UI. Not required to run a survey from the CLI.
+web = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.30",
+    "python-multipart>=0.0.9",
+    "pdfplumber>=0.11",
+    "python-docx>=1.1",
+    "lxml>=5.0",
+]
+dev = [
+    "pytest>=8.0",
+    "httpx>=0.27",
+    "ruff==0.4.7",
+]
+all = ["symphysis[providers,rag,web]"]
+
+[project.scripts]
+symphysis = "agentic_survey.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/sage-khan/symphysis-ai-research-survey-engine"
+Repository = "https://github.com/sage-khan/symphysis-ai-research-survey-engine"
+"Bug Tracker" = "https://github.com/sage-khan/symphysis-ai-research-survey-engine/issues"
+Documentation = "https://github.com/sage-khan/symphysis-ai-research-survey-engine/blob/main/README.md"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["agentic_survey*"]
+
+[tool.setuptools.package-data]
+"agentic_survey.role_packs" = ["packs/*.md"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "W", "F"]
+ignore = ["E501", "E402"]
