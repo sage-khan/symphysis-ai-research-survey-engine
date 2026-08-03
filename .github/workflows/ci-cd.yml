@@ -187,13 +187,20 @@ jobs:
                 && pip install -q --no-cache-dir -r requirements.txt -r web/backend/requirements.txt \
                 && exec uvicorn backend.main:app --host 0.0.0.0 --port 8100"
 
-            echo "=== Restarting frontend dev server (detached) ==="
+            echo "=== Restarting frontend dev server (npm install + npm run dev, both backgrounded) ==="
+            # npm install itself, not just npm run dev, is backgrounded here:
+            # confirmed live that having `npm install` run in the foreground
+            # of this SSH exec channel (blocking, even briefly) killed the
+            # channel outright, immediately on starting it, regardless of the
+            # command's own duration. Whatever the exact cause, the fix is
+            # the same either way: never let this channel wait on it.
             pkill -f "vite.*--port 5180" 2>/dev/null || true
-            cd web/frontend
-            npm install --no-audit --no-fund
-            nohup npm run dev -- --host 0.0.0.0 --port 5180 > /tmp/symphysis-vite.log 2>&1 &
+            (
+              cd web/frontend
+              npm install --no-audit --no-fund
+              exec npm run dev -- --host 0.0.0.0 --port 5180
+            ) > /tmp/symphysis-vite.log 2>&1 &
             disown
-            cd -
 
             echo "=== Container status right after recreation (services still starting up) ==="
             docker ps --filter name=sage-backend
