@@ -3,6 +3,28 @@
 Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
+## CI/CD still showed "no jobs run" after the line-1 YAML fix: a second schema error
+
+**Found:** after quoting line 1's `name:` value (see the entry below), GitHub Actions still
+reported no jobs running on push. Installed `actionlint` (not available in this environment by
+default, downloaded the release binary directly) and ran it against the workflow file directly,
+which a plain `yaml.safe_load()` cannot catch since the YAML itself is syntactically valid;
+this is a GitHub-Actions-schema-level error, not a YAML-level one.
+
+**Root cause:** the `deploy` job's `environment.url` field referenced `secrets.SYMPHYSIS_SERVER_HOST`.
+The `environment.url` field only allows a specific, narrower set of contexts (`env`, `github`,
+`inputs`, `job`, `needs`, `runner`, `strategy`, `vars`, `steps`); `secrets` is not among them.
+GitHub Actions validates a workflow's entire job graph before running anything, so one job
+having an invalid expression in a disallowed context appears to fail the whole run at the
+validation stage, exactly matching "no jobs were run" rather than "one job failed."
+
+**Fix:** removed the `url:` line from the deploy job's `environment` block (a purely cosmetic
+convenience link in the GitHub UI's Environments view, not required for the deploy step itself
+to run). `actionlint` now reports zero errors. The identical root-cause bug (the line-1 quoting
+issue only, this repo's own deploy workflow never had the `secrets`-in-`environment.url`
+mistake) was also found and fixed in `project-cogtwins`'s `ci-cd.yml`, which this repo's
+workflow was modeled on.
+
 ## The shared default system prompt template hardcoded one survey's domain for every survey
 
 **Found:** writing `docs/getting-started.md`'s walkthrough with a deliberately non-construction

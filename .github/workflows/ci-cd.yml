@@ -84,7 +84,6 @@ jobs:
 
     environment:
       name: production
-      url: http://${{ secrets.SYMPHYSIS_SERVER_HOST }}:8100/api/health
 
     steps:
       - name: Deploy via SSH
