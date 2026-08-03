@@ -94,6 +94,7 @@ class AgentIn(BaseModel):
     role: str
     display_name: Optional[str] = None
     expertise: str = ""
+    role_pack: Optional[str] = None
     role_description: str
     instrument: str = "bwm"
     system_prompt_template: Optional[str] = None
@@ -130,6 +131,16 @@ def list_models_for_provider(provider: str) -> Dict[str, Any]:
     return list_models(provider)
 
 
+@router.get("/role-packs")
+def list_role_packs() -> List[Dict[str, str]]:
+    """Standard professional-domain knowledge packs available to attach to
+    an agent (see agentic_survey/role_packs/) -- discovered from disk, so
+    the picker always reflects exactly what packs actually ship."""
+    from agentic_survey import role_packs
+
+    return role_packs.list_role_packs()
+
+
 @router.get("/surveys/{survey_id}/agents")
 def list_agents(survey_id: str) -> List[Dict[str, Any]]:
     d = _survey_or_404(survey_id)
@@ -142,6 +153,7 @@ def list_agents(survey_id: str) -> List[Dict[str, Any]]:
                 "agent_id": card.agent_id,
                 "display_name": card.display_name,
                 "expertise": card.expertise,
+                "role_pack": card.role_pack,
                 "role": card.role,
                 "provider": card.model.provider,
                 "model": card.model.name,
@@ -190,6 +202,7 @@ def create_agent(survey_id: str, body: AgentIn) -> Dict[str, Any]:
         tools=body.tools,
         display_name=body.display_name,
         expertise=body.expertise,
+        role_pack=body.role_pack,
         system_prompt_override=body.system_prompt_override or None,
         did_seed=body.did_seed,
     )
@@ -229,6 +242,7 @@ def update_agent(survey_id: str, agent_id: str, body: AgentIn) -> Dict[str, Any]
         tools=body.tools,
         display_name=body.display_name,
         expertise=body.expertise,
+        role_pack=body.role_pack,
     )
     card.write(path)
     return card.to_dict()

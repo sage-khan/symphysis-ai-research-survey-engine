@@ -40,6 +40,7 @@ export const api = {
 
   listProviders: () => request("/api/providers"),
   listModelsForProvider: (provider) => request(`/api/models/${provider}`),
+  listRolePacks: () => request("/api/role-packs"),
 
   getLlmSettings: () => request("/api/settings/llm"),
   saveLlmSettings: (body) => request("/api/settings/llm", { method: "PUT", body: JSON.stringify(body) }),

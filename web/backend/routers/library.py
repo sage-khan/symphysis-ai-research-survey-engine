@@ -38,6 +38,7 @@ def _summary(card) -> Dict[str, Any]:
         "agent_id": card.agent_id,
         "display_name": card.display_name,
         "expertise": card.expertise,
+        "role_pack": card.role_pack,
         "role": card.role,
         "role_description": card.role_description,
         "provider": card.model.provider,
@@ -89,6 +90,7 @@ def create_library_agent(body: AgentIn) -> Dict[str, Any]:
         tools=body.tools,
         display_name=body.display_name,
         expertise=body.expertise,
+        role_pack=body.role_pack,
         system_prompt_override=body.system_prompt_override or None,
         did_seed=body.did_seed,
     )
@@ -127,6 +129,7 @@ def update_library_agent(agent_id: str, body: AgentIn) -> Dict[str, Any]:
         tools=body.tools,
         display_name=body.display_name,
         expertise=body.expertise,
+        role_pack=body.role_pack,
     )
     card.write(path)
     return card.to_dict()

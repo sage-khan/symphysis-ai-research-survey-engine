@@ -21,6 +21,7 @@ function blankForm(cfg = {}) {
     agent_id: "",
     display_name: "",
     expertise: "",
+    role_pack: null,
     role: "",
     role_description: "",
     system_prompt_override: "",
@@ -49,12 +50,14 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
   const [form, setForm] = useState(existing || blankForm());
   const [providers, setProviders] = useState([]);
   const [modelCatalog, setModelCatalog] = useState({ models: [], error: null });
+  const [rolePacks, setRolePacks] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const isEdit = Boolean(existing);
 
   useEffect(() => {
     api.listProviders().then(setProviders);
+    api.listRolePacks().then(setRolePacks).catch(() => setRolePacks([]));
     if (!isEdit) {
       api.getAppConfig().then((cfg) => setForm(blankForm(cfg))).catch(() => {});
     }
@@ -157,6 +160,27 @@ export default function AgentForm({ surveyId, scope = "survey", existing, onSave
           placeholder="e.g. Structural engineering, ISO 25012 data quality, 15 years construction industry"
           style={{ width: "100%" }}
         />
+      </label>
+
+      <label style={{ display: "block", marginBottom: 16 }}>
+        <div className="mono-dim">Standard role knowledge pack (optional)</div>
+        <select
+          value={form.role_pack || ""}
+          onChange={(e) => set("role_pack", e.target.value || null)}
+          style={{ width: "100%" }}
+        >
+          <option value="">none</option>
+          {rolePacks.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.label}
+            </option>
+          ))}
+        </select>
+        <div className="mono-dim" style={{ marginTop: 4 }}>
+          {form.role_pack
+            ? rolePacks.find((p) => p.id === form.role_pack)?.summary
+            : "Attaches a curated professional-domain primer (standards, evaluation heuristics, common failure modes) as extra context on every run, so this agent speaks from that standpoint immediately instead of from role_description alone."}
+        </div>
       </label>
 
       <label style={{ display: "block", marginBottom: 16 }}>

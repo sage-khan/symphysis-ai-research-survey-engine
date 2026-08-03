@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List
 
-from . import app_config
+from . import app_config, role_packs
 from .agent_card import AgentCard
 from .guardrails import GuardedRun, run_with_guardrails
 from .instruments.base import Instrument
@@ -103,7 +103,28 @@ class Agent:
         self.storage.write_introduction(self.card.agent_id, response)
 
     def _context_chunks(self, query: str) -> List[str]:
-        return self._rag_chunks(query) + self._knowledge_repo_chunks(query) + self._web_search_chunks(query)
+        return (
+            self._role_pack_chunks()
+            + self._rag_chunks(query)
+            + self._knowledge_repo_chunks(query)
+            + self._web_search_chunks(query)
+        )
+
+    def _role_pack_chunks(self) -> List[str]:
+        # A standard role knowledge pack is a fixed professional-domain
+        # primer (see role_packs/), not something retrieved by relevance --
+        # it is included in full, every run, exactly like a human panelist
+        # in that role would already know this material going in, rather
+        # than looking it up per question.
+        text = role_packs.get_role_pack_text(self.card.role_pack)
+        if not text:
+            return []
+        self.storage.write_tool_call(
+            self.card.agent_id,
+            tool="role_pack",
+            detail={"role_pack": self.card.role_pack},
+        )
+        return [f"[role knowledge: {self.card.role_pack}] {text}"]
 
     def _rag_chunks(self, query: str) -> List[str]:
         if not self._retriever:

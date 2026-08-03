@@ -3,6 +3,44 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (standard role knowledge packs)
+
+- New `src/agentic_survey/role_packs/` package: eight curated,
+  professional-domain knowledge primers (`packs/*.md`) covering AI/ML
+  Scientist, Data Engineer, LLMOps Engineer, Knowledge Graph Engineer,
+  Construction/Civil Engineer, Wind Energy/SCADA Engineer, Blockchain &
+  Distributed Trust Specialist, and Cybersecurity/GRC Specialist -- named
+  standards, common failure modes, and evaluation heuristics each of
+  those professions actually uses, not survey-specific claims. This is
+  the standard-role grounding the user asked for so an agent created as
+  "Data Engineer" speaks from that standpoint immediately rather than
+  from a blank `role_description` alone.
+- `AgentCard` gains an optional `role_pack` field (an id, e.g.
+  `"data_engineer"`, not a fuzzy match against the freeform `role` text
+  -- deliberately explicit so a reviewer can see exactly which pack, if
+  any, was attached and never has to guess whether a role string was
+  matched correctly).
+- `Agent` now includes the pack's full body as the first context source
+  on every run, ahead of the agent's own RAG corpus, the survey's shared
+  knowledge repo, and web search -- a fixed professional baseline, not
+  something retrieved by relevance, mirroring how a human panelist in
+  that role already knows this material walking in rather than looking
+  it up per question. Logged via `write_tool_call` like every other
+  context source, so a reviewer can see exactly what was injected.
+- New `GET /api/role-packs` endpoint (discovers packs from disk, so
+  adding a `.md` file is enough to expose a new pack -- no code change);
+  `AgentIn.role_pack` threaded through both `agents.py` and `library.py`'s
+  create/update routes.
+- New "Standard role knowledge pack" dropdown on the Agent form (survey
+  and library scope both), showing the selected pack's one-line summary.
+- `tests/test_role_packs.py` (4 new tests); 82/82 tests pass repo-wide.
+- Live-verified: created a real "Data Engineer" agent with
+  `role_pack: "data_engineer"`, ran it against mistral:7b, and confirmed
+  the pack's actual body text appears in the outgoing `prompt.md`
+  labelled `[role knowledge: data_engineer]`. Verified in the browser via
+  Playwright (zero console errors) that the picker lists all eight packs
+  and shows the right summary on selection. Test survey deleted after.
+
 ## 2026-08-03 (agent tools: real web search + shared survey-level knowledge repo)
 
 - New `src/agentic_survey/tools/web_search.py`: real web search via the
