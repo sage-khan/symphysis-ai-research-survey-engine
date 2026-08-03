@@ -464,18 +464,48 @@ the concrete example over the abstract instruction, and drops criteria
 it has less "attention budget" left for by the time it reaches the
 middle of a longer level's list.
 
-**Fix:** `build_messages` now emits the full, untruncated key list for
-every level in the JSON-shape schema (`full_pair`, replacing
-`example_pair`'s `codes[:2]` truncation), and the instruction
-immediately preceding the schema now states explicitly that a level
-with N criteria needs N keys in both `best_to_others` and
-`others_to_worst`, including the best/worst criteria themselves rated 1
-against themselves. This targets failure mode 1 (missing middle
-criteria) directly; failure mode 2 (self-rating as 9) is a genuine
-qwen2.5:14b comprehension limit on this specific ratio convention that
-the existing worked example did not fully prevent, and remains an open
-item, most likely to be resolved by decomposing the single 7-level
-completion into one completion per level (smaller structured-output
-task per call) rather than a further prompt-wording change, which is a
-larger change deferred pending a decision on the resulting increase in
-inference calls per sample.
+**Fix (part 1, schema truncation):** `build_messages` now emits the full,
+untruncated key list for every level in the JSON-shape schema
+(`full_pair`, replacing `example_pair`'s `codes[:2]` truncation), and the
+instruction immediately preceding the schema now states explicitly that
+a level with N criteria needs N keys in both `best_to_others` and
+`others_to_worst`. Verified live on the re-run `bsi-hawc-bwm` survey:
+this eliminated every "missing ratings for [...]" error across all 15
+fresh samples for `bim-coordinator-base-ollama`; 100% of its remaining
+rejections were the self-rating error below.
+
+**Fix (part 2, self-rating as 9, decided by Dan rather than assumed):**
+inspecting a full rejected sample showed the self-rating error was not
+an isolated typo: the model was consistently applying one 1-9
+"importance score" convention to the whole `best_to_others` vector and
+its mirror "unimportance score" to `others_to_worst`, e.g. L2 sample
+`best_to_others = {"Q": 5, "PT": 4, "V": 6, "IC": 9, "L": 8, "C": 3}`
+with best="IC" (correct convention would need `IC: 1`, not `9`) and
+`others_to_worst = {..., "IC": 1, ..., "C": 9}` with worst="C" (needs
+`C: 1`, not `9`, and the whole vector inverted). Coercing only the
+self-key to 1 in code would have satisfied the validator while leaving
+every other entry built on the wrong convention, silently accepting
+data that looks schema-clean but is semantically backwards, so this was
+raised to Dan as a methodology decision (repair loop vs. per-level
+decomposition vs. dropping the model vs. hand-correcting only the
+self-key) rather than picked unilaterally: 100% of finished agents on
+that run were `zero_accepted`, so any of the code-only options risked
+either silent data corruption or a scientifically unjustified exclusion
+without an actual capability test. Dan chose the repair loop.
+`guardrails.run_with_guardrails`'s retry-on-malformed loop previously
+resent the exact same `messages` (and the exact same seed, since seed
+is `seed + sample_idx`, constant across attempts) on every retry, which
+reliably reproduced the identical wrong answer, as confirmed live: the
+three attempts logged for one rejected sample before this fix had
+byte-identical `raw_text`. It now appends the model's own malformed
+reply plus the exact validator errors as an assistant/user turn pair
+and asks for a corrected JSON object fixing only those problems, before
+the next attempt, capped at the existing `max_retries_on_malformed`
+budget (no new config surface). `ManualProvider.complete` gained an
+`attempt` parameter so a repair retry writes/reads
+`prompt_NN_r1.md`/`response_NN_r1.txt` instead of colliding with
+attempt 0's already-rejected `prompt_NN.md`/`response_NN.txt`. New
+regression tests: `tests/test_guardrails_repair.py` (repair turn
+content, no repair turn on the final allowed attempt, denylist
+rejections stay a fresh resample not a repair turn) and one new case in
+`tests/test_manual_provider.py`. Full suite: 169 passed.

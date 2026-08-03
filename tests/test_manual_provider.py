@@ -58,6 +58,38 @@ def test_different_sample_idx_uses_different_files(tmp_path):
     assert not (manual_dir / "response_01.txt").exists()
 
 
+def test_repair_attempt_uses_a_distinct_suffixed_file_pair(tmp_path):
+    """attempt=0 keeps the original, suffix-free file names (backward
+    compatible with in-progress human review workflows); a guardrails
+    repair retry for the same sample_idx must write and read a separate
+    prompt_NN_r1.md / response_NN_r1.txt pair, not silently no-op against
+    the already-answered attempt-0 files."""
+    provider = ManualProvider()
+    manual_dir = tmp_path / "manual_input"
+
+    with pytest.raises(ManualResponsePending):
+        provider.complete(MESSAGES, model="gemini-2.5-pro", temperature=0.7, max_tokens=1024, manual_dir=str(manual_dir), sample_idx=0, attempt=0)
+    (manual_dir / "response_00.txt").write_text("first (rejected) reply", encoding="utf-8")
+
+    repair_messages = MESSAGES + [
+        {"role": "assistant", "content": "first (rejected) reply"},
+        {"role": "user", "content": "That response did not pass validation. Fix it."},
+    ]
+    with pytest.raises(ManualResponsePending):
+        provider.complete(repair_messages, model="gemini-2.5-pro", temperature=0.7, max_tokens=1024, manual_dir=str(manual_dir), sample_idx=0, attempt=1)
+
+    assert (manual_dir / "prompt_00.md").exists()
+    assert (manual_dir / "prompt_00_r1.md").exists()
+    assert "Fix it." in (manual_dir / "prompt_00_r1.md").read_text()
+    assert not (manual_dir / "response_00_r1.txt").exists()
+
+    (manual_dir / "response_00_r1.txt").write_text("corrected reply", encoding="utf-8")
+    result = provider.complete(repair_messages, model="gemini-2.5-pro", temperature=0.7, max_tokens=1024, manual_dir=str(manual_dir), sample_idx=0, attempt=1)
+    assert result.text == "corrected reply"
+    # attempt 0's own response is untouched by the repair attempt.
+    assert (manual_dir / "response_00.txt").read_text() == "first (rejected) reply"
+
+
 def test_missing_manual_dir_kwarg_raises_provider_error():
     provider = ManualProvider()
     with pytest.raises(ProviderError):

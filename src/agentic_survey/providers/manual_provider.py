@@ -11,6 +11,15 @@ Two-step, resumable, per-agent workflow:
    `<manual_dir>/response_NN.txt`, and re-run. The agent picks up exactly
    where it left off; already-answered samples are not re-asked.
 
+If guardrails.run_with_guardrails' reject-and-repair loop rejects sample
+NN's first reply, its retry sends a longer, repair-turn-appended prompt for
+the same sample index, not the original one; that retry's files are named
+`prompt_NN_r1.md` / `response_NN_r1.txt` (attempt 0 keeps the original,
+suffix-free `prompt_NN.md` / `response_NN.txt` names for backward
+compatibility with in-progress human review workflows) so the human is
+shown the actual repair prompt rather than being asked to re-paste into a
+stale file that still has the original, pre-rejection question on it.
+
 The sample index a given call is asking for is passed in explicitly by the
 caller (guardrails.run_with_guardrails, as `sample_idx`) rather than
 inferred from mutable state here. An earlier version inferred "the next
@@ -49,6 +58,7 @@ class ManualProvider:
         seed: int | None = None,
         manual_dir: str | None = None,
         sample_idx: int | None = None,
+        attempt: int = 0,
         **extra: Any,
     ) -> ProviderResponse:
         if not manual_dir:
@@ -60,8 +70,9 @@ class ManualProvider:
         d.mkdir(parents=True, exist_ok=True)
 
         index = sample_idx
-        prompt_path = d / f"prompt_{index:02d}.md"
-        response_path = d / f"response_{index:02d}.txt"
+        suffix = f"_r{attempt}" if attempt else ""
+        prompt_path = d / f"prompt_{index:02d}{suffix}.md"
+        response_path = d / f"response_{index:02d}{suffix}.txt"
 
         if not prompt_path.exists():
             prompt_path.write_text(_render_prompt(messages), encoding="utf-8")

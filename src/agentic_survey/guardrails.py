@@ -1,6 +1,6 @@
 """Anti-hallucination / structural guardrails applied to every agent call.
 
-Four checks, all logged: (1) schema validation with reject-and-resample on
+Four checks, all logged: (1) schema validation with reject-and-repair on
 malformed output, (2) a denylist regex scan of the raw completion (prompt-
 injection markers, secret-shaped strings) applied before schema parsing, so
 a response can be rejected even if it happens to also be well-formed JSON,
@@ -8,6 +8,18 @@ a response can be rejected even if it happens to also be well-formed JSON,
 taken from a single completion, (4) an optional inter-sample agreement
 check that flags (not silently drops) high-variance agents for human
 review.
+
+Reject-and-repair, not reject-and-resample: a schema-invalid retry appends
+the model's own malformed reply plus the exact validator errors as two new
+turns, and asks for a corrected JSON object fixing only those problems.
+Retrying with a fresh, independent prompt (the original behaviour) reuses
+the same seed for every retry of one sample, so a model with a systematic
+misunderstanding (see diagnostics.md's "hierarchical TrustRouter run was
+zero_accepted" entry) produced the identical wrong answer on every retry
+and never had a chance to correct it. Showing it the specific field-level
+error targets the formatting/convention mistake without re-asking for a
+fresh substantive judgement, which would defeat the point of `repeats`
+sampling the same agent's honest variance across independent samples.
 """
 
 from __future__ import annotations
@@ -70,10 +82,13 @@ def run_with_guardrails(
             call_kwargs["sample_idx"] = sample_idx
 
         attempt = 0
+        attempt_messages = list(messages)
         while attempt <= max_retries_on_malformed:
+            if extra_call_kwargs is not None:
+                call_kwargs["attempt"] = attempt
             try:
                 response = provider.complete(
-                    messages,
+                    attempt_messages,
                     model=model,
                     temperature=temperature,
                     max_tokens=max_tokens,
@@ -106,6 +121,23 @@ def run_with_guardrails(
                 accepted_raw.append(response)
                 break
             rejected.append({"raw_text": response.text, "errors": result.errors, "attempt": attempt})
+            if attempt < max_retries_on_malformed:
+                attempt_messages = attempt_messages + [
+                    {"role": "assistant", "content": response.text},
+                    {
+                        "role": "user",
+                        "content": (
+                            "That response did not pass validation. Problems found:\n"
+                            + "\n".join(f"- {e}" for e in result.errors)
+                            + "\n\nReturn a corrected JSON object that fixes only these "
+                            "specific problems. Keep every other judgement (which "
+                            "criterion is best/worst, and every other rating) exactly "
+                            "as you gave it, unless fixing a listed problem requires "
+                            "changing it. Respond with ONLY the corrected JSON object, "
+                            "no other text."
+                        ),
+                    },
+                ]
             attempt += 1
         # If all retries for this sample were malformed or denylisted, it is
         # recorded in `rejected` and simply does not contribute a sample; it
