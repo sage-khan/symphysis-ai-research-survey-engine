@@ -278,7 +278,7 @@ def get_integrity_manifest(survey_id: str) -> Dict[str, Any]:
     """The SHA-256 manifest written right after this survey's last run (see
     orchestrator.run_survey), if one exists yet. This is the record to cite
     or archive; verify_integrity below is how to check it still matches."""
-    from agentic_survey import integrity
+    from symphysis import integrity
 
     d = _existing_survey_dir(survey_id)
     manifest = integrity.load_manifest(d)
@@ -293,7 +293,7 @@ def verify_integrity(survey_id: str) -> Dict[str, Any]:
     stored manifest: an honest pass/fail, not a similarity score. Use this
     to confirm a survey folder (this copy, or one received from someone
     else) has not been altered since its manifest was generated."""
-    from agentic_survey import integrity
+    from symphysis import integrity
 
     d = _existing_survey_dir(survey_id)
     result = integrity.verify(d)

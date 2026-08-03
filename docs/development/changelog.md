@@ -4,6 +4,29 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (rename the Python package from agentic_survey to symphysis)
+
+- `src/agentic_survey/` renamed to `src/symphysis/` (`git mv`, preserving history), and every
+  `from agentic_survey import ...` / `import agentic_survey` / `resources.files("agentic_survey")`
+  reference across `src/`, `web/backend/`, `tests/`, `scripts/`, `pyproject.toml`,
+  `infrastructure/docker/Dockerfile`, `config/defaults.yaml`, `infrastructure/searxng/settings.yml`,
+  `README.md`, `docs/getting-started.md`, and `.env.example` updated to match.
+- The prior split (PyPI distribution name `symphysis`, importable module name `agentic_survey`)
+  was justified in the packaging plan as "backward compatible with every existing survey folder's
+  assumption," but no survey.yaml or Agent Card JSON anywhere actually references the Python
+  import name; that justification didn't hold up on inspection, and no other technical reason for
+  the split was found. One name, `symphysis`, is now used everywhere: the product, the PyPI
+  distribution, the Python import, and the `symphysis` CLI command.
+- `pyproject.toml`'s `[project.scripts]` entry, `[tool.setuptools.packages.find]` include pattern,
+  and `[tool.setuptools.package-data]` keys all updated to `symphysis`. Verified with a full
+  rebuild (`python -m build`) and the same clean-venv, outside-the-repo smoke test as every prior
+  packaging change (`scripts/verify_clean_install.py`, plus a manual `import symphysis` and
+  `symphysis new/add-agent/fix-survey` run from a fresh install). Full test suite: 196 passed.
+- Historical `docs/development/changelog.md` entries before this one, which describe the codebase
+  as it genuinely was at the time (using the `agentic_survey` name), are left as written rather
+  than retroactively rewritten.
+
+
 ## 2026-08-03 (replace Tavily web_search with self-hosted SearXNG + Crawl4AI)
 
 - `tools/web_search.py` rewritten from a Tavily-backed single API call to a two-stage,

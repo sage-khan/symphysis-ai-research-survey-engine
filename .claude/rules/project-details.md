@@ -19,7 +19,7 @@ Renamed twice, same project: `agentic-survey-tool` -> `SAGE` (Survey Agent
 Generation Engine) -> **Symphysis** (AI Research Survey Engine), the
 current name, as it moves toward being a standalone product rather than a
 component scoped to one VERITAS paper. `agentic-survey-tool` is still the
-internal Python package name (`agentic_survey`) and the name this project
+internal Python package name (`symphysis`) and the name this project
 is referenced by in project-veritas's own memory/session records up to
 2026-08-03.
 

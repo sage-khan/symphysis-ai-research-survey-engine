@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.instruments.ahp import AHPInstrument, build_full_matrix
+from symphysis.instruments.ahp import AHPInstrument, build_full_matrix
 
 PARAMS = {"dimensions": ["Q", "PT", "V"], "dimension_labels": {}}
 

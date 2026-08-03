@@ -7,9 +7,9 @@ import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.agent_card import GuardrailsSpec, ModelSpec, PermissionsSpec, RagSpec, SamplingSpec, new_card
-from agentic_survey.config import load_survey_config
-from agentic_survey.orchestrator import run_survey
+from symphysis.agent_card import GuardrailsSpec, ModelSpec, PermissionsSpec, RagSpec, SamplingSpec, new_card
+from symphysis.config import load_survey_config
+from symphysis.orchestrator import run_survey
 
 DIMENSIONS = ["Q", "PT", "V", "IC", "L", "C"]
 

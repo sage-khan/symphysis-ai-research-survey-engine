@@ -4,11 +4,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.agent_card import ModelSpec, RagSpec, SamplingSpec, PermissionsSpec, GuardrailsSpec, new_card
-from agentic_survey.guardrails import GuardedRun
-from agentic_survey.instruments.base import InstrumentResult
-from agentic_survey.providers.base import ProviderResponse
-from agentic_survey.storage import SurveyStorage
+from symphysis.agent_card import ModelSpec, RagSpec, SamplingSpec, PermissionsSpec, GuardrailsSpec, new_card
+from symphysis.guardrails import GuardedRun
+from symphysis.instruments.base import InstrumentResult
+from symphysis.providers.base import ProviderResponse
+from symphysis.storage import SurveyStorage
 
 INSTRUMENT_PARAMS = {
     "dimensions": ["Q", "PT", "C"],

@@ -22,7 +22,7 @@ DEFAULT_PROMPT_TEMPLATE = str((CONFIG_DIR / "prompts" / "expert_panel_system.txt
 def _cfg():
     # Imported lazily, same reason as _agent_card_module() below: paths.py
     # must have already put src/ on sys.path.
-    from agentic_survey import app_config
+    from symphysis import app_config
 
     return app_config
 
@@ -111,7 +111,7 @@ class AgentIn(BaseModel):
 
 def _agent_card_module():
     # Imported lazily so paths.py has already put src/ on sys.path.
-    from agentic_survey import agent_card
+    from symphysis import agent_card
 
     return agent_card
 
@@ -135,9 +135,9 @@ def list_models_for_provider(provider: str) -> Dict[str, Any]:
 @router.get("/role-packs")
 def list_role_packs() -> List[Dict[str, str]]:
     """Standard professional-domain knowledge packs available to attach to
-    an agent (see agentic_survey/role_packs/), discovered from disk, so
+    an agent (see symphysis/role_packs/), discovered from disk, so
     the picker always reflects exactly what packs actually ship."""
-    from agentic_survey import role_packs
+    from symphysis import role_packs
 
     return role_packs.list_role_packs()
 

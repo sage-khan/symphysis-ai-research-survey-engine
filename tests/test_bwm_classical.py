@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.solvers.bwm_classical import solve_bwm
+from symphysis.solvers.bwm_classical import solve_bwm
 
 
 def test_solve_bwm_basic_consistency():

@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.instruments.hierarchical_bwm import HierarchicalBWMInstrument
+from symphysis.instruments.hierarchical_bwm import HierarchicalBWMInstrument
 
 PARAMS = {
     "composite_formula": "TrustRouter = DVS x F x (1 + E) x A",

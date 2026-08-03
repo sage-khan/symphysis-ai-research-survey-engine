@@ -13,7 +13,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.solvers.hierarchical_bwm import LevelSolution, compute_global_weights, render_populated_equations
+from symphysis.solvers.hierarchical_bwm import LevelSolution, compute_global_weights, render_populated_equations
 
 # The real TrustRouter level structure (see trustrouter.py in the BSI
 # survey-app) and the real published local weights from

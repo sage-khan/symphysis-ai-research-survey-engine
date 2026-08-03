@@ -1,5 +1,5 @@
 # Minimal SearXNG configuration for this project's internal, self-hosted
-# use case: a discovery backend for agentic_survey.tools.web_search, only
+# use case: a discovery backend for symphysis.tools.web_search, only
 # ever reached by sibling containers on this app's own Docker Compose
 # network, never exposed to the public internet. See
 # docs/plan/symphysis-open-source-search-rag-architecture.md for why
@@ -25,4 +25,4 @@ search:
   safe_search: 0
   formats:
     - html
-    - json  # Required: agentic_survey.tools.web_search queries with format=json; disabled by default upstream.
+    - json  # Required: symphysis.tools.web_search queries with format=json; disabled by default upstream.

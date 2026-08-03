@@ -3,7 +3,7 @@
     uvicorn web.backend.main:app --reload --port 8000
 
 Serves the REST API the React frontend (web/frontend/) talks to. Business
-logic lives entirely in the agentic_survey package under src/; this layer
+logic lives entirely in the symphysis package under src/; this layer
 is thin: HTTP in, JSON out, path/ID sanitisation, background-run tracking.
 """
 
@@ -17,7 +17,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from . import paths  # noqa: F401 - import for its sys.path side effect
 from .routers import agents, knowledge, knowledge_bases, library, proposer, settings, surveys
 
-from agentic_survey import app_config  # noqa: E402 - must follow the `paths` import above
+from symphysis import app_config  # noqa: E402 - must follow the `paths` import above
 
 # Restore any previously-saved LLM endpoint/API keys before anything else
 # runs, so those settings survive a backend restart instead of silently

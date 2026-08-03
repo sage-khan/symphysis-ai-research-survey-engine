@@ -5,7 +5,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.tools import web_search
+from symphysis.tools import web_search
 
 
 class _FakeResponse:

@@ -4,7 +4,7 @@ xAI) use.
 
 Previously OLLAMA_BASE_URL was read once from the environment when the
 `ollama` provider was first constructed and then cached for the life of the
-process (see agentic_survey.providers). That's fine for the CLI (a fresh
+process (see symphysis.providers). That's fine for the CLI (a fresh
 process per run) but meant the long-lived web backend could never actually
 change endpoint at runtime, only at process start. This router writes the
 new value to os.environ AND drops the cached provider instance
@@ -49,7 +49,7 @@ API_KEY_ENV_VARS = {
     "xai": "XAI_API_KEY",
     # Legacy: web_search was backed by the Tavily API when this entry was
     # added. It's now backed by self-hosted SearXNG + Crawl4AI (see
-    # agentic_survey.tools.web_search), which need no API key, so this
+    # symphysis.tools.web_search), which need no API key, so this
     # entry is inert. Kept only so an already-persisted TAVILY_API_KEY in
     # an existing deployment's llm_settings.json doesn't become an
     # unrecognized key on load; the Settings UI no longer exposes it.
@@ -156,7 +156,7 @@ def test_llm_endpoint(base_url: Optional[str] = None) -> Dict[str, Any]:
 
 @router.put("/llm")
 def set_llm_settings(body: LlmSettingsIn) -> Dict[str, Any]:
-    from agentic_survey import providers
+    from symphysis import providers
 
     persisted = _read_persisted()
     persisted["ollama_base_url"] = body.ollama_base_url
@@ -208,7 +208,7 @@ def get_api_key_status() -> Dict[str, bool]:
 
 @router.put("/api-keys")
 def set_api_keys(body: ApiKeysIn) -> Dict[str, bool]:
-    from agentic_survey import providers
+    from symphysis import providers
 
     persisted = _read_persisted()
     stored = persisted.setdefault("api_keys", {})
@@ -232,9 +232,9 @@ def get_app_config() -> Dict[str, Any]:
     model/sampling/RAG hyperparameters for new agents, and the guardrail
     denylist starting point: config/defaults.yaml (versioned baseline)
     with any Settings -> Config override applied on top. See
-    agentic_survey/app_config.py; this is the one place these values live,
+    symphysis/app_config.py; this is the one place these values live,
     not hardcoded in the frontend or scattered across backend modules."""
-    from agentic_survey import app_config
+    from symphysis import app_config
 
     return app_config.get_config()
 
@@ -246,7 +246,7 @@ def set_app_config(body: Dict[str, Any]) -> Dict[str, Any]:
     deep-merges it into the persisted override. config/defaults.yaml
     itself is never modified. Providers with a cached instance are reset so
     the very next call picks up the change without a backend restart."""
-    from agentic_survey import app_config, providers
+    from symphysis import app_config, providers
 
     updated = app_config.save_overrides(body)
     if "provider_base_urls" in body:
@@ -264,14 +264,14 @@ def get_global_rulefile() -> Dict[str, str]:
     """The behavioral rules every agent in every survey follows, in addition
     to its own role and any agent-specific rulefile (see agent_card.py's
     rulefile field, injected in Agent._role_description)."""
-    from agentic_survey import app_config
+    from symphysis import app_config
 
     return {"content": app_config.load_global_rulefile()}
 
 
 @router.put("/global-rulefile")
 def set_global_rulefile(body: GlobalRulefileIn) -> Dict[str, str]:
-    from agentic_survey import app_config
+    from symphysis import app_config
 
     app_config.save_global_rulefile(body.content)
     return {"content": body.content}

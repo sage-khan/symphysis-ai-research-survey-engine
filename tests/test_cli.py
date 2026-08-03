@@ -6,7 +6,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from typer.testing import CliRunner
 
-from agentic_survey.cli import app
+from symphysis.cli import app
 
 runner = CliRunner()
 

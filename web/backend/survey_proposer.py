@@ -96,7 +96,7 @@ def parse_survey_proposal(raw_text: str) -> Dict[str, Any]:
 
 
 def propose_survey_concept(concept: str, provider: str, model: str) -> Dict[str, Any]:
-    from agentic_survey.providers import get_provider
+    from symphysis.providers import get_provider
 
     llm = get_provider(provider)
     messages = [

@@ -4,9 +4,9 @@ from typing import Any, Dict, List
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.guardrails import run_with_guardrails
-from agentic_survey.instruments.base import InstrumentResult
-from agentic_survey.providers.base import ProviderResponse
+from symphysis.guardrails import run_with_guardrails
+from symphysis.instruments.base import InstrumentResult
+from symphysis.providers.base import ProviderResponse
 
 
 class _ScriptedProvider:

@@ -30,7 +30,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Information Analysis",
 ]
 
-# Only what agentic_survey actually needs, unconditionally, at import time
+# Only what symphysis actually needs, unconditionally, at import time
 # to run a survey and produce a report: yaml/requests (config + Ollama/HTTP
 # provider calls), cryptography (Agent Card did:key identity), numpy/scipy
 # (classical BWM/AHP solvers), pymc (Bayesian BWM; falls back to a numpy
@@ -40,7 +40,7 @@ classifiers = [
 # degrades to markdown-only if this import fails, but every real report
 # wants its charts), and typer (the symphysis CLI itself). Everything else
 # (hosted-provider SDKs, the embedding-based RAG backend, the FastAPI web
-# app) is genuinely optional: agentic_survey runs, end to end, against the
+# app) is genuinely optional: symphysis runs, end to end, against the
 # local Ollama provider with the dependency-free TF-IDF RAG fallback and
 # no hosted-provider SDK installed at all.
 dependencies = [
@@ -80,7 +80,7 @@ dev = [
 all = ["symphysis[providers,rag,web]"]
 
 [project.scripts]
-symphysis = "agentic_survey.cli:main"
+symphysis = "symphysis.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/sage-khan/symphysis-ai-research-survey-engine"
@@ -90,11 +90,11 @@ Documentation = "https://github.com/sage-khan/symphysis-ai-research-survey-engin
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["agentic_survey*"]
+include = ["symphysis*"]
 
 [tool.setuptools.package-data]
-"agentic_survey.role_packs" = ["packs/*.md"]
-"agentic_survey" = ["_bundled_prompts/*.txt"]
+"symphysis.role_packs" = ["packs/*.md"]
+"symphysis" = ["_bundled_prompts/*.txt"]
 
 [tool.ruff]
 line-length = 120

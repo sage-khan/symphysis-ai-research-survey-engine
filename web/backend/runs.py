@@ -35,8 +35,8 @@ def start_run(survey_id: str, survey_root: Path) -> None:
     def _run() -> None:
         set_status(survey_id, "running")
         try:
-            from agentic_survey.config import load_survey_config
-            from agentic_survey.orchestrator import run_survey
+            from symphysis.config import load_survey_config
+            from symphysis.orchestrator import run_survey
 
             survey = load_survey_config(survey_root)
             run_survey(survey)

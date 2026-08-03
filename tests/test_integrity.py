@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from agentic_survey import integrity
+from symphysis import integrity
 
 
 def _make_survey_dir(tmp_path: Path) -> Path:

@@ -1,4 +1,4 @@
-from agentic_survey import role_packs
+from symphysis import role_packs
 
 
 def test_list_role_packs_finds_the_shipped_packs_with_unique_ids():

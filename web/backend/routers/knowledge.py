@@ -1,5 +1,5 @@
 """A survey's shared knowledge repository: upload once, every agent in
-that survey picks it up automatically (see agentic_survey.agent's
+that survey picks it up automatically (see symphysis.agent's
 `_knowledge_repo_chunks`, no per-agent flag needed). Distinct from a
 per-role RAG corpus (`surveys/<id>/rag_corpora/<role>/`, one agent), this
 is `surveys/<id>/knowledge_repo/` (whole survey).

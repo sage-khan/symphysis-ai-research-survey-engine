@@ -5,7 +5,7 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.solvers.ahp import aggregate_individual_priorities, solve_ahp
+from symphysis.solvers.ahp import aggregate_individual_priorities, solve_ahp
 
 CODES = ["Q", "PT", "V"]
 

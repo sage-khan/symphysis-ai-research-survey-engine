@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.did_key import AgentIdentity, verify_credential, did_key_from_public, public_from_did_key
+from symphysis.did_key import AgentIdentity, verify_credential, did_key_from_public, public_from_did_key
 
 
 def test_deterministic_identity_is_reproducible():

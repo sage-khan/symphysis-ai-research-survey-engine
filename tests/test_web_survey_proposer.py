@@ -45,7 +45,7 @@ def test_propose_concept_returns_a_parsed_draft(client, monkeypatch):
 
             return _R()
 
-    import agentic_survey.providers as providers_module
+    import symphysis.providers as providers_module
 
     monkeypatch.setattr(providers_module, "get_provider", lambda name: _FakeProvider())
 
@@ -68,7 +68,7 @@ def test_propose_concept_returns_502_on_unparseable_response(client, monkeypatch
 
             return _R()
 
-    import agentic_survey.providers as providers_module
+    import symphysis.providers as providers_module
 
     monkeypatch.setattr(providers_module, "get_provider", lambda name: _FakeProvider())
 

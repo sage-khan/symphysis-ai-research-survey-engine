@@ -89,7 +89,7 @@ def test_propose_survey_concept_calls_the_provider_and_parses_its_response(monke
 
             return _R()
 
-    import agentic_survey.providers as providers_module
+    import symphysis.providers as providers_module
 
     monkeypatch.setattr(providers_module, "get_provider", lambda name: _FakeProvider())
     result = propose_survey_concept("A study about cloud migration risk.", "ollama", "mistral:7b")

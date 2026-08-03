@@ -5,8 +5,8 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.providers.base import ProviderError
-from agentic_survey.providers.manual_provider import ManualProvider, ManualResponsePending
+from symphysis.providers.base import ProviderError
+from symphysis.providers.manual_provider import ManualProvider, ManualResponsePending
 
 MESSAGES = [{"role": "system", "content": "You are a test agent."}, {"role": "user", "content": "Do the task."}]
 

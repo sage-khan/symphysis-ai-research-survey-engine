@@ -27,7 +27,7 @@ def client(tmp_path, monkeypatch):
 
 
 def _make_survey_with_manifest(tmp_path: Path, survey_id: str) -> Path:
-    from agentic_survey import integrity
+    from symphysis import integrity
 
     d = tmp_path / "surveys" / survey_id
     d.mkdir(parents=True)

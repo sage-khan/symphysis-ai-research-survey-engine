@@ -6,7 +6,7 @@
 # gitignored web/backend/data/config_overrides.json and merges it on top of
 # this file at read time; this file itself is never modified at runtime.
 # The CLI and the web backend both read through
-# agentic_survey.app_config.get_config(), never these hardcoded values
+# symphysis.app_config.get_config(), never these hardcoded values
 # directly, so there is exactly one source of truth.
 
 # Base URL for each OpenAI-compatible hosted provider. `null` means "use
@@ -39,7 +39,7 @@ rag_defaults:
   chunk_overlap: 100
 
 # Two self-hosted, open-source services backing the web_search tool
-# (see agentic_survey.tools.web_search): SearXNG for discovery (query ->
+# (see symphysis.tools.web_search): SearXNG for discovery (query ->
 # candidate URLs + snippets) and Crawl4AI for extraction (URL -> clean
 # markdown). Overridable via SEARXNG_BASE_URL / CRAWL4AI_BASE_URL env
 # vars, or here. The docker-compose defaults below assume both run as

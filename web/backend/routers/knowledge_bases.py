@@ -5,7 +5,7 @@ re-uploading the same files into a one-off per-agent corpus every time a
 new agent needs the same background material.
 
 This is a thin wrapper around the same directory-of-.md/.txt-files
-contract agentic_survey.rag.retriever already reads for any
+contract symphysis.rag.retriever already reads for any
 rag.corpus_path (see instruments/base.py / agent.py): a "knowledge base"
 is not a new storage concept, it is a named, listed, reusable instance of
 the one that already exists, kept in agents_library/ so it is visible and

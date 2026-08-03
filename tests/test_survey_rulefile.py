@@ -7,10 +7,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey import app_config
-from agentic_survey.agent import Agent
-from agentic_survey.agent_card import ModelSpec, new_card
-from agentic_survey.storage import SurveyStorage
+from symphysis import app_config
+from symphysis.agent import Agent
+from symphysis.agent_card import ModelSpec, new_card
+from symphysis.storage import SurveyStorage
 
 
 def _write_prompt_template(tmp_path: Path) -> Path:

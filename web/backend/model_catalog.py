@@ -87,7 +87,7 @@ def list_models(provider: str) -> Dict[str, Any]:
             api_key = os.environ.get(_API_KEY_ENV[provider])
             if not api_key:
                 return {"models": [], "error": f"{_API_KEY_ENV[provider]} is not set"}
-            from agentic_survey import app_config
+            from symphysis import app_config
 
             base_url = app_config.provider_base_url(provider) or _DEFAULT_BASE_URLS.get(provider)
             return {"models": _openai_compatible_models(base_url, api_key), "error": None}

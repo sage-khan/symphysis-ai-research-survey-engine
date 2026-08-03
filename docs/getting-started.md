@@ -59,7 +59,7 @@ means):
 Run it:
 
 ```bash
-PYTHONPATH=src python -m agentic_survey.cli run surveys/getting-started-demo
+PYTHONPATH=src python -m symphysis.cli run surveys/getting-started-demo
 ```
 
 Since `model.provider` is `manual`, the run stops with a message pointing

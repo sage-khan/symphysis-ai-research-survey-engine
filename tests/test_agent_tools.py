@@ -12,11 +12,11 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey import agent as agent_module
-from agentic_survey.agent import Agent, _has_retrievable_content
-from agentic_survey.agent_card import ModelSpec, new_card
-from agentic_survey.storage import SurveyStorage
-from agentic_survey.tools.web_search import WebSearchError
+from symphysis import agent as agent_module
+from symphysis.agent import Agent, _has_retrievable_content
+from symphysis.agent_card import ModelSpec, new_card
+from symphysis.storage import SurveyStorage
+from symphysis.tools.web_search import WebSearchError
 
 
 def _make_agent(tmp_path: Path, agent_id: str = "test-agent", tools=None) -> Agent:

@@ -1,4 +1,4 @@
-from agentic_survey import qa_checks
+from symphysis import qa_checks
 
 
 def test_extract_source_tags_pulls_distinct_bracket_labels_in_order():

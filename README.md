@@ -1,10 +1,13 @@
 # Symphysis: AI Research Survey Engine
 
 Config-driven, replicable agent panels for expert-elicitation surveys.
-Formerly named `agentic-survey-tool` (that's still the internal Python
-package name, `agentic_survey`, and how earlier session records refer to
-it); renamed to SAGE, then to Symphysis, as it moves toward being a standalone product rather
-than a component scoped to one paper. Built as the general-purpose
+Formerly named `agentic-survey-tool` (how earlier session records and the
+`docs/development/changelog.md` history before this rename refer to it),
+then SAGE, then Symphysis, as it moved toward being a standalone product
+rather than a component scoped to one paper; the internal Python package
+(`src/symphysis/`) and PyPI distribution name were brought in line with
+that final name too, so `symphysis` is now the only name used anywhere in
+this codebase. Built as the general-purpose
 successor to VERITAS's `bsi-survey-app`, starting from the BSI paper's
 HAWC-BWM (Human-AI Weighted Consensus Best-Worst Method) use case, but
 designed so a survey can plug in a different instrument (AHP, etc.) without
@@ -31,7 +34,7 @@ for how to set up a development environment and submit a pull request.
    comparisons in one response, for a criteria tree rather than a flat
    list, see "Hierarchical BWM" below) are all implemented, selected per
    survey via `instrument:` in `survey.yaml`; the interface
-   (`src/agentic_survey/instruments/base.py`) is designed for further
+   (`src/symphysis/instruments/base.py`) is designed for further
    methods to be added the same way. `hierarchical_bwm` surveys are
    currently authored directly in `survey.yaml` rather than through the
    New Survey form, which only authors a flat `dimensions` list.
@@ -81,7 +84,7 @@ for how to set up a development environment and submit a pull request.
     repository (uploaded once per survey via the Knowledge tab, available
     to every agent automatically), a standard role knowledge pack (a
     curated professional-domain primer for roles like Data Engineer or
-    Construction Engineer, see `src/agentic_survey/role_packs/`), and real
+    Construction Engineer, see `src/symphysis/role_packs/`), and real
     web search (`tools: ["web_search"]`, backed by self-hosted SearXNG +
     Crawl4AI, no API key needed). Each source is
     logged as its own tool-call event, and the survey's shared knowledge
@@ -94,7 +97,7 @@ for how to set up a development environment and submit a pull request.
     self-reported `sources_used` is checked the same way: a claimed
     reference tag that was never actually available in that prompt is
     flagged as a fabricated citation, not silently accepted. See
-    `src/agentic_survey/qa_checks.py` and the Trace viewer's Conversation
+    `src/symphysis/qa_checks.py` and the Trace viewer's Conversation
     log tab.
 12. **Behavioral rules, not just a role description.** A global rulefile
     (Settings -> Rules, `config/global_rulefile.md`) applies to every agent
@@ -111,7 +114,7 @@ for how to set up a development environment and submit a pull request.
 
 ## How it works (request/response pipeline)
 
-One agent's run through `orchestrator.run_survey` (`src/agentic_survey/orchestrator.py`):
+One agent's run through `orchestrator.run_survey` (`src/symphysis/orchestrator.py`):
 
 ```
 Agent Card (JSON)                survey.yaml
@@ -162,7 +165,7 @@ endpoint, grouped by router tag (`surveys`, `agents`, `library`,
 
 ```
 symphysis-ai-research-survey-engine/
-├── src/agentic_survey/          # the core package: see table below (import name kept stable)
+├── src/symphysis/          # the core package: see table below
 ├── config/
 │   └── prompts/                 # shared system-prompt templates (referenced by agent cards)
 ├── surveys/<survey-id>/         # one directory per survey project
@@ -199,14 +202,14 @@ symphysis-ai-research-survey-engine/
 │   ├── changelog.md              # what changed and when (see "Keeping this README/changelog current")
 │   └── diagnostics.md            # bugs found, root cause, and fix
 ├── .claude/rules/                 # AI-agent working rules for this repo (see "Documentation" below)
-└── tests/                         # pytest, mirrors src/agentic_survey's layout
+└── tests/                         # pytest, mirrors src/symphysis's layout
 ```
 
-### Core package (`src/agentic_survey/`): what each file does
+### Core package (`src/symphysis/`): what each file does
 
 | File | Purpose |
 |---|---|
-| `cli.py` | Command-line entrypoint: `python -m agentic_survey.cli run <survey-dir>`. |
+| `cli.py` | Command-line entrypoint: `python -m symphysis.cli run <survey-dir>`. |
 | `config.py` | Loads and validates `survey.yaml` into a `SurveyConfig` (instrument, dimensions, weighting, discovered agent cards). |
 | `agent_card.py` | The portable Agent Card: one JSON file that fully defines a spawnable agent (model, RAG, sampling, permissions, guardrails, did, role_pack, rulefile). `new_card()` / `load_card()`. |
 | `did_key.py` | Real `did:key` identity + W3C-shaped Verifiable Credentials (Ed25519), ported from project-cogtwins's `identity.py`. |
@@ -272,7 +275,7 @@ export OPENAI_API_KEY=...      # only needed for agents configured with provider
 export OPENROUTER_API_KEY=...  # only needed for agents configured with provider: openrouter
 export OLLAMA_BASE_URL=...     # defaults to http://localhost:11434
 
-PYTHONPATH=src python -m agentic_survey.cli run surveys/bsi-hawc-bwm
+PYTHONPATH=src python -m symphysis.cli run surveys/bsi-hawc-bwm
 ```
 
 Or dockerized:
@@ -292,7 +295,7 @@ via the Anthropic API, and manually-pasted Gemini/GPT).
 ### Web UI setup
 
 A FastAPI backend (`web/backend/`) and React/Vite frontend (`web/frontend/`)
-sit on top of the same `agentic_survey` package, deliberately kept as a
+sit on top of the same `symphysis` package, deliberately kept as a
 separate layer since this UI is intended to grow into its own product.
 
 ```bash
@@ -456,7 +459,7 @@ stays off your machine and iteration stays fast locally.
 
 ```bash
 export OLLAMA_BASE_URL=http://100.77.119.21:11434   # the server's Tailscale IP
-PYTHONPATH=src python -m agentic_survey.cli run surveys/bsi-hawc-bwm
+PYTHONPATH=src python -m symphysis.cli run surveys/bsi-hawc-bwm
 ```
 
 Everything else (the Bayesian solve, guardrails, storage) runs locally
@@ -532,7 +535,7 @@ For a model with no API (Gemini/GPT web chat), set `model.provider:
 `"gemini-2.5-pro"`). First run:
 
 ```bash
-PYTHONPATH=src python -m agentic_survey.cli run surveys/bsi-hawc-bwm
+PYTHONPATH=src python -m symphysis.cli run surveys/bsi-hawc-bwm
 ```
 
 prints "Waiting on manually-pasted responses" and writes each pending
@@ -555,7 +558,7 @@ near scale-free `Gamma(0.01, 0.01)` (mean ~1). The former biases posteriors
 toward artificially narrow credible intervals, i.e. towards looking more
 confident about expert agreement than the data supports, which defeats the
 entire point of using a Bayesian method over the classical point-estimate
-one. This is fixed at the source in `src/agentic_survey/solvers/bwm_bayesian.py`.
+one. This is fixed at the source in `src/symphysis/solvers/bwm_bayesian.py`.
 
 Every bug found since (timeout tuning, per-agent failure isolation, the
 manual provider's sample-index tracking, the negative-error-bar chart
@@ -575,13 +578,13 @@ directory.
 
 ## Adding a provider
 
-Implement `agentic_survey.providers.base.LLMProvider` (one `complete()`
-method) and register it in `agentic_survey/providers/__init__.py`.
+Implement `symphysis.providers.base.LLMProvider` (one `complete()`
+method) and register it in `symphysis/providers/__init__.py`.
 
 ## Adding an instrument
 
-Implement `agentic_survey.instruments.base.Instrument` (`build_messages` +
-`parse`) and register it in `agentic_survey/orchestrator.py`'s `INSTRUMENTS`
+Implement `symphysis.instruments.base.Instrument` (`build_messages` +
+`parse`) and register it in `symphysis/orchestrator.py`'s `INSTRUMENTS`
 dict. The agent, provider, guardrail, and storage layers do not change.
 
 ## Hierarchical BWM
@@ -664,7 +667,7 @@ Symphysis currently implements BWM (classical and Bayesian), AHP
 levels for a criteria tree, see "Hierarchical BWM" above), one deployment
 shape (a single-server Docker container plus a Vite dev server), and
 independent-sampling agents only (no multi-agent debate yet). The
-instrument interface (`src/agentic_survey/instruments/base.py`) is
+instrument interface (`src/symphysis/instruments/base.py`) is
 deliberately designed so an agent never knows or cares which instrument
 it is completing, which is what makes the rest of this list additive
 rather than a rewrite: adding a method means one new `Instrument`
@@ -717,17 +720,17 @@ directly they extend the current base (AHP is implemented; see
 ### Packaging
 
 - **Linux CLI (done)**: `symphysis` (`pyproject.toml`'s `[project.scripts]`
-  entry point, built with Typer in `src/agentic_survey/cli.py`) covers
+  entry point, built with Typer in `src/symphysis/cli.py`) covers
   `new` (scaffold a survey), `add-agent` (from the Agent Library or from
   flags), `run`, `report` (regenerate the report/charts from
   already-accepted samples on disk without calling any provider), and
   `fix-survey` (static validation of a survey's config, see
   `survey_checks.py`): a first-class alternative to the web UI, not a
   stripped-down fallback for it.
-- **Installable Python package (done)**: `agentic_survey` installs
-  standalone via `pip install symphysis` (the PyPI distribution name; the
-  importable module stays `agentic_survey` for backward compatibility
-  with every existing survey folder). Core dependencies are only what the
+- **Installable Python package (done)**: `symphysis` installs standalone
+  via `pip install symphysis`; the importable module is `symphysis` too
+  (one name, everywhere, no split between the PyPI distribution name and
+  the Python import name). Core dependencies are only what the
   engine needs unconditionally at import time; hosted-provider SDKs, the
   embedding-based RAG backend, and the web UI are optional extras
   (`symphysis[providers]`, `symphysis[rag]`, `symphysis[web]`,

@@ -16,5 +16,5 @@ COPY --chown=survey:survey src ./src
 COPY --chown=survey:survey config ./config
 ENV PYTHONPATH=/app/src
 USER survey
-ENTRYPOINT ["python", "-m", "agentic_survey.cli"]
+ENTRYPOINT ["python", "-m", "symphysis.cli"]
 CMD ["--help"]

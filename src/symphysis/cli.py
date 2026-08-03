@@ -43,7 +43,7 @@ def _err(message: str) -> None:
 
 
 def _bundled_prompt_template_text() -> str:
-    return resources.files("agentic_survey").joinpath("_bundled_prompts", "expert_panel_system.txt").read_text(
+    return resources.files("symphysis").joinpath("_bundled_prompts", "expert_panel_system.txt").read_text(
         encoding="utf-8"
     )
 

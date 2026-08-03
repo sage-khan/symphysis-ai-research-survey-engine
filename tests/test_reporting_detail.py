@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.reporting import render_methodology_section, render_per_agent_detail_section
+from symphysis.reporting import render_methodology_section, render_per_agent_detail_section
 
 
 def test_methodology_section_names_the_instrument_and_agent_count():

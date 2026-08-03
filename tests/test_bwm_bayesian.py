@@ -6,7 +6,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.solvers import bwm_bayesian
+from symphysis.solvers import bwm_bayesian
 
 
 def _synthetic_responses(n=8, seed=0):

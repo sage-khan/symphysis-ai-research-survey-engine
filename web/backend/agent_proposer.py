@@ -2,7 +2,7 @@
 in plain English, and get a reviewable list of agents back", either
 reusing an existing Agent Library entry or proposing a brand new one.
 
-Deliberately named differently from `agentic_survey.orchestrator` (which
+Deliberately named differently from `symphysis.orchestrator` (which
 drives an already-configured survey's actual run): this module never
 drives a survey run and never creates anything by itself. It only proposes
 a JSON structure for a human to review, edit, and explicitly approve
@@ -106,7 +106,7 @@ def propose_agents(
     provider: str,
     model: str,
 ) -> List[Dict[str, Any]]:
-    from agentic_survey.providers import get_provider
+    from symphysis.providers import get_provider
 
     llm = get_provider(provider)
     messages = [

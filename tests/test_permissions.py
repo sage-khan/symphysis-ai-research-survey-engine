@@ -5,8 +5,8 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.agent_card import PermissionsSpec
-from agentic_survey.permissions import PermissionError_, check_data_scope, check_provider_allowed
+from symphysis.agent_card import PermissionsSpec
+from symphysis.permissions import PermissionError_, check_data_scope, check_provider_allowed
 
 
 def test_check_data_scope_allows_matching_glob():

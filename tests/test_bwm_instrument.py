@@ -4,7 +4,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from agentic_survey.instruments.bwm import BWMInstrument
+from symphysis.instruments.bwm import BWMInstrument
 
 PARAMS = {"dimensions": ["Q", "PT", "V", "IC", "L", "C"], "dimension_labels": {}}
 
