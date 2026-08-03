@@ -3,6 +3,39 @@
 Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
+## Every small/mid local Ollama model failed the full seven-level hierarchical_bwm task
+
+**Found:** after fixing max_tokens and the ratio-vs-score prompt warning (see the entry above),
+re-ran the survey and every completed Ollama-backed agent still showed zero_accepted. Checked
+each one's raw completion / rejection log directly:
+
+- `gemma4:26b` (compliance-officer): degenerated into an infinite repetition loop
+  (`{"L1": {"L1": {"L1": {...` nested hundreds of levels deep) on every one of 15 attempts,
+  hitting max_tokens on pure repetition, not real content. A model-capability failure, not a
+  prompt-clarity or token-budget one.
+- `qwen2.5:14b` (bim-coordinator): still rated Best-to-itself as 9 on L1 in 12/15 attempts even
+  with the explicit "never 9" warning now in the prompt (confirmed present in the running
+  container's actual file). An instruction-following limit at this model size for this specific
+  task, not a missing instruction.
+- `deepseek-r1:14b` (blockchain-engineer): consistently malformed JSON (missing delimiters,
+  unterminated objects) despite the larger token budget.
+- `phi4:14b` (data-engineer): a mix of missing ratings for several criteria and non-integer
+  decimal ratings (e.g. `others_to_worst[V]=1.8`) instead of the required 1-9 integers.
+
+**Root cause:** the seven-level bundled response `hierarchical_bwm` asks for in one call is
+simply too long and structurally demanding a generation task for these 7B-26B local models,
+independent of the specific fixes already applied. This is a capability ceiling, not a further
+prompt-wording gap.
+
+**Fix:** moved every local-model role in `bsi-hawc-bwm` (BIM Coordinator, Blockchain/DLT
+Engineer, Compliance Officer, Data Engineer, Construction Project Manager, Structural Engineer;
+both their base and RAG variants) to `qwen2.5:32b`, the only meaningfully larger model already
+pulled on the veritas server. Agent identity (DID, seed derivation) is keyed to `agent_id` and
+survey id, never model name, so this is a pure model swap with no identity drift. If
+`qwen2.5:32b` also proves unreliable at this task, the next escalation is splitting
+`hierarchical_bwm` into one call per level (matching the flat `bwm` instrument's
+proven-reliable single-level shape) rather than trying still-larger models indefinitely.
+
 ## hierarchical_bwm agents had every sample rejected: max_tokens left over from the old flat-BWM survey
 
 **Found:** running the newly-converted bsi-hawc-bwm survey (see the hierarchical BWM changelog
