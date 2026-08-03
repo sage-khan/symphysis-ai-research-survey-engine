@@ -4,6 +4,18 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (BSI as the first real, tested use case for reusable knowledge bases)
+
+- Created six real, populated knowledge bases via the new API (Blockchain Trust & Attack
+  Resistance, Data Quality & Polyglot Persistence, BIM & Digital Building Logbooks, GDPR & Data
+  Governance, Structural Health Monitoring & Digital Twins, Construction Project Management &
+  MCDM), each seeded with the same real, cited content already written for
+  `bsi-hawc-bwm`'s per-role RAG corpora, so this feature has a genuine populated example rather
+  than an empty shell the first time anyone opens the Knowledge Bases tab. The survey's own
+  corpora are untouched; these are separate, reusable copies under `agents_library/knowledge_bases/`
+  future agents (in this or any other survey) can link to directly instead of re-uploading.
+
+
 ## 2026-08-03 (live progress panel while a survey is running)
 
 - SurveyDetailPage now shows a progress panel while a run is in flight: a percentage bar
