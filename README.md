@@ -558,6 +558,9 @@ survey runs, an "add agent from template" flow).
 
 ## Documentation
 
+- `docs/architecture/architecture-overview.md` for the system diagrams:
+  current pipeline, Agent Card anatomy, and the target pipeline vision
+  with implemented-vs-planned status on every stage.
 - `docs/development/changelog.md` for what changed and when.
 - `docs/development/diagnostics.md` for bugs found, root cause, and fix.
 - `.claude/rules/project-details.md` for this project's relationship to

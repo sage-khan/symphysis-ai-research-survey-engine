@@ -3,6 +3,41 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (integrity manifest, three-tier rulefiles, architecture diagrams)
+
+- New `src/agentic_survey/integrity.py`: a SHA-256 hash of every file a
+  survey run produced, computed once right after the run finishes, plus a
+  single root hash summarizing all of them, plus a plain `SHA256SUMS` file
+  in the exact format `sha256sum -c` already understands. A reviewer can
+  verify a survey folder was not altered since the manifest was generated
+  using nothing but coreutils, no copy of this application required.
+  `GET /api/surveys/{id}/integrity` returns the stored manifest;
+  `GET /api/surveys/{id}/verify-integrity` recomputes every hash right now
+  and reports an honest pass/fail with exactly what changed, was added, or
+  was removed. Surfaced in the Results tab; included automatically in the
+  existing `.zip` download since it lives inside the survey folder like
+  every other output file. 13 new tests.
+- Rulefiles are now a three-tier hierarchy, broadest to narrowest: the
+  global rulefile (every agent, every survey), a new survey-level
+  rulefile (`surveys/<id>/rulefile.md`, every agent in one survey,
+  editable from that survey's Knowledge tab), and the existing per-agent
+  rulefile. All three are appended to an agent's system prompt in that
+  order. The global rulefile was rewritten from five bullet points into a
+  structured, publication-citable document (genuineness and
+  anti-fabrication, scope discipline, configuration integrity, reasoning
+  transparency, independence and non-collusion). The `bsi-hawc-bwm`
+  survey's own rulefile now documents what each of its six TrustRouter/BSI
+  dimensions actually means and why they should not be treated as
+  interchangeable with generic data-quality criteria. 2 new tests.
+- New `docs/architecture/` with three draw.io diagrams (source plus
+  rendered PNG, per this repo's diagram convention):
+  `current-system-architecture` (the real six-stage pipeline as
+  implemented today), `agent-card-anatomy` (the Agent Card's nine field
+  categories), and `target-pipeline-vision` (the longer-term
+  researcher-workflow vision, every stage color-coded implemented,
+  partially implemented, or planned, so the diagram cannot be misread as
+  a claim that unimplemented stages already exist).
+
 ## 2026-08-03 (CI/CD pipeline, QA genuineness checks, global and per-agent rules)
 
 - New `.github/workflows/ci-cd.yml`: validate (ruff lint, docker-compose

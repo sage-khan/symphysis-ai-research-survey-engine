@@ -60,6 +60,10 @@ class RenameSurveyIn(BaseModel):
     title: str
 
 
+class SurveyRulefileIn(BaseModel):
+    content: str
+
+
 @router.get("")
 def list_surveys() -> List[Dict[str, Any]]:
     out = []
@@ -170,6 +174,24 @@ def delete_survey(survey_id: str) -> Dict[str, str]:
     return {"status": "deleted"}
 
 
+@router.get("/{survey_id}/rulefile")
+def get_survey_rulefile(survey_id: str) -> Dict[str, str]:
+    """This survey's own rules, applied to every agent in it: between the
+    global rulefile (every survey) and an individual agent's own rulefile
+    (see Agent._rules_section). Empty by default, no separate file until
+    something is actually saved here."""
+    d = _existing_survey_dir(survey_id)
+    path = d / "rulefile.md"
+    return {"content": path.read_text(encoding="utf-8") if path.exists() else ""}
+
+
+@router.put("/{survey_id}/rulefile")
+def set_survey_rulefile(survey_id: str, body: SurveyRulefileIn) -> Dict[str, str]:
+    d = _existing_survey_dir(survey_id)
+    (d / "rulefile.md").write_text(body.content, encoding="utf-8")
+    return {"content": body.content}
+
+
 @router.post("/{survey_id}/run")
 def run_survey_endpoint(survey_id: str) -> Dict[str, Any]:
     d = _existing_survey_dir(survey_id)
@@ -226,6 +248,35 @@ def get_chart(survey_id: str, chart_name: str):
     if not path.exists():
         raise HTTPException(404, "Chart not found.")
     return FileResponse(path, media_type="image/png")
+
+
+@router.get("/{survey_id}/integrity")
+def get_integrity_manifest(survey_id: str) -> Dict[str, Any]:
+    """The SHA-256 manifest written right after this survey's last run (see
+    orchestrator.run_survey), if one exists yet. This is the record to cite
+    or archive; verify_integrity below is how to check it still matches."""
+    from agentic_survey import integrity
+
+    d = _existing_survey_dir(survey_id)
+    manifest = integrity.load_manifest(d)
+    if manifest is None:
+        raise HTTPException(404, "No integrity manifest yet; run the survey first.")
+    return manifest
+
+
+@router.get("/{survey_id}/verify-integrity")
+def verify_integrity(survey_id: str) -> Dict[str, Any]:
+    """Recomputes every file's hash right now and compares against the
+    stored manifest: an honest pass/fail, not a similarity score. Use this
+    to confirm a survey folder (this copy, or one received from someone
+    else) has not been altered since its manifest was generated."""
+    from agentic_survey import integrity
+
+    d = _existing_survey_dir(survey_id)
+    result = integrity.verify(d)
+    if result.manifest_root_hash is None:
+        raise HTTPException(404, "No integrity manifest yet; run the survey first.")
+    return integrity.verification_to_dict(result)
 
 
 @router.get("/{survey_id}/download")

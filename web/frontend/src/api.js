@@ -35,6 +35,8 @@ export const api = {
   runStatus: (id) => request(`/api/surveys/${id}/run-status`),
   getResults: (id) => request(`/api/surveys/${id}/results`),
   getAnalytics: (id) => request(`/api/surveys/${id}/analytics`),
+  getIntegrityManifest: (id) => request(`/api/surveys/${id}/integrity`),
+  verifyIntegrity: (id) => request(`/api/surveys/${id}/verify-integrity`),
   chartUrl: (surveyId, chartName) => `${BASE}/api/surveys/${surveyId}/charts/${chartName}`,
   downloadUrl: (id) => `${BASE}/api/surveys/${id}/download`,
 
@@ -88,4 +90,8 @@ export const api = {
   },
   deleteKnowledgeFile: (surveyId, filename) =>
     request(`/api/surveys/${surveyId}/knowledge/${encodeURIComponent(filename)}`, { method: "DELETE" }),
+
+  getSurveyRulefile: (surveyId) => request(`/api/surveys/${surveyId}/rulefile`),
+  saveSurveyRulefile: (surveyId, content) =>
+    request(`/api/surveys/${surveyId}/rulefile`, { method: "PUT", body: JSON.stringify({ content }) }),
 };

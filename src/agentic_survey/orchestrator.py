@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
+from . import integrity
 from .agent import Agent
 from .agent_card import AgentCardError, load_card
 from .config import SurveyConfig
@@ -133,6 +134,11 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
     report_md = render_report(result)
     storage.write_report(report_md)
     render_charts(result, storage.report_dir / "charts")
+    # Written last, after every other output file exists: a SHA-256 of
+    # everything the run actually produced, plus a plain SHA256SUMS file a
+    # reviewer can check with nothing but sha256sum -c, no copy of this
+    # app required. See integrity.py.
+    integrity.write_manifest(survey.root)
     return result
 
 

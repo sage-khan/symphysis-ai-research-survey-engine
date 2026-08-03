@@ -63,6 +63,66 @@ function formatBytes(n) {
   return `${(n / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function SurveyRulefilePanel({ surveyId }) {
+  const [content, setContent] = useState("");
+  const [saved, setSaved] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    api.getSurveyRulefile(surveyId).then((r) => {
+      setContent(r.content);
+      setSaved(r.content);
+    });
+  }, [surveyId]);
+
+  async function handleSave() {
+    setBusy(true);
+    setError(null);
+    try {
+      const result = await api.saveSurveyRulefile(surveyId, content);
+      setSaved(result.content);
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="panel" style={{ padding: 24, marginTop: 24 }}>
+      <h3 style={{ marginBottom: 4 }}>Survey rules</h3>
+      <div className="mono-dim" style={{ marginBottom: 12, maxWidth: 720 }}>
+        Rules every agent in this survey follows, between the global rulefile (Settings -&gt;
+        Rules) and any individual agent's own rules. Use this for study-specific conduct, for
+        example what an agent should and should not assume about this particular framework or
+        domain.
+      </div>
+      <textarea
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
+        rows={8}
+        style={{ width: "100%", marginBottom: 12, fontFamily: "var(--font-mono, monospace)", fontSize: 13 }}
+      />
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <button className="btn btn-primary" onClick={handleSave} disabled={busy}>
+          Save survey rules
+        </button>
+        {saved === content && (
+          <span className="mono-dim" style={{ color: "var(--green)" }}>
+            Saved, active for the next run
+          </span>
+        )}
+      </div>
+      {error && (
+        <div className="mono-dim" style={{ color: "var(--red)", marginTop: 8 }}>
+          {error}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function KnowledgeTab({ surveyId }) {
   const [files, setFiles] = useState([]);
   const [busy, setBusy] = useState(false);
@@ -144,6 +204,8 @@ function KnowledgeTab({ surveyId }) {
           </tbody>
         </table>
       </div>
+
+      <SurveyRulefilePanel surveyId={surveyId} />
     </div>
   );
 }
@@ -704,6 +766,84 @@ function AgentsTab({ surveyId, onChanged }) {
   );
 }
 
+function IntegrityPanel({ surveyId, refreshKey }) {
+  const [manifest, setManifest] = useState(null);
+  const [verification, setVerification] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setManifest(null);
+    setVerification(null);
+    api.getIntegrityManifest(surveyId).then(setManifest).catch(() => setManifest(null));
+  }, [surveyId, refreshKey]);
+
+  async function handleVerify() {
+    setBusy(true);
+    setError(null);
+    try {
+      setVerification(await api.verifyIntegrity(surveyId));
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (!manifest) return null;
+
+  return (
+    <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
+      <h3 style={{ marginBottom: 4 }}>Integrity manifest</h3>
+      <div className="mono-dim" style={{ marginBottom: 12 }}>
+        A SHA-256 hash of every file this run produced, generated once, right after the run
+        finished. Anyone can check this folder still matches with nothing but{" "}
+        <code>sha256sum -c SHA256SUMS</code>, no copy of this app required. Cite the root hash
+        below, or the whole manifest, wherever this result is reported.
+      </div>
+      <div style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 12, wordBreak: "break-all", marginBottom: 12 }}>
+        Root hash: <strong>{manifest.root_hash}</strong>
+        <div className="mono-dim" style={{ marginTop: 4 }}>
+          {manifest.file_count} files, generated {manifest.generated_at}
+        </div>
+      </div>
+      <button className="btn" onClick={handleVerify} disabled={busy}>
+        Verify now
+      </button>
+      {verification && (
+        <div
+          className="mono-dim"
+          style={{
+            marginTop: 12,
+            padding: 12,
+            border: `1px solid ${verification.ok ? "var(--green)" : "var(--red)"}`,
+            borderRadius: "var(--radius)",
+          }}
+        >
+          {verification.ok ? (
+            <div style={{ color: "var(--green)" }}>
+              Verified: every file matches the manifest exactly. Nothing changed, added, or
+              removed since it was generated.
+            </div>
+          ) : (
+            <div style={{ color: "var(--red)" }}>
+              FAILED: this folder no longer matches its manifest.
+              {verification.changed.length > 0 && <div>Changed: {verification.changed.join(", ")}</div>}
+              {verification.added.length > 0 && <div>Added: {verification.added.join(", ")}</div>}
+              {verification.removed.length > 0 && <div>Removed: {verification.removed.join(", ")}</div>}
+            </div>
+          )}
+        </div>
+      )}
+      {error && (
+        <div className="mono-dim" style={{ color: "var(--red)", marginTop: 8 }}>
+          {error}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ResultsTab({ surveyId, refreshKey }) {
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
@@ -738,9 +878,11 @@ function ResultsTab({ surveyId, refreshKey }) {
         </div>
       )}
 
-      <div className="panel" style={{ padding: 24 }}>
+      <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
         <div className="markdown-body" dangerouslySetInnerHTML={{ __html: marked.parse(results.report_markdown || "") }} />
       </div>
+
+      <IntegrityPanel surveyId={surveyId} refreshKey={refreshKey} />
     </div>
   );
 }

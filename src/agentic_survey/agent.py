@@ -87,15 +87,21 @@ class Agent:
         return base + self._rules_section()
 
     def _rules_section(self) -> str:
-        # The global rulefile (every agent, every survey) and this agent's
-        # own rulefile are appended after the role description, not woven
-        # into it, so they read as explicit standing instructions rather
-        # than part of the character the model is asked to play.
+        # Three tiers, broadest to narrowest, appended after the role
+        # description rather than woven into it, so they read as explicit
+        # standing instructions rather than part of the character the model
+        # is asked to play: the global rulefile (every agent, every
+        # survey), this survey's own rulefile (every agent in this one
+        # survey), and this agent's own rulefile (this agent only).
         global_rules = app_config.load_global_rulefile().strip()
+        survey_rulefile_path = self.storage.root / "rulefile.md"
+        survey_rules = survey_rulefile_path.read_text(encoding="utf-8").strip() if survey_rulefile_path.exists() else ""
         agent_rules = self.card.rulefile.strip()
         parts = []
         if global_rules:
             parts.append(f"\n\n## Rules you must follow\n\n{global_rules}")
+        if survey_rules:
+            parts.append(f"\n\n## Rules for this survey\n\n{survey_rules}")
         if agent_rules:
             parts.append(f"\n\n## Additional rules for this agent\n\n{agent_rules}")
         return "".join(parts)
