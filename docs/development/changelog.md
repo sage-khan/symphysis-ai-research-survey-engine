@@ -4,6 +4,29 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (survey rulefile rewritten for the real hierarchy; real input documents; reputable-source-only rule)
+
+- `surveys/bsi-hawc-bwm/rulefile.md` was still describing the old flat
+  six-dimension survey (wrong glossary scope, a reference to the removed
+  weighting/human_responses_path stanza). Rewritten to describe the real
+  seven-level hierarchy, list the actual reference material every agent
+  in this survey now has access to, and explain the two-stage
+  gate-then-score architecture.
+- Added two more real documents to this survey's shared knowledge_repo:
+  `bsi_expert_questionnaire_v5_real_survey_instrument.md` (the actual BSI
+  Expert Questionnaire, v5 May 2026, as administered to the real 15-expert
+  human panel via LimeSurvey 185662, copied verbatim, not paraphrased) and
+  `trustrouter_research_hypothesis.md` (an extract of the TrustRouter
+  construction paper's own stated research gap and contribution, framing
+  what this survey's weight elicitation is actual evidence for or
+  against). The rulefile now tells every agent explicitly what these
+  documents are and where to find them.
+- `config/global_rulefile.md`: new rule 1.4, citing only real, verifiable,
+  reputable sources (peer-reviewed papers, labelled preprints, standards
+  bodies, academic/institutional reports); never a blog, marketing page,
+  forum thread, or wiki, even if the claim happens to be true.
+
+
 ## 2026-08-03 (agent-table column order, sidebar tagline swap)
 
 - The Agents tab (per-survey), the Agent Library page, and both Analytics
