@@ -183,7 +183,9 @@ symphysis-ai-research-survey-engine/
 │   ├── backend/                 # FastAPI app: see table below
 │   │   └── data/                #   gitignored: llm_settings.json (machine-specific runtime state)
 │   └── frontend/                # React/Vite app: see table below
-├── docker/Dockerfile
+├── infrastructure/
+│   ├── docker/Dockerfile          # container build for the backend/CLI (see docker-compose.yml)
+│   └── kubernetes/                # reserved for a future Kubernetes manifest set; not yet implemented
 ├── docker-compose.yml
 ├── requirements.txt              # core package deps
 ├── pytest.ini
@@ -717,6 +719,12 @@ directly they extend the current base (AHP is implemented; see
   core engine (Agent Cards, providers, instruments, guardrails, solvers)
   can be depended on directly by another project without cloning this
   repository, with the web UI remaining an optional extra.
+- **Kubernetes manifests**: `infrastructure/kubernetes/` is reserved for
+  this (Deployment, Service, a ConfigMap for `config/defaults.yaml`, a
+  PersistentVolumeClaim for `surveys/` and `agents_library/`) once a
+  Kubernetes deployment target actually exists; today's deployment shape
+  is a single Docker container plus a plain Vite dev server (see
+  "Deploying on a shared server").
 
 ## Related
 

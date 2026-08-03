@@ -4,6 +4,15 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (docker/ -> infrastructure/docker/, infrastructure/kubernetes/ reserved)
+
+- `docker/Dockerfile` moved to `infrastructure/docker/Dockerfile`; `infrastructure/kubernetes/`
+  added (currently a placeholder, no manifests yet) for a future Kubernetes deployment. Matches
+  the convention `project-cogtwins` already uses (`infrastructure/fabric-poc/...`).
+  `docker-compose.yml`'s `build.dockerfile` and the README's repository-structure tree and
+  "Future enhancements" section updated to match; `docker compose config -q` verified clean.
+
+
 ## 2026-08-03 (getting-started walkthroughs; fixed a domain-hardcoded default prompt)
 
 - New `docs/getting-started.md`: two runnable, verified walkthroughs (a zero-setup

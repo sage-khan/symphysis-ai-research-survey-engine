@@ -2,7 +2,7 @@ services:
   sage:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: infrastructure/docker/Dockerfile
     volumes:
       - ./surveys:/app/surveys
       - ./config:/app/config
