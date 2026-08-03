@@ -3,6 +3,29 @@
 Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
+## The shared default system prompt template hardcoded one survey's domain for every survey
+
+**Found:** writing `docs/getting-started.md`'s walkthrough with a deliberately non-construction
+example survey (three generic SRE failure modes), then reading the actual prompt an agent
+received: it opened with "You are completing a structured Best-Worst Method expert-elicitation
+survey for a construction-industry blockchain suitability framework (the Blockchain Suitability
+Index, BSI)", regardless of the survey actually being run.
+
+**Root cause:** `config/prompts/expert_panel_system.txt`, the file every agent card falls back
+to (`web/backend/routers/agents.py`'s `DEFAULT_PROMPT_TEMPLATE`) unless it names a different
+`system_prompt_template`, had BSI/construction wording baked into its shared default text, not
+just into `bsi-hawc-bwm`'s own survey-specific rulefile and knowledge_repo (which correctly do
+name BSI/construction, since that survey really is about BSI/construction). Any other survey
+created without explicitly overriding this field, including through the web UI's New Survey
+form, silently told every one of its agents it was doing BSI construction work.
+
+**Fix:** genericized the shared default template's wording (now: "the specific criteria, their
+meaning, and the survey's subject matter are given to you below, in the task itself and in any
+rules or reference material provided alongside it"), which loses nothing for `bsi-hawc-bwm`
+specifically since its actual domain framing already comes from its own rulefile, knowledge_repo
+primer, and the instrument's own per-level criterion descriptions, none of which depend on this
+shared file's wording. 164/164 tests pass (none asserted on the old hardcoded string).
+
 ## qwen2.5:32b still rated Best-to-itself as 9 on L1 with the ratio rule stated once, up front
 
 **Found:** after swapping to qwen2.5:32b (see the entry above), re-ran and checked

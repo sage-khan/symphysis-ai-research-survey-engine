@@ -625,6 +625,10 @@ survey runs, an "add agent from template" flow).
 
 ## Documentation
 
+- `docs/getting-started.md` for two runnable walkthroughs (a zero-setup
+  manual-provider survey, the same survey against a real local Ollama
+  model) plus the equivalent web UI flow, including linking a knowledge
+  base to an agent.
 - `docs/architecture/architecture-overview.md` for the system diagrams:
   current pipeline, Agent Card anatomy, and the target pipeline vision
   with implemented-vs-planned status on every stage.

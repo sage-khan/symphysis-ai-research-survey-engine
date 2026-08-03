@@ -4,6 +4,20 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (getting-started walkthroughs; fixed a domain-hardcoded default prompt)
+
+- New `docs/getting-started.md`: two runnable, verified walkthroughs (a zero-setup
+  manual-provider survey with no external accounts needed, the same survey against a real
+  local Ollama model), plus the equivalent web UI flow including linking a knowledge base to
+  an agent. Both CLI walkthroughs were actually run end to end while writing this, not just
+  described.
+- Fixed a real bug found while writing the walkthrough with a deliberately non-construction
+  example survey: `config/prompts/expert_panel_system.txt`, the shared default every agent
+  falls back to unless it names its own template, told every agent in every survey it was
+  doing "a construction-industry blockchain suitability framework (the Blockchain Suitability
+  Index, BSI)" regardless of the actual survey. Genericized; see diagnostics.md.
+
+
 ## 2026-08-03 (BSI as the first real, tested use case for reusable knowledge bases)
 
 - Created six real, populated knowledge bases via the new API (Blockchain Trust & Attack
