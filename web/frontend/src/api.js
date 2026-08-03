@@ -69,4 +69,9 @@ export const api = {
   deleteLibraryAgent: (agentId) => request(`/api/library/agents/${agentId}`, { method: "DELETE" }),
   assignLibraryAgentToSurvey: (agentId, surveyId) =>
     request(`/api/library/agents/${agentId}/assign/${surveyId}`, { method: "POST" }),
+
+  proposeAgents: (surveyId, body) =>
+    request(`/api/surveys/${surveyId}/propose-agents`, { method: "POST", body: JSON.stringify(body) }),
+  approveAgents: (surveyId, proposals) =>
+    request(`/api/surveys/${surveyId}/approve-agents`, { method: "POST", body: JSON.stringify({ proposals }) }),
 };

@@ -262,10 +262,210 @@ function AddFromLibrary({ surveyId, onAdded, onCancel }) {
   );
 }
 
+function AgentProposer({ surveyId, onApproved, onCancel }) {
+  const [requirement, setRequirement] = useState("");
+  const [providers, setProviders] = useState([]);
+  const [provider, setProvider] = useState("ollama");
+  const [ollamaModels, setOllamaModels] = useState([]);
+  const [model, setModel] = useState("");
+  const [proposals, setProposals] = useState(null);
+  const [results, setResults] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    api.listProviders().then(setProviders);
+    api.listOllamaModels().then((r) => {
+      setOllamaModels(r.models || []);
+      if (r.models?.length) setModel(r.models[0]);
+    });
+  }, []);
+
+  async function handlePropose() {
+    setBusy(true);
+    setError(null);
+    setResults(null);
+    try {
+      const proposed = await api.proposeAgents(surveyId, { requirement, provider, model });
+      setProposals(proposed);
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function updateProposal(i, field, value) {
+    setProposals((prev) => prev.map((p, idx) => (idx === i ? { ...p, [field]: value } : p)));
+  }
+
+  function removeProposal(i) {
+    setProposals((prev) => prev.filter((_, idx) => idx !== i));
+  }
+
+  async function handleApprove() {
+    setBusy(true);
+    setError(null);
+    try {
+      const outcome = await api.approveAgents(surveyId, proposals);
+      setResults(outcome);
+      if (outcome.every((r) => r.status !== "error")) {
+        setTimeout(onApproved, 800);
+      }
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div className="panel" style={{ padding: 24, marginBottom: 24 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
+        <h3>Describe the panel you need</h3>
+        <button className="btn" onClick={onCancel}>
+          Close
+        </button>
+      </div>
+      <div className="mono-dim" style={{ marginBottom: 16 }}>
+        Write your requirement in plain language. An LLM (picked below) proposes agents -- reusing
+        Agent Library entries where they fit, or drafting new ones -- as an editable list. Nothing
+        is created until you review and click Approve.
+      </div>
+
+      <label style={{ display: "block", marginBottom: 16 }}>
+        <div className="mono-dim">Requirement</div>
+        <textarea
+          value={requirement}
+          onChange={(e) => setRequirement(e.target.value)}
+          rows={3}
+          placeholder="e.g. I need a panel covering structural engineering, blockchain/DLT, and GDPR compliance for a construction data-trust survey."
+          style={{ width: "100%" }}
+        />
+      </label>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr auto", gap: 12, marginBottom: 16, alignItems: "end" }}>
+        <label>
+          <div className="mono-dim">Orchestrator provider</div>
+          <select value={provider} onChange={(e) => setProvider(e.target.value)} style={{ width: "100%" }}>
+            {providers.filter((p) => p !== "manual").map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          <div className="mono-dim">Model</div>
+          {provider === "ollama" && ollamaModels.length > 0 ? (
+            <select value={model} onChange={(e) => setModel(e.target.value)} style={{ width: "100%" }}>
+              {ollamaModels.map((m) => (
+                <option key={m} value={m}>
+                  {m}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <input value={model} onChange={(e) => setModel(e.target.value)} style={{ width: "100%" }} />
+          )}
+        </label>
+        <button className="btn btn-primary" onClick={handlePropose} disabled={busy || !requirement.trim() || !model}>
+          {busy ? "Thinking…" : "Propose agents"}
+        </button>
+      </div>
+
+      {error && <div style={{ color: "var(--red)", marginBottom: 16 }}>{error}</div>}
+
+      {proposals && (
+        <div>
+          <div className="mono-dim" style={{ marginBottom: 8, textTransform: "uppercase", letterSpacing: "0.04em" }}>
+            Proposed agents -- review and edit before approving
+          </div>
+          <table style={{ marginBottom: 16 }}>
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Agent ID</th>
+                <th>Display name</th>
+                <th>Role</th>
+                <th>Model</th>
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              {proposals.map((p, i) => (
+                <tr key={i}>
+                  <td>{p.source === "library" ? "library (reuse)" : "new"}</td>
+                  <td className="mono-dim">{p.agent_id}</td>
+                  <td>
+                    {p.source === "new" ? (
+                      <input
+                        value={p.display_name || ""}
+                        onChange={(e) => updateProposal(i, "display_name", e.target.value)}
+                        style={{ width: "100%" }}
+                      />
+                    ) : (
+                      "—"
+                    )}
+                  </td>
+                  <td>
+                    {p.source === "new" ? (
+                      <input value={p.role || ""} onChange={(e) => updateProposal(i, "role", e.target.value)} style={{ width: "100%" }} />
+                    ) : (
+                      "—"
+                    )}
+                  </td>
+                  <td>
+                    {p.source === "new" ? (
+                      <div>
+                        <input
+                          value={p.model?.name || ""}
+                          onChange={(e) => updateProposal(i, "model", { ...p.model, name: e.target.value })}
+                          style={{ width: "100%" }}
+                        />
+                        {p.model_available === false && (
+                          <div style={{ color: "var(--amber)", fontSize: 12 }}>
+                            ⚠ not found on this Ollama host -- pick a real model or pull this one first
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      "—"
+                    )}
+                  </td>
+                  <td>
+                    <button className="btn btn-danger" onClick={() => removeProposal(i)}>
+                      Remove
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <button className="btn btn-primary" onClick={handleApprove} disabled={busy || proposals.length === 0}>
+            Approve & add to survey
+          </button>
+        </div>
+      )}
+
+      {results && (
+        <div style={{ marginTop: 16 }}>
+          {results.map((r, i) => (
+            <div key={i} className="mono-dim" style={{ color: r.status === "error" ? "var(--red)" : "var(--green)" }}>
+              {r.agent_id}: {r.status === "error" ? r.detail : r.status}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function AgentsTab({ surveyId, onChanged }) {
   const [agents, setAgents] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [showLibraryPicker, setShowLibraryPicker] = useState(false);
+  const [showProposer, setShowProposer] = useState(false);
   const [editing, setEditing] = useState(null);
   const [traceAgent, setTraceAgent] = useState(null);
 
@@ -287,6 +487,9 @@ function AgentsTab({ surveyId, onChanged }) {
   return (
     <div>
       <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginBottom: 16 }}>
+        <button className="btn" onClick={() => setShowProposer((v) => !v)}>
+          {showProposer ? "Cancel" : "Describe what you need"}
+        </button>
         <button className="btn" onClick={() => setShowLibraryPicker((v) => !v)}>
           {showLibraryPicker ? "Cancel" : "+ Add from library"}
         </button>
@@ -300,6 +503,17 @@ function AgentsTab({ surveyId, onChanged }) {
           + Add agent
         </button>
       </div>
+
+      {showProposer && (
+        <AgentProposer
+          surveyId={surveyId}
+          onApproved={() => {
+            setShowProposer(false);
+            refresh();
+          }}
+          onCancel={() => setShowProposer(false)}
+        />
+      )}
 
       {showLibraryPicker && (
         <AddFromLibrary

@@ -3,6 +3,53 @@
 All notable changes to SAGE (formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (natural-language agent orchestrator)
+
+- New `web/backend/agent_proposer.py` + `routers/proposer.py`:
+  `POST /api/surveys/{id}/propose-agents` takes a plain-language requirement
+  and calls an LLM (any configured provider) to propose a panel -- each
+  entry either `{"source": "library", "agent_id": ...}` (reuse an existing
+  Agent Library entry) or `{"source": "new", ...}` (a fully-specified new
+  agent). Nothing is written to disk by this call; it only returns the
+  proposal for review. `POST /api/surveys/{id}/approve-agents` takes the
+  (possibly user-edited) proposal list back and materializes it: "new"
+  entries are created in the Agent Library first (so they're reusable
+  going forward, not one-off) and then assigned into the survey; "library"
+  entries are assigned directly. Each entry is handled independently and
+  reports its own status -- one bad entry doesn't block the rest.
+- **Real finding from live testing, fixed same session**: the orchestrator
+  LLM (qwen2.5:14b, phi4:14b, and others tried) reliably hallucinates
+  plausible-sounding but non-existent Ollama model names for new agents
+  (observed: "code-davinci", "legal-expert", "llama-2-7b-chat" -- none
+  ever pulled on the test host). `parse_proposals`'s schema validation
+  didn't catch this (it's a syntactically valid model name, just not an
+  available one). Added `_annotate_model_availability`: every "new"
+  ollama-provider proposal is checked against the live `/api/tags` model
+  list and flagged `model_available: false` if not found, so the review
+  UI can warn a human before approval rather than the agent silently
+  failing only once the survey is actually run. Degrades safely if the
+  Ollama host can't be reached (doesn't false-flag everything). This is
+  advisory, not a hard block -- approving an unfixed flagged entry is
+  still possible (matches the general design: a human reviews and decides,
+  nothing is auto-corrected on their behalf); confirmed live that both
+  paths work (fixing the model before approving, and knowingly approving
+  with the warning still showing).
+- New "Describe what you need" panel on the survey Agents tab: requirement
+  textarea, orchestrator provider/model picker, an editable review table
+  (remove rows, edit display name/role/model, see the availability
+  warning), and Approve.
+- `tests/test_agent_proposer.py`: 10 new pure-function tests covering JSON
+  extraction, all the validation-rejection paths (missing fields, unknown
+  library id, duplicate/colliding new ids, invalid source), and the
+  hallucinated-model-flagging behaviour (mocked, deterministic). 57/57
+  tests pass repo-wide.
+- Live-verified beyond the tests: a real qwen2.5:14b call proposing a real
+  new agent for an actual live survey, a real phi4:14b call reproducing
+  the hallucinated-model warning end-to-end in the browser, and a full
+  propose -> edit -> approve -> materialized-in-library-and-survey pass
+  with matching DIDs. All test agents created during verification were
+  deleted afterward; the real survey/library end up unchanged.
+
 ## 2026-08-03 (Agent Library: reusable agents across surveys)
 
 - New `agents_library/` (sibling to `surveys/`): Agent Cards that aren't
