@@ -4,6 +4,21 @@ Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
 
+## CI/CD workflow YAML was invalid, blocking every run since it was added
+
+**Found:** GitHub Actions showed "Invalid workflow file: .github/workflows/ci-cd.yml#L1 -
+You have an error in your yaml syntax" on every push since the workflow was created, so it
+never actually ran validate/test/deploy despite existing in the repo.
+
+**Root cause:** line 1 was `name: CI/CD: Symphysis`, an unquoted scalar value containing its
+own `: ` (colon-space). YAML parses `key: value`, and a colon-space inside an unquoted value
+is itself read as the start of another mapping, which is a parse error one level in. Confirmed
+with `yaml.safe_load()` locally: `mapping values are not allowed here, line 1, column 12`.
+
+**Fix:** quote the value: `name: "CI/CD: Symphysis"`. Verified the whole file parses and the
+three expected jobs (`validate`, `test`, `deploy`) are present.
+
+
 ## Bayesian BWM concentration hyperprior was too informative
 
 **Found:** verifying `bsi-survey-app`'s Bayesian BWM solver line-by-line

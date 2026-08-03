@@ -1,4 +1,4 @@
-name: CI/CD: Symphysis
+name: "CI/CD: Symphysis"
 
 on:
   push:
