@@ -24,8 +24,9 @@ import typer
 import yaml
 
 from .agent_card import AgentCardError, GuardrailsSpec, ModelSpec, PermissionsSpec, RagSpec, SamplingSpec, load_card, new_card
-from .config import ConfigError, load_survey_config
+from .config import ConfigError, SurveyConfig, load_survey_config
 from .orchestrator import regenerate_report, run_survey
+from .preflight import check_survey_providers
 from .survey_checks import fix_survey
 
 app = typer.Typer(
@@ -48,9 +49,40 @@ def _bundled_prompt_template_text() -> str:
     )
 
 
+def _run_preflight(survey: SurveyConfig) -> bool:
+    """Checked, and printed, before anything else: is every provider this
+    survey's agents actually need reachable right now? A dead Ollama
+    instance or an unset hosted-provider API key otherwise only surfaces
+    deep into a run (after RAG indexing, QA prechecks, however many
+    samples), wasting real time on an error that was knowable up front.
+    Returns whether every provider passed."""
+    typer.echo("Checking LLM provider availability...")
+    statuses = check_survey_providers(survey)
+    if not statuses:
+        _err("  No agent card could be loaded; nothing to check.")
+        return False
+
+    all_ok = True
+    for status in statuses:
+        if status.ok:
+            typer.secho(f"  [ok]   {status.provider}: {status.detail}", fg=typer.colors.GREEN)
+        else:
+            typer.secho(f"  [FAIL] {status.provider}: {status.detail}", fg=typer.colors.RED)
+            all_ok = False
+    return all_ok
+
+
 @app.command()
 def run(
     survey_dir: Annotated[Path, typer.Argument(help="Path to the survey project folder (survey.yaml + agents/).")],
+    ignore_preflight_failures: Annotated[
+        bool,
+        typer.Option(
+            "--ignore-preflight-failures",
+            help="Run anyway even if a provider preflight check fails (agents on that provider are still "
+            "individually skipped, as always; this only skips the upfront abort).",
+        ),
+    ] = False,
 ) -> None:
     """Run every agent in a survey project folder and produce the report."""
     survey_dir = survey_dir.resolve()
@@ -58,6 +90,15 @@ def run(
         survey = load_survey_config(survey_dir)
     except ConfigError as exc:
         _err(f"Config error: {exc}")
+        raise typer.Exit(code=1)
+
+    preflight_ok = _run_preflight(survey)
+    if not preflight_ok and not ignore_preflight_failures:
+        _err(
+            "Aborting before running any agent: at least one required provider failed its preflight "
+            "check (see above). Fix it, or pass --ignore-preflight-failures to run anyway (agents on "
+            "a failing provider will simply be skipped, same as always)."
+        )
         raise typer.Exit(code=1)
 
     try:

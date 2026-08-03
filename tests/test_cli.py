@@ -192,3 +192,59 @@ def test_report_fails_clearly_with_no_samples_yet(tmp_path):
     result = runner.invoke(app, ["report", str(survey_dir)])
     assert result.exit_code == 1
     assert "nothing to solve" in result.output
+
+
+def test_run_checks_provider_availability_first_and_prints_it(tmp_path):
+    survey_dir = tmp_path / "cli-preflight-manual-test"
+    runner.invoke(app, ["new", "cli-preflight-manual-test", "--dimensions", "Q,PT,V,IC,L,C", "--output", str(survey_dir)])
+    runner.invoke(
+        app,
+        ["add-agent", str(survey_dir), "--agent-id", "a1", "--role", "Reviewer",
+         "--provider", "manual", "--model", "gemini-2.5-pro"],
+    )
+    card_path = survey_dir / "agents" / "a1.json"
+    card = json.loads(card_path.read_text(encoding="utf-8"))
+    card["sampling"]["repeats"] = 1
+    card_path.write_text(json.dumps(card), encoding="utf-8")
+    _seed_manual_response(survey_dir, "a1")
+
+    result = runner.invoke(app, ["run", str(survey_dir)])
+    assert result.exit_code == 0, result.output
+    lines = result.output.splitlines()
+    assert lines[0] == "Checking LLM provider availability..."
+    assert any("manual" in line and "[ok]" in line for line in lines)
+
+
+def test_run_aborts_before_running_when_a_provider_preflight_fails(tmp_path, monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    survey_dir = tmp_path / "cli-preflight-fail-test"
+    runner.invoke(app, ["new", "cli-preflight-fail-test", "--dimensions", "Q,PT,V", "--output", str(survey_dir)])
+    runner.invoke(
+        app,
+        ["add-agent", str(survey_dir), "--agent-id", "a1", "--role", "Reviewer",
+         "--provider", "anthropic", "--model", "claude-opus-5"],
+    )
+    result = runner.invoke(app, ["run", str(survey_dir)])
+    assert result.exit_code == 1
+    assert "[FAIL]" in result.output
+    assert "Aborting before running any agent" in result.output
+    # Confirm it genuinely aborted before attempting anything: no report
+    # was ever written.
+    assert not (survey_dir / "report" / "report.md").exists()
+
+
+def test_run_ignore_preflight_failures_runs_anyway(tmp_path, monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    survey_dir = tmp_path / "cli-preflight-ignore-test"
+    runner.invoke(app, ["new", "cli-preflight-ignore-test", "--dimensions", "Q,PT,V", "--output", str(survey_dir)])
+    runner.invoke(
+        app,
+        ["add-agent", str(survey_dir), "--agent-id", "a1", "--role", "Reviewer",
+         "--provider", "anthropic", "--model", "claude-opus-5"],
+    )
+    result = runner.invoke(app, ["run", str(survey_dir), "--ignore-preflight-failures"])
+    # Still fails overall (the anthropic agent has no key and gets skipped,
+    # so nothing accepted, per orchestrator's own "nothing to solve"
+    # RuntimeError), but it got PAST the preflight abort this time.
+    assert "Aborting before running any agent" not in result.output
+    assert "[FAIL]" in result.output

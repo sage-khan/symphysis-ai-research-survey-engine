@@ -214,6 +214,21 @@ def set_survey_rulefile(survey_id: str, body: SurveyRulefileIn) -> Dict[str, str
     return {"content": body.content}
 
 
+@router.get("/{survey_id}/preflight")
+def preflight_survey(survey_id: str) -> Dict[str, Any]:
+    """Whether every provider this survey's agents actually use is
+    reachable right now (Ollama running with models pulled, hosted-provider
+    API keys set), checked before the Run button is used, not discovered
+    partway through a run. See symphysis.preflight for the same check the
+    CLI runs, printed as its first verbose output."""
+    from symphysis.preflight import check_agent_card_paths_providers, status_to_dict
+
+    d = _existing_survey_dir(survey_id)
+    card_paths = sorted((d / "agents").glob("*.json"))
+    statuses = check_agent_card_paths_providers(card_paths)
+    return {"providers": [status_to_dict(s) for s in statuses], "all_ok": all(s.ok for s in statuses)}
+
+
 @router.post("/{survey_id}/run")
 def run_survey_endpoint(survey_id: str) -> Dict[str, Any]:
     d = _existing_survey_dir(survey_id)

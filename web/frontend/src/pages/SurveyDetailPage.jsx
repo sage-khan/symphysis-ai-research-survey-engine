@@ -940,12 +940,24 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
   const [status, setStatus] = useState({ status: "idle" });
   const [resultsKey, setResultsKey] = useState(0);
   const [progress, setProgress] = useState(null);
+  const [preflight, setPreflight] = useState(null);
+  const [preflightBusy, setPreflightBusy] = useState(false);
+
+  function refreshPreflight() {
+    setPreflightBusy(true);
+    api
+      .preflight(surveyId)
+      .then(setPreflight)
+      .catch(() => setPreflight(null))
+      .finally(() => setPreflightBusy(false));
+  }
 
   useEffect(() => {
     api.getSurvey(surveyId).then((s) => {
       setSurvey(s);
       setStatus(s.run_status);
     });
+    refreshPreflight();
   }, [surveyId]);
 
   useEffect(() => {
@@ -1014,6 +1026,37 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
           </button>
         </div>
       </div>
+
+      {preflight && status.status !== "running" && (
+        <div
+          className="panel"
+          style={{
+            padding: 12,
+            marginBottom: 20,
+            borderColor: preflight.all_ok ? "var(--green)" : "var(--red)",
+          }}
+        >
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div className="mono-dim" style={{ color: preflight.all_ok ? "var(--green)" : "var(--red)" }}>
+              {preflight.all_ok
+                ? "✓ Every provider this survey uses is reachable"
+                : "⚠ Not every provider this survey uses is ready right now"}
+            </div>
+            <button className="btn" onClick={refreshPreflight} disabled={preflightBusy} style={{ fontSize: 12 }}>
+              {preflightBusy ? "Checking…" : "Recheck"}
+            </button>
+          </div>
+          {!preflight.all_ok && (
+            <div className="mono-dim" style={{ marginTop: 8 }}>
+              {preflight.providers.map((p) => (
+                <div key={p.provider} style={{ color: p.ok ? "var(--green)" : "var(--red)" }}>
+                  {p.ok ? "✓" : "✗"} {p.provider}: {p.detail}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {status.status === "error" && (
         <div className="panel" style={{ padding: 16, marginBottom: 20, borderColor: "var(--red)" }}>

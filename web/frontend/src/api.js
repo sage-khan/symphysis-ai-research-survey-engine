@@ -35,6 +35,7 @@ export const api = {
   },
   runSurvey: (id) => request(`/api/surveys/${id}/run`, { method: "POST" }),
   runStatus: (id) => request(`/api/surveys/${id}/run-status`),
+  preflight: (id) => request(`/api/surveys/${id}/preflight`),
   getResults: (id) => request(`/api/surveys/${id}/results`),
   getAnalytics: (id) => request(`/api/surveys/${id}/analytics`),
   getIntegrityManifest: (id) => request(`/api/surveys/${id}/integrity`),

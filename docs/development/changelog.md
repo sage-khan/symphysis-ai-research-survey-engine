@@ -4,6 +4,35 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (LLM/provider preflight check: CLI and web UI)
+
+- New `symphysis/preflight.py`: checks whether a survey's actual providers are reachable right
+  now (Ollama: `GET /api/tags`, ok only if at least one model is pulled; hosted providers:
+  the relevant API key env var is set; `manual`: always ok, no automated endpoint to check).
+  Single source of truth reused by both the CLI and the web backend, so "is this provider ready"
+  is answered identically everywhere rather than duplicated.
+- `symphysis run` now checks every distinct provider its agents use as the FIRST thing it does,
+  before spawning any agent, printed as `Checking LLM provider availability...` followed by a
+  `[ok]`/`[FAIL]` line per provider. Aborts (non-zero exit) before running anything if any
+  provider fails, so a dead Ollama or an unset API key surfaces immediately rather than after
+  however long RAG indexing/QA prechecks/sampling would otherwise take. `--ignore-preflight-failures`
+  runs anyway (agents on a failing provider are still individually skipped, as always).
+- New `GET /api/surveys/{id}/preflight`, and a status panel on the survey page (above the
+  Agents/Knowledge/Results/Analytics tabs, next to the Run button) showing the same check:
+  green "every provider reachable" or a red breakdown of which provider is failing and why, with
+  a manual Recheck button. Verified visually in a real browser (both the all-ok and a real
+  failing-Ollama state, using the actual Ollama instance on this development machine, which has
+  no models pulled).
+- `routers/settings.py`'s existing `/llm/test` "test connection" endpoint deliberately keeps its
+  own, looser semantics (reachable-but-zero-models still counts as reachable, since that's a
+  normal state when testing a candidate endpoint before saving it) rather than being unified with
+  the stricter preflight check, which requires at least one pulled model since a survey genuinely
+  cannot run against zero.
+- New `tests/test_preflight.py` (10 cases), `tests/test_web_preflight.py` (4 cases), plus new CLI
+  cases in `tests/test_cli.py` covering the abort/`--ignore-preflight-failures`/first-output
+  behavior.
+
+
 ## 2026-08-03 (rename the Python package from agentic_survey to symphysis)
 
 - `src/agentic_survey/` renamed to `src/symphysis/` (`git mv`, preserving history), and every

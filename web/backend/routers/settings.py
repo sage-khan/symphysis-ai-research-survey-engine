@@ -121,6 +121,15 @@ def load_settings_into_env() -> None:
 
 
 def _ping(base_url: str, timeout: float = 5.0) -> Dict[str, Any]:
+    """Deliberately distinct from symphysis.preflight.check_ollama: this
+    endpoint answers "is this candidate endpoint reachable at all" for the
+    Settings page's connection tester, where reachable-but-zero-models is
+    a normal, expected state for a freshly stood-up Ollama (the frontend
+    already renders that case explicitly, see SettingsPage.jsx). The
+    preflight check used before an actual survey run is intentionally
+    stricter (requires at least one pulled model, since a survey genuinely
+    can't run against zero): see preflight.check_ollama and
+    surveys.py's /preflight endpoint, which uses it."""
     try:
         resp = requests.get(f"{base_url.rstrip('/')}/api/tags", timeout=timeout)
         resp.raise_for_status()
