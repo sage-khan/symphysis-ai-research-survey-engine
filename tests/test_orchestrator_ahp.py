@@ -77,7 +77,14 @@ def test_ahp_survey_runs_end_to_end_and_aggregates_two_agents(tmp_path):
 
     report_path = survey_dir / "report" / "report.md"
     assert report_path.exists()
-    assert "Analytic Hierarchy Process" in report_path.read_text(encoding="utf-8")
+    report_text = report_path.read_text(encoding="utf-8")
+    assert "Analytic Hierarchy Process" in report_text
+    assert "## Methodology" in report_text
+    assert "## Per-agent detail" in report_text
+    assert "agent-one" in report_text and "agent-two" in report_text
+    assert "test" in report_text  # the manual agents' shared "reasoning": "test"
+    assert "not applicable (manual-provider agent)" in report_text  # manual agents skip QA precheck
+    assert "![Ahp Aggregated Weights](charts/ahp_aggregated_weights.png)" in report_text
 
     manifest_path = survey_dir / "integrity_manifest.json"
     assert manifest_path.exists()

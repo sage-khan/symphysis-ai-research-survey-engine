@@ -3,6 +3,32 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (richer, self-contained survey reports)
+
+- Every survey report now gets two generated sections appended after the
+  solved-weights table: a Methodology section (which instrument ran, how
+  many agents contributed, what genuineness checks ran on every agent's
+  QA precheck and cited sources, a pointer to the SHA-256 integrity
+  manifest) with that survey's chart images embedded inline via relative
+  paths, and a Per-agent detail section listing every contributing
+  agent's role, model, DID, QA precheck pass or fail, cited sources, its
+  full answer, and its complete reasoning text, not only the aggregated
+  numbers.
+- `orchestrator.py` now captures each accepted sample's reasoning,
+  sources_used, and the owning agent's QA precheck result (loaded once
+  per agent, `None` for manual-provider agents which skip the automated
+  precheck) alongside the existing per-sample metadata, threaded through
+  to the new report sections. Shared across both `bwm` and `ahp`
+  instruments rather than duplicated per instrument.
+- Because the chart images are embedded with paths relative to
+  `report/report.md`, the existing `.zip` download is now a genuinely
+  self-contained bundle: extract it and `report.md` renders correctly,
+  images included, in any offline Markdown viewer, no copy of this
+  application required.
+- 7 new tests, plus the existing end-to-end AHP orchestrator test
+  extended to assert the new sections actually appear in a real run's
+  output; 137/137 pass repo-wide.
+
 ## 2026-08-03 (AHP instrument and multi-method solver registry)
 
 - New `src/agentic_survey/instruments/ahp.py`: the Analytic Hierarchy

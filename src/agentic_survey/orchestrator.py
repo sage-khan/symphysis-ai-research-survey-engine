@@ -17,7 +17,14 @@ from .instruments.ahp import AHPInstrument, build_full_matrix
 from .instruments.bwm import BWMInstrument
 from .permissions import PermissionError_
 from .providers.base import ProviderError
-from .reporting import render_ahp_charts, render_ahp_report, render_charts, render_report
+from .reporting import (
+    render_ahp_charts,
+    render_ahp_report,
+    render_charts,
+    render_methodology_section,
+    render_per_agent_detail_section,
+    render_report,
+)
 from .solvers import ahp as ahp_solver
 from .solvers import bwm_bayesian, bwm_classical
 from .storage import SurveyStorage
@@ -50,6 +57,7 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
 
     agent_payloads: List[Dict[str, Any]] = []
     per_agent_meta: List[Dict[str, Any]] = []
+    per_agent_detail: List[Dict[str, Any]] = []
     pending_notices: List[str] = []
     skipped_notices: List[str] = []
     for card_path in survey.agent_cards:
@@ -72,6 +80,16 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
 
         if run.pending_manual:
             pending_notices.append(f"[{card.agent_id}] {run.pending_manual}")
+
+        # Loaded once per agent (not per sample): whether this agent's QA
+        # precheck restatement matched its real configuration field for
+        # field, or None if it has no precheck at all (a manual-provider
+        # agent, which skips the automated precheck entirely).
+        qa_status: Optional[bool] = None
+        qa_path = storage.agent_dir(card.agent_id) / "qa_precheck.json"
+        if qa_path.exists():
+            qa_status = json.loads(qa_path.read_text(encoding="utf-8"))["verification"]["all_match"]
+
         for payload in [r.payload for r in run.accepted]:
             agent_payloads.append(payload)
             per_agent_meta.append(
@@ -82,6 +100,20 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
                     "model": card.model.name,
                     "provider": card.model.provider,
                     "rag_enabled": card.rag.enabled,
+                }
+            )
+            answer = {k: v for k, v in payload.items() if k not in ("reasoning", "sources_used")}
+            per_agent_detail.append(
+                {
+                    "agent_id": card.agent_id,
+                    "display_name": card.display_name,
+                    "role": card.role,
+                    "model": f"{card.model.provider}/{card.model.name}",
+                    "did": card.did.id,
+                    "qa_precheck_passed": qa_status,
+                    "answer": answer,
+                    "reasoning": payload.get("reasoning", "(no reasoning field returned)"),
+                    "sources_used": payload.get("sources_used"),
                 }
             )
 
@@ -105,13 +137,15 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
     if survey.instrument == "ahp":
         result = _solve_ahp(survey, codes, agent_payloads, per_agent_meta)
         report_md = render_ahp_report(result)
-        storage.write_report(report_md)
-        render_ahp_charts(result, storage.report_dir / "charts")
+        chart_paths = render_ahp_charts(result, storage.report_dir / "charts")
     else:
         result = _solve_bwm(survey, codes, agent_payloads, per_agent_meta)
         report_md = render_report(result)
-        storage.write_report(report_md)
-        render_charts(result, storage.report_dir / "charts")
+        chart_paths = render_charts(result, storage.report_dir / "charts")
+
+    report_md += "\n\n" + render_methodology_section(survey.instrument, len(agent_payloads), chart_paths)
+    report_md += "\n\n" + render_per_agent_detail_section(per_agent_detail)
+    storage.write_report(report_md)
 
     storage.write_combined_results(result)
     # Written last, after every other output file exists: a SHA-256 of

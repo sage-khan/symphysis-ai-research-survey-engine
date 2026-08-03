@@ -51,9 +51,15 @@ touching the agent, provider, or storage layers.
    a draw-wise linear pool across a full alpha sensitivity sweep (HAWC-BWM).
 7. **Persists everything per survey, per agent.** See "Repository structure"
    below.
-8. **Reports.** Markdown report plus matplotlib PNG charts (posterior
-   weights with credible intervals, HAWC-BWM sensitivity sweep), viewable
-   both as files on disk and embedded in the web UI's results page.
+8. **Reports.** A single Markdown report with the solved weights, a
+   generated Methodology section (what instrument was used, how many
+   agents contributed, and what genuineness checks ran) with the chart
+   images embedded inline via relative paths, and a full Per-agent detail
+   section (every contributing agent's role, model, DID, QA precheck
+   pass/fail, cited sources, and complete reasoning text, not just its
+   final numbers). Viewable both as a self-contained file on disk (opens
+   correctly with images in any offline Markdown viewer once the `.zip` is
+   extracted) and embedded in the web UI's Results tab.
 9. **Analytics: who said what.** A dedicated Analytics tab (and
    `GET /api/surveys/{id}/analytics`) answers "which agent said what, and
    who didn't respond at all" directly: a per-sample table of every

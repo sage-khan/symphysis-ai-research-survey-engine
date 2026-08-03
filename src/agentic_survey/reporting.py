@@ -6,6 +6,7 @@ report is still produced, just without embedded chart images.
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any, Dict
 
@@ -110,6 +111,78 @@ def render_ahp_charts(result: Dict[str, Any], out_dir: Path) -> list[Path]:
     written.append(path)
 
     return written
+
+
+_METHODOLOGY_TEXT = {
+    "bwm": (
+        "Each agent independently completed a Best-Worst Method (BWM) comparison: choosing the "
+        "single most and least important criterion, then rating every criterion's importance "
+        "relative to those two on a 1-9 scale. Individual responses were solved with the "
+        "classical BWM linear program (Rezaei, 2015) for a consistency check, and combined "
+        "across the panel with a hierarchical Bayesian model (Mohammadi and Rezaei, 2020)."
+    ),
+    "ahp": (
+        "Each agent independently completed an Analytic Hierarchy Process (AHP) pairwise "
+        "comparison over every pair of criteria, on Saaty's 1-9 scale (Saaty, 1980). Each "
+        "agent's priority weights were solved via the principal eigenvector of their comparison "
+        "matrix, with a consistency ratio computed against Saaty's random index; individual "
+        "weight vectors were combined across the panel via geometric mean."
+    ),
+}
+
+
+def render_methodology_section(instrument: str, num_agents: int, chart_paths: "list[Path]") -> str:
+    """A short, generated methodology paragraph plus the run's actual
+    genuineness checks and embedded chart images, so a reader does not
+    need this app's source to understand how the result was produced."""
+    parts = ["## Methodology\n"]
+    parts.append(
+        _METHODOLOGY_TEXT.get(instrument, f"Each agent independently completed the '{instrument}' instrument.")
+    )
+    parts.append(f"\n\n{num_agents} agent response(s) were accepted into this result.\n")
+    parts.append(
+        "\nEvery agent's run began with a QA precheck (its stated configuration verified against "
+        "ground truth) and every accepted answer's self-reported sources were checked against what "
+        "reference material was actually available to it; see the Per-agent detail section below "
+        "and this survey's Conversation Log for each agent's specific results. Every response is "
+        "schema-validated and independently, repeatedly sampled (never a single completion treated "
+        "as ground truth); see `guardrails.py`. This survey's complete output is covered by a "
+        "SHA-256 integrity manifest (`integrity_manifest.json`, `SHA256SUMS`), generated once this "
+        "run finished, so any later alteration to these files is detectable.\n"
+    )
+    if chart_paths:
+        parts.append("\n### Charts\n")
+        for path in chart_paths:
+            name = Path(path).stem.replace("_", " ").title()
+            parts.append(f"![{name}](charts/{Path(path).name})\n")
+    return "\n".join(parts)
+
+
+def render_per_agent_detail_section(per_agent_detail: "list[Dict[str, Any]]") -> str:
+    """Every contributing agent's own answer, reasoning, cited sources, and
+    QA precheck status, in full, for a reader who wants more than the
+    aggregated numbers: exactly what each participant said and why."""
+    parts = ["## Per-agent detail\n"]
+    if not per_agent_detail:
+        parts.append("_No agent contributed an accepted response._\n")
+        return "\n".join(parts)
+
+    for i, d in enumerate(per_agent_detail):
+        display = d.get("display_name") or d["agent_id"]
+        parts.append(f"### {display} (`{d['agent_id']}`)\n")
+        parts.append(f"- Role: {d['role']}")
+        parts.append(f"- Model: {d['model']}")
+        parts.append(f"- DID: `{d['did']}`")
+        qa = d["qa_precheck_passed"]
+        qa_text = "passed" if qa is True else "FAILED, see Conversation Log" if qa is False else "not applicable (manual-provider agent)"
+        parts.append(f"- QA precheck: {qa_text}")
+        sources = d.get("sources_used")
+        sources_text = ", ".join(sources) if isinstance(sources, list) else "(not reported)"
+        parts.append(f"- Sources used: {sources_text}")
+        parts.append(f"\n**Answer:** `{json.dumps(d['answer'])}`\n")
+        parts.append(f"**Reasoning:**\n\n{d['reasoning']}\n")
+
+    return "\n".join(parts)
 
 
 def render_charts(result: Dict[str, Any], out_dir: Path) -> list[Path]:
