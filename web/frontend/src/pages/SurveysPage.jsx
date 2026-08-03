@@ -20,7 +20,7 @@ function slugify(s) {
 }
 
 function NewSurveyPanel({ onCreated, onClose }) {
-  const [mode, setMode] = useState("upload"); // "upload" | "manual"
+  const [mode, setMode] = useState("upload"); // "upload" | "manual" | "concept"
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -29,6 +29,42 @@ function NewSurveyPanel({ onCreated, onClose }) {
   const [warnings, setWarnings] = useState([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+
+  const [concept, setConcept] = useState("");
+  const [conceptProvider, setConceptProvider] = useState("ollama");
+  const [conceptModel, setConceptModel] = useState("");
+  const [providers, setProviders] = useState([]);
+  const [modelCatalog, setModelCatalog] = useState({ models: [], error: null });
+  const [instrumentJustification, setInstrumentJustification] = useState("");
+  const [proposed, setProposed] = useState(false);
+
+  useEffect(() => {
+    api.listProviders().then(setProviders);
+  }, []);
+
+  useEffect(() => {
+    if (mode !== "concept") return;
+    api.listModelsForProvider(conceptProvider).then(setModelCatalog);
+  }, [mode, conceptProvider]);
+
+  async function handlePropose() {
+    setBusy(true);
+    setError(null);
+    try {
+      const draft = await api.proposeSurveyConcept(concept, conceptProvider, conceptModel);
+      setId(slugify(draft.title));
+      setTitle(draft.title);
+      setDescription(draft.description);
+      setInstrument(draft.instrument);
+      setInstrumentJustification(draft.instrument_justification);
+      setCandidates(draft.criteria.length ? draft.criteria : [{ code: "", label: "" }]);
+      setProposed(true);
+    } catch (err) {
+      setError(String(err.message || err));
+    } finally {
+      setBusy(false);
+    }
+  }
 
   async function handleFile(e) {
     const file = e.target.files[0];
@@ -98,7 +134,72 @@ function NewSurveyPanel({ onCreated, onClose }) {
         >
           Enter manually
         </button>
+        <button
+          className="btn"
+          style={mode === "concept" ? { borderColor: "var(--amber)", color: "var(--amber)" } : {}}
+          onClick={() => setMode("concept")}
+        >
+          Describe your study
+        </button>
       </div>
+
+      {mode === "concept" && (
+        <div style={{ marginBottom: 18 }}>
+          <div className="mono-dim" style={{ marginBottom: 8 }}>
+            Describe the study in plain language. An LLM proposes a title, description, an
+            instrument choice with its reasoning, and a criteria list, all editable below before
+            you create anything.
+          </div>
+          <textarea
+            value={concept}
+            onChange={(e) => setConcept(e.target.value)}
+            rows={4}
+            placeholder="e.g. I need to weigh the factors that matter most when deciding whether a legacy system should be migrated to the cloud."
+            style={{ width: "100%", marginBottom: 12 }}
+          />
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr auto", gap: 12, marginBottom: 12 }}>
+            <label>
+              <div className="mono-dim">Provider</div>
+              <select value={conceptProvider} onChange={(e) => setConceptProvider(e.target.value)} style={{ width: "100%" }}>
+                {providers.filter((p) => p !== "manual").map((p) => (
+                  <option key={p} value={p}>
+                    {p}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <div className="mono-dim">Model</div>
+              {modelCatalog.models.length > 0 ? (
+                <select value={conceptModel} onChange={(e) => setConceptModel(e.target.value)} style={{ width: "100%" }}>
+                  <option value="">select a model...</option>
+                  {modelCatalog.models.map((m) => (
+                    <option key={m} value={m}>
+                      {m}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  value={conceptModel}
+                  onChange={(e) => setConceptModel(e.target.value)}
+                  placeholder="model name"
+                  style={{ width: "100%" }}
+                />
+              )}
+            </label>
+            <button className="btn btn-primary" onClick={handlePropose} disabled={busy || !concept.trim() || !conceptModel} style={{ alignSelf: "end" }}>
+              Propose
+            </button>
+          </div>
+          {proposed && (
+            <div className="mono-dim" style={{ padding: 12, border: "1px solid var(--border)", borderRadius: "var(--radius)", marginBottom: 8 }}>
+              Draft proposed below: review and edit the title, instrument, and criteria before
+              creating. Instrument reasoning: {instrumentJustification}
+            </div>
+          )}
+        </div>
+      )}
 
       {mode === "upload" && (
         <div style={{ marginBottom: 18 }}>

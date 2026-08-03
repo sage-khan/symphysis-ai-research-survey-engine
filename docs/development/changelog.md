@@ -3,6 +3,24 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (concept-driven survey creation)
+
+- New `web/backend/survey_proposer.py` and `POST /api/surveys/propose-concept`:
+  given a plain-language study description, an LLM call proposes a title,
+  a one-sentence description, an instrument choice (`bwm` or `ahp`) with
+  its reasoning, and a criteria list, an LLM call that writes nothing to
+  disk. Mirrors `agent_proposer.py`'s propose-then-approve shape, applied
+  to the survey itself rather than its agent panel.
+- The New Survey form gains a third mode, "Describe your study", alongside
+  the existing document-upload and manual-entry modes: a concept textarea
+  plus provider/model pickers, a "Propose" button that populates the same
+  editable title/description/instrument/criteria fields the other two
+  modes already use, so the review-before-creating step is identical
+  regardless of how the draft was produced.
+- 10 new tests (parser validation, a faked-provider unit test, and an
+  HTTP-level FastAPI TestClient test covering both a successful proposal
+  and a 502 on an unparseable response); 147/147 pass repo-wide.
+
 ## 2026-08-03 (richer, self-contained survey reports)
 
 - Every survey report now gets two generated sections appended after the

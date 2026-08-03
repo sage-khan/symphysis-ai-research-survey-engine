@@ -26,6 +26,8 @@ export const api = {
   createSurvey: (body) => request("/api/surveys", { method: "POST", body: JSON.stringify(body) }),
   renameSurvey: (id, title) => request(`/api/surveys/${id}`, { method: "PATCH", body: JSON.stringify({ title }) }),
   deleteSurvey: (id) => request(`/api/surveys/${id}`, { method: "DELETE" }),
+  proposeSurveyConcept: (concept, provider, model) =>
+    request("/api/surveys/propose-concept", { method: "POST", body: JSON.stringify({ concept, provider, model }) }),
   parseDocument: (file) => {
     const form = new FormData();
     form.append("file", file);

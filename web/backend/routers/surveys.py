@@ -121,6 +121,28 @@ async def parse_document(file: UploadFile = File(...)) -> Dict[str, Any]:
     }
 
 
+class ProposeConceptIn(BaseModel):
+    concept: str
+    provider: str = "ollama"
+    model: str
+
+
+@router.post("/propose-concept")
+def propose_concept(body: ProposeConceptIn) -> Dict[str, Any]:
+    """An LLM call, nothing written to disk: given a plain-language study
+    description, draft a title, description, instrument choice with
+    justification, and a criteria list for the researcher to review, edit,
+    and submit through the normal POST /api/surveys below. Mirrors the
+    agent proposer's propose-then-approve shape, applied to the survey
+    itself rather than its agent panel."""
+    from ..survey_proposer import SurveyProposalError, propose_survey_concept
+
+    try:
+        return propose_survey_concept(body.concept, body.provider, body.model)
+    except SurveyProposalError as exc:
+        raise HTTPException(502, f"{exc} Raw response: {exc.raw_text[:800]}") from exc
+
+
 @router.post("")
 def create_survey(body: CreateSurveyIn) -> Dict[str, Any]:
     survey_id = _safe_id(body.id, "id")

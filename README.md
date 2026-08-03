@@ -89,8 +89,16 @@ touching the agent, provider, or storage layers.
     log tab.
 12. **Behavioral rules, not just a role description.** A global rulefile
     (Settings -> Rules, `config/global_rulefile.md`) applies to every agent
-    in every survey; an optional per-agent rulefile on the Agent form adds
-    to it. Both are appended to that agent's system prompt automatically.
+    in every survey; a survey-level rulefile and an optional per-agent
+    rulefile add to it. All three are appended to that agent's system
+    prompt automatically.
+13. **Concept-driven survey creation.** Alongside uploading a document or
+    entering criteria manually, the New Survey form's "Describe your
+    study" mode takes a plain-language study description and proposes a
+    title, description, an instrument choice (`bwm` or `ahp`) with its
+    reasoning, and a criteria list, an LLM call that writes nothing to
+    disk. Everything proposed is editable before creating the survey,
+    same review-before-materializing shape as the agent proposer above.
 
 ## How it works (request/response pipeline)
 
@@ -204,7 +212,8 @@ symphysis-ai-research-survey-engine/
 | `runs.py` | In-process background-run tracker (a dict + a daemon thread per run): runs a survey without blocking the request/response cycle. |
 | `model_catalog.py` | The live, real model list for a given provider (Ollama's own `/api/tags`, or each hosted provider's own list-models API), never a hardcoded or guessed list. |
 | `agent_proposer.py` | Turns a plain-language requirement plus an LLM call into a reviewable, editable list of proposed agents, flagging any model name the live catalog can't confirm exists. |
-| `routers/surveys.py` | Survey CRUD, document-upload parsing, run/run-status, results, analytics, chart file serving, `.zip` download. |
+| `survey_proposer.py` | Turns a plain-language study description plus an LLM call into a reviewable, editable survey draft (title, description, instrument choice with justification, criteria). |
+| `routers/surveys.py` | Survey CRUD, document-upload parsing, `propose-concept`, run/run-status, results, analytics, chart file serving, integrity manifest/verify, survey rulefile, `.zip` download. |
 | `routers/agents.py` | Agent Card CRUD through the web form, full per-agent trace endpoint, `/api/providers`, `/api/models/{provider}`, `/api/role-packs`. |
 | `routers/library.py` | Agent Library CRUD (reusable Agent Cards not tied to one survey) and assigning a library agent into a survey. |
 | `routers/proposer.py` | `POST /propose-agents` and `/approve-agents`: the two-endpoint natural-language orchestrator flow. |
