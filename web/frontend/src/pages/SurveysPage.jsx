@@ -131,7 +131,8 @@ function NewSurveyPanel({ onCreated, onClose }) {
         <label>
           <div className="mono-dim">Instrument</div>
           <select value={instrument} onChange={(e) => setInstrument(e.target.value)} style={{ width: "100%" }}>
-            <option value="bwm">bwm</option>
+            <option value="bwm">bwm (Best-Worst Method)</option>
+            <option value="ahp">ahp (Analytic Hierarchy Process)</option>
           </select>
         </label>
       </div>

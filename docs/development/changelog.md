@@ -3,6 +3,42 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+## 2026-08-03 (AHP instrument and multi-method solver registry)
+
+- New `src/agentic_survey/instruments/ahp.py`: the Analytic Hierarchy
+  Process instrument (Saaty, 1980). Prompts an agent for an upper-
+  triangular pairwise comparison matrix on Saaty's 1-9 scale over the
+  survey's criteria, the same `sources_used` citation instruction and
+  closed-vocabulary verification BWM already has, and validates every
+  comparison is a positive number covering every required pair before
+  accepting a response.
+- New `src/agentic_survey/solvers/ahp.py`: classical AHP, priority weights
+  via the principal eigenvector of the comparison matrix, consistency
+  ratio via Saaty's random index table, flagged for review above the
+  standard 0.10 threshold; `aggregate_individual_priorities` combines
+  multiple agents' independently solved weight vectors via geometric mean
+  (Forman and Peniwati, 1998), the same "each agent is one complete,
+  independent data point" treatment BWM already gives every agent.
+- `orchestrator.py`'s `INSTRUMENTS` registry now has two entries
+  (`bwm`, `ahp`); the classical-plus-Bayesian BWM solving path and the
+  new AHP solving path are each their own function, so adding a further
+  method (Delphi, TOPSIS, and the rest of the candidates in README's
+  Future Enhancements) means one new `Instrument`, one new
+  `_solve_<name>` function, and one registry entry, with nothing else in
+  the orchestrator, `Agent`, or `storage.py` needing to change.
+- New `render_ahp_report`/`render_ahp_charts` in `reporting.py`: an AHP
+  survey's report shows the aggregated priority weights, each agent's own
+  consistency ratio, and a bar chart, kept separate from the BWM/HAWC-BWM
+  report renderer rather than overloading its Bayesian-specific shape.
+- The New Survey form's instrument picker now offers AHP alongside BWM.
+- 18 new tests (`test_ahp_instrument.py`, `test_ahp_solver.py`,
+  `test_orchestrator_ahp.py`, the last a full end-to-end run through two
+  manual-provider agents, aggregation, report, and integrity manifest);
+  131/131 pass repo-wide. The solver itself is verified against a
+  hand-constructed perfectly-consistent matrix with known weights
+  (recovers them exactly) and a deliberately cyclic, wildly inconsistent
+  matrix (correctly flagged, CR > 0.10).
+
 ## 2026-08-03 (integrity manifest, three-tier rulefiles, architecture diagrams)
 
 - New `src/agentic_survey/integrity.py`: a SHA-256 hash of every file a

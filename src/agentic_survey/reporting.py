@@ -65,6 +65,53 @@ def render_report(result: Dict[str, Any]) -> str:
     return "\n".join(parts)
 
 
+def render_ahp_report(result: Dict[str, Any]) -> str:
+    parts = [f"# Survey report: {result['title']}\n", f"Survey ID: `{result['survey_id']}`\n"]
+    ap = result["agent_panel"]
+    parts.append("## Agent panel (Analytic Hierarchy Process)\n")
+    parts.append(f"- Agents contributing a valid response: {ap['num_agents']}")
+    consistent = sum(1 for s in ap["individual_solutions"] if s["consistent"])
+    parts.append(f"- Individual consistency ratio within Saaty's 0.10 threshold: {consistent}/{len(ap['individual_solutions'])}\n")
+
+    parts.append("### Aggregated priority weights (geometric mean across agents)\n")
+    parts.append("| Criterion | Aggregated weight |")
+    parts.append("|---|---|")
+    for code in result["dimensions"]:
+        parts.append(f"| {code} | {ap['aggregated_weights'][code]:.4f} |")
+    parts.append("")
+
+    parts.append("### Per-agent solutions\n")
+    parts.append("| Agent | Consistency ratio | Consistent | " + " | ".join(result["dimensions"]) + " |")
+    parts.append("|---|---|---|" + "---|" * len(result["dimensions"]))
+    for s in ap["individual_solutions"]:
+        weights_row = " | ".join(f"{s['weights'][c]:.4f}" for c in result["dimensions"])
+        parts.append(f"| {s['agent_id']} | {s['consistency_ratio']:.4f} | {'yes' if s['consistent'] else 'FLAG'} | {weights_row} |")
+    parts.append("")
+
+    return "\n".join(parts)
+
+
+def render_ahp_charts(result: Dict[str, Any], out_dir: Path) -> list[Path]:
+    if not MATPLOTLIB_AVAILABLE:
+        return []
+    out_dir.mkdir(parents=True, exist_ok=True)
+    written: list[Path] = []
+
+    ap = result["agent_panel"]
+    criteria = result["dimensions"]
+    aggregated = [ap["aggregated_weights"][c] for c in criteria]
+    fig, ax = plt.subplots()
+    ax.bar(criteria, aggregated)
+    ax.set_ylabel("Aggregated priority weight")
+    ax.set_title("AHP aggregated priority weights (geometric mean across agents)")
+    path = out_dir / "ahp_aggregated_weights.png"
+    fig.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    written.append(path)
+
+    return written
+
+
 def render_charts(result: Dict[str, Any], out_dir: Path) -> list[Path]:
     if not MATPLOTLIB_AVAILABLE:
         return []

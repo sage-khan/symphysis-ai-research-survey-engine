@@ -22,9 +22,11 @@ touching the agent, provider, or storage layers.
    See "The Agent Card" below.
 2. **Runs an instrument against each agent.** The instrument owns the prompt
    construction and response schema; agents don't know or care which
-   instrument they're completing. `bwm` (Best-Worst Method) is implemented;
-   the interface (`src/agentic_survey/instruments/base.py`) is designed for
-   AHP and others to be added the same way.
+   instrument they're completing. `bwm` (Best-Worst Method) and `ahp`
+   (Analytic Hierarchy Process) are both implemented, selected per survey
+   via `instrument:` in `survey.yaml` or the New Survey form; the interface
+   (`src/agentic_survey/instruments/base.py`) is designed for further
+   methods to be added the same way.
 3. **Enforces permissions, not just documents them.** A RAG-enabled agent's
    `corpus_path` must match one of its card's `permissions.data_scopes`
    globs or the agent refuses to start; its provider must be in
@@ -181,8 +183,8 @@ symphysis-ai-research-survey-engine/
 | `reporting.py` | Renders `report.md` and the matplotlib PNG charts (`render_report`, `render_charts`) from a survey's combined result dict. |
 | `app_config.py` | The one place `config/defaults.yaml` and its runtime override are read from: provider base URLs, model/sampling/RAG defaults, the guardrail denylist starting point, and the global rulefile. |
 | `providers/` | One `LLMProvider` implementation per backend: `ollama_provider.py` (local/remote Ollama HTTP API, reads `OLLAMA_BASE_URL`), `anthropic_provider.py`, `openai_compatible.py` (OpenAI, OpenRouter, Groq, Gemini, xAI), `manual_provider.py` (paste-in models with no API), `base.py` (the `LLMProvider` protocol). `__init__.py` is the provider registry (`get_provider`, `reset_provider`). |
-| `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument (prompt construction, response schema, `sources_used` citation instruction). |
-| `solvers/` | `bwm_classical.py` (Rezaei 2015 linear program + consistency ratio), `bwm_bayesian.py` (Mohammadi & Rezaei 2020 hierarchical Bayesian model, PyMC/NUTS with a numpy-bootstrap fallback, plus `combine_panels` for HAWC-BWM). |
+| `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument; `ahp.py` is the Analytic Hierarchy Process instrument (pairwise comparison prompt, response schema, `build_full_matrix`). Both include the `sources_used` citation instruction. |
+| `solvers/` | `bwm_classical.py` (Rezaei 2015 linear program + consistency ratio), `bwm_bayesian.py` (Mohammadi & Rezaei 2020 hierarchical Bayesian model, PyMC/NUTS with a numpy-bootstrap fallback, plus `combine_panels` for HAWC-BWM), `ahp.py` (Saaty 1980 principal-eigenvector priority weights + consistency ratio, plus `aggregate_individual_priorities` for the agent panel). |
 | `rag/retriever.py` | Minimal pluggable RAG: chunks every `.txt`/`.md` file under a corpus directory, retrieves top-k via sentence-transformers cosine similarity or falls back to dependency-free TF-IDF. |
 | `role_packs/` | Standard professional-domain knowledge packs (`packs/*.md`: AI Scientist, Data Engineer, LLMOps Engineer, Knowledge Graph Engineer, Construction Engineer, Wind Energy Engineer, Blockchain Trust Specialist, Cybersecurity Specialist) an agent can attach via its card's `role_pack` field. |
 | `tools/web_search.py` | Real web search for an agent with `web_search` in its card's `tools`, backed by the Tavily API. Raises rather than fabricating a result if unconfigured or unreachable. |
@@ -582,20 +584,22 @@ was a bug fix). See `.claude/rules/documentation-maintenance.md`.
 ## Future enhancements
 
 Symphysis currently implements one instrument (BWM, plus its Bayesian
-hierarchical variant) and one deployment shape (a single-server Docker
-container plus a Vite dev server). The instrument interface
-(`src/agentic_survey/instruments/base.py`) is deliberately designed so an
-agent never knows or cares which instrument it is completing, which is
-what makes the rest of this list additive rather than a rewrite.
+hierarchical variant) and AHP (classical, Saaty 1980), one deployment
+shape (a single-server Docker container plus a Vite dev server), and
+independent-sampling agents only (no multi-agent debate yet). The
+instrument interface (`src/agentic_survey/instruments/base.py`) is
+deliberately designed so an agent never knows or cares which instrument
+it is completing, which is what makes the rest of this list additive
+rather than a rewrite: adding a method means one new `Instrument`
+implementation, one `_solve_<name>` function in `orchestrator.py`, and one
+new entry in the `INSTRUMENTS` registry, nothing else changes.
 
 ### Additional expert-elicitation and consensus methods
 
 Candidate instruments to add to the registry, roughly in order of how
-directly they extend the current BWM/Bayesian BWM base:
+directly they extend the current base (AHP is implemented; see
+`instruments/ahp.py` and `solvers/ahp.py`):
 
-- **AHP (Analytic Hierarchy Process, Saaty 1980)**: pairwise comparison
-  matrices plus a consistency ratio check, the closest sibling to BWM and
-  the most requested addition.
 - **ANP (Analytic Network Process)**: AHP generalized to networks of
   interdependent criteria rather than a strict hierarchy.
 - **TOPSIS and ELECTRE**: outranking and ideal-solution MCDM methods,

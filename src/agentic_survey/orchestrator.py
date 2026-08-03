@@ -13,14 +13,21 @@ from . import integrity
 from .agent import Agent
 from .agent_card import AgentCardError, load_card
 from .config import SurveyConfig
+from .instruments.ahp import AHPInstrument, build_full_matrix
 from .instruments.bwm import BWMInstrument
 from .permissions import PermissionError_
 from .providers.base import ProviderError
-from .reporting import render_charts, render_report
+from .reporting import render_ahp_charts, render_ahp_report, render_charts, render_report
+from .solvers import ahp as ahp_solver
 from .solvers import bwm_bayesian, bwm_classical
 from .storage import SurveyStorage
 
-INSTRUMENTS = {"bwm": BWMInstrument()}
+# Every instrument this app can run a survey with. Adding a new method
+# (Delphi, TOPSIS, and the rest of the candidates in README's Future
+# Enhancements) means adding a new Instrument implementation plus a
+# _solve_<name> function below and one new entry here; nothing else in
+# this module, in Agent, or in storage needs to change to support it.
+INSTRUMENTS = {"bwm": BWMInstrument(), "ahp": AHPInstrument()}
 
 
 def _load_human_responses(path: Path) -> List[Dict[str, Any]]:
@@ -95,6 +102,29 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
             + (" Some agents were skipped; see notices above." if skipped_notices else "")
         )
 
+    if survey.instrument == "ahp":
+        result = _solve_ahp(survey, codes, agent_payloads, per_agent_meta)
+        report_md = render_ahp_report(result)
+        storage.write_report(report_md)
+        render_ahp_charts(result, storage.report_dir / "charts")
+    else:
+        result = _solve_bwm(survey, codes, agent_payloads, per_agent_meta)
+        report_md = render_report(result)
+        storage.write_report(report_md)
+        render_charts(result, storage.report_dir / "charts")
+
+    storage.write_combined_results(result)
+    # Written last, after every other output file exists: a SHA-256 of
+    # everything the run actually produced, plus a plain SHA256SUMS file a
+    # reviewer can check with nothing but sha256sum -c, no copy of this
+    # app required. See integrity.py.
+    integrity.write_manifest(survey.root)
+    return result
+
+
+def _solve_bwm(
+    survey: SurveyConfig, codes: List[str], agent_payloads: List[Dict[str, Any]], per_agent_meta: List[Dict[str, Any]]
+) -> Dict[str, Any]:
     agent_classical = [
         bwm_classical.solve_bwm(codes, p["best"], p["worst"], p["best_to_others"], p["others_to_worst"])
         for p in agent_payloads
@@ -105,6 +135,7 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
         "survey_id": survey.id,
         "title": survey.title,
         "dimensions": codes,
+        "instrument": "bwm",
         "agent_panel": {
             "num_agents": len(agent_payloads),
             "per_agent_meta": per_agent_meta,
@@ -130,16 +161,41 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
             "sweep": {str(a): _bayesian_to_dict(r) for a, r in combined.items()},
         }
 
-    storage.write_combined_results(result)
-    report_md = render_report(result)
-    storage.write_report(report_md)
-    render_charts(result, storage.report_dir / "charts")
-    # Written last, after every other output file exists: a SHA-256 of
-    # everything the run actually produced, plus a plain SHA256SUMS file a
-    # reviewer can check with nothing but sha256sum -c, no copy of this
-    # app required. See integrity.py.
-    integrity.write_manifest(survey.root)
     return result
+
+
+def _solve_ahp(
+    survey: SurveyConfig, codes: List[str], agent_payloads: List[Dict[str, Any]], per_agent_meta: List[Dict[str, Any]]
+) -> Dict[str, Any]:
+    solutions = [
+        ahp_solver.solve_ahp(codes, build_full_matrix(codes, p["comparisons"]))
+        for p in agent_payloads
+    ]
+    aggregated = ahp_solver.aggregate_individual_priorities(solutions)
+
+    individual_solutions = [
+        {
+            "agent_id": meta["agent_id"],
+            "weights": {c: float(s.weights[i]) for i, c in enumerate(codes)},
+            "lambda_max": s.lambda_max,
+            "consistency_ratio": s.consistency_ratio,
+            "consistent": s.consistent,
+        }
+        for meta, s in zip(per_agent_meta, solutions)
+    ]
+
+    return {
+        "survey_id": survey.id,
+        "title": survey.title,
+        "dimensions": codes,
+        "instrument": "ahp",
+        "agent_panel": {
+            "num_agents": len(agent_payloads),
+            "per_agent_meta": per_agent_meta,
+            "individual_solutions": individual_solutions,
+            "aggregated_weights": {c: float(aggregated[i]) for i, c in enumerate(codes)},
+        },
+    }
 
 
 def _bayesian_to_dict(res: bwm_bayesian.BayesianResult) -> Dict[str, Any]:
