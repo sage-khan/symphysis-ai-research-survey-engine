@@ -21,8 +21,8 @@ except ImportError:  # pragma: no cover - import-time only
 
 def _weight_table(criteria, mean, lo, hi) -> str:
     lines = ["| Criterion | Mean | 95% CI lower | 95% CI upper |", "|---|---|---|---|"]
-    for c, m, l, h in zip(criteria, mean, lo, hi):
-        lines.append(f"| {c} | {m:.4f} | {l:.4f} | {h:.4f} |")
+    for c, m, lo_val, h in zip(criteria, mean, lo, hi):
+        lines.append(f"| {c} | {m:.4f} | {lo_val:.4f} | {h:.4f} |")
     return "\n".join(lines)
 
 
@@ -241,7 +241,7 @@ def render_hierarchical_bwm_charts(result: Dict[str, Any], out_dir: Path) -> lis
         b = lvl["bayesian"]
         fig, ax = plt.subplots()
         ax.bar(b["criteria"], b["agg_mean"], yerr=[
-            [max(0.0, m - l) for m, l in zip(b["agg_mean"], b["agg_ci_lower"])],
+            [max(0.0, m - lo_val) for m, lo_val in zip(b["agg_mean"], b["agg_ci_lower"])],
             [max(0.0, h - m) for m, h in zip(b["agg_mean"], b["agg_ci_upper"])],
         ], capsize=4)
         ax.set_ylabel("Weight")
@@ -280,7 +280,7 @@ def render_charts(result: Dict[str, Any], out_dir: Path) -> list[Path]:
         # value) floating-point rounding in the mean/percentile can put the
         # CI bound a sliver on the wrong side of the mean, and matplotlib
         # hard-rejects a negative yerr rather than treating it as ~0.
-        [max(0.0, m - l) for m, l in zip(ap["agg_mean"], ap["agg_ci_lower"])],
+        [max(0.0, m - lo_val) for m, lo_val in zip(ap["agg_mean"], ap["agg_ci_lower"])],
         [max(0.0, h - m) for m, h in zip(ap["agg_mean"], ap["agg_ci_upper"])],
     ], capsize=4)
     ax.set_ylabel("Weight")

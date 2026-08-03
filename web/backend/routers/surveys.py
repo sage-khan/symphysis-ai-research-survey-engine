@@ -9,7 +9,7 @@ import shutil
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 import yaml
 from fastapi import APIRouter, File, HTTPException, UploadFile
@@ -18,7 +18,7 @@ from pydantic import BaseModel
 
 from .. import runs
 from ..analytics import compute_analytics
-from ..paths import CONFIG_DIR, SURVEYS_ROOT, survey_dir
+from ..paths import SURVEYS_ROOT, survey_dir
 from ..parsing.document_parser import parse_docx, parse_pdf
 from ..parsing.lss_parser import parse_lss
 from ..parsing.markdown_parser import parse_markdown

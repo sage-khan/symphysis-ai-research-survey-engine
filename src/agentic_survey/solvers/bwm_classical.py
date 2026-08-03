@@ -107,7 +107,7 @@ def solve_bwm(
         f"Inputs: Best={best}, Worst={worst}",
         "Best-to-Others: " + ", ".join(f"{c}={int(A_B[j])}" for j, c in enumerate(codes)),
         "Others-to-Worst: " + ", ".join(f"{c}={int(A_W[j])}" for j, c in enumerate(codes)),
-        f"Optimal weights: " + ", ".join(f"{c}={weights[j]:.4f}" for j, c in enumerate(codes)),
+        "Optimal weights: " + ", ".join(f"{c}={weights[j]:.4f}" for j, c in enumerate(codes)),
         f"xi* = {xi_star:.4f}, a_BW={a_bw}, CI={ci:.2f}, CR={cr:.4f} "
         f"({'consistent' if cr <= cr_threshold else 'flag for review'})",
     ]
