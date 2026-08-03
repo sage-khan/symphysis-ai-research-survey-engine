@@ -188,18 +188,22 @@ jobs:
                 && exec uvicorn backend.main:app --host 0.0.0.0 --port 8100"
 
             echo "=== Restarting frontend dev server (npm install + npm run dev, both backgrounded) ==="
-            # npm install itself, not just npm run dev, is backgrounded here:
-            # confirmed live that having `npm install` run in the foreground
-            # of this SSH exec channel (blocking, even briefly) killed the
-            # channel outright, immediately on starting it, regardless of the
-            # command's own duration. Whatever the exact cause, the fix is
-            # the same either way: never let this channel wait on it.
+            # Confirmed live, twice: this exact section reproducibly killed
+            # the whole SSH exec channel immediately on being reached,
+            # whether npm install ran in the foreground or (as now) fully
+            # backgrounded -- ruling out "npm install takes too long" as the
+            # cause. The remaining, textbook explanation for "a backgrounded
+            # child kills a non-interactive SSH exec session the instant
+            # it's started": the child still inherits this channel's STDIN,
+            # so the channel/server doesn't consider the session's file
+            # descriptors closed even though the parent script has moved on.
+            # `< /dev/null` on the backgrounded subshell is the standard fix.
             pkill -f "vite.*--port 5180" 2>/dev/null || true
             (
               cd web/frontend
               npm install --no-audit --no-fund
               exec npm run dev -- --host 0.0.0.0 --port 5180
-            ) > /tmp/symphysis-vite.log 2>&1 &
+            ) < /dev/null > /tmp/symphysis-vite.log 2>&1 &
             disown
 
             echo "=== Container status right after recreation (services still starting up) ==="
