@@ -30,9 +30,9 @@ export default function App() {
       >
         <div style={{ marginBottom: 40 }}>
           <div style={{ fontFamily: "var(--font-display)", fontSize: 26, fontWeight: 700, color: "var(--amber)" }}>
-            SAGE
+            Symphysis
           </div>
-          <div className="mono-dim" style={{ marginTop: 2 }}>Survey Agent Generation Engine</div>
+          <div className="mono-dim" style={{ marginTop: 2 }}>AI Research Survey Engine</div>
           <div className="mono-dim" style={{ marginTop: 8, letterSpacing: "0.04em" }}>
             v0.1.0 · control panel
           </div>

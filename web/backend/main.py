@@ -1,4 +1,4 @@
-"""SAGE (Survey Agent Generation Engine) web backend.
+"""Symphysis (AI Research Survey Engine) web backend.
 
     uvicorn web.backend.main:app --reload --port 8000
 
@@ -24,7 +24,7 @@ from agentic_survey import app_config  # noqa: E402 - must follow the `paths` im
 # reverting to localhost / no keys.
 settings.load_settings_into_env()
 
-app = FastAPI(title="SAGE API", version="0.1.0")
+app = FastAPI(title="Symphysis API", version="0.1.0")
 
 # Origins the frontend may be served from. Defaults (config/defaults.yaml's
 # cors.default_origins, overridable via Settings -> Config) cover local

@@ -1,9 +1,9 @@
-# SAGE -- Survey Agent Generation Engine
+# Symphysis -- AI Research Survey Engine
 
 Config-driven, replicable agent panels for expert-elicitation surveys.
 Formerly named `agentic-survey-tool` (that's still the internal Python
 package name, `agentic_survey`, and how earlier session records refer to
-it); renamed to SAGE as it moves toward being a standalone product rather
+it); renamed to SAGE, then to Symphysis, as it moves toward being a standalone product rather
 than a component scoped to one paper. Built as the general-purpose
 successor to VERITAS's `bsi-survey-app`, starting from the BSI paper's
 HAWC-BWM (Human-AI Weighted Consensus Best-Worst Method) use case, but
@@ -101,7 +101,7 @@ charts, per-agent trace files) as JSON/file responses.
 ## Repository structure
 
 ```
-survey-agent-generation-engine/
+symphysis-ai-research-survey-engine/
 ├── src/agentic_survey/          # the core package -- see table below (import name kept stable)
 ├── config/
 │   └── prompts/                 # shared system-prompt templates (referenced by agent cards)
@@ -257,7 +257,7 @@ own IP/Tailscale address on whatever port you publish):
 ```bash
 docker run -d --name agentic-survey-backend \
   --network host \
-  -v /path/to/survey-agent-generation-engine:/app \
+  -v /path/to/symphysis-ai-research-survey-engine:/app \
   -w /app \
   -e OLLAMA_BASE_URL=http://localhost:11434 \
   -e PYTHONPATH=/app/web:/app/src \

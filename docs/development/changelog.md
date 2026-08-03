@@ -1,7 +1,27 @@
 # Changelog
 
-All notable changes to SAGE (formerly agentic-survey-tool). Bug fixes and their root causes
+All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
+
+## 2026-08-03 (rename executed, again: survey-agent-generation-engine -> Symphysis)
+
+- GitHub repo renamed a third time, same day: `sage-khan/survey-agent-generation-engine`
+  -> `sage-khan/symphysis-ai-research-survey-engine` (final name; GitHub
+  redirects all three prior URLs -- `agentic-survey-tool`, `sage`,
+  `survey-agent-generation-engine`).
+- veritas server checkout moved to
+  `/home/veritas/projects/symphysis-ai-research-survey-engine`; backend
+  container recreated with the updated mount, Vite frontend restarted from
+  the new path. Same container name (`sage-backend`), ports, env vars.
+- UI/branding updated throughout: sidebar now reads "Symphysis / AI
+  Research Survey Engine" (was "SAGE / Survey Agent Generation Engine"),
+  browser tab title, FastAPI app title ("Symphysis API"), README title,
+  `.claude/rules/project-details.md` header, and the `agentic_survey`
+  package docstring. New Agent Cards now record
+  `environment.runtime: "symphysis"` (was `"sage"`); existing cards keep
+  whatever value they were created with, as an accurate historical record.
+  Verified: 57/57 tests pass, health checks green, browser screenshot
+  confirms the new branding with zero console errors.
 
 ## 2026-08-03 (natural-language agent orchestrator)
 
