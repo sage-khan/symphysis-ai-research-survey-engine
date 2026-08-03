@@ -3,6 +3,33 @@
 Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
+## Analytics classified an agent that was still running as "skipped"
+
+**Found:** while investigating why a live run's `/analytics` showed a large number of agents as
+"skipped" almost immediately after restarting, checked one such agent's own conversation log
+directly: it had only a `qa_precheck` and a `tool_call` entry, no `raw_completion`, no
+`rejected`, no `result.json`, meaning it had not actually failed at all, it simply had not
+finished its first sample yet.
+
+**Root cause:** `compute_analytics()` classified any agent with a runtime folder but no
+`result.json` as `"skipped"` unconditionally, with no way to distinguish "the orchestrator
+caught an error and moved on" (genuinely skipped) from "this agent just hasn't produced a
+result yet" (still running). Both look identical on disk at the instant they're queried, since
+`result.json` is only written once an agent's run completes. This directly fed the same false
+impression during earlier long qwen2.5:32b runs this session, where progress looked stalled at
+"N skipped" for long stretches that later turned out to just be normal, slow, still-in-flight
+generation.
+
+**Fix:** `compute_analytics()` now takes an `is_running: bool` parameter; when true, a
+no-`result.json` agent is classified as the new `"in_progress"` status instead of `"skipped"`,
+with its own message ("the survey is still running; this agent has not finished its samples
+yet"). `GET /api/surveys/{id}/analytics` passes `is_running=(current run-status == "running")`.
+The web UI's live progress panel and Analytics tab both render `in_progress` distinctly (amber,
+"In progress") from the red "Skipped" state, and the progress bar's "done" count now excludes
+`in_progress` agents (they are neither finished nor genuinely failed). 165/165 tests pass,
+including a new regression test asserting the same on-disk state classifies differently
+depending on `is_running`.
+
 ## qwen2.5:32b was too slow to validate in practice: reverted to qwen2.5:14b after the per-level fix
 
 **Found:** qwen2.5:32b's own weights (22GB) exceed the veritas server's GPU VRAM (an RTX 5080,

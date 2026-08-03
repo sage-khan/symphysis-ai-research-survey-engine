@@ -256,7 +256,8 @@ def get_analytics(survey_id: str) -> Dict[str, Any]:
     Derived entirely from what's on disk; never fabricates a result for an
     agent that didn't produce one."""
     d = _existing_survey_dir(survey_id)
-    return compute_analytics(d)
+    is_running = runs.get_status(survey_id)["status"] == "running"
+    return compute_analytics(d, is_running=is_running)
 
 
 @router.get("/{survey_id}/charts/{chart_name}")

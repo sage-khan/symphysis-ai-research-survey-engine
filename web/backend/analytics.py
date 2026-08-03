@@ -19,9 +19,15 @@ didn't produce one:
   be answered: a manual-provider agent that hasn't been given its pasted
   response(s) yet.
 - ``skipped``: no `result.json` at all, even though the agent's runtime
-  folder exists: the orchestrator caught a ProviderError/PermissionError_/
-  AgentCardError before any sample could be attempted (most commonly: no
-  API key configured for that provider) and moved on to the next agent.
+  folder exists, and the survey is no longer running: the orchestrator
+  caught a ProviderError/PermissionError_/AgentCardError before any
+  sample could be attempted (most commonly: no API key configured for
+  that provider) and moved on to the next agent.
+- ``in_progress``: no `result.json` yet, but the survey IS still
+  running: this agent has not necessarily failed at all, it just hasn't
+  finished its samples yet. Distinct from ``skipped`` specifically so a
+  live progress view does not misreport an agent that is still working
+  as having errored out.
 - ``not_run``: the agent is configured but the survey has never been run
   (no runtime folder at all).
 """
@@ -37,12 +43,15 @@ def _read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def compute_analytics(survey_dir: Path) -> Dict[str, Any]:
+def compute_analytics(survey_dir: Path, is_running: bool = False) -> Dict[str, Any]:
     agents_dir = survey_dir / "agents"
     per_agent: List[Dict[str, Any]] = []
     best_count: Dict[str, int] = {}
     worst_count: Dict[str, int] = {}
-    counts = {"contributed": 0, "zero_accepted": 0, "pending_manual": 0, "skipped": 0, "not_run": 0}
+    counts = {
+        "contributed": 0, "zero_accepted": 0, "pending_manual": 0,
+        "skipped": 0, "in_progress": 0, "not_run": 0,
+    }
 
     for card_path in sorted(agents_dir.glob("*.json")):
         card = _read_json(card_path)
@@ -68,13 +77,18 @@ def compute_analytics(survey_dir: Path) -> Dict[str, Any]:
 
         result_path = runtime_dir / "result.json"
         if not result_path.exists():
-            entry["status"] = "skipped"
-            entry["detail"] = (
-                "No result.json was ever written for this agent: the orchestrator caught a "
-                "provider, permission, or agent-card error before any sample could be attempted "
-                "(most commonly a missing API key for this provider) and moved on."
-            )
-            counts["skipped"] += 1
+            if is_running:
+                entry["status"] = "in_progress"
+                entry["detail"] = "The survey is still running; this agent has not finished its samples yet."
+                counts["in_progress"] += 1
+            else:
+                entry["status"] = "skipped"
+                entry["detail"] = (
+                    "No result.json was ever written for this agent: the orchestrator caught a "
+                    "provider, permission, or agent-card error before any sample could be attempted "
+                    "(most commonly a missing API key for this provider) and moved on."
+                )
+                counts["skipped"] += 1
             per_agent.append(entry)
             continue
 

@@ -46,6 +46,7 @@ const STATUS_LABEL = {
   zero_accepted: "Zero accepted",
   pending_manual: "Pending manual",
   skipped: "Skipped",
+  in_progress: "In progress",
   not_run: "Not run",
 };
 
@@ -54,6 +55,7 @@ const STATUS_COLOR = {
   zero_accepted: "var(--red, #e5534b)",
   pending_manual: "var(--amber)",
   skipped: "var(--red, #e5534b)",
+  in_progress: "var(--amber)",
   not_run: "var(--muted, #888)",
 };
 
@@ -1014,7 +1016,8 @@ export default function SurveyDetailPage({ surveyId, onBack }) {
         <div className="panel" style={{ padding: 16, marginBottom: 20 }}>
           {(() => {
             const total = progress.per_agent.length;
-            const done = total - (progress.summary.not_run || 0);
+            const stillToGo = (progress.summary.not_run || 0) + (progress.summary.in_progress || 0);
+            const done = total - stillToGo;
             const pct = total ? Math.round((done / total) * 100) : 0;
             return (
               <>

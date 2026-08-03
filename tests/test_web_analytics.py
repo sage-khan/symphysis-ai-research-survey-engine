@@ -82,6 +82,7 @@ def test_classifies_each_agent_status_correctly(tmp_path: Path):
         "zero_accepted": 1,
         "pending_manual": 1,
         "skipped": 1,
+        "in_progress": 0,
         "not_run": 1,
     }
 
@@ -102,4 +103,33 @@ def test_empty_survey_has_no_agents(tmp_path: Path):
     result = compute_analytics(survey_dir)
     assert result["per_agent"] == []
     assert result["best_worst_frequency"] == []
-    assert result["summary"] == {"contributed": 0, "zero_accepted": 0, "pending_manual": 0, "skipped": 0, "not_run": 0}
+    assert result["summary"] == {
+        "contributed": 0, "zero_accepted": 0, "pending_manual": 0,
+        "skipped": 0, "in_progress": 0, "not_run": 0,
+    }
+
+
+def test_no_result_json_is_in_progress_while_running_but_skipped_once_stopped(tmp_path: Path):
+    survey_dir = tmp_path / "live-survey"
+    agents_dir = survey_dir / "agents"
+
+    _write(agents_dir / "f-mid-flight.json", _card("f-mid-flight"))
+    (agents_dir / "f-mid-flight").mkdir(parents=True, exist_ok=True)
+    _write(agents_dir / "f-mid-flight" / "card.json", _card("f-mid-flight"))
+
+    # While the survey is still running, an agent with no result.json yet
+    # has not necessarily failed, it just hasn't finished: must not be
+    # reported as "skipped" (which implies the orchestrator already gave
+    # up on it).
+    running_result = compute_analytics(survey_dir, is_running=True)
+    assert running_result["per_agent"][0]["status"] == "in_progress"
+    assert running_result["summary"]["in_progress"] == 1
+    assert running_result["summary"]["skipped"] == 0
+
+    # Once the survey is no longer running, the same on-disk state (still
+    # no result.json) means the orchestrator really did move on without
+    # ever producing one for this agent: now it is genuinely "skipped".
+    stopped_result = compute_analytics(survey_dir, is_running=False)
+    assert stopped_result["per_agent"][0]["status"] == "skipped"
+    assert stopped_result["summary"]["skipped"] == 1
+    assert stopped_result["summary"]["in_progress"] == 0

@@ -4,6 +4,17 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (fix: an in-flight agent was misreported as "skipped")
+
+- `analytics.py`'s `compute_analytics()` now distinguishes an agent that genuinely errored out
+  before producing a result (`skipped`) from one that simply hasn't finished yet because the
+  survey is still running (new `in_progress` status), via a new `is_running` parameter the
+  `/analytics` endpoint now passes from the current run-status. Both looked identical on disk
+  before this fix (no `result.json`), which misreported normal in-flight progress as failure
+  throughout this session's slower runs. The live progress panel and Analytics tab render
+  `in_progress` distinctly (amber) from the red "Skipped" state.
+
+
 ## 2026-08-03 (launch-readiness: LICENSE, CITATION.cff, CONTRIBUTING.md)
 
 - `LICENSE`: the real, unmodified Apache License 2.0 text (copied from a genuine
