@@ -4,6 +4,39 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (architecture diagram refresh: preflight lane, SearXNG/Crawl4AI, palette fix)
+
+- `current-system-architecture.drawio` regenerated (via a small Python generator script,
+  following the drawio-diagram-handling skill's guidance to build large/edited diagrams
+  programmatically rather than hand-editing XML): a new "Preflight (once per survey run, before
+  any agent is spawned)" lane added at the top, its own green fill/stroke/text triplet
+  distinguishing it as a genuinely new, shipped feature rather than reusing the neutral box
+  style; the Grounding lane's "Web Search (Tavily, if granted)" box relabeled to "(self-hosted
+  SearXNG + Crawl4AI, if granted)"; every arrow's color restored to the app's real brand amber
+  (`--amber`, `#ff9d3f`) after the draw.io desktop app had silently regressed it to plain black
+  on a prior open-and-resave. Colors throughout now come from `web/frontend/src/index.css`'s
+  actual brand tokens (`--bg-panel`, `--border-bright`, `--text`, `--amber`, `--green`) rather
+  than a generic Catppuccin-style palette that never matched the product's real dark theme,
+  applying the same "deliberate, matched fill/stroke/text triplet per semantic role" principle
+  documented in `ec-council/2-netops-demystified/slides/scripts/make_diagrams.py`, adapted to
+  colors that actually belong to this project rather than copying that script's light-mode
+  values wholesale. Found and fixed a real double-HTML-escaping bug while building the generator
+  (`&lt;br&gt;` line breaks were rendering as literal visible text, not real line breaks, until
+  escaped exactly once, not twice, per the drawio skill's own documented escaping rule);
+  caught only by actually exporting to PNG and looking at it, not by reasoning about the XML.
+- `target-pipeline-vision.drawio`: the same draw.io-desktop-resave had regressed its lane-to-lane
+  arrow color from `#89b4fa` to black too, with no other real content change (confirmed via a
+  byte-for-byte diff against the last committed version); reverted to the clean committed state
+  rather than a full rebuild, since the four-layer pipeline vision's implementation-status labels
+  (green/amber/dashed-red) didn't change today.
+- `architecture-overview.md` updated: current-system-architecture is now seven stages, not six
+  (Preflight added), and its description now mentions the SearXNG/Crawl4AI web-search backend.
+- New `.gitignore` entry for `.$*.drawio.bkp` (the draw.io desktop app's own lock/backup files
+  for an open diagram, not source content).
+- Both diagrams' PNG exports verified by actually rendering (`drawio --export --format png`) and
+  visually inspecting the result, not just validating the XML.
+
+
 ## 2026-08-03 (documentation pass: README, getting-started, CI/CD secrets accuracy)
 
 - README: added item 14 to "What it does" (the preflight check), added `preflight.py` and

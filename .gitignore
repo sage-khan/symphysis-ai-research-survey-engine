@@ -20,6 +20,10 @@ __pycache__/
 .idea/
 .DS_Store
 
+# draw.io desktop app's own lock/backup files for an open .drawio file,
+# not source content.
+.$*.drawio.bkp
+
 # Runtime survey output (conversation logs, DIDs, reports) is real,
 # generated-per-run data, not source; keep the example survey's *configs*
 # tracked but not the per-agent runtime folders it produces.

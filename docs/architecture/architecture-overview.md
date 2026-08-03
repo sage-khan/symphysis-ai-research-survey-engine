@@ -10,14 +10,18 @@ drawio --export --format png --scale 1.5 --output <name>.png <name>.drawio
 
 ## current-system-architecture
 
-The real pipeline as actually implemented today, laid out as six
-sequential stages: Configuration, Grounding, Verification before
-answering, Execution, Verification after answering, and Synthesis and
-trust. This is what one agent's run through `orchestrator.run_survey`
-actually does, end to end, including the QA precheck, the four possible
-context sources, guardrails, the sources-used citation check, both BWM
-solvers, and the SHA-256 integrity manifest. Read this diagram to
-understand what the system does today, not what it is planned to do.
+The real pipeline as actually implemented today, laid out as seven
+sequential stages: Preflight, Configuration, Grounding, Verification
+before answering, Execution, Verification after answering, and Synthesis
+and trust. This is what one `symphysis run` actually does, end to end:
+the upfront provider-reachability check (before any agent is spawned),
+then one agent's run through `orchestrator.run_survey`, including the QA
+precheck, the four possible context sources (RAG, shared knowledge,
+role packs, and web search, now backed by self-hosted SearXNG + Crawl4AI
+rather than the earlier Tavily integration), guardrails, the sources-used
+citation check, both BWM solvers, and the SHA-256 integrity manifest.
+Read this diagram to understand what the system does today, not what it
+is planned to do.
 
 ## agent-card-anatomy
 
