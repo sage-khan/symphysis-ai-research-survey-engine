@@ -3,6 +3,32 @@
 Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
+## qwen2.5:32b was too slow to validate in practice: reverted to qwen2.5:14b after the per-level fix
+
+**Found:** qwen2.5:32b's own weights (22GB) exceed the veritas server's GPU VRAM (an RTX 5080,
+16GB), confirmed via `ollama ps` reporting a persistent 32%/68% CPU/GPU split throughout the
+run: roughly a third of the model's layers run on CPU. `top` confirmed genuine, sustained heavy
+CPU load (1900%+, 19+ cores) during generation, not a hang. At this speed the full twelve-agent,
+five-repeats-each hierarchical_bwm survey did not finish in over an hour and made only marginal
+progress (2 of 8 attempted agents contributing after 40+ minutes).
+
+**Root cause:** the earlier model-swap decision (see the "every small/mid local Ollama model
+failed" entry above) picked the largest available model without checking it would fit the
+GPU's actual VRAM, so most of the expected speed benefit of a real, non-CPU-only run was lost
+to partial CPU fallback regardless of correctness.
+
+**Fix:** with the per-level ratio-rule restatement now in place (a more surgical, better-
+targeted fix for qwen2.5:14b's specific observed failure, rating Best-to-itself as 9 on L1),
+reverted every local-model role back to qwen2.5:14b (9.0GB, comfortably fits the RTX 5080's
+16GB VRAM with room for context, confirmed to run without CPU spillover). This tests the actual
+hypothesis directly: was qwen2.5:14b's earlier L1 failure a genuine capability ceiling requiring
+a larger model, or a prompt-clarity gap the per-level fix already closes. See the veritas
+server's GPU/CPU inference investigation for the broader finding that the driver/NVML version
+mismatch (`nvidia-smi` reports 595.84 vs the loaded kernel module's 595.71.05) prevents `nvidia-smi`
+from running at all, though Ollama's own runtime still partially uses the GPU regardless; a
+proper fix (likely a driver package realignment and reboot) was deliberately not attempted
+mid-session on a shared server running many other stateful services.
+
 ## CI/CD still showed "no jobs run" after the line-1 YAML fix: a second schema error
 
 **Found:** after quoting line 1's `name:` value (see the entry below), GitHub Actions still
