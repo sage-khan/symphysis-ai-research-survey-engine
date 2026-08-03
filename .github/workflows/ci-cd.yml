@@ -142,7 +142,23 @@ jobs:
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
-      - name: Deploy via SSH
+      # Deliberately short-lived: git pull + recreate both services, fully
+      # detached (docker run -d, nohup), no inline waiting for either to
+      # actually come up. An earlier version of this step waited inline
+      # (a `curl` polling loop against localhost, inside this same SSH
+      # exec channel) for the backend's ~140s pip install + startup, and
+      # the whole SSH session was reproducibly killed at almost exactly
+      # that same ~140s mark in two separate live runs, keep-alive output
+      # notwithstanding: not an idle-connection timeout (ruled out: data
+      # was flowing throughout), so most likely a fixed-duration limit
+      # somewhere in the Tailscale DERP relay path for this specific
+      # long-lived exec channel. Rather than chase that further, the
+      # health-check polling moves to its own step below, run directly on
+      # the runner (which is itself Tailscale-joined) against the
+      # server's Tailscale IP -- a plain curl loop with no such limit,
+      # and arguably a more meaningful check anyway (proves the service
+      # is reachable from outside the box, not just from localhost on it).
+      - name: Deploy via SSH (git pull + recreate services, detached)
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SYMPHYSIS_SSH_HOST }}
@@ -157,7 +173,7 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
-            echo "=== Recreating backend container ==="
+            echo "=== Recreating backend container (detached) ==="
             docker rm -f sage-backend 2>/dev/null || true
             docker run -d --name sage-backend \
               --network host \
@@ -171,12 +187,7 @@ jobs:
                 && pip install -q --no-cache-dir -r requirements.txt -r web/backend/requirements.txt \
                 && exec uvicorn backend.main:app --host 0.0.0.0 --port 8100"
 
-            echo "=== Waiting for backend health check ==="
-            timeout 180 bash -c \
-              'until curl -sf http://localhost:8100/api/health; do echo "  ...still waiting on backend"; sleep 5; done' \
-              && echo "Backend is up"
-
-            echo "=== Restarting frontend dev server ==="
+            echo "=== Restarting frontend dev server (detached) ==="
             pkill -f "vite.*--port 5180" 2>/dev/null || true
             cd web/frontend
             npm install --no-audit --no-fund
@@ -184,10 +195,17 @@ jobs:
             disown
             cd -
 
-            echo "=== Waiting for frontend to come up ==="
-            timeout 60 bash -c \
-              'until curl -sf http://localhost:5180 >/dev/null; do echo "  ...still waiting on frontend"; sleep 2; done' \
-              && echo "Frontend is up"
-
-            echo "=== Container status ==="
+            echo "=== Container status right after recreation (services still starting up) ==="
             docker ps --filter name=sage-backend
+
+      - name: Wait for backend + frontend health (from the runner, over Tailscale)
+        run: |
+          echo "=== Waiting for backend health check ==="
+          timeout 180 bash -c \
+            'until curl -sf http://${{ secrets.SYMPHYSIS_SSH_HOST }}:8100/api/health; do echo "  ...still waiting on backend"; sleep 5; done' \
+            && echo "Backend is up"
+
+          echo "=== Waiting for frontend to come up ==="
+          timeout 60 bash -c \
+            'until curl -sf http://${{ secrets.SYMPHYSIS_SSH_HOST }}:5180 >/dev/null; do echo "  ...still waiting on frontend"; sleep 2; done' \
+            && echo "Frontend is up"
