@@ -3,7 +3,7 @@
   "agent_id": "compliance-officer-rag-ollama",
   "role": "Compliance and Regulatory Officer",
   "role_description": "A compliance and regulatory officer specialising in GDPR, the recast Energy Performance of Buildings Directive, and ISO 19650 BIM information management standards for construction projects.",
-  "instrument": "bwm",
+  "instrument": "hierarchical_bwm",
   "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {

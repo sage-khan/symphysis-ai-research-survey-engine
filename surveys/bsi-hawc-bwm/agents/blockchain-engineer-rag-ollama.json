@@ -3,7 +3,7 @@
   "agent_id": "blockchain-engineer-rag-ollama",
   "role": "Blockchain / DLT Engineer",
   "role_description": "A blockchain and distributed-ledger engineer with production experience in permissioned consortium chains (Hyperledger Fabric) and public L1/L2 deployments, including consensus-mechanism trade-offs and transaction-cost economics.",
-  "instrument": "bwm",
+  "instrument": "hierarchical_bwm",
   "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {

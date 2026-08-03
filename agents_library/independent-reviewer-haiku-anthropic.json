@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
-  "agent_id": "data-engineer-base-ollama",
-  "role": "Data Engineering Specialist",
-  "role_description": "A data engineering specialist responsible for polyglot persistence architectures, data quality pipelines, and provenance/lineage tracking across heterogeneous storage systems.",
+  "agent_id": "independent-reviewer-haiku-anthropic",
+  "role": "Independent Reviewer",
+  "role_description": "A senior, model-agnostic reviewer whose task is to sanity-check the domain-persona panel's BWM comparisons for internal coherence (e.g. an inconsistent Best/Worst pairing, an implausible weight given the construction context) and flag anything the persona panel may have gotten systematically wrong. Answer the same BWM instrument as the persona panel, but from a general due-diligence standpoint rather than any single professional role.",
   "instrument": "hierarchical_bwm",
   "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {
-    "provider": "ollama",
-    "name": "phi4:14b",
+    "provider": "anthropic",
+    "name": "claude-haiku-4-5-20251001",
     "temperature": 0.7,
     "max_tokens": 1024,
     "top_p": 1.0,
@@ -19,7 +19,7 @@
     "enabled": false,
     "corpus_path": null,
     "top_k": 5,
-    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_model": null,
     "chunk_size": 800,
     "chunk_overlap": 100
   },
@@ -32,7 +32,7 @@
     "data_scopes": [],
     "network": [],
     "allowed_providers": [
-      "ollama"
+      "anthropic"
     ],
     "max_cost_usd": null
   },
@@ -46,10 +46,10 @@
   },
   "did": {
     "method": "did:key",
-    "id": "did:key:z6Mkr3i2hGQXryVTNRKgwUq7zjMxFgb7krNoaGT5MSD9hXHo",
-    "public_key_multibase": "z6Mkr3i2hGQXryVTNRKgwUq7zjMxFgb7krNoaGT5MSD9hXHo",
+    "id": "did:key:z6Mkg3w6wD9Z2qaev5cVFDsjo859LKHYMMSrAGeBttSVDGee",
+    "public_key_multibase": "z6Mkg3w6wD9Z2qaev5cVFDsjo859LKHYMMSrAGeBttSVDGee",
     "deterministic": true,
-    "seed_derivation": "sha256('bsi-hawc-bwm-2026-08-v1:data-engineer-base-ollama')"
+    "seed_derivation": "sha256('bsi-hawc-bwm-2026-08-v1:independent-reviewer-haiku-anthropic')"
   },
   "environment": {
     "runtime": "agentic-survey-tool",
@@ -57,5 +57,7 @@
     "python_version": "3.13.2",
     "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
     "container_image": null
-  }
+  },
+  "role_pack": null,
+  "display_name": "Independent Reviewer (Claude Haiku)"
 }

@@ -3,7 +3,7 @@
   "agent_id": "data-engineer-rag-ollama",
   "role": "Data Engineering Specialist",
   "role_description": "A data engineering specialist responsible for polyglot persistence architectures, data quality pipelines, and provenance/lineage tracking across heterogeneous storage systems.",
-  "instrument": "bwm",
+  "instrument": "hierarchical_bwm",
   "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {

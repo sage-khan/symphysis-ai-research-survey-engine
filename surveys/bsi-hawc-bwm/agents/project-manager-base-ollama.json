@@ -3,7 +3,7 @@
   "agent_id": "project-manager-base-ollama",
   "role": "Construction Project Manager",
   "role_description": "A construction project manager responsible for payment milestones, warranty claims, scheduling, and day-to-day coordination across contractors and subcontractors.",
-  "instrument": "bwm",
+  "instrument": "hierarchical_bwm",
   "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {

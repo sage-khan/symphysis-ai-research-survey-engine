@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
-  "agent_id": "project-manager-base-ollama",
-  "role": "Construction Project Manager",
-  "role_description": "A construction project manager overseeing renovation and new-build delivery, balancing cost, schedule, and risk when deciding how rigorously project data should be stored and verified.",
-  "instrument": "bwm",
-  "system_prompt_template": "/app/config/prompts/expert_panel_system.txt",
+  "agent_id": "compliance-officer-base-ollama",
+  "role": "Compliance and Regulatory Officer",
+  "role_description": "A compliance and regulatory officer specialising in GDPR, the recast Energy Performance of Buildings Directive, and ISO 19650 BIM information management standards for construction projects.",
+  "instrument": "hierarchical_bwm",
+  "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {
     "provider": "ollama",
-    "name": "mistral:7b",
+    "name": "gemma4:26b",
     "temperature": 0.7,
     "max_tokens": 1024,
     "top_p": 1.0,
@@ -46,16 +46,18 @@
   },
   "did": {
     "method": "did:key",
-    "id": "did:key:z6MkoTqCL7Y9vxvTB92dPAmcKJmp424eyYKsTfYzrK777tAk",
-    "public_key_multibase": "z6MkoTqCL7Y9vxvTB92dPAmcKJmp424eyYKsTfYzrK777tAk",
+    "id": "did:key:z6MkrCZtmXWsVRjTzht3audhGqFKFLYkXUstbXUKJNtvdWyG",
+    "public_key_multibase": "z6MkrCZtmXWsVRjTzht3audhGqFKFLYkXUstbXUKJNtvdWyG",
     "deterministic": true,
-    "seed_derivation": "sha256('trustrouter-agent-panel-live-20260803-v1:project-manager-base-ollama')"
+    "seed_derivation": "sha256('bsi-hawc-bwm-2026-08-v1:compliance-officer-base-ollama')"
   },
   "environment": {
     "runtime": "agentic-survey-tool",
     "runtime_version": "0.1.0",
-    "python_version": "3.11.15",
-    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.41",
+    "python_version": "3.13.2",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
     "container_image": null
-  }
+  },
+  "role_pack": "construction_engineer",
+  "display_name": "Compliance and Regulatory Officer"
 }

@@ -3,6 +3,73 @@
 All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). Bug fixes and their root causes
 are tracked separately in `diagnostics.md`.
 
+
+## 2026-08-03 (bsi-hawc-bwm survey converted to the real full hierarchy; real knowledge grounding; Agent Library populated)
+
+- `surveys/bsi-hawc-bwm/survey.yaml` now uses `instrument: hierarchical_bwm`
+  with the complete real seven-level TrustRouter structure (L1 through
+  L3e), the exact criterion descriptions from `trustrouter.py`, and the
+  real composite formula string, replacing the old flat six-dimension
+  `bwm` survey that only elicited DVS's internal weights while looking, to
+  anyone reading its title or results, like a complete TrustRouter
+  elicitation. Every existing agent card's own descriptive `instrument`
+  field was updated to match (this field is display-only; `survey.yaml`
+  alone decides which instrument actually runs, but a stale value there
+  was misleading). The unused `weighting`/`human_responses_path` stanza,
+  which pointed at a file literally named `experts.SYNTHETIC.json`, was
+  removed along with that file: `hierarchical_bwm` surveys don't (yet)
+  wire in the HAWC-BWM human-panel combination flat `bwm` surveys use, so
+  keeping synthetic data referenced from a survey meant to produce real
+  results was misleading, not merely unused.
+- Deleted the separate `trustrouter-agent-panel-live-20260803` survey (the
+  actual completed 17-agent live run from earlier this session): it ran
+  the same incomplete flat six-dimension calculation and its report
+  presented that as a finished "live multi-agent panel" result. Backed up
+  to the veritas server's `~/backups/` before deletion, not merely
+  discarded.
+- New `surveys/bsi-hawc-bwm/knowledge_repo/trustrouter_concept_paper_primer.md`:
+  every agent in this survey (RAG-enabled or not, this directory is
+  retrieved automatically for the whole panel) now receives a primer
+  derived directly from `trustrouter.py` and `TRUSTROUTER_EQUATION.md`
+  explaining the two-stage gate-then-score architecture, why the L1
+  comparison (DVS/F/E/A) is a different kind of "importance" than every
+  other level because those four combine multiplicatively rather than as
+  a weighted sum, and where the previously-missing F/E/A branches and
+  their own sub-criteria fit. Earlier runs of this survey had no such
+  primer and, per the user's own reading of prior results, produced
+  reasoning that treated the six DVS dimensions as the entire calculation.
+- Populated six of this survey's seven RAG corpora (`blockchain-engineer`,
+  `data-engineer`, `bim-coordinator`, `compliance-officer`,
+  `structural-engineer`, `project-manager`), which previously held only an
+  empty template `SOURCES.md` and no retrievable content despite
+  `rag.enabled: true` on the matching agent cards, meaning those agents
+  were not actually grounded in anything. Content is copied and cited from
+  `LITERATURE_REVIEW_CATALOG.csv` in the project's own literature bank
+  (never fabricated), one real, cited source set per role directly
+  relevant to that role's slice of the TrustRouter hierarchy (blockchain
+  attack-resistance and the oracle problem for `blockchain-engineer`, ISO
+  25012 data quality and polyglot persistence for `data-engineer`,
+  Digital Building Logbooks and BUILDCHAIN for `bim-coordinator`, GDPR and
+  the blockchain-immutability tension for `compliance-officer`, structural
+  health monitoring and digital twins for `structural-engineer`,
+  construction project management and MCDM method comparison for
+  `project-manager`). Web search was considered per the standing
+  instruction to ground agents via web search or the literature bank, but
+  `TAVILY_API_KEY` is not configured on the veritas server, so the
+  `web_search` tool remains disabled on these agents for this run; that
+  gap is noted here rather than left silent.
+- `agents_library/` (previously empty, the reason the web UI's Agent
+  Library panel had nothing in it) now has 11 reusable Agent Cards: the
+  six TrustRouter-relevant roles' base (non-RAG) variants, each tagged
+  with the closest matching standard role knowledge pack
+  (`blockchain_trust_specialist`, `data_engineer`, or
+  `construction_engineer` for the four construction-adjacent roles), plus
+  the five-model independent-reviewer roster (Claude Opus/Sonnet/Haiku,
+  and manual-paste-in Gemini/GPT). The RAG variants were not copied into
+  the library: their `corpus_path`/`data_scopes` are specific to
+  `bsi-hawc-bwm`'s own corpus directories and would silently point at the
+  wrong (or a missing) corpus if assigned into a different survey without
+  editing first.
 ## 2026-08-03 (hierarchical BWM: the real TrustRouter formula structure)
 
 - The flat, six-dimension BWM survey previously used for TrustRouter/BSI

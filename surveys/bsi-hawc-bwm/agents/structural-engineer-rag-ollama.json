@@ -3,7 +3,7 @@
   "agent_id": "structural-engineer-rag-ollama",
   "role": "Structural Engineer",
   "role_description": "A structural engineer responsible for structural safety sign-off, inspection records, and monitoring of load-bearing systems across a building's operational life.",
-  "instrument": "bwm",
+  "instrument": "hierarchical_bwm",
   "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {

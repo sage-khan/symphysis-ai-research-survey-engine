@@ -3,7 +3,7 @@
   "agent_id": "bim-coordinator-base-ollama",
   "role": "BIM Coordinator",
   "role_description": "A BIM coordinator with 10+ years managing multi-stakeholder Building Information Models on renovation and new-build projects, responsible for model federation, clash detection, and lifecycle documentation.",
-  "instrument": "bwm",
+  "instrument": "hierarchical_bwm",
   "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {

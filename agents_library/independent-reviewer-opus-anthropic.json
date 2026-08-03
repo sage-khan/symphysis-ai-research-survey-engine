@@ -2,9 +2,9 @@
   "schema_version": "1.0",
   "agent_id": "independent-reviewer-opus-anthropic",
   "role": "Independent Reviewer",
-  "role_description": "A role-agnostic due-diligence cross-check reviewer, not a construction-domain persona, asked to weigh the same six DVS dimensions purely on general reasoning about data trust and blockchain-routing risk, independent of the domain-persona panel.",
-  "instrument": "bwm",
-  "system_prompt_template": "/app/config/prompts/expert_panel_system.txt",
+  "role_description": "A senior, model-agnostic reviewer whose task is to sanity-check the domain-persona panel's BWM comparisons for internal coherence (e.g. an inconsistent Best/Worst pairing, an implausible weight given the construction context) and flag anything the persona panel may have gotten systematically wrong. Answer the same BWM instrument as the persona panel, but from a general due-diligence standpoint rather than any single professional role.",
+  "instrument": "hierarchical_bwm",
+  "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {
     "provider": "anthropic",
@@ -19,7 +19,7 @@
     "enabled": false,
     "corpus_path": null,
     "top_k": 5,
-    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "embedding_model": null,
     "chunk_size": 800,
     "chunk_overlap": 100
   },
@@ -46,16 +46,18 @@
   },
   "did": {
     "method": "did:key",
-    "id": "did:key:z6Mknaar8jaUWjynCGzVhReX1ztcYsXFxvD9RXGbJvC24ZS3",
-    "public_key_multibase": "z6Mknaar8jaUWjynCGzVhReX1ztcYsXFxvD9RXGbJvC24ZS3",
+    "id": "did:key:z6MkiuHeBgtdgUgw8Bb2kMoNeXLVpGGF1VCeWm7qPJ9V7UGs",
+    "public_key_multibase": "z6MkiuHeBgtdgUgw8Bb2kMoNeXLVpGGF1VCeWm7qPJ9V7UGs",
     "deterministic": true,
-    "seed_derivation": "sha256('trustrouter-agent-panel-live-20260803-v1:independent-reviewer-opus-anthropic')"
+    "seed_derivation": "sha256('bsi-hawc-bwm-2026-08-v1:independent-reviewer-opus-anthropic')"
   },
   "environment": {
     "runtime": "agentic-survey-tool",
     "runtime_version": "0.1.0",
-    "python_version": "3.11.15",
-    "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.41",
+    "python_version": "3.13.2",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
     "container_image": null
-  }
+  },
+  "role_pack": null,
+  "display_name": "Independent Reviewer (Claude Opus)"
 }

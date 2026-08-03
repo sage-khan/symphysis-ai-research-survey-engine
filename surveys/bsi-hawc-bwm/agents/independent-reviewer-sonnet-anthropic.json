@@ -3,7 +3,7 @@
   "agent_id": "independent-reviewer-sonnet-anthropic",
   "role": "Independent Reviewer",
   "role_description": "A senior, model-agnostic reviewer whose task is to sanity-check the domain-persona panel's BWM comparisons for internal coherence (e.g. an inconsistent Best/Worst pairing, an implausible weight given the construction context) and flag anything the persona panel may have gotten systematically wrong. Answer the same BWM instrument as the persona panel, but from a general due-diligence standpoint rather than any single professional role.",
-  "instrument": "bwm",
+  "instrument": "hierarchical_bwm",
   "system_prompt_template": "config/prompts/expert_panel_system.txt",
   "tools": [],
   "model": {
