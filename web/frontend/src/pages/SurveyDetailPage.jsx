@@ -307,6 +307,7 @@ function AnalyticsTab({ surveyId, refreshKey }) {
         <table>
           <thead>
             <tr>
+              <th>Display name</th>
               <th>Agent</th>
               <th>Role</th>
               <th>Model</th>
@@ -321,6 +322,7 @@ function AnalyticsTab({ surveyId, refreshKey }) {
             {contributing.flatMap((a) =>
               a.samples.map((s) => (
                 <tr key={`${a.agent_id}-${s.index}`}>
+                  <td>{a.display_name || <span className="mono-dim">-</span>}</td>
                   <td>{a.agent_id}</td>
                   <td>{a.role}</td>
                   <td>
@@ -338,7 +340,7 @@ function AnalyticsTab({ surveyId, refreshKey }) {
             )}
             {contributing.length === 0 && (
               <tr>
-                <td colSpan={8} className="mono-dim">
+                <td colSpan={9} className="mono-dim">
                   No agent has contributed an accepted sample yet.
                 </td>
               </tr>
@@ -354,6 +356,7 @@ function AnalyticsTab({ surveyId, refreshKey }) {
         <table>
           <thead>
             <tr>
+              <th>Display name</th>
               <th>Agent</th>
               <th>Role</th>
               <th>Model</th>
@@ -364,6 +367,7 @@ function AnalyticsTab({ surveyId, refreshKey }) {
           <tbody>
             {nonContributing.map((a) => (
               <tr key={a.agent_id}>
+                <td>{a.display_name || <span className="mono-dim">-</span>}</td>
                 <td>{a.agent_id}</td>
                 <td>{a.role}</td>
                 <td>
@@ -375,7 +379,7 @@ function AnalyticsTab({ surveyId, refreshKey }) {
             ))}
             {nonContributing.length === 0 && (
               <tr>
-                <td colSpan={5} className="mono-dim">
+                <td colSpan={6} className="mono-dim">
                   Every configured agent contributed at least one accepted sample.
                 </td>
               </tr>
@@ -728,8 +732,8 @@ function AgentsTab({ surveyId, onChanged }) {
         <table>
           <thead>
             <tr>
-              <th>Agent</th>
               <th>Display name</th>
+              <th>Agent</th>
               <th>Role / expertise</th>
               <th>Provider / Model</th>
               <th>RAG</th>
@@ -741,8 +745,8 @@ function AgentsTab({ surveyId, onChanged }) {
           <tbody>
             {agents.map((a) => (
               <tr key={a.agent_id}>
-                <td>{a.agent_id}</td>
                 <td>{a.display_name || <span className="mono-dim">-</span>}</td>
+                <td>{a.agent_id}</td>
                 <td>
                   {a.role}
                   {a.expertise && <div className="mono-dim">{a.expertise}</div>}

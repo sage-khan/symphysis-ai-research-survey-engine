@@ -50,6 +50,7 @@ def compute_analytics(survey_dir: Path) -> Dict[str, Any]:
         runtime_dir = agents_dir / agent_id
         entry: Dict[str, Any] = {
             "agent_id": agent_id,
+            "display_name": card.get("display_name"),
             "role": card.get("role"),
             "provider": card.get("model", {}).get("provider"),
             "model": card.get("model", {}).get("name"),

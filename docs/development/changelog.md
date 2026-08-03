@@ -4,6 +4,20 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-08-03 (agent-table column order, sidebar tagline swap)
+
+- The Agents tab (per-survey), the Agent Library page, and both Analytics
+  tables (per-sample "who said what" and "Non-contributing agents") now
+  list display name before the raw agent id, matching how a human reads
+  the table (a friendly name first, the machine identifier second).
+  `web/backend/analytics.py`'s per-agent entry now includes `display_name`
+  so the Analytics tables can show it too, not just the Agents tab (which
+  already got it from `/api/surveys/<id>/agents`).
+- Sidebar: removed "v0.1.0 . control panel" from the top (moved to the
+  bottom, where the tagline used to be) and removed the "Config-driven
+  agent panels for expert-elicitation surveys" tagline entirely.
+
+
 ## 2026-08-03 (bsi-hawc-bwm survey converted to the real full hierarchy; real knowledge grounding; Agent Library populated)
 
 - `surveys/bsi-hawc-bwm/survey.yaml` now uses `instrument: hierarchical_bwm`

@@ -66,8 +66,8 @@ export default function AgentLibraryPage() {
         <table>
           <thead>
             <tr>
-              <th>Agent</th>
               <th>Display name</th>
+              <th>Agent</th>
               <th>Role / expertise</th>
               <th>Provider / Model</th>
               <th>RAG</th>
@@ -79,8 +79,8 @@ export default function AgentLibraryPage() {
           <tbody>
             {agents.map((a) => (
               <tr key={a.agent_id}>
-                <td>{a.agent_id}</td>
                 <td>{a.display_name || <span className="mono-dim">-</span>}</td>
+                <td>{a.agent_id}</td>
                 <td>
                   {a.role}
                   {a.expertise && <div className="mono-dim">{a.expertise}</div>}

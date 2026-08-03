@@ -33,9 +33,6 @@ export default function App() {
             Symphysis
           </div>
           <div className="mono-dim" style={{ marginTop: 2 }}>AI Research Survey Engine</div>
-          <div className="mono-dim" style={{ marginTop: 8, letterSpacing: "0.04em" }}>
-            v0.1.0 · control panel
-          </div>
         </div>
 
         <nav>
@@ -67,11 +64,7 @@ export default function App() {
         </nav>
 
         <div style={{ position: "absolute", bottom: 24, left: 20, right: 20 }}>
-          <div className="mono-dim" style={{ lineHeight: 1.7 }}>
-            Config-driven agent panels
-            <br />
-            for expert-elicitation surveys
-          </div>
+          <div className="mono-dim" style={{ letterSpacing: "0.04em" }}>v0.1.0 · control panel</div>
         </div>
       </aside>
 
