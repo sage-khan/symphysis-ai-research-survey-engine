@@ -1,11 +1,10 @@
 """Classical Best-Worst Method (Rezaei, 2015), generic over any criteria set.
 
-Ported and verified from VERITAS's bsi-survey-app (docs/research/Work-in-progress/
-potential-papers/00-bsi/survey-app/src/survey_app/bwm.py), which was checked
-line-by-line against Rezaei's published LP and consistency-index table; the
-formulation here is unchanged. Only the interface is generalised from BSI's
-fixed six-dimension schema to an arbitrary list of criterion codes, since this
-app must serve future surveys/instruments, not just BSI.
+Checked line-by-line against Rezaei's published LP and consistency-index
+table; the formulation here is unchanged from the original. The interface
+is generalised to an arbitrary list of criterion codes rather than any one
+survey's fixed dimension schema, so this app can serve any BWM survey, not
+just the one it was first built for.
 """
 
 from __future__ import annotations

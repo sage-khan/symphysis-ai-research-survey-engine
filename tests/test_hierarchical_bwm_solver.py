@@ -15,8 +15,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from symphysis.solvers.hierarchical_bwm import LevelSolution, compute_global_weights, render_populated_equations
 
-# The real TrustRouter level structure (see trustrouter.py in the BSI
-# survey-app) and the real published local weights from
+# The real TrustRouter level structure (see trustrouter.py in the
+# TrustRouter survey-app) and the real published local weights from
 # TRUSTROUTER_EQUATION.md, reconstructed here as fixed LevelSolution
 # objects (bypassing solve_level, since we are testing the hierarchy
 # multiplication, not the BWM solver itself, which is already covered by

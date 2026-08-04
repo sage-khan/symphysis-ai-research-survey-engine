@@ -36,9 +36,9 @@ def test_bootstrap_produces_valid_posterior():
 def test_pymc_prior_matches_reference_diffuse_gamma():
     """The concentration hyperprior must be the diffuse Gamma(0.01, 0.01) from
     the reference JAGS model (B2WME.txt), not the Gamma(1, 0.01) bug found and
-    fixed in bsi-survey-app. This is a smoke test that the PyMC path runs and
-    yields non-degenerate (non-zero-width) credible intervals; it does not
-    re-derive the exact posterior."""
+    fixed in an earlier implementation of this solver. This is a smoke test
+    that the PyMC path runs and yields non-degenerate (non-zero-width)
+    credible intervals; it does not re-derive the exact posterior."""
     if not bwm_bayesian.PYMC_AVAILABLE:
         pytest.skip("PyMC not installed")
 

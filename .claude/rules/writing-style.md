@@ -15,10 +15,6 @@ All content produced in this project belongs to **Muhammad Danyal Khan** and is 
 
 If a document or commit template includes a "Co-Authored-By: Claude" placeholder, remove it before writing.
 
-## Default human co-author order for papers
-
-Unless told otherwise for a specific paper, order human co-authors as: **Muhammad Danyal Khan** (1st, corresponding author), **Juan Chiachío Ruano**, **Manuel Chiachío Ruano**, then **Rahim Ali** (last). Rahim Ali's affiliation is Department of Computer Science, Bahria University Karachi Campus (Karachi 75500, Pakistan), not Islamabad. See `project-details.md`'s "Default Author Order for Papers" section for the full note and its rationale; this default extends to CogTwins and other related-project papers unless that project's own rules override it.
-
 ## No em dashes, ever (mandatory, zero tolerance)
 
 Never use an em dash (—) in anything written as Dan: papers, thesis chapters, commit messages, PR/issue text, changelog or session notes, emails, or any other prose produced in his voice. This is a direct standing instruction from Dan, not a style suggestion: he does not write that way, and every em dash found in a draft is a defect to fix, not a count to stay under. The older guidance on this repo allowing occasional em dashes ("sparingly," "one per page") is superseded; treat it as zero, always.

@@ -2,7 +2,7 @@
 trigger: always_on
 ---
 
-# GitOps Rules for agentic-survey-tool
+# GitOps Rules for Symphysis
 
 This repository follows GitOps principles. All system behavior is derived from version-controlled declarative state. This file defines enforceable rules for contributors, automation, and AI agents.
 

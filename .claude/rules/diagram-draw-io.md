@@ -9,10 +9,7 @@ These rules define safe, deterministic, and failure-resistant handling of diagra
 
 **File location in this repo:** every `.drawio` source and its current PNG/SVG export live
 together in `docs/architecture/` (see `architecture-overview.md` in that same directory for
-what each diagram covers). A diagram embedded in a specific paper this project's own research
-also cites (for example a TrustRouter/BSI figure) instead follows that paper's own working
-directory convention (a `figures/` subfolder next to the `.tex` source, build artifacts in
-`extra/`), documented in `project-veritas`'s `software-directory-structure-guide.md`.
+what each diagram covers).
 
 ---
 
@@ -435,9 +432,3 @@ docker run --rm -v $PWD:/data rlespinasse/drawio \
 - Fully supported via CLI
 - Use `drawio --export`
 - Works well in scripts, CI pipelines, and headless environments
-
----
-
-## Citation Format — Never Cite by Catalogue Row Number (mandatory, all diagrams)
-
-Node labels, annotations, and cited-work callouts on any `.drawio` diagram must never reference a literature-catalogue row number (e.g. "S#123", "[S123]", "S No 123"). The catalogue's `S No` column is an internal, mutable row index that gets renumbered and deduplicated over time, so a diagram annotation anchored to it silently points at the wrong source later. Annotate diagram nodes with `<short title>, <author> et al., <year>` (DOI/arXiv ID optional, add where space allows) instead.

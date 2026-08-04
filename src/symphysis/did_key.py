@@ -1,10 +1,8 @@
 """Real did:key identities + W3C-shaped Verifiable Credentials for agents.
 
-Pattern follows project-cogtwins's veritas/svc-query/identity.py (Ed25519,
-did:key, Ed25519Signature2020-style VC), which was verified there as a
-correct, self-contained, dependency-light implementation. Two differences
-from that pattern, both closing gaps that project's own design docs flag as
-aspirational-but-unbuilt:
+A self-contained, dependency-light Ed25519 did:key + Ed25519Signature2020-
+style Verifiable Credential implementation, with two properties this app
+needs that a generic identity library wouldn't give for free:
 
 1. The seed an identity derives from is documented, explicitly, inside the
    agent's own card (see agent_card.py) rather than only a process-wide env
@@ -16,11 +14,11 @@ aspirational-but-unbuilt:
    many short-lived per-survey agents rather than a fixed cohort of long-
    running service agents.
 
-Security note carried over unchanged from cogtwins: deterministic
-derivation is a reproducibility property, not a security property. Anyone
-who learns the seed can reconstruct the private key. Use `generate_random`
-instead of `generate_deterministic` for any agent whose DID must resist
-impersonation by someone who has seen its card.
+Security note: deterministic derivation is a reproducibility property, not
+a security property. Anyone who learns the seed can reconstruct the
+private key. Use `generate_random` instead of `generate_deterministic` for
+any agent whose DID must resist impersonation by someone who has seen its
+card.
 """
 
 from __future__ import annotations

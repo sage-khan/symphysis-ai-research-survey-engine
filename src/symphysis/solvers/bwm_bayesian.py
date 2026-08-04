@@ -1,13 +1,12 @@
 """Bayesian Best-Worst Method (Mohammadi and Rezaei, 2020), generic over any
 criteria set.
 
-Ported from bsi-survey-app's implementation after verifying it against the
-original author's reference JAGS model (github.com/Majeed7/BayesianBWM,
-B2WME.txt). That comparison found one real deviation: the concentration
-hyperprior was Gamma(1, 0.01) (mean 100) instead of the reference's diffuse
-Gamma(0.01, 0.01) (mean ~1), which biases posteriors toward over-confident,
-too-narrow credible intervals. Fixed here at the source before this became
-the app's single BWM solver.
+Verified against the original author's reference JAGS model
+(github.com/Majeed7/BayesianBWM, B2WME.txt). That comparison found one real
+deviation: the concentration hyperprior was Gamma(1, 0.01) (mean 100)
+instead of the reference's diffuse Gamma(0.01, 0.01) (mean ~1), which biases
+posteriors toward over-confident, too-narrow credible intervals. Fixed here
+at the source before this became the app's single BWM solver.
 """
 
 from __future__ import annotations

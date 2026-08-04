@@ -144,7 +144,8 @@ writing a new JSON file every time, and watch a run's live progress.
   pipeline underneath both walkthroughs above.
 - "The Agent Card" section for what every field in `reviewer-one.json`
   actually means and why identity is separated from configuration.
-- "Hierarchical BWM" for multi-level criteria trees (TrustRouter/BSI's own
-  real use case, in `surveys/bsi-hawc-bwm/`, is the fully worked example).
+- "Hierarchical BWM" for multi-level criteria trees (TrustRouter's own
+  real use case, in `surveys/trustrouter-hawc-bwm/`, is the fully worked
+  example).
 - `/docs` on a running backend for the interactive API reference (see
   "API documentation" in the README).

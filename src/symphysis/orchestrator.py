@@ -43,8 +43,8 @@ INSTRUMENTS = {"bwm": BWMInstrument(), "ahp": AHPInstrument(), "hierarchical_bwm
 
 def _load_human_responses(path: Path) -> List[Dict[str, Any]]:
     """Generic per-expert JSON list: [{"expert_id", "best", "worst",
-    "best_to_others", "others_to_worst"}, ...]. Any exporter (including the
-    existing bsi-survey-app LimeSurvey loader) can produce this shape."""
+    "best_to_others", "others_to_worst"}, ...]. Any exporter (including a
+    LimeSurvey export loader) can produce this shape."""
     data = json.loads(path.read_text(encoding="utf-8"))
     if not isinstance(data, list):
         raise ValueError(f"Expected a JSON list of expert responses in {path}")

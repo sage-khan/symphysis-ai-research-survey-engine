@@ -1,14 +1,9 @@
 """The Agent Card: one portable JSON file that fully defines a spawnable
 agent.
 
-This is the single-file "agent spec" that project-cogtwins's own design
-docs (URD Amendment v2.0 S19, "Agent Identity & Policy Enforcement")
-describe wanting but never built: that project's agents are Python
-objects assembled from a hardcoded registry plus two small config tables,
-not a portable file anyone can pick up and replicate. An Agent Card closes
-that gap: give someone this JSON (and, if the DID is deterministic, the
-shared master seed) and they can respawn an identical agent, anywhere,
-without reading this app's source.
+Give someone this JSON (and, if the DID is deterministic, the shared
+master seed) and they can respawn an identical agent, anywhere, without
+reading this app's source.
 
 Every field that shapes agent behaviour lives in the card. Nothing about
 prompts, hyperparameters, permissions, or identity is hardcoded in Python.

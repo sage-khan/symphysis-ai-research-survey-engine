@@ -6,9 +6,8 @@ HTML). This parser surfaces every question row it finds as a *candidate*
 dimension; it does not try to guess which subset is the actual Best-Worst
 Method L1 criteria set, since that structure varies across LimeSurvey
 versions and survey designs. The human curates the candidate list in the
-UI before a survey is created from it, mirroring how bsi-survey-app's
-own LimeSurvey CSV loader treats its input as raw data to canonicalise, not
-something to silently reinterpret.
+UI before a survey is created from it: raw exported data to canonicalise,
+not something to silently reinterpret.
 """
 
 from __future__ import annotations

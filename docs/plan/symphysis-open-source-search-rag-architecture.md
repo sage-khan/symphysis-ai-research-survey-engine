@@ -194,3 +194,8 @@ sizes, only unable to scale past them.
   cross-project coupling or accidental collection-name collision.
 - **Is the phased rollout's ordering right for Dan's actual priorities**, or does the RAG/Qdrant
   side matter more right now than fixing the currently-dead web-search tool?
+  
+  
+  ---
+  
+

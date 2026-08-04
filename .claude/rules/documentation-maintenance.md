@@ -49,9 +49,9 @@ manual-provider sample-index bug's two separate discovery entries in
 
 ## Why this is its own rule file, not folded into project-details.md
 
-`project-details.md` describes this project's *relationship* to
-VERITAS/BSI-TrustRoute/CogTwins (context that changes rarely). This rule is
-about a *process* that applies to every change regardless of what that
+`project-details.md` describes this project's own identity and roadmap
+(context that changes rarely). This rule is about a *process* that
+applies to every change regardless of what that
 change is about, so it needs to be checked every time, not just read once
 for context. Keeping it separate makes it easy to point at directly: "see
 `documentation-maintenance.md`" is unambiguous in a way "see

@@ -1,7 +1,7 @@
 """End-to-end orchestrator test using the real, complete 7-level
-TrustRouter hierarchy (see trustrouter.py in the BSI survey-app for the
-authoritative structure this mirrors), driven by manual-provider agents
-with pre-seeded responses so no live model call is needed."""
+TrustRouter hierarchy (see trustrouter.py in the TrustRouter survey-app
+for the authoritative structure this mirrors), driven by manual-provider
+agents with pre-seeded responses so no live model call is needed."""
 
 import json
 import sys

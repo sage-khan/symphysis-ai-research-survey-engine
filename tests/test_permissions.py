@@ -10,8 +10,8 @@ from symphysis.permissions import PermissionError_, check_data_scope, check_prov
 
 
 def test_check_data_scope_allows_matching_glob():
-    perms = PermissionsSpec(data_scopes=["surveys/bsi-hawc-bwm/rag_corpora/bim-coordinator/**"])
-    check_data_scope("surveys/bsi-hawc-bwm/rag_corpora/bim-coordinator/SOURCES.md", perms)
+    perms = PermissionsSpec(data_scopes=["surveys/trustrouter-hawc-bwm/rag_corpora/bim-coordinator/**"])
+    check_data_scope("surveys/trustrouter-hawc-bwm/rag_corpora/bim-coordinator/SOURCES.md", perms)
 
 
 def test_check_data_scope_allows_the_corpus_root_itself():
@@ -23,20 +23,20 @@ def test_check_data_scope_allows_the_corpus_root_itself():
     # Regression test for a real bug: every RAG-enabled agent card built
     # this way was silently rejected by check_data_scope and skipped by the
     # orchestrator, found via a live end-to-end run on 2026-08-03.
-    perms = PermissionsSpec(data_scopes=["surveys/bsi-hawc-bwm/rag_corpora/bim-coordinator/**"])
-    check_data_scope("surveys/bsi-hawc-bwm/rag_corpora/bim-coordinator", perms)
+    perms = PermissionsSpec(data_scopes=["surveys/trustrouter-hawc-bwm/rag_corpora/bim-coordinator/**"])
+    check_data_scope("surveys/trustrouter-hawc-bwm/rag_corpora/bim-coordinator", perms)
 
 
 def test_check_data_scope_rejects_path_outside_scope():
-    perms = PermissionsSpec(data_scopes=["surveys/bsi-hawc-bwm/rag_corpora/bim-coordinator/**"])
+    perms = PermissionsSpec(data_scopes=["surveys/trustrouter-hawc-bwm/rag_corpora/bim-coordinator/**"])
     with pytest.raises(PermissionError_):
-        check_data_scope("surveys/bsi-hawc-bwm/rag_corpora/structural-engineer/SOURCES.md", perms)
+        check_data_scope("surveys/trustrouter-hawc-bwm/rag_corpora/structural-engineer/SOURCES.md", perms)
 
 
 def test_check_data_scope_rejects_a_different_roots_bare_path():
-    perms = PermissionsSpec(data_scopes=["surveys/bsi-hawc-bwm/rag_corpora/bim-coordinator/**"])
+    perms = PermissionsSpec(data_scopes=["surveys/trustrouter-hawc-bwm/rag_corpora/bim-coordinator/**"])
     with pytest.raises(PermissionError_):
-        check_data_scope("surveys/bsi-hawc-bwm/rag_corpora/structural-engineer", perms)
+        check_data_scope("surveys/trustrouter-hawc-bwm/rag_corpora/structural-engineer", perms)
 
 
 def test_check_data_scope_rejects_when_no_scopes_granted():

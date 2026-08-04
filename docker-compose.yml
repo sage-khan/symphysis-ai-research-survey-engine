@@ -13,7 +13,7 @@ services:
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://ollama:11434}
       - SEARXNG_BASE_URL=${SEARXNG_BASE_URL:-http://searxng:8080}
       - CRAWL4AI_BASE_URL=${CRAWL4AI_BASE_URL:-http://crawl4ai:11235}
-    command: ["run", "/app/surveys/bsi-hawc-bwm"]
+    command: ["run", "/app/surveys/trustrouter-hawc-bwm"]
     depends_on:
       - ollama
       - searxng

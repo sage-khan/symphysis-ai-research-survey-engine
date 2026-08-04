@@ -1,8 +1,8 @@
 # Symphysis: AI Research Survey Engine
 
 Symphysis is a trust-first, local-first, secure AI survey agent engine: a
-way to run rigorous expert-elicitation surveys (Best-Worst Method, the
-Analytic Hierarchy Process, and multi-level hierarchical variants) against
+way to run rigorous expert-elicitation surveys (e.g. Best-Worst Method, the
+Analytic Hierarchy Process, Delphi Method and multi-level hierarchical variants) against
 a panel of individually configured AI agents, alongside or in place of a
 human panel. Every agent is fully specified by one portable Agent Card, so
 the panel is reproducible from a single JSON file per agent rather than a
@@ -25,16 +25,6 @@ can run on local models via Ollama with no data leaving the machine, which
 is precisely why this matters most in the domains where human-in-the-loop
 is scarcest: niche technical specialties, sensitive or proprietary
 corpora, and research budgets that cannot fund a large expert panel.
-
-Started as the general-purpose successor to VERITAS's `bsi-survey-app`,
-proving out the TrustRouter/BSI paper's HAWC-BWM (Human-AI Weighted
-Consensus Best-Worst Method) use case, but designed from the start so a
-new survey can plug in a different instrument without touching the agent,
-provider, or storage layers. Earlier session records and
-`docs/development/changelog.md` history predate this repository's final
-name and refer to it as `agentic-survey-tool` or `SAGE`; `symphysis` is
-now the only name used anywhere in this codebase, including the internal
-Python package (`src/symphysis/`) and PyPI distribution.
 
 Licensed under [Apache 2.0](LICENSE). See [`CITATION.cff`](CITATION.cff)
 for how to cite this repository, and [`CONTRIBUTING.md`](CONTRIBUTING.md)
@@ -77,8 +67,7 @@ for how to set up a development environment and submit a pull request.
    and resumes exactly where it left off on the next run. See "Manual
    paste-in agents" below.
 6. **Solves and combines.** The classical BWM linear program (Rezaei, 2015)
-   and the Bayesian hierarchical BWM (Mohammadi and Rezaei, 2020) are ported
-   from `bsi-survey-app`, verified against the original author's reference
+   and the Bayesian hierarchical BWM (Mohammadi and Rezaei, 2020) verified against the original author's reference
    JAGS implementation (github.com/Majeed7/BayesianBWM), and one real bug
    fixed in the process (see `docs/development/diagnostics.md`). A parallel
    human-panel posterior can be combined with the agent-panel posterior via
@@ -248,7 +237,7 @@ symphysis-ai-research-survey-engine/
 | `survey_checks.py` | `fix_survey()`: static validation of a survey's configuration (schema, hierarchical_bwm level-graph integrity, dangling RAG/role-pack/prompt-template references) without running anything. Backs the CLI's `fix-survey` subcommand. |
 | `preflight.py` | `check_survey_providers()`: whether every provider a survey's agents actually use is reachable right now (Ollama with models pulled, hosted-provider API keys set). Single source of truth reused by `cli.py`'s `run` (checked first, before any agent runs) and `web/backend/routers/surveys.py`'s `GET /{id}/preflight`. |
 | `agent_card.py` | The portable Agent Card: one JSON file that fully defines a spawnable agent (model, RAG, sampling, permissions, guardrails, did, role_pack, rulefile). `new_card()` / `load_card()`. |
-| `did_key.py` | Real `did:key` identity + W3C-shaped Verifiable Credentials (Ed25519), ported from project-cogtwins's `identity.py`. |
+| `did_key.py` | Real `did:key` identity + W3C-shaped Verifiable Credentials (Ed25519). |
 | `agent.py` | One agent instance: resolves its role prompt (plus global/agent rulefiles), combines its context sources, runs a QA precheck, calls its provider through the guardrails layer, and persists everything via `storage`. |
 | `qa_checks.py` | Deterministic genuineness checks: verifies a QA precheck restatement against ground truth, and a response's self-reported `sources_used` against what was actually available in that prompt. Never a further model call. |
 | `permissions.py` | Enforces (not just documents) an Agent Card's `data_scopes` and `allowed_providers` before any file is read or provider called. |
@@ -311,7 +300,7 @@ export OPENAI_API_KEY=...      # only needed for agents configured with provider
 export OPENROUTER_API_KEY=...  # only needed for agents configured with provider: openrouter
 export OLLAMA_BASE_URL=...     # defaults to http://localhost:11434
 
-PYTHONPATH=src python -m symphysis.cli run surveys/bsi-hawc-bwm
+PYTHONPATH=src python -m symphysis.cli run surveys/trustrouter-hawc-bwm
 ```
 
 Or dockerized:
@@ -320,7 +309,7 @@ Or dockerized:
 docker compose up --build
 ```
 
-Output lands in `surveys/bsi-hawc-bwm/report/report.md` and `.../charts/`.
+Output lands in `surveys/trustrouter-hawc-bwm/report/report.md` and `.../charts/`.
 
 The example survey's agent roster spans 6 diverse Ollama model families
 (Qwen, Gemma, Llama, Mistral, DeepSeek, Phi, one per domain-persona role,
@@ -359,8 +348,9 @@ tab (who said what, and who didn't); see "Analytics: who said what" below.
 ## Deploying on a shared server (no local pip/venv, no passwordless sudo)
 
 This is the procedure actually used to deploy and run this app on the
-veritas server (Tailscale-reachable, no system `pip`/`venv` and no
-passwordless `sudo` there, `docker` available). It differs from the local
+author's own self-hosted server (Tailscale-reachable, no system
+`pip`/`venv` and no passwordless `sudo` there, `docker` available). It
+differs from the local
 "Web UI setup" above only in *how* the two processes get their
 dependencies and get exposed on the network; the app itself is unchanged.
 
@@ -492,14 +482,15 @@ tested against.
 ## Remote-LLM mode
 
 Run this app on your own machine while the LLM calls run on a separate
-Ollama host (e.g. the veritas server, over Tailscale), so LLM compute load
-stays off your machine and iteration stays fast locally.
+Ollama host (e.g. a remote server reachable over Tailscale or your own
+network), so LLM compute load stays off your machine and iteration stays
+fast locally.
 
 **CLI:**
 
 ```bash
-export OLLAMA_BASE_URL=http://100.77.119.21:11434   # the server's Tailscale IP
-PYTHONPATH=src python -m symphysis.cli run surveys/bsi-hawc-bwm
+export OLLAMA_BASE_URL=http://<remote-host>:11434   # the remote host's address
+PYTHONPATH=src python -m symphysis.cli run surveys/trustrouter-hawc-bwm
 ```
 
 Everything else (the Bayesian solve, guardrails, storage) runs locally
@@ -509,7 +500,7 @@ HTTP calls leave the machine. See `.env.example`.
 **Web UI:** use the **Settings** page rather than an environment variable.
 It's a runtime setting, not just a documented env var: switching it takes
 effect on the very next survey run, no backend restart required. Pick a
-preset (Local / Veritas server (Tailscale)) or enter a custom URL, click
+preset (Local, or a saved remote preset) or enter a custom URL, click
 "Test connection" to confirm the host is reachable and see which models it
 has pulled, then Save. The choice persists across backend restarts
 (`web/backend/data/llm_settings.json`, gitignored, machine-specific: not
@@ -526,11 +517,9 @@ backend startup would be stuck for the process's whole life. See
 
 ## The Agent Card
 
-project-cogtwins (VERITAS's precursor project) documents wanting exactly
-this kind of portable agent spec in its URD (Amendment v2.0, S19, "Agent
-Identity & Policy Enforcement") but never built one: its agents are
-Python objects assembled from a hardcoded registry plus two Postgres
-tables, not a file anyone can pick up and replicate. This is that file.
+Every spawnable agent needs a portable identity and configuration that
+travels as one file, not a row in a database or a Python object assembled
+from a hardcoded registry. This is that file.
 
 ```json
 {
@@ -547,26 +536,24 @@ tables, not a file anyone can pick up and replicate. This is that file.
   "permissions": {"data_scopes": ["surveys/.../rag_corpora/bim-coordinator/**"], "allowed_providers": ["ollama"]},
   "guardrails": {"schema_validation": true, "denylist_patterns": ["ignore (all|any|the) previous instructions", ...]},
   "did": {"method": "did:key", "id": "did:key:z6Mk...", "deterministic": true, "seed_derivation": "sha256('<seed>:bim-coordinator-rag-ollama')"},
-  "environment": {"runtime": "sage", "runtime_version": "0.1.0", "python_version": "3.11.15", ...}
+  "environment": {"runtime": "symphysis", "runtime_version": "0.1.0", "python_version": "3.11.15", ...}
 }
 ```
 
-The identity mechanism (`did_key.py`) is a direct port of project-cogtwins's
-own `veritas/svc-query/identity.py` pattern: deterministic Ed25519 keypair
+The identity mechanism (`did_key.py`) is a deterministic Ed25519 keypair
 via `sha256(seed:agent_id)`, encoded as a W3C `did:key`, with
 Ed25519Signature2020-style Verifiable Credential issuance/verification
 available (`AgentIdentity.issue_credential` / `verify_credential`) for
 signing a specific agent response if a survey needs that level of
-attributability. The one difference from cogtwins: the seed *derivation*
-is documented inside the card itself (`did.seed_derivation`), so replaying
-an agent only requires the card plus the shared seed value, not an
-out-of-band process for finding out how the DID was made.
+attributability. The seed *derivation* is documented inside the card
+itself (`did.seed_derivation`), so replaying an agent only requires the
+card plus the shared seed value, not an out-of-band process for finding
+out how the DID was made.
 
-Security note, carried over unchanged from cogtwins: a deterministic DID is
-a reproducibility property, not a security one. Anyone who learns the seed
-can reconstruct the private key. Use `deterministic_did=False` in
-`agent_card.new_card()` for any agent whose identity must resist
-impersonation by someone who has seen its card.
+Security note: a deterministic DID is a reproducibility property, not a
+security one. Anyone who learns the seed can reconstruct the private key.
+Use `deterministic_did=False` in `agent_card.new_card()` for any agent
+whose identity must resist impersonation by someone who has seen its card.
 
 ## Manual paste-in agents
 
@@ -575,7 +562,7 @@ For a model with no API (Gemini/GPT web chat), set `model.provider:
 `"gemini-2.5-pro"`). First run:
 
 ```bash
-PYTHONPATH=src python -m symphysis.cli run surveys/bsi-hawc-bwm
+PYTHONPATH=src python -m symphysis.cli run surveys/trustrouter-hawc-bwm
 ```
 
 prints "Waiting on manually-pasted responses" and writes each pending
@@ -585,26 +572,6 @@ into the model's chat UI, paste the reply into the matching
 `response_NN.txt` in the same folder, and re-run: already-answered
 samples are never re-asked, and nothing is skipped or invented if you stop
 partway through.
-
-## Why this exists, and what it fixed
-
-`bsi-survey-app`'s Bayesian BWM solver was checked line-by-line against the
-original author's (Majid Mohammadi) reference JAGS model before this app
-adopted it as its solver. The classical BWM linear program and consistency-
-index table were exactly correct. The Bayesian hierarchical model's
-structure was also correct, but its concentration hyperprior was
-`Gamma(1, 0.01)` (mean 100) where the reference model uses a diffuse,
-near scale-free `Gamma(0.01, 0.01)` (mean ~1). The former biases posteriors
-toward artificially narrow credible intervals, i.e. towards looking more
-confident about expert agreement than the data supports, which defeats the
-entire point of using a Bayesian method over the classical point-estimate
-one. This is fixed at the source in `src/symphysis/solvers/bwm_bayesian.py`.
-
-Every bug found since (timeout tuning, per-agent failure isolation, the
-manual provider's sample-index tracking, the negative-error-bar chart
-crash) is logged with its root cause in `docs/development/diagnostics.md`;
-check there before re-diagnosing something that already has a documented
-cause.
 
 ## Adding an agent
 
@@ -630,7 +597,7 @@ dict. The agent, provider, guardrail, and storage layers do not change.
 ## Hierarchical BWM
 
 Some criteria hierarchies are too deep for a single flat BWM comparison:
-TrustRouter/BSI's real weight elicitation, for example, is a composite
+TrustRouter real weight elicitation, for example, is a composite
 `TrustRouter = DVS x F x (1 + E) x A` at the top, where DVS is itself
 broken down into six trust dimensions (Q, PT, V, IC, L, C), one of which
 (Q) is broken down again into ISO 25012's three quality clusters, and two
@@ -651,10 +618,7 @@ level elaborates, deliberately **excluding the root level's own weight**:
 the root's criteria (DVS, F, E, A) combine multiplicatively, not as a
 weighted sum, so their relative-importance weights are not shares of one
 linear pie the way every other level's weights are, and multiplying a
-deeper leaf by the root's own weight would conflate the two. This was
-verified by reproducing TrustRouter's real published global leaf weights
-(`TRUSTROUTER_EQUATION.md` in the BSI survey-app) from the same local
-level weights, not by assumption. See
+deeper leaf by the root's own weight would conflate the two. See
 `tests/test_hierarchical_bwm_solver.py` for the worked reproduction and
 `tests/test_orchestrator_hierarchical_bwm.py` for a full run through the
 real seven-level TrustRouter structure.
@@ -684,8 +648,6 @@ survey runs, an "add agent from template" flow).
   with implemented-vs-planned status on every stage.
 - `docs/development/changelog.md` for what changed and when.
 - `docs/development/diagnostics.md` for bugs found, root cause, and fix.
-- `.claude/rules/project-details.md` for this project's relationship to
-  VERITAS-AIDB, BSI/TrustRoute, and project-cogtwins, plus the roadmap.
 - `.claude/rules/documentation-maintenance.md` for the rule (binding on any
   AI agent working in this repo) that this README and `changelog.md` must
   be updated in the same change as any code change they describe.
@@ -789,12 +751,4 @@ directly they extend the current base (AHP is implemented; see
   is a single Docker container plus a plain Vite dev server (see
   "Deploying on a shared server").
 
-## Related
 
-- `docs/research/Work-in-progress/potential-papers/00-bsi/` (project-veritas)
-  for the BSI paper and its HAWC-BWM methodology section.
-- `docs/research/Work-in-progress/potential-papers/00-bsi/survey-app/` for
-  the original `bsi-survey-app` this project generalises from.
-- `~/ProgramFiles/project-cogtwins`, `veritas/svc-query/identity.py`, for
-  the did:key + Verifiable Credential pattern this project's identity
-  layer is ported from.
