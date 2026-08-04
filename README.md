@@ -1,17 +1,40 @@
 # Symphysis: AI Research Survey Engine
 
-Config-driven, replicable agent panels for expert-elicitation surveys.
-Formerly named `agentic-survey-tool` (how earlier session records and the
-`docs/development/changelog.md` history before this rename refer to it),
-then SAGE, then Symphysis, as it moved toward being a standalone product
-rather than a component scoped to one paper; the internal Python package
-(`src/symphysis/`) and PyPI distribution name were brought in line with
-that final name too, so `symphysis` is now the only name used anywhere in
-this codebase. Built as the general-purpose
-successor to VERITAS's `bsi-survey-app`, starting from the BSI paper's
-HAWC-BWM (Human-AI Weighted Consensus Best-Worst Method) use case, but
-designed so a survey can plug in a different instrument (AHP, etc.) without
-touching the agent, provider, or storage layers.
+Symphysis is a trust-first, local-first, secure AI survey agent engine: a
+way to run rigorous expert-elicitation surveys (Best-Worst Method, the
+Analytic Hierarchy Process, and multi-level hierarchical variants) against
+a panel of individually configured AI agents, alongside or in place of a
+human panel. Every agent is fully specified by one portable Agent Card, so
+the panel is reproducible from a single JSON file per agent rather than a
+set of ad hoc prompts nobody can rerun.
+
+It exists for a specific research bottleneck: expert-elicitation
+instruments are the standard tool for weighting decision criteria in
+specialized technical domains (construction, wind-energy asset
+management, blockchain-trust design), but assembling a large enough,
+sufficiently diverse *human* panel is often the actual constraint, not the
+method. Symphysis lets an AI panel stand in for, or alongside, a human
+panel without giving up the two things a reviewer will ask about: whether
+the run can be reproduced, and whether the agents can be trusted to have
+answered honestly rather than guessed. Every agent carries a real `did:key`
+identity and a declared, *enforced* set of permissions, guardrails, and
+knowledge sources, not just documented ones; every response is
+schema-validated, denylist-scanned, sampled repeatedly, and checked
+against a QA precheck before it counts toward a result. The whole pipeline
+can run on local models via Ollama with no data leaving the machine, which
+is precisely why this matters most in the domains where human-in-the-loop
+is scarcest: niche technical specialties, sensitive or proprietary
+corpora, and research budgets that cannot fund a large expert panel.
+
+Started as the general-purpose successor to VERITAS's `bsi-survey-app`,
+proving out the TrustRouter/BSI paper's HAWC-BWM (Human-AI Weighted
+Consensus Best-Worst Method) use case, but designed from the start so a
+new survey can plug in a different instrument without touching the agent,
+provider, or storage layers. Earlier session records and
+`docs/development/changelog.md` history predate this repository's final
+name and refer to it as `agentic-survey-tool` or `SAGE`; `symphysis` is
+now the only name used anywhere in this codebase, including the internal
+Python package (`src/symphysis/`) and PyPI distribution.
 
 Licensed under [Apache 2.0](LICENSE). See [`CITATION.cff`](CITATION.cff)
 for how to cite this repository, and [`CONTRIBUTING.md`](CONTRIBUTING.md)
