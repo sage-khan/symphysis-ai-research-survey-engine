@@ -1,9 +1,8 @@
 # Minimal SearXNG configuration for this project's internal, self-hosted
 # use case: a discovery backend for symphysis.tools.web_search, only
 # ever reached by sibling containers on this app's own Docker Compose
-# network, never exposed to the public internet. See
-# docs/plan/symphysis-open-source-search-rag-architecture.md for why
-# SearXNG was chosen (open source, self-hostable, no API key) and why the
+# network, never exposed to the public internet. SearXNG was chosen
+# because it is open source, self-hostable, and needs no API key; the
 # JSON format has to be explicitly enabled here (disabled by default).
 
 use_default_settings: true

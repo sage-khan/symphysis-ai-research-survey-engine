@@ -7,9 +7,8 @@ markdown), per this project's open-source-by-default rule
 This replaces an earlier Tavily-backed implementation that depended on a
 paid, closed-source API and a `TAVILY_API_KEY` that was never actually
 configured in any real deployment of this app, leaving the tool dead
-weight. See `docs/plan/symphysis-open-source-search-rag-architecture.md`
-for the design rationale (both services are Docker-deployable, Apache/AGPL
-licensed, and need no API key).
+weight. Both services are Docker-deployable, Apache/AGPL licensed, and
+need no API key.
 
 Base URLs come from `SEARXNG_BASE_URL` / `CRAWL4AI_BASE_URL` environment
 variables, else `config/defaults.yaml`'s `web_search` section (see

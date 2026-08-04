@@ -2,8 +2,8 @@
 standalone: a full survey, end to end, using ONLY the installed package,
 run from outside this repo's checkout (no PYTHONPATH=src, no repo config/
 directory on disk). This is the concrete difference between "works when
-cloned" and "works when installed" that docs/plan/packaging-plan.md calls
-out as the thing to verify before ever cutting a release.
+cloned" and "works when installed", the thing to verify before ever
+cutting a release.
 
 Usage: build the package (`python -m build`), install the wheel into a
 fresh virtualenv, then run this script with that virtualenv's Python,
