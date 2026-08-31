@@ -1,12 +1,21 @@
 # Governance layer + pluggable runtime backends: architecture plan
 
-**Status:** planning document, not yet implemented. Companion to
-`target-pipeline-vision.drawio`/`.png` (see `architecture-overview.md`) rather
-than a replacement for it: that diagram's Orchestration/AI-panel layers are
-the vision this plan makes concrete at the module level. Read
-`current-system-architecture.*` for what is real today; nothing in this file
-should be read as already built until it is moved into that diagram and this
-status line is updated.
+**Status:** Phases 0-1 fully implemented and tested (identity/policy/audit
+extraction, capability model, declared+attenuated spawning, lineage).
+Phase 2's foundation is implemented and tested: `runtime/base.py`,
+`runtime/ollama.py` (direct-completion default backend), and
+`runtime/openmanus.py`/`_openmanus_driver.py` (OpenManus vendored as a
+pinned git submodule at `vendor/openmanus/`, driven as a subprocess under
+an isolated `vendor/openmanus/.venv`). Not yet done: wiring
+`OpenManusBackend` into `orchestrator.py`'s actual survey-run path (today's
+runs still go through `Agent.run()`'s direct provider call, not through
+`runtime/` at all — `spawn_declared`'s `runtime_backend` field says
+`"direct_completion"` for exactly this reason), `tools/registry.py`/
+`tools/proxy.py`, and Phases 3-6. Companion to
+`target-pipeline-vision.drawio`/`.png` (see `architecture-overview.md`)
+rather than a replacement for it: that diagram's Orchestration/AI-panel
+layers are the vision this plan makes concrete at the module level. Read
+`current-system-architecture.*` for what else is real today.
 
 This plan is also the concrete implementation of one item already named in
 this README's own "Status / what's deferred" section: "a full Cedar/OPA-style
@@ -144,7 +153,11 @@ src/symphysis/
 |
 +-- runtime/
 |   +-- base.py           # RuntimeBackend protocol: spawn(), stream_events(), stop()
-|   +-- openmanus.py      # flagship backend adapter
+|   +-- openmanus.py      # flagship backend adapter: to_llm_settings() (pure) +
+|   |                     # OpenManusBackend (launches the driver below as a subprocess
+|   |                     # under vendor/openmanus/.venv, an isolated interpreter)
+|   +-- _openmanus_driver.py  # runs ONLY under vendor/openmanus/.venv; the sole place
+|   |                     # that imports OpenManus's own `app.*` package; emits NDJSON
 |   +-- opencode.py       # secondary backend adapter (subprocess/API, TypeScript)
 |   +-- ollama.py         # direct Ollama adapter (wraps existing providers/ollama_provider.py)
 |
@@ -251,16 +264,29 @@ and with what authority, across an entire run.
     single-completion path (today's actual behavior) is available as the
     trivial/default backend. This is what most survey runs keep using;
     OpenManus is opt-in per agent or per survey until it is proven out.
-13. `runtime/openmanus.py`: adapter that constructs a `SurveyElicitationAgent`
-    (Phase 2 task 14) and drives it via OpenManus's own `ReActAgent.step()`
-    loop, translating `AgentCard.model` into OpenManus's `LLMSettings`
-    (confirmed: OpenManus already supports multiple named LLM configs, no
-    change needed inside OpenManus itself for this mapping).
-14. In a vendored/pinned OpenManus install (dependency, not a fork): add
-    `SurveyElicitationAgent(ToolCallAgent)`, following the same pattern as
-    OpenManus's own `SWEAgent`/`DataAnalysis`, with a system prompt and
-    `next_step` specialized for BWM/AHP expert-elicitation rather than
-    coding tasks.
+13. `runtime/openmanus.py`: `to_llm_settings()` translates `AgentCard.model`
+    into OpenManus's `LLMSettings` dict shape (confirmed: OpenManus already
+    supports multiple named LLM configs, no change needed inside OpenManus
+    itself for this mapping); `OpenManusBackend` drives the run.
+    **Implementation note (landed during Phase 2 execution, differs from
+    this task's original in-process sketch):** OpenManus's requirements.txt
+    pins ~30 packages, several version-conflicting with this repo's own
+    pymc/pytensor-based Bayesian solver stack, so `OpenManusBackend` does
+    not import `app.*` in-process. It launches `_openmanus_driver.py` as a
+    subprocess under a fully isolated interpreter at
+    `vendor/openmanus/.venv` (built via `uv venv --python 3.12` +
+    `uv pip install -r requirements.txt`, never the main env), and streams
+    its NDJSON stdout back as `Event`s. `to_llm_settings()` itself stays a
+    pure function with zero OpenManus import, so it is unit-tested without
+    the isolated venv existing at all; the real subprocess path is exercised
+    by a skip-if-venv-missing smoke test.
+14. `_openmanus_driver.py` (co-located with `runtime/openmanus.py`, executed
+    only by the isolated interpreter, never imported by Symphysis's own
+    process): defines `SurveyElicitationAgent(ToolCallAgent)`, following the
+    same pattern as OpenManus's own `SWEAgent`/`DataAnalysis`, with a system
+    prompt specialized for BWM/AHP expert-elicitation rather than coding
+    tasks, and runs its ReAct `step()` loop, emitting one JSON event per
+    step to stdout.
 15. `tools/registry.py` + `tools/proxy.py`: register `RagRetrieval` (wraps
     `rag/retriever.py` unchanged), `CitationVerify` (wraps
     `qa_checks.verify_sources_used` unchanged), and `web_search` (existing
@@ -333,8 +359,13 @@ and with what authority, across an entire run.
 ## 7. What this plan deliberately does not do
 
 - It does not port any solver, instrument, or guardrail logic out of Python.
-- It does not vendor OpenManus's or OpenCode's source into this repo; both
-  are pinned dependencies/external processes behind `runtime/`.
+- It does not copy or modify OpenManus's or OpenCode's source into this
+  repo's own tree; both are pinned dependencies/external processes behind
+  `runtime/`. (OpenManus specifically is present as a pinned git submodule
+  at `vendor/openmanus/` — a reference to the upstream repo at a fixed
+  commit, not a fork or a copy — because `runtime/openmanus.py`'s subprocess
+  needs its source on disk to run; nothing under `vendor/openmanus/` is ever
+  hand-edited.)
 - It does not change the default local-first behavior of an existing survey
   run; Phases 0-1 are designed to land with zero observable behavior change,
   and cloud escalation (Phase 4) defaults off.
