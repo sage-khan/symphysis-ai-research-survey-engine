@@ -2,16 +2,22 @@
 
 **Status:** Phases 0-1 fully implemented and tested (identity/policy/audit
 extraction, capability model, declared+attenuated spawning, lineage).
-Phase 2's foundation is implemented and tested: `runtime/base.py`,
-`runtime/ollama.py` (direct-completion default backend), and
+Phase 2 is fully implemented and tested end-to-end: `runtime/base.py`,
+`runtime/ollama.py` (direct-completion default backend),
 `runtime/openmanus.py`/`_openmanus_driver.py` (OpenManus vendored as a
 pinned git submodule at `vendor/openmanus/`, driven as a subprocess under
-an isolated `vendor/openmanus/.venv`). Not yet done: wiring
-`OpenManusBackend` into `orchestrator.py`'s actual survey-run path (today's
-runs still go through `Agent.run()`'s direct provider call, not through
-`runtime/` at all — `spawn_declared`'s `runtime_backend` field says
-`"direct_completion"` for exactly this reason), `tools/registry.py`/
-`tools/proxy.py`, and Phases 3-6. Companion to
+an isolated `vendor/openmanus/.venv`), `tools/registry.py`/
+`tools/authorization.py`/`tools/proxy.py` (the capability-gated local-HTTP
+tool bridge), and `Agent._resolve_provider()`/`orchestrator.py` wiring a
+card's `runtime_backend` field to the actual provider used at run time —
+today a card can genuinely opt into `"openmanus"` and have its run go
+through the isolated subprocess, tools included. Two real upstream/self bugs
+were found and fixed while wiring this end-to-end (see the implementation
+note after Phase 2's task list below): a missing `vendor/openmanus/config/
+config.toml` `[daytona]` section (an OpenManus import-time gap, not specific
+to this integration) and an incorrect `LLM(...)` construction in this repo's
+own driver script. Not yet done: Phases 3-6 (Phase 5 is deliberately
+deferred, not merely unstarted — see its own section). Companion to
 `target-pipeline-vision.drawio`/`.png` (see `architecture-overview.md`)
 rather than a replacement for it: that diagram's Orchestration/AI-panel
 layers are the vision this plan makes concrete at the module level. Read
@@ -297,6 +303,62 @@ and with what authority, across an entire run.
 16. Every tool call goes through `tools/authorization.py`, which checks the
     calling agent's `capabilities_granted` from its own
     `spawn_declaration.json` before the call reaches `tools/proxy.py`.
+    `Agent._resolve_provider()` selects `get_provider(...)` or
+    `OpenManusProvider(...)` from the card's `runtime_backend` field;
+    `orchestrator.py` now declares `runtime_backend=card.runtime_backend`
+    (previously hardcoded to `"direct_completion"`) and catches
+    `OpenManusProviderError`/`FileNotFoundError` alongside its existing
+    `ProviderError`/`PermissionError_`/`AgentCardError` handling, so a card
+    opted into `"openmanus"` genuinely runs its agent through the isolated
+    subprocess, with `tools/registry.py`'s `build_registry(agent)` output
+    (whatever of `rag_retrieval`/`knowledge_repo`/`web_search` the agent's
+    card and permissions actually grant, plus the always-present
+    ungated `citation_verify`) bridged in via `tools/proxy.py`'s
+    `ToolProxyServer` and `_openmanus_driver.py`'s `ProxyTool`.
+
+    **Two genuine bugs found and fixed while verifying this end-to-end**
+    (both confirmed by directly running the isolated-venv driver against a
+    deliberately-broken endpoint, not by reasoning about the code):
+    - **OpenManus import-time crash, upstream gap, not introduced by this
+      integration:** `vendor/openmanus/app/config.py`'s `Config` singleton
+      calls `DaytonaSettings()` with no arguments whenever the loaded
+      `config.toml` has no `[daytona]` section — including OpenManus's own
+      recommended `config.example.toml` template — and `DaytonaSettings.
+      daytona_api_key` has no default, so any import of `app.config` (or
+      anything transitively importing it, e.g. `app.tool`) raises a pydantic
+      `ValidationError` before any of this repo's code even runs. Fixed by
+      creating `vendor/openmanus/config/config.toml` (copied from
+      `config.example.toml`, plus an appended `[daytona]` section with
+      `daytona_api_key = ""`) — this file is covered by OpenManus's own
+      `config/.gitignore` (`config.toml` pattern), so it is local state only
+      and never touches the pinned submodule's tracked git history.
+    - **This repo's own bug, in `_openmanus_driver.py`:** `_run()`
+      originally constructed `LLM(config_name=..., llm_config=LLMSettings(
+      **spec["llm_settings"]))` — a bare `LLMSettings` instance. `vendor/
+      openmanus/app/llm.py`'s `LLM.__init__` does
+      `llm_config.get(config_name, llm_config["default"])` on that
+      parameter despite its own `Optional[LLMSettings]` type hint, so it
+      actually requires a `Dict[str, LLMSettings]` (matching `AppConfig.llm`'s
+      real type) with both the target `config_name` key and a `"default"`
+      key present. The bare-instance form raised `AttributeError:
+      'LLMSettings' object has no attribute 'get'` on every run. Fixed by
+      building `settings = LLMSettings(**spec["llm_settings"])` once and
+      passing `llm_config={spec["config_name"]: settings, "default":
+      settings}`.
+
+    **Production latency implication, not a bug, worth knowing:** OpenManus's
+    `LLM.ask`/`ask_tool` are `@retry`-wrapped (`tenacity`,
+    `wait_random_exponential(min=1, max=60)`, `stop_after_attempt(6)`,
+    retrying on almost any exception). A genuinely unreachable model
+    endpoint takes roughly 25-30s of retries before OpenManus finally raises
+    a `RetryError` that `_openmanus_driver.py` turns into an `"error"`
+    event — this is real upstream OpenManus behavior, not something this
+    integration should or does suppress. An OpenManus-backed agent hitting a
+    misconfigured or down model endpoint in production will therefore take
+    tens of seconds to fail, not fail instantly the way the direct-completion
+    backend's provider call does; `tests/test_runtime_openmanus.py`'s
+    `test_spawn_and_stream_events_against_isolated_venv` exercises this
+    exact path and takes ~30s to run for the same reason.
 
 ### Phase 3: per-level instrument decomposition
 

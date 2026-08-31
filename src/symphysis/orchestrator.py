@@ -18,6 +18,7 @@ from .instruments.bwm import BWMInstrument
 from .instruments.hierarchical_bwm import HierarchicalBWMInstrument
 from .policy.authorization import PermissionError_
 from .providers.base import ProviderError
+from .runtime.openmanus import OpenManusProviderError
 from .reporting import (
     render_ahp_charts,
     render_ahp_report,
@@ -160,12 +161,12 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
             # §5: every agent's first trail entry is now the fact of its own
             # spawn (DID, granted capabilities, model), not just its QA
             # precheck. Today's flat panel is entirely root spawns
-            # (parent_did=None); runtime_backend is "direct_completion"
-            # because Agent.run() still calls a provider directly rather
-            # than through a runtime/ adapter (that abstraction lands in
-            # Phase 2, at which point this value changes to reflect the
-            # adapter actually driving the run).
-            agent_spawn.declare_root(storage, card, survey_id=survey.id, runtime_backend="direct_completion")
+            # (parent_did=None); runtime_backend reflects the card's own
+            # opt-in choice (default "direct_completion", the single-call
+            # path every existing card still uses; "openmanus" routes
+            # through Agent.run()'s OpenManusProvider branch instead, see
+            # agent.py::run()).
+            agent_spawn.declare_root(storage, card, survey_id=survey.id, runtime_backend=card.runtime_backend)
             agent = Agent(card, card_path, storage)
             run = agent.run(
                 instrument,
@@ -173,11 +174,16 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
                 survey_title=survey.title,
                 survey_description=survey.description,
             )
-        except (ProviderError, PermissionError_, AgentCardError) as exc:
+        except (ProviderError, PermissionError_, AgentCardError, OpenManusProviderError, FileNotFoundError) as exc:
             # A misconfigured or uncredentialed agent (missing API key,
             # permission violation, bad card) must not take down the whole
             # panel: skip it, log why, keep going. Distinct from a pending
             # manual response, which is expected and resolves on its own.
+            # OpenManusProviderError/FileNotFoundError cover a card with
+            # runtime_backend="openmanus" whose isolated venv isn't set up,
+            # or whose OpenManus run itself failed (see agent.py's
+            # _resolve_provider/runtime/openmanus.py::OpenManusProvider) —
+            # the same "skip and keep going" behavior applies identically.
             skipped_notices.append(f"[{card.agent_id}] {type(exc).__name__}: {exc}")
             continue
 

@@ -25,7 +25,13 @@ tests/test_runtime_openmanus.py):
   "llm_settings": {"model": ..., "base_url": ..., "api_key": ..., "max_tokens": ...,
                     "temperature": ..., "api_type": ..., "api_version": ...},
   "messages": [{"role": "user"|"assistant", "content": "..."}, ...],
-  "max_steps": 15
+  "max_steps": 15,
+  "proxy_port": 54321,           # optional: tools/proxy.py's ToolProxyServer port, if any
+  "available_tools": [           # optional: which tools/registry.py ToolSpecs to expose,
+    {"name": "rag_retrieval",    # each one becomes a ProxyTool that calls back to
+     "description": "...",      # http://127.0.0.1:<proxy_port>/tools/<name> — see ProxyTool below
+     "parameters": {"type": "object", "properties": {...}, "required": [...]}}
+  ]
 }
 
 Output: one JSON object per line on stdout (NDJSON), flushed immediately so
@@ -53,6 +59,39 @@ def _emit(kind: str, payload: dict) -> None:
     print(json.dumps({"kind": kind, "payload": payload}), flush=True)
 
 
+def _build_proxy_tool_class():
+    """A generic OpenManus BaseTool that bridges one tool call back to the
+    parent Symphysis process's real tools/registry.py ToolSpec of the same
+    name, via tools/proxy.py's local-only HTTP server (started by
+    runtime/openmanus.py::OpenManusProvider before this subprocess is
+    launched). This is the only way this script ever touches RAG
+    retrieval, web search, or citation verification: none of that code is
+    importable here (see module docstring)."""
+    from app.tool.base import BaseTool, ToolResult
+
+    class ProxyTool(BaseTool):
+        proxy_port: int
+        proxy_tool_name: str
+
+        async def execute(self, **kwargs) -> ToolResult:
+            import httpx
+
+            url = f"http://127.0.0.1:{self.proxy_port}/tools/{self.proxy_tool_name}"
+            try:
+                async with httpx.AsyncClient(timeout=30.0) as client:
+                    resp = await client.post(url, json=kwargs)
+            except httpx.HTTPError as exc:
+                return ToolResult(error=f"proxy call to {self.proxy_tool_name!r} failed: {exc}")
+
+            if resp.status_code != 200:
+                return ToolResult(
+                    error=f"proxy call to {self.proxy_tool_name!r} returned {resp.status_code}: {resp.text}"
+                )
+            return ToolResult(output=json.dumps(resp.json()))
+
+    return ProxyTool
+
+
 def _build_survey_elicitation_agent_class():
     from app.agent.toolcall import ToolCallAgent
     from app.tool import CreateChatCompletion, Terminate, ToolCollection
@@ -68,10 +107,11 @@ def _build_survey_elicitation_agent_class():
     )
 
     class SurveyElicitationAgent(ToolCallAgent):
-        # Mirrors runtime/openmanus.py::_build_survey_elicitation_agent_class
-        # exactly. Duplicated (not imported) because this script runs in a
-        # separate interpreter that never has the `symphysis` package on its
-        # path — see module docstring.
+        # This whole class exists only here, never in runtime/openmanus.py:
+        # this script runs in a separate interpreter that never has the
+        # `symphysis` package on its path (see module docstring), so there
+        # is nothing on the runtime/openmanus.py side to mirror against —
+        # the subprocess boundary IS the design, not an accident of it.
         name: str = "survey_elicitation"
         description: str = (
             "an expert panel agent that completes one Symphysis survey instrument, "
@@ -89,11 +129,40 @@ async def _run(spec: dict) -> None:
     from app.config import LLMSettings
     from app.llm import LLM
     from app.schema import AgentState, Message
+    from app.tool import CreateChatCompletion, Terminate, ToolCollection
 
     SurveyElicitationAgent = _build_survey_elicitation_agent_class()
 
-    llm = LLM(config_name=spec["config_name"], llm_config=LLMSettings(**spec["llm_settings"]))
-    agent = SurveyElicitationAgent(llm=llm, max_steps=spec.get("max_steps", 15))
+    # LLM.__init__ (vendor/openmanus/app/llm.py) does
+    # `llm_config.get(config_name, llm_config["default"])` — despite its own
+    # `llm_config: Optional[LLMSettings]` type hint, it actually requires a
+    # Dict[str, LLMSettings] (matching AppConfig.llm's real type,
+    # vendor/openmanus/app/config.py's `llm: Dict[str, LLMSettings]`), with
+    # both the requested config_name AND a "default" key present — a bare
+    # LLMSettings instance raises AttributeError ('LLMSettings' object has
+    # no attribute 'get'). Both keys point at the same settings here since
+    # this driver has exactly one model per run.
+    settings = LLMSettings(**spec["llm_settings"])
+    llm = LLM(config_name=spec["config_name"], llm_config={spec["config_name"]: settings, "default": settings})
+
+    agent_kwargs = {"llm": llm, "max_steps": spec.get("max_steps", 15)}
+    proxy_port = spec.get("proxy_port")
+    available_tools = spec.get("available_tools") or []
+    if proxy_port and available_tools:
+        ProxyTool = _build_proxy_tool_class()
+        proxy_tools = [
+            ProxyTool(
+                name=t["name"],
+                description=t["description"],
+                parameters=t.get("parameters"),
+                proxy_port=proxy_port,
+                proxy_tool_name=t["name"],
+            )
+            for t in available_tools
+        ]
+        agent_kwargs["available_tools"] = ToolCollection(CreateChatCompletion(), Terminate(), *proxy_tools)
+
+    agent = SurveyElicitationAgent(**agent_kwargs)
 
     for msg in spec["messages"]:
         role, content = msg.get("role", "user"), msg.get("content", "")

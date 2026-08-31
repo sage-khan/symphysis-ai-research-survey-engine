@@ -129,6 +129,13 @@ class AgentCard:
     system_prompt_override: Optional[str] = None  # literal system-prompt text; takes precedence over system_prompt_template
     role_pack: Optional[str] = None  # id of a standard role knowledge pack (see role_packs/), or None for none
     rulefile: str = ""  # agent-specific behavioral rules, appended after the global rulefile (see app_config)
+    # Which runtime/ backend (see docs/architecture/governance-layer-and-runtime-backends-plan.md
+    # §4/Phase 2) drives this agent's completion: "direct_completion" (the
+    # default, a single provider call, today's actual behavior for every
+    # existing card) or "openmanus" (opt-in: routes through OpenManusBackend's
+    # multi-turn ReAct loop instead). Any other value is rejected by
+    # Agent.run() with a clear error rather than silently falling back.
+    runtime_backend: str = "direct_completion"
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -144,6 +151,7 @@ class AgentCard:
             "system_prompt_template": self.system_prompt_template,
             "system_prompt_override": self.system_prompt_override,
             "tools": self.tools,
+            "runtime_backend": self.runtime_backend,
             "model": vars(self.model),
             "rag": vars(self.rag),
             "sampling": vars(self.sampling),
@@ -177,6 +185,7 @@ def new_card(
     system_prompt_override: Optional[str] = None,
     deterministic_did: bool = True,
     did_seed: str = "agentic-survey-tool-default-seed-v1",
+    runtime_backend: str = "direct_completion",
 ) -> AgentCard:
     """Build a fresh AgentCard, generating its DID now. Callers that want a
     reproducible DID across machines must pass the same did_seed and
@@ -208,6 +217,7 @@ def new_card(
         role_pack=role_pack,
         rulefile=rulefile,
         system_prompt_override=system_prompt_override,
+        runtime_backend=runtime_backend,
         did=DidSpec(
             method="did:key",
             id=identity.did,
@@ -247,6 +257,7 @@ def load_card(path: Path) -> AgentCard:
         role_pack=data.get("role_pack"),
         rulefile=data.get("rulefile", ""),
         system_prompt_override=data.get("system_prompt_override"),
+        runtime_backend=data.get("runtime_backend", "direct_completion"),
         model=ModelSpec(**data["model"]),
         rag=RagSpec(**data.get("rag", {})),
         sampling=SamplingSpec(**data.get("sampling", {})),

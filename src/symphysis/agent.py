@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from . import app_config, qa_checks, role_packs
-from .agent_card import AgentCard
+from .agent_card import AgentCard, AgentCardError
 from .guardrails import GuardedRun, run_with_guardrails
 from .instruments.base import Instrument
 from .policy.authorization import check_data_scope, check_provider_allowed
@@ -163,7 +163,14 @@ class Agent:
         entry: `orchestrator.py` already logs a `spawn_declared` entry (see
         `spawning/spawn.py::declare_root`) before this agent is even
         constructed, so the precheck is the first entry the agent itself is
-        responsible for, not the trace's absolute first entry."""
+        responsible for, not the trace's absolute first entry.
+
+        Always goes through the direct provider (get_provider), never
+        `_resolve_provider()`'s OpenManus branch, even for a card with
+        runtime_backend="openmanus": this is a single fixed-format
+        self-report call with no need for multi-turn tool use, so routing
+        it through a whole isolated-subprocess ReAct loop would only add
+        latency for no benefit."""
         ground_truth = self._qa_precheck_ground_truth()
         provider = get_provider(self.card.model.provider)
         messages = [
@@ -262,6 +269,33 @@ class Agent:
         )
         return [f"[web: {r['title']} ({r['url']})] {r['content']}" for r in results]
 
+    def _resolve_provider(self) -> Any:
+        """The single seam Phase 2 (docs/architecture/governance-layer-and-runtime-backends-plan.md
+        tasks 13-14) needed into Agent.run(): the default path is unchanged
+        (get_provider(...) -> a direct single-completion call, exactly as
+        before this method existed), and a card that opts into
+        runtime_backend="openmanus" gets an OpenManusProvider instead, which
+        satisfies the exact same LLMProvider.complete(...) interface. Every
+        caller downstream of this point (run_with_guardrails, parsing,
+        retries, storage.write_guarded_run) is unaware which one it got."""
+        if self.card.runtime_backend == "direct_completion":
+            return get_provider(self.card.model.provider)
+        if self.card.runtime_backend == "openmanus":
+            from .runtime.openmanus import OpenManusProvider
+            from .tools.registry import build_registry
+
+            return OpenManusProvider(
+                model_provider=self.card.model.provider,
+                agent_id=self.card.agent_id,
+                did=self.card.did.id,
+                tools=build_registry(self),
+                storage=self.storage,
+            )
+        raise AgentCardError(
+            f"Agent card {self.card.agent_id!r} has unknown runtime_backend={self.card.runtime_backend!r}; "
+            "expected 'direct_completion' or 'openmanus'."
+        )
+
     def run(
         self,
         instrument: Instrument,
@@ -285,7 +319,7 @@ class Agent:
 
         messages = instrument.build_messages(role_description, context_chunks, instrument_params)
         self.storage.write_prompt(self.card.agent_id, messages)
-        provider = get_provider(self.card.model.provider)
+        provider = self._resolve_provider()
 
         extra_call_kwargs = None
         if self.card.model.provider == "manual":

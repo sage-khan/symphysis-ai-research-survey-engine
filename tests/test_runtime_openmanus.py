@@ -97,7 +97,16 @@ def test_spawn_and_stream_events_against_isolated_venv():
     call, and reports the resulting connection failure back as a
     same-process "error" event over the JSON contract — proving the
     subprocess/venv/import/streaming plumbing genuinely works end-to-end,
-    without requiring a live model server in the test environment."""
+    without requiring a live model server in the test environment.
+
+    Runs ~25-30s, not instant: vendor/openmanus/app/llm.py's LLM.ask/ask_tool
+    are @retry-wrapped (tenacity, wait_random_exponential(min=1, max=60),
+    stop_after_attempt(6)) and retry on almost any exception, including a
+    plain connection refusal — a genuine failure only surfaces after all 6
+    attempts exhaust. This is real OpenManus behavior, not a driver bug: a
+    production OpenManus-backed agent hitting an unreachable model endpoint
+    will retry for tens of seconds before Symphysis's orchestrator sees the
+    failure (see the plan doc's Phase 2 implementation notes)."""
     backend = openmanus_runtime.OpenManusBackend()
     task = TaskSpec(
         agent_id="smoke-agent",
@@ -124,4 +133,68 @@ def test_spawn_and_stream_events_against_isolated_venv():
     events = list(backend.stream_events(handle))
     assert len(events) >= 1
     assert events[-1].kind == "error"
-    assert "message" in events[-1].payload
+    message = events[-1].payload.get("message", "")
+    # A genuine connection failure surfaced through tenacity's RetryError,
+    # not a driver-side crash (e.g. the AttributeError from the earlier
+    # bare-LLMSettings construction bug, or the DaytonaSettings ValidationError
+    # from missing vendor/openmanus/config/config.toml — both fixed upstream
+    # of this test; a regression in either would change this message).
+    assert "RetryError" in message or "APIConnectionError" in message, message
+
+
+class _FakeBackend:
+    """Stands in for OpenManusBackend so OpenManusProvider.complete() is
+    unit-tested without a real subprocess/venv, matching this test suite's
+    existing _FakeProvider-at-the-boundary pattern (see test_qa_precheck.py)."""
+
+    def __init__(self, events):
+        self._events = events
+        self.spawned_tasks = []
+
+    def spawn(self, task):
+        self.spawned_tasks.append(task)
+        return object()
+
+    def stream_events(self, handle):
+        yield from self._events
+
+
+def test_openmanus_provider_complete_returns_provider_response_from_final_event():
+    from symphysis.runtime.base import Event
+    from symphysis.runtime.openmanus import OpenManusProvider
+
+    provider = OpenManusProvider(model_provider="ollama", agent_id="a1", did="did:key:z6Mktest")
+    provider._backend = _FakeBackend(
+        [
+            Event(kind="thought", payload={"step": 1, "result": "thinking..."}),
+            Event(kind="raw_completion", payload={"response": {"text": "final answer", "model": "qwen2.5:14b", "finish_reason": "stop"}}),
+        ]
+    )
+
+    response = provider.complete(
+        [{"role": "user", "content": "hi"}], model="qwen2.5:14b", temperature=0.7, max_tokens=512
+    )
+    assert response.text == "final answer"
+    assert response.finish_reason == "stop"
+    assert provider._backend.spawned_tasks[0].model_name == "qwen2.5:14b"
+
+
+def test_openmanus_provider_complete_raises_on_error_event():
+    from symphysis.runtime.base import Event
+    from symphysis.runtime.openmanus import OpenManusProvider, OpenManusProviderError
+
+    provider = OpenManusProvider(model_provider="ollama", agent_id="a1", did="did:key:z6Mktest")
+    provider._backend = _FakeBackend([Event(kind="error", payload={"message": "boom"})])
+
+    with pytest.raises(OpenManusProviderError, match="boom"):
+        provider.complete([{"role": "user", "content": "hi"}], model="qwen2.5:14b", temperature=0.7, max_tokens=512)
+
+
+def test_openmanus_provider_complete_raises_when_no_events_at_all():
+    from symphysis.runtime.openmanus import OpenManusProvider, OpenManusProviderError
+
+    provider = OpenManusProvider(model_provider="ollama", agent_id="a1", did="did:key:z6Mktest")
+    provider._backend = _FakeBackend([])
+
+    with pytest.raises(OpenManusProviderError, match="no completion event"):
+        provider.complete([{"role": "user", "content": "hi"}], model="qwen2.5:14b", temperature=0.7, max_tokens=512)

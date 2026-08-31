@@ -164,6 +164,13 @@ class OpenManusBackend:
             "messages": task.messages,
             "max_steps": task.extra.get("max_steps", 15),
         }
+        # Both optional: present only when the caller (OpenManusProvider,
+        # see below) started a tools/proxy.py ToolProxyServer for this run.
+        # See _openmanus_driver.py's module docstring for the full contract.
+        if "proxy_port" in task.extra:
+            spec["proxy_port"] = task.extra["proxy_port"]
+        if "available_tools" in task.extra:
+            spec["available_tools"] = task.extra["available_tools"]
 
         fd, input_path_str = tempfile.mkstemp(prefix=f"openmanus-{task.agent_id}-", suffix=".json")
         input_path = Path(input_path_str)
@@ -205,3 +212,127 @@ class OpenManusBackend:
     def stop(self, handle: RunHandle) -> None:
         assert isinstance(handle, OpenManusHandle)
         handle.process.terminate()
+
+
+class OpenManusProviderError(Exception):
+    """Raised when an OpenManus-backed run ends without a usable
+    `raw_completion` event (an "error" event, or the stream ending with
+    neither). Deliberately its own exception type, not `providers.base.ProviderError`,
+    so a caller can tell "the model/network failed" (ProviderError) apart
+    from "the OpenManus subprocess/ReAct loop itself failed" — but
+    `Agent.run()` catches both alongside the same `except (ProviderError, ...)`
+    handling already in `orchestrator.py`, since either way the practical
+    behavior (skip this agent, log why, keep the panel going) is identical.
+    """
+
+
+class OpenManusProvider:
+    """Satisfies `providers.base.LLMProvider`'s `complete(...)` interface by
+    driving a `SurveyElicitationAgent` through `OpenManusBackend` instead of
+    a single direct completion call. This is `Agent.run()`'s actual seam
+    into Phase 2 (plan doc tasks 13-14): `guardrails.py::run_with_guardrails`
+    already accepts any object exposing `.complete(...)`, so nothing
+    downstream of `Agent.run()` (parsing, retries, solving, storage) needs
+    to change, or even know, which backend produced the raw completion text.
+
+    Known limitation, stated honestly rather than silently ignored:
+    OpenManus's own `LLM` class (vendor/openmanus/app/llm.py) has no `seed`
+    parameter on its chat-completion call, so a card's `model.seed` has no
+    effect when `runtime_backend="openmanus"` — reproducibility for that
+    agent then rests on `temperature`/prompt content alone, same as any
+    provider/model combination that doesn't support seeding.
+
+    `tools`/`storage`, when both given (see `Agent._resolve_provider()`),
+    let the SurveyElicitationAgent make real, multi-turn RAG/web-search/
+    citation-verify tool calls instead of relying solely on context baked
+    into the prompt: a `tools/proxy.py::ToolProxyServer` is started for the
+    duration of this one `complete()` call, and the subprocess is given its
+    port plus each tool's JSON schema (plan doc Phase 2 tasks 15-16).
+    Omitting them (the default) still works — the agent just has no tools
+    beyond OpenManus's own baseline (CreateChatCompletion/Terminate).
+    """
+
+    def __init__(
+        self,
+        *,
+        model_provider: str,
+        agent_id: str,
+        did: str,
+        max_steps: int = 15,
+        tools: Optional[Dict[str, Any]] = None,
+        storage: Optional[Any] = None,
+    ) -> None:
+        self.model_provider = model_provider
+        self.agent_id = agent_id
+        self.did = did
+        self.max_steps = max_steps
+        self.tools = tools or {}
+        self.storage = storage
+        self._backend = OpenManusBackend()
+
+    def complete(
+        self,
+        messages: Any,
+        *,
+        model: str,
+        temperature: float,
+        max_tokens: int,
+        top_p: float = 1.0,
+        seed: Optional[int] = None,
+        **extra: Any,
+    ) -> Any:
+        from ..providers.base import ProviderResponse
+
+        extra_task_fields: Dict[str, Any] = {"max_steps": self.max_steps}
+        proxy_server = None
+        if self.tools and self.storage is not None:
+            from ..tools.proxy import ToolProxyServer
+
+            proxy_server = ToolProxyServer(self.storage, self.agent_id, self.tools)
+            proxy_server.start()
+            extra_task_fields["proxy_port"] = proxy_server.port
+            extra_task_fields["available_tools"] = [
+                {"name": spec.name, "description": spec.description, "parameters": spec.parameters}
+                for spec in self.tools.values()
+            ]
+
+        try:
+            task = TaskSpec(
+                agent_id=self.agent_id,
+                did=self.did,
+                messages=messages,
+                model_provider=self.model_provider,
+                model_name=model,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                top_p=top_p,
+                seed=seed,
+                extra=extra_task_fields,
+            )
+            handle = self._backend.spawn(task)
+            final: Optional[Event] = None
+            for event in self._backend.stream_events(handle):
+                if event.kind in ("raw_completion", "error"):
+                    final = event
+
+            if final is None or final.kind == "error":
+                message = (
+                    (final.payload.get("message") if final else None) or "OpenManus run produced no completion event"
+                )
+                raise OpenManusProviderError(message)
+
+            response = final.payload["response"]
+            return ProviderResponse(
+                text=response.get("text", ""),
+                raw=response.get("raw", {}),
+                model=response.get("model", model),
+                finish_reason=response.get("finish_reason", ""),
+            )
+        finally:
+            # The proxy server must outlive the entire subprocess run (it's
+            # what makes the subprocess's tool calls work at all), so it is
+            # only torn down after stream_events() has fully drained,
+            # whether that ended in a normal raw_completion, an error event,
+            # or an exception propagating out of this try block.
+            if proxy_server is not None:
+                proxy_server.stop()

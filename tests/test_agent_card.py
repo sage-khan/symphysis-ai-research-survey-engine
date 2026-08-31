@@ -98,3 +98,39 @@ def test_rehydrate_identity_without_seed_raises(tmp_path):
 
     with pytest.raises(AgentCardError):
         rehydrate_identity(loaded, did_seed=None)
+
+
+def test_runtime_backend_defaults_to_direct_completion():
+    card = _sample_card()
+    assert card.runtime_backend == "direct_completion"
+    assert card.to_dict()["runtime_backend"] == "direct_completion"
+
+
+def test_runtime_backend_round_trips_through_write_and_load(tmp_path):
+    card = new_card(
+        agent_id="openmanus-agent",
+        role="Test Role",
+        role_description="A test agent.",
+        system_prompt_template="config/prompts/expert_panel_system.txt",
+        model=ModelSpec(provider="ollama", name="qwen2.5:14b"),
+        did_seed="test-seed-v1",
+        runtime_backend="openmanus",
+    )
+    path = tmp_path / "openmanus-agent.json"
+    card.write(path)
+    loaded = load_card(path)
+    assert loaded.runtime_backend == "openmanus"
+
+
+def test_load_card_without_runtime_backend_field_defaults_to_direct_completion(tmp_path):
+    # A card authored before this field existed: load_card must not choke on
+    # its absence, and must default it to the behavior every such card
+    # already has (a single direct provider call).
+    card = _sample_card()
+    data = card.to_dict()
+    del data["runtime_backend"]
+    path = tmp_path / "pre-existing-agent.json"
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    loaded = load_card(path)
+    assert loaded.runtime_backend == "direct_completion"
