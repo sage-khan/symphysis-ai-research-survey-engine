@@ -16,7 +16,7 @@ from .config import SurveyConfig
 from .instruments.ahp import AHPInstrument, build_full_matrix
 from .instruments.bwm import BWMInstrument
 from .instruments.hierarchical_bwm import HierarchicalBWMInstrument
-from .permissions import PermissionError_
+from .policy.authorization import PermissionError_
 from .providers.base import ProviderError
 from .reporting import (
     render_ahp_charts,
@@ -31,7 +31,7 @@ from .reporting import (
 from .solvers import ahp as ahp_solver
 from .solvers import bwm_bayesian, bwm_classical
 from .solvers import hierarchical_bwm as hbwm_solver
-from .storage import SurveyStorage
+from .audit.logger import SurveyStorage
 
 # Every instrument this app can run a survey with. Adding a new method
 # (Delphi, TOPSIS, and the rest of the candidates in README's Future

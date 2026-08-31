@@ -19,7 +19,7 @@ from typing import Any, Dict, List, Optional
 
 from . import __version__ as RUNTIME_VERSION
 from . import app_config
-from .did_key import AgentIdentity
+from .identity.did import AgentIdentity
 
 SCHEMA_VERSION = "1.0"
 

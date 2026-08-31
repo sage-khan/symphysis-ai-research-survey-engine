@@ -13,10 +13,10 @@ from . import app_config, qa_checks, role_packs
 from .agent_card import AgentCard
 from .guardrails import GuardedRun, run_with_guardrails
 from .instruments.base import Instrument
-from .permissions import check_data_scope, check_provider_allowed
+from .policy.authorization import check_data_scope, check_provider_allowed
 from .providers import get_provider
 from .rag.retriever import build_retriever
-from .storage import SurveyStorage
+from .audit.logger import SurveyStorage
 from .tools.web_search import WebSearchError, search_as_dicts
 
 KNOWLEDGE_REPO_DIRNAME = "knowledge_repo"

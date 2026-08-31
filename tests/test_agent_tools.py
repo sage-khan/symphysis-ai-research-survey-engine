@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from symphysis import agent as agent_module
 from symphysis.agent import Agent, _has_retrievable_content
 from symphysis.agent_card import ModelSpec, new_card
-from symphysis.storage import SurveyStorage
+from symphysis.audit.logger import SurveyStorage
 from symphysis.tools.web_search import WebSearchError
 
 

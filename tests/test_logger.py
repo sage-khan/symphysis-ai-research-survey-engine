@@ -8,7 +8,7 @@ from symphysis.agent_card import ModelSpec, RagSpec, SamplingSpec, PermissionsSp
 from symphysis.guardrails import GuardedRun
 from symphysis.instruments.base import InstrumentResult
 from symphysis.providers.base import ProviderResponse
-from symphysis.storage import SurveyStorage
+from symphysis.audit.logger import SurveyStorage
 
 INSTRUMENT_PARAMS = {
     "dimensions": ["Q", "PT", "C"],
