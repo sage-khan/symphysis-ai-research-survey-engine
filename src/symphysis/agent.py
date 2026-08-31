@@ -153,13 +153,17 @@ class Agent:
         )
 
     def run_qa_precheck(self, survey_title: str, survey_description: str = "") -> None:
-        """A single, un-repeated preliminary turn logged as the first entry in
-        this agent's conversation trace: the agent is told its real, actual
-        configuration and asked to restate it, and that restatement is
-        verified against ground truth deterministically (see qa_checks.py),
-        not merely trusted. A mismatch (a hallucinated capability, or a
-        comprehension failure) is logged plainly, not hidden, so a human
-        reviewer can see it before trusting this agent's actual answers."""
+        """A single, un-repeated preliminary turn: the agent is told its
+        real, actual configuration and asked to restate it, and that
+        restatement is verified against ground truth deterministically (see
+        qa_checks.py), not merely trusted. A mismatch (a hallucinated
+        capability, or a comprehension failure) is logged plainly, not
+        hidden, so a human reviewer can see it before trusting this agent's
+        actual answers. Logged as this agent's second conversation-trace
+        entry: `orchestrator.py` already logs a `spawn_declared` entry (see
+        `spawning/spawn.py::declare_root`) before this agent is even
+        constructed, so the precheck is the first entry the agent itself is
+        responsible for, not the trace's absolute first entry."""
         ground_truth = self._qa_precheck_ground_truth()
         provider = get_provider(self.card.model.provider)
         messages = [

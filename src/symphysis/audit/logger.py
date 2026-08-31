@@ -104,13 +104,16 @@ class SurveyStorage:
         claimed: Any,
         verification: Dict[str, Any],
     ) -> None:
-        """Logged as this agent's very first conversation-trace entry (see
-        Agent.run_qa_precheck): the agent was told its real configuration and
-        asked to restate it, and that restatement was checked against ground
-        truth deterministically, not merely trusted. Written both to
-        conversation.jsonl (so it appears in the Conversation Log alongside
-        everything else) and to a dedicated qa_precheck.json (so a reviewer
-        or the Analytics tab can check pass/fail without parsing the log)."""
+        """Logged as this agent's first *self-answered* conversation-trace
+        entry (see Agent.run_qa_precheck) — preceded only by the
+        `spawn_declared` entry `spawning/spawn.py::declare_root`/
+        `declare_child` writes before the agent is even constructed: the
+        agent was told its real configuration and asked to restate it, and
+        that restatement was checked against ground truth deterministically,
+        not merely trusted. Written both to conversation.jsonl (so it
+        appears in the Conversation Log alongside everything else) and to a
+        dedicated qa_precheck.json (so a reviewer or the Analytics tab can
+        check pass/fail without parsing the log)."""
         d = self.agent_dir(agent_id)
         entry = {
             "ground_truth": ground_truth,

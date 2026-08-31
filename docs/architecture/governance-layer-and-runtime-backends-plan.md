@@ -129,11 +129,18 @@ src/symphysis/
 |   +-- capability.py     # capability vocabulary + attenuation (new)
 |   +-- authorization.py  # today's permissions.py checks, reframed as calls into engine.py
 |
-+-- agent/
-|   +-- agent.py          # = today's agent.py, minus the RAG/websearch methods (moved to tools/)
++-- agent.py              # unchanged top-level module (the existing Agent class);
+|                          # NOT nested under a package, since a package and a
+|                          # module cannot share the name `agent` as siblings.
+|                          # RAG/websearch methods move to tools/ in Phase 2
+|                          # (task 15), same as originally planned.
+|
++-- spawning/              # (originally sketched as `agent/` in an earlier
+|   |                      # draft of this doc; renamed during Phase 1
+|   |                      # implementation to avoid the collision above)
 |   +-- spawn.py          # NEW: mint child DID, issue credential, attenuate capabilities
 |   +-- lineage.py        # NEW: parent_did -> [child_did, ...] tree, written to audit
-|   +-- delegation.py     # NEW: what a parent is allowed to grant, vs. merely possess
+|   +-- delegation.py     # NEW: what a parent is allowed to grant, vs. merely possess (not yet built)
 |
 +-- runtime/
 |   +-- base.py           # RuntimeBackend protocol: spawn(), stream_events(), stop()
@@ -220,13 +227,13 @@ and with what authority, across an entire run.
    appear, do not pre-build capabilities nothing uses yet.
 7. `policy/engine.py::attenuate(parent_capabilities, requested) -> granted`:
    set intersection, logged.
-8. `agent/spawn.py::declare(parent_identity_or_none, role, requested_capabilities,
-   model, survey_id) -> AgentIdentity`: mints the child DID (reusing
+8. `spawning/spawn.py::declare_root(...)` / `mint_child(...)` / `declare_child(...)`:
+   mints the child DID (reusing
    `identity/did.py::AgentIdentity.generate_deterministic/random`
-   unchanged), calls `policy/engine.py::attenuate`, writes
+   unchanged), calls `policy/capability.py::attenuate` (implemented as set
+   intersection against the parent's own granted capabilities), writes
    `spawn_declaration.json` via `audit/logger.py` before returning.
-9. `agent/lineage.py`: append to `lineage.json` on every `spawn.declare()`
-   call.
+9. `spawning/lineage.py`: append to `lineage.json` on every declared spawn.
 10. Wire today's single-panel spawn path (`orchestrator.py`'s per-survey
     agent construction) through `agent/spawn.py` with `parent_did=None` for
     every agent (today's flat panel becomes "every agent is a root spawn").

@@ -32,6 +32,7 @@ from .solvers import ahp as ahp_solver
 from .solvers import bwm_bayesian, bwm_classical
 from .solvers import hierarchical_bwm as hbwm_solver
 from .audit.logger import SurveyStorage
+from .spawning import spawn as agent_spawn
 
 # Every instrument this app can run a survey with. Adding a new method
 # (Delphi, TOPSIS, and the rest of the candidates in README's Future
@@ -154,6 +155,17 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
     for card_path in survey.agent_cards:
         card = load_card(card_path)
         try:
+            # Declared before the agent does anything else, per
+            # docs/architecture/governance-layer-and-runtime-backends-plan.md
+            # §5: every agent's first trail entry is now the fact of its own
+            # spawn (DID, granted capabilities, model), not just its QA
+            # precheck. Today's flat panel is entirely root spawns
+            # (parent_did=None); runtime_backend is "direct_completion"
+            # because Agent.run() still calls a provider directly rather
+            # than through a runtime/ adapter (that abstraction lands in
+            # Phase 2, at which point this value changes to reflect the
+            # adapter actually driving the run).
+            agent_spawn.declare_root(storage, card, survey_id=survey.id, runtime_backend="direct_completion")
             agent = Agent(card, card_path, storage)
             run = agent.run(
                 instrument,

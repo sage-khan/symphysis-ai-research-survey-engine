@@ -5,6 +5,7 @@ import { api } from "../api.js";
 const TABS = ["Filled survey", "Reasoning", "Prompt", "Conversation log"];
 
 const KIND_LABEL = {
+  spawn_declared: "Spawn declared",
   qa_precheck: "QA precheck",
   raw_completion: "Model completion",
   rejected: "Rejected (guardrail)",
@@ -131,7 +132,10 @@ export default function TraceViewer({ surveyId, agentId, onClose }) {
             <div>
               <div className="mono-dim" style={{ marginBottom: 16, padding: 12, border: "1px solid var(--border)", borderRadius: "var(--radius)" }}>
                 This is the complete, timestamped event-by-event trace for this agent, in the exact
-                order it happened. The <strong>first</strong> entry is always this agent's own
+                order it happened. The <strong>first</strong> entry is always <em>Spawn declared</em>:
+                the agent's DID, who spawned it (the orchestrator directly, for a root panel agent, or
+                another agent's DID for a spawned child), and its granted capabilities, model, and
+                hyperparameters, written before the agent does anything else. Next is this agent's own
                 QA precheck: it was told its real configuration (ID, role, model, and which
                 knowledge sources it has) and asked to restate it, checked field by field against
                 the truth, before attempting anything, so a mismatch is caught rather than assumed
@@ -150,6 +154,38 @@ export default function TraceViewer({ surveyId, agentId, onClose }) {
                     <span className="tag">{KIND_LABEL[entry.kind] || entry.kind}</span>
                     <span className="mono-dim">{entry.logged_at}</span>
                   </div>
+
+                  {entry.kind === "spawn_declared" && (
+                    <div style={{ marginTop: 8 }}>
+                      <div className="mono-dim">
+                        DID: <code>{entry.did}</code>
+                        {entry.parent_did ? (
+                          <>
+                            {" "}
+                            &middot; spawned by <code>{entry.parent_did}</code>
+                          </>
+                        ) : (
+                          <> &middot; root spawn (orchestrator)</>
+                        )}
+                        {" "}
+                        &middot; runtime: {entry.runtime_backend}
+                      </div>
+                      <div className="mono-dim" style={{ marginTop: 4 }}>
+                        Model: {entry.model?.provider}/{entry.model?.name} (temperature{" "}
+                        {entry.model?.temperature})
+                      </div>
+                      <div className="mono-dim" style={{ marginTop: 4 }}>
+                        Capabilities granted: {(entry.capabilities_granted || []).join(", ") || "(none)"}
+                        {(entry.capabilities_requested || []).length !== (entry.capabilities_granted || []).length && (
+                          <span style={{ color: "var(--amber)" }}>
+                            {" "}
+                            (requested {(entry.capabilities_requested || []).join(", ")}; attenuated to parent's own
+                            authority)
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
 
                   {entry.kind === "qa_precheck" && (
                     <div style={{ marginTop: 8 }}>
