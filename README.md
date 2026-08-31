@@ -646,6 +646,10 @@ survey runs, an "add agent from template" flow).
 - `docs/architecture/architecture-overview.md` for the system diagrams:
   current pipeline, Agent Card anatomy, and the target pipeline vision
   with implemented-vs-planned status on every stage.
+- `docs/architecture/governance-layer-and-runtime-backends-plan.md` for the
+  planned agent-spawning/DID-declaration/policy-attenuation redesign and its
+  OpenManus/OpenCode pluggable-runtime-backend architecture (not yet
+  implemented; setup-task checklist included).
 - `docs/development/changelog.md` for what changed and when.
 - `docs/development/diagnostics.md` for bugs found, root cause, and fix.
 - `.claude/rules/documentation-maintenance.md` for the rule (binding on any
