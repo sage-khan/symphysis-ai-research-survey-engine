@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-base-openmanus",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"data-engineer-base-openmanus\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will attempt it as a Data Engineering Specialist, focusing on data quality pipelines, provenance tracking, and polyglot-persistence routing decisions for construction-project datasets.\"\n}\n```",
+    "model": "phi4:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "phi4:14b",
+      "created_at": "2026-09-01T18:55:35.48877577Z",
+      "message": {
+        "role": "assistant",
+        "content": "```json\n{\n  \"agent_id\": \"data-engineer-base-openmanus\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will attempt it as a Data Engineering Specialist, focusing on data quality pipelines, provenance tracking, and polyglot-persistence routing decisions for construction-project datasets.\"\n}\n```"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 2002856969,
+      "load_duration": 38623821,
+      "prompt_eval_count": 2084,
+      "prompt_eval_duration": 457364362,
+      "eval_count": 128,
+      "eval_duration": 1466951844
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-base-openmanus",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand the assignment and will attempt it as a Data Engineering Specialist, focusing on data quality pipelines, provenance tracking, and polyglot-persistence routing decisions for construction-project datasets."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-base-openmanus",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-base-openmanus",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand the assignment and will attempt it as a Data Engineering Specialist, focusing on data quality pipelines, provenance tracking, and polyglot-persistence routing decisions for construction-project datasets."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

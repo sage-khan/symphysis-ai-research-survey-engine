@@ -1,0 +1,8 @@
+{
+  "agent_id": "compliance-officer-rag-openmanus",
+  "did": "did:key:z6MknnPyULv317BzskfxgnYty22cc5A3AddPeVZZsocVNgeY",
+  "method": "did:key",
+  "public_key_multibase": "z6MknnPyULv317BzskfxgnYty22cc5A3AddPeVZZsocVNgeY",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-phi4-14b-2026-09-01:compliance-officer-rag-openmanus')"
+}

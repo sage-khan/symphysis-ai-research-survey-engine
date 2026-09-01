@@ -1,0 +1,15 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 7,
+    "RQ": 9
+  },
+  "others_to_worst": {
+    "RQ": 1,
+    "CQ": 6,
+    "IQ": 9
+  },
+  "reasoning": "Based on my professional experience as a BIM Coordinator managing multi-stakeholder Building Information Models, I would prioritize the criteria as follows:\n\n- **Best factor: IQ (Intrinsic Quality)**  \n  Intrinsic Quality is paramount because it directly affects the accuracy, validity, and uniqueness of the data. As a BIM coordinator, ensuring that the model data is technically clean and reliable is crucial for effective decision-making throughout the project lifecycle.\n\n- **Worst factor: RQ (Representational Quality)**  \n  While consistency across sources is important, in practice, it often becomes secondary to ensuring that the data itself is accurate and complete. Representational quality issues can sometimes be resolved through model reconciliation processes, whereas intrinsic quality issues can have more immediate and severe impacts on project outcomes.\n\nBest factor: IQ  \nWorst factor: RQ\n\nBased on the prioritization of factors for construction-project data-trust considerations:\n\n- **IQ vs CQ:** 7  \n  Intrinsic Quality is more important than Contextual Quality because accurate, valid, and unique data forms the foundation upon which other qualities are assessed. However, completeness and timeliness (CQ) are still significant.\n\n- **IQ vs RQ:** 9  \n  Intrinsic Quality is extremely more important than Representational Quality. Ensuring that the data itself is correct and reliable takes precedence over consistency across sources.\n\n- **CQ vs RQ:** 6  \n  Contextual Quality is more important than Representational Quality, as having complete and timely information is crucial for decision-making, though it does not outweigh intrinsic quality issues."
+}

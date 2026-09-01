@@ -1,0 +1,22 @@
+{
+  "agent_id": "data-engineer-rag-openmanus",
+  "did": "did:key:z6MknK7Wf8f8fYivwnqnYqEAWe9mzXYdboRjVXTZ5FKNGt3J",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Data Engineering Specialist",
+  "capabilities_requested": [
+    "knowledge_repo",
+    "rag_retrieval"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo",
+    "rag_retrieval"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "phi4:14b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-phi4-14b-2026-09-01-L3e"
+}

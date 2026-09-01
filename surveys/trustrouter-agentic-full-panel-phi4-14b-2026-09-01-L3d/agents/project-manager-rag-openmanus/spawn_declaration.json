@@ -1,0 +1,22 @@
+{
+  "agent_id": "project-manager-rag-openmanus",
+  "did": "did:key:z6MkjmPehzSvYSXaD46cBeezotxqypj5QXmmqiC8HGXfCiqN",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Construction Project Manager",
+  "capabilities_requested": [
+    "knowledge_repo",
+    "rag_retrieval"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo",
+    "rag_retrieval"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "phi4:14b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-phi4-14b-2026-09-01-L3d"
+}

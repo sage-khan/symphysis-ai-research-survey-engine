@@ -274,8 +274,8 @@ def _build_survey_panel_flow_class():
 # here in the same commit.
 # ---------------------------------------------------------------------------
 
-_BEST_LINE_RE = re.compile(r"Best factor:\s*(?:<[^>]+>\s*)?([A-Za-z0-9_]+)", re.IGNORECASE)
-_WORST_LINE_RE = re.compile(r"Worst factor:\s*(?:<[^>]+>\s*)?([A-Za-z0-9_]+)", re.IGNORECASE)
+_BEST_LINE_RE = re.compile(r"Best factor:\s*\**\s*(?:<[^>]+>\s*)?\**\s*([A-Za-z0-9_]+)", re.IGNORECASE)
+_WORST_LINE_RE = re.compile(r"Worst factor:\s*\**\s*(?:<[^>]+>\s*)?\**\s*([A-Za-z0-9_]+)", re.IGNORECASE)
 
 
 def _build_best_worst_prompt(codes, labels):
@@ -333,7 +333,15 @@ def _build_ratings_prompt(best, worst, others, labels):
 
 
 def _pair_regex(a, b):
-    return re.compile(rf"\b{re.escape(a)}\s+vs\.?\s+{re.escape(b)}\s*:\s*(\d+)", re.IGNORECASE)
+    # Tolerates markdown emphasis around the pair/colon (e.g. phi4:14b's
+    # "**DVS vs E**: 7" -- the literal "**" between the code and the colon
+    # is not whitespace, so a strict "\s*:\s*" never matches it) without
+    # weakening what counts as a valid rating value. See
+    # agentic-experiment-design-decisions.md's Phase 2 phi4:14b entry.
+    return re.compile(
+        rf"\b{re.escape(a)}\s+vs\.?\s+{re.escape(b)}\b[*_]*\s*:\s*[*_]*\s*(\d+)",
+        re.IGNORECASE,
+    )
 
 
 def _parse_ratings(text, best, worst, others):

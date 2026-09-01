@@ -1,0 +1,20 @@
+{
+  "agent_id": "bim-coordinator-base-openmanus",
+  "did": "did:key:z6MktjVuxsZoffjLx6zYtw8Bf8nm7iULqLcJwyu2VgSuM19E",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "BIM Coordinator",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "phi4:14b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-phi4-14b-2026-09-01-L3c"
+}

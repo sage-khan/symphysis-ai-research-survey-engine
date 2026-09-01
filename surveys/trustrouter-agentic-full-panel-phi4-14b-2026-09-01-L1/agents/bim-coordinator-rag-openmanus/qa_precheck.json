@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "bim-coordinator-rag-openmanus",
+    "role": "BIM Coordinator",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"bim-coordinator-rag-openmanus\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will approach it as a BIM Coordinator with expertise in managing multi-stakeholder Building Information Models, focusing on model federation, clash detection, and lifecycle documentation.\"\n}\n```",
+    "model": "phi4:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "phi4:14b",
+      "created_at": "2026-09-01T18:21:42.650370586Z",
+      "message": {
+        "role": "assistant",
+        "content": "```json\n{\n  \"agent_id\": \"bim-coordinator-rag-openmanus\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will approach it as a BIM Coordinator with expertise in managing multi-stakeholder Building Information Models, focusing on model federation, clash detection, and lifecycle documentation.\"\n}\n```"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1686905731,
+      "load_duration": 43569349,
+      "prompt_eval_count": 2169,
+      "prompt_eval_duration": 104536778,
+      "eval_count": 130,
+      "eval_duration": 1491951008
+    }
+  },
+  "claimed": {
+    "agent_id": "bim-coordinator-rag-openmanus",
+    "role": "BIM Coordinator",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand the assignment and will approach it as a BIM Coordinator with expertise in managing multi-stakeholder Building Information Models, focusing on model federation, clash detection, and lifecycle documentation."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "bim-coordinator-rag-openmanus",
+      "role": "BIM Coordinator",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "bim-coordinator-rag-openmanus",
+      "role": "BIM Coordinator",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand the assignment and will approach it as a BIM Coordinator with expertise in managing multi-stakeholder Building Information Models, focusing on model federation, clash detection, and lifecycle documentation."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "structural-engineer-rag-openmanus",
+    "role": "Structural Engineer",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"structural-engineer-rag-openmanus\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I have understood the assignment and will proceed as a Structural Engineer, utilizing the provided capabilities without web search.\"\n}\n```",
+    "model": "phi4:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "phi4:14b",
+      "created_at": "2026-09-01T18:39:12.689334623Z",
+      "message": {
+        "role": "assistant",
+        "content": "```json\n{\n  \"agent_id\": \"structural-engineer-rag-openmanus\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I have understood the assignment and will proceed as a Structural Engineer, utilizing the provided capabilities without web search.\"\n}\n```"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1477074116,
+      "load_duration": 42830102,
+      "prompt_eval_count": 2099,
+      "prompt_eval_duration": 104110419,
+      "eval_count": 113,
+      "eval_duration": 1293959286
+    }
+  },
+  "claimed": {
+    "agent_id": "structural-engineer-rag-openmanus",
+    "role": "Structural Engineer",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I have understood the assignment and will proceed as a Structural Engineer, utilizing the provided capabilities without web search."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "structural-engineer-rag-openmanus",
+      "role": "Structural Engineer",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "structural-engineer-rag-openmanus",
+      "role": "Structural Engineer",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I have understood the assignment and will proceed as a Structural Engineer, utilizing the provided capabilities without web search."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

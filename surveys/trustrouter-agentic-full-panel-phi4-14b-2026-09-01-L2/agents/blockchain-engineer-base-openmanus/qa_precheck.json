@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "blockchain-engineer-base-openmanus",
+    "role": "Blockchain / DLT Engineer",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"blockchain-engineer-base-openmanus\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will attempt it as a Blockchain / DLT Engineer, utilizing the shared knowledge repository for reference.\"\n}\n```",
+    "model": "phi4:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "phi4:14b",
+      "created_at": "2026-09-01T18:28:58.107596331Z",
+      "message": {
+        "role": "assistant",
+        "content": "```json\n{\n  \"agent_id\": \"blockchain-engineer-base-openmanus\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will attempt it as a Blockchain / DLT Engineer, utilizing the shared knowledge repository for reference.\"\n}\n```"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1905906053,
+      "load_duration": 44658955,
+      "prompt_eval_count": 2148,
+      "prompt_eval_duration": 470133245,
+      "eval_count": 118,
+      "eval_duration": 1351696135
+    }
+  },
+  "claimed": {
+    "agent_id": "blockchain-engineer-base-openmanus",
+    "role": "Blockchain / DLT Engineer",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand the assignment and will attempt it as a Blockchain / DLT Engineer, utilizing the shared knowledge repository for reference."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "blockchain-engineer-base-openmanus",
+      "role": "Blockchain / DLT Engineer",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "blockchain-engineer-base-openmanus",
+      "role": "Blockchain / DLT Engineer",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand the assignment and will attempt it as a Blockchain / DLT Engineer, utilizing the shared knowledge repository for reference."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -69,8 +69,8 @@ def build_best_worst_prompt(codes: List[str], labels: Dict[str, str]) -> str:
     )
 
 
-_BEST_LINE_RE = re.compile(r"Best factor:\s*(?:<[^>]+>\s*)?([A-Za-z0-9_]+)", re.IGNORECASE)
-_WORST_LINE_RE = re.compile(r"Worst factor:\s*(?:<[^>]+>\s*)?([A-Za-z0-9_]+)", re.IGNORECASE)
+_BEST_LINE_RE = re.compile(r"Best factor:\s*\**\s*(?:<[^>]+>\s*)?\**\s*([A-Za-z0-9_]+)", re.IGNORECASE)
+_WORST_LINE_RE = re.compile(r"Worst factor:\s*\**\s*(?:<[^>]+>\s*)?\**\s*([A-Za-z0-9_]+)", re.IGNORECASE)
 
 
 def parse_best_worst(text: str, codes: List[str]) -> BestWorstResult:
@@ -127,8 +127,14 @@ def build_ratings_prompt(
 
 
 def _pair_regex(a: str, b: str) -> re.Pattern:
+    # Tolerates markdown emphasis around the pair/colon (e.g. phi4:14b's
+    # "**DVS vs E**: 7" -- the literal "**" between the code and the colon
+    # is not whitespace, so a strict "\s*:\s*" never matches it) without
+    # weakening what counts as a valid rating value. See
+    # agentic-experiment-design-decisions.md's Phase 2 phi4:14b entry.
     return re.compile(
-        rf"\b{re.escape(a)}\s+vs\.?\s+{re.escape(b)}\s*:\s*(\d+)", re.IGNORECASE
+        rf"\b{re.escape(a)}\s+vs\.?\s+{re.escape(b)}\b[*_]*\s*:\s*[*_]*\s*(\d+)",
+        re.IGNORECASE,
     )
 
 
