@@ -66,3 +66,24 @@ def test_unknown_runtime_backend_raises_agent_card_error(tmp_path):
     agent = _make_agent(tmp_path, runtime_backend="not-a-real-backend")
     with pytest.raises(AgentCardError, match="unknown runtime_backend"):
         agent._resolve_provider()
+
+
+def test_model_provider_override_beats_the_cards_own_provider(tmp_path, monkeypatch):
+    # Phase 4 model-tiering escalation (docs/architecture/governance-layer-and-runtime-backends-plan.md
+    # §4): Agent.run()'s escalation check passes model_provider= explicitly
+    # when a level triggers escalation to a different provider than the
+    # card's own; the card itself is never mutated.
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
+    agent = _make_agent(tmp_path)  # card.model.provider == "ollama"
+    provider = agent._resolve_provider(model_provider="anthropic")
+    assert provider is get_provider("anthropic")
+    assert agent.card.model.provider == "ollama"  # card itself untouched
+
+
+def test_model_provider_override_also_applies_on_openmanus_backend(tmp_path, monkeypatch):
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test-key")
+    agent = _make_agent(tmp_path, runtime_backend="openmanus")
+    provider = agent._resolve_provider(model_provider="anthropic")
+    assert isinstance(provider, OpenManusProvider)
+    assert provider.model_provider == "anthropic"
+    assert agent.card.model.provider == "ollama"

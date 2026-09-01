@@ -9,7 +9,7 @@ that describe the survey as a whole, not any one agent.
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -31,6 +31,12 @@ class SurveyConfig:
     agent_cards: List[Path]
     description: str = ""
     created_at: str = ""
+    # Phase 4 model-tiering (docs/architecture/governance-layer-and-runtime-backends-plan.md):
+    # {} (the default, and every survey.yaml written before this field
+    # existed) means "no escalation" — stays local-first. Shape when set:
+    # {"threshold": 6, "model": {"provider": ..., "name": ..., "temperature": ...,
+    #  "max_tokens": ..., "top_p": ...}}. See policy/engine.py::escalated_level_ids.
+    escalation: Dict[str, Any] = field(default_factory=dict)
 
 
 def _read_yaml(path: Path) -> Dict[str, Any]:
@@ -65,4 +71,5 @@ def load_survey_config(survey_dir: Path) -> SurveyConfig:
         agent_cards=agent_cards,
         description=data.get("description", "") or "",
         created_at=data.get("created_at", "") or "",
+        escalation=data.get("escalation", {}) or {},
     )

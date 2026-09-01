@@ -136,6 +136,14 @@ class AgentCard:
     # multi-turn ReAct loop instead). Any other value is rejected by
     # Agent.run() with a clear error rather than silently falling back.
     runtime_backend: str = "direct_completion"
+    # Phase 4 model-tiering escalation (same plan doc, §4/Phase 4): when a
+    # survey's escalation rule would otherwise route this agent's run to
+    # the configured cloud-tier model (e.g. a hierarchical level with more
+    # criteria than the survey's threshold), this per-agent-card opt-out
+    # keeps it on its own configured model instead. False (participates in
+    # escalation when the survey rule triggers) is the default for every
+    # existing card, matching "no escalation" being the survey-level default.
+    escalation_exempt: bool = False
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -152,6 +160,7 @@ class AgentCard:
             "system_prompt_override": self.system_prompt_override,
             "tools": self.tools,
             "runtime_backend": self.runtime_backend,
+            "escalation_exempt": self.escalation_exempt,
             "model": vars(self.model),
             "rag": vars(self.rag),
             "sampling": vars(self.sampling),
@@ -186,6 +195,7 @@ def new_card(
     deterministic_did: bool = True,
     did_seed: str = "agentic-survey-tool-default-seed-v1",
     runtime_backend: str = "direct_completion",
+    escalation_exempt: bool = False,
 ) -> AgentCard:
     """Build a fresh AgentCard, generating its DID now. Callers that want a
     reproducible DID across machines must pass the same did_seed and
@@ -218,6 +228,7 @@ def new_card(
         rulefile=rulefile,
         system_prompt_override=system_prompt_override,
         runtime_backend=runtime_backend,
+        escalation_exempt=escalation_exempt,
         did=DidSpec(
             method="did:key",
             id=identity.did,
@@ -258,6 +269,7 @@ def load_card(path: Path) -> AgentCard:
         rulefile=data.get("rulefile", ""),
         system_prompt_override=data.get("system_prompt_override"),
         runtime_backend=data.get("runtime_backend", "direct_completion"),
+        escalation_exempt=data.get("escalation_exempt", False),
         model=ModelSpec(**data["model"]),
         rag=RagSpec(**data.get("rag", {})),
         sampling=SamplingSpec(**data.get("sampling", {})),

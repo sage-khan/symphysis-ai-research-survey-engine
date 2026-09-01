@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { marked } from "marked";
 import { api } from "../api.js";
 
-const TABS = ["Filled survey", "Reasoning", "Prompt", "Conversation log"];
+const TABS = ["Filled survey", "Reasoning", "Prompt", "Conversation log", "Lineage"];
 
 const KIND_LABEL = {
   spawn_declared: "Spawn declared",
@@ -11,7 +11,49 @@ const KIND_LABEL = {
   rejected: "Rejected (guardrail)",
   tool_call: "Tool call",
   fabricated_source_citation: "Fabricated source citation",
+  model_escalated: "Model escalated",
 };
+
+// Groups the flat edge list (spawning/lineage.py's lineage.json, one entry
+// per declared spawn: child_did/child_agent_id/parent_did) by parent_did
+// so it can be rendered as a tree, mirroring lineage.py's own tree()
+// helper on the Python side rather than re-deriving different grouping
+// logic here.
+function groupLineageByParent(edges) {
+  const grouped = {};
+  for (const edge of edges) {
+    const key = edge.parent_did || "root";
+    (grouped[key] = grouped[key] || []).push(edge);
+  }
+  return grouped;
+}
+
+function LineageNode({ edge, byParent, depth }) {
+  const children = byParent[edge.child_did] || [];
+  return (
+    <div style={{ marginLeft: depth * 20, marginTop: 6 }}>
+      <div className="panel" style={{ padding: 8 }}>
+        <div>{edge.child_agent_id}</div>
+        <div className="mono-dim" style={{ fontSize: 11 }}>
+          <code>{edge.child_did}</code>
+          {edge.parent_did ? (
+            <>
+              {" "}
+              &middot; spawned by <code>{edge.parent_did}</code>
+            </>
+          ) : (
+            <> &middot; root spawn (orchestrator)</>
+          )}
+          {" "}
+          &middot; {edge.declared_at}
+        </div>
+      </div>
+      {children.map((c) => (
+        <LineageNode key={c.child_did} edge={c} byParent={byParent} depth={depth + 1} />
+      ))}
+    </div>
+  );
+}
 
 function downloadJson(filename, data) {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
@@ -35,6 +77,7 @@ function downloadJsonl(filename, entries) {
 
 export default function TraceViewer({ surveyId, agentId, onClose }) {
   const [trace, setTrace] = useState(null);
+  const [lineage, setLineage] = useState(null);
   const [tab, setTab] = useState(TABS[0]);
   const [error, setError] = useState(null);
 
@@ -43,6 +86,10 @@ export default function TraceViewer({ surveyId, agentId, onClose }) {
       .getTrace(surveyId, agentId)
       .then(setTrace)
       .catch((err) => setError(String(err.message || err)));
+    // Lineage is survey-wide (the full parent-to-child spawn tree, not just
+    // this one agent's own edge), so it's fetched once per survey, not
+    // re-fetched when only agentId changes within the same survey.
+    api.getLineage(surveyId).then((data) => setLineage(data.edges || [])).catch(() => setLineage([]));
   }, [surveyId, agentId]);
 
   async function handleDownloadCard() {
@@ -265,8 +312,36 @@ export default function TraceViewer({ surveyId, agentId, onClose }) {
                       {JSON.stringify(entry, null, 2)}
                     </pre>
                   )}
+
+                  {entry.kind === "model_escalated" && (
+                    <div style={{ marginTop: 8, color: "var(--amber)" }}>
+                      {entry.from_model} &rarr; {entry.to_model}
+                      <div className="mono-dim" style={{ marginTop: 4, color: "inherit" }}>
+                        {entry.reason} (levels: {(entry.levels || []).join(", ")})
+                      </div>
+                    </div>
+                  )}
                 </div>
               ))}
+            </div>
+          )}
+
+          {tab === "Lineage" && (
+            <div>
+              <div className="mono-dim" style={{ marginBottom: 16, padding: 12, border: "1px solid var(--border)", borderRadius: "var(--radius)" }}>
+                The full parent-to-child spawn tree for this survey run: which agent spawned which,
+                and under what authority. A root spawn (no parent) is declared directly by the
+                orchestrator; today's flat expert panel is entirely root spawns, so an empty tree
+                here is expected until an agent actually spawns a child.
+              </div>
+              {lineage === null && <div className="mono-dim">Loading...</div>}
+              {lineage && lineage.length === 0 && <div className="mono-dim">No spawns recorded yet.</div>}
+              {lineage && lineage.length > 0 && (() => {
+                const byParent = groupLineageByParent(lineage);
+                return (byParent.root || []).map((edge) => (
+                  <LineageNode key={edge.child_did} edge={edge} byParent={byParent} depth={0} />
+                ));
+              })()}
             </div>
           )}
         </div>

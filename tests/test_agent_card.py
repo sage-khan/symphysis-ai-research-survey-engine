@@ -134,3 +134,40 @@ def test_load_card_without_runtime_backend_field_defaults_to_direct_completion(t
 
     loaded = load_card(path)
     assert loaded.runtime_backend == "direct_completion"
+
+
+def test_escalation_exempt_defaults_to_false():
+    card = _sample_card()
+    assert card.escalation_exempt is False
+    assert card.to_dict()["escalation_exempt"] is False
+
+
+def test_escalation_exempt_round_trips_through_write_and_load(tmp_path):
+    card = new_card(
+        agent_id="exempt-agent",
+        role="Test Role",
+        role_description="A test agent.",
+        system_prompt_template="config/prompts/expert_panel_system.txt",
+        model=ModelSpec(provider="ollama", name="qwen2.5:14b"),
+        did_seed="test-seed-v1",
+        escalation_exempt=True,
+    )
+    path = tmp_path / "exempt-agent.json"
+    card.write(path)
+    loaded = load_card(path)
+    assert loaded.escalation_exempt is True
+
+
+def test_load_card_without_escalation_exempt_field_defaults_to_false(tmp_path):
+    # A card authored before Phase 4 existed: absence must default to
+    # "participates in escalation", matching the survey-level {} default
+    # meaning "no escalation configured" — this per-card field only ever
+    # turns escalation OFF for one agent, never on.
+    card = _sample_card()
+    data = card.to_dict()
+    del data["escalation_exempt"]
+    path = tmp_path / "pre-existing-agent.json"
+    path.write_text(json.dumps(data), encoding="utf-8")
+
+    loaded = load_card(path)
+    assert loaded.escalation_exempt is False

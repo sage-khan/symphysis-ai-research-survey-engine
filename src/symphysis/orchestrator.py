@@ -173,6 +173,7 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
                 survey.instrument_params,
                 survey_title=survey.title,
                 survey_description=survey.description,
+                escalation=survey.escalation,
             )
         except (ProviderError, PermissionError_, AgentCardError, OpenManusProviderError, FileNotFoundError) as exc:
             # A misconfigured or uncredentialed agent (missing API key,

@@ -70,6 +70,7 @@ export const api = {
     request(`/api/surveys/${surveyId}/agents/${agentId}`, { method: "PUT", body: JSON.stringify(body) }),
   deleteAgent: (surveyId, agentId) => request(`/api/surveys/${surveyId}/agents/${agentId}`, { method: "DELETE" }),
   getTrace: (surveyId, agentId) => request(`/api/surveys/${surveyId}/agents/${agentId}/trace`),
+  getLineage: (surveyId) => request(`/api/surveys/${surveyId}/lineage`),
 
   listLibraryAgents: () => request("/api/library/agents"),
   getLibraryAgent: (agentId) => request(`/api/library/agents/${agentId}`),

@@ -18,6 +18,7 @@ from __future__ import annotations
 
 from fnmatch import fnmatch
 from pathlib import Path
+from typing import Any, Dict, List
 
 
 def covered(normalized_path: str, scope: str) -> bool:
@@ -43,3 +44,20 @@ def normalize_path(path: str) -> str:
 
 def allowed(value: str, allowlist: list[str]) -> bool:
     return value in allowlist
+
+
+def escalated_level_ids(levels: List[Dict[str, Any]], threshold: int) -> List[str]:
+    """Which level ids in `levels` have MORE criteria (dimensions) than
+    `threshold` — Phase 4's model-tiering escalation rule
+    (docs/architecture/governance-layer-and-runtime-backends-plan.md):
+    "a level with more than N criteria escalates to a configured
+    cloud-tier model." Pure and instrument-agnostic: takes already-loaded
+    level definitions (HierarchicalBWMInstrument.levels_for_panel()'s
+    shape — a list of {"id": ..., "dimensions": [...], ...} dicts), not an
+    instrument instance, so it has no import-time dependency on any one
+    instrument module."""
+    return [lvl["id"] for lvl in levels if len(lvl.get("dimensions", [])) > threshold]
+
+
+def should_escalate(levels: List[Dict[str, Any]], threshold: int) -> bool:
+    return bool(escalated_level_ids(levels, threshold))

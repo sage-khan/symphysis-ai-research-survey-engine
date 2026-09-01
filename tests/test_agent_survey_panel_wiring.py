@@ -84,7 +84,7 @@ def test_hierarchical_instrument_on_openmanus_backend_gets_survey_panel_extra_kw
             }
         }
     }))
-    monkeypatch.setattr(agent, "_resolve_provider", lambda instrument=None, instrument_params=None: run_fake)
+    monkeypatch.setattr(agent, "_resolve_provider", lambda *a, **kw: run_fake)
 
     agent.run(HierarchicalBWMInstrument(), PANEL_PARAMS)
 
@@ -111,7 +111,7 @@ def test_hierarchical_instrument_on_direct_completion_backend_gets_no_panel_kwar
             }
         }
     }))
-    monkeypatch.setattr(agent, "_resolve_provider", lambda instrument=None, instrument_params=None: run_fake)
+    monkeypatch.setattr(agent, "_resolve_provider", lambda *a, **kw: run_fake)
 
     agent.run(HierarchicalBWMInstrument(), PANEL_PARAMS)
 
@@ -129,7 +129,7 @@ def test_flat_instrument_on_openmanus_backend_gets_no_panel_kwargs(tmp_path, mon
         "best_to_others": {"DVS": 1, "F": 3},
         "others_to_worst": {"DVS": 3, "F": 1},
     }))
-    monkeypatch.setattr(agent, "_resolve_provider", lambda instrument=None, instrument_params=None: run_fake)
+    monkeypatch.setattr(agent, "_resolve_provider", lambda *a, **kw: run_fake)
 
     agent.run(BWMInstrument(), FLAT_PARAMS)
 

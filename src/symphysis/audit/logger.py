@@ -96,6 +96,20 @@ class SurveyStorage:
         were used, how, when, and on what' is answerable from one file."""
         self.append_conversation(agent_id, {"kind": "tool_call", "tool": tool, **detail})
 
+    def write_model_escalation(
+        self, agent_id: str, *, reason: str, levels: List[str], from_model: str, to_model: str
+    ) -> None:
+        """Phase 4 model-tiering (docs/architecture/governance-layer-and-runtime-backends-plan.md):
+        logged into the same conversation trace as everything else, so 'why
+        did this agent's run use a different model than its card
+        configures' is answerable from the trail exactly as transparently
+        as a tool call or a QA precheck — see agent.py::run()'s escalation
+        check, the only caller."""
+        self.append_conversation(
+            agent_id,
+            {"kind": "model_escalated", "reason": reason, "levels": levels, "from_model": from_model, "to_model": to_model},
+        )
+
     def write_qa_precheck(
         self,
         agent_id: str,

@@ -20,9 +20,11 @@ own driver script. Phase 3 is mostly implemented and tested (per-level
 `instrument_submit` validation/submission, and `SurveyPanelFlow` driving one
 `InstrumentSubmitProxyTool`-gated agent per level inside the isolated
 subprocess) — see that phase's own task list for exactly which of its three
-tasks landed and which (agent proposal/reuse inside the flow) did not. Not
-yet done: Phase 3 task 19, Phases 4-6 (Phase 5 is deliberately deferred, not
-merely unstarted — see its own section). Companion to
+tasks landed and which (agent proposal/reuse inside the flow) did not.
+Phase 4 (model-tiering escalation) and Phase 6 (UI: Lineage tab,
+`model_escalated` surfaced in the Conversation log) are both fully
+implemented and tested. Not yet done: Phase 3 task 19, Phase 5 (deliberately
+deferred, not merely unstarted — see its own section). Companion to
 `target-pipeline-vision.drawio`/`.png` (see `architecture-overview.md`)
 rather than a replacement for it: that diagram's Orchestration/AI-panel
 layers are the vision this plan makes concrete at the module level. Read
@@ -437,20 +439,65 @@ inside the flow) is not — see its own note below.**
     per-level agent selection inside the flow rather than at the existing
     survey-config level.
 
-### Phase 4: model-tiering
+### Phase 4: model-tiering — implemented and tested
 
-20. `policy/engine.py`: add an escalation rule, e.g. "a level with more than
-    N criteria escalates to a configured cloud-tier model unless overridden
-    per-agent-card." Default `N` and the escalation target model are a
-    per-survey setting, defaulting to "no escalation" (stays local-first)
-    until explicitly turned on.
-21. Every escalation decision is written to `audit/events.py` as its own
-    event type (`model_escalated`, with the reason and the level it applied
-    to), so the trail answers "why did this level run on a cloud model"
-    exactly as transparently as everything else.
-22. No change required inside OpenManus itself: `runtime/openmanus.py`'s
-    existing `AgentCard.model -> LLMSettings` mapping (task 13) already
-    handles routing to whichever provider/model the policy engine selects.
+20. `policy/engine.py`: `escalated_level_ids(levels, threshold) -> List[str]`
+    and `should_escalate(levels, threshold) -> bool`, pure and
+    instrument-agnostic (they take already-loaded level definitions, the
+    same shape `HierarchicalBWMInstrument.levels_for_panel()` returns — a
+    list of `{"id": ..., "dimensions": [...], ...}` dicts — not an
+    instrument instance). "Escalates" means strictly more than `threshold`
+    criteria, matching this task's own wording. `SurveyConfig.escalation:
+    Dict[str, Any]` (default `{}`, loaded from `survey.yaml`'s new optional
+    `escalation:` key) is the per-survey setting: `{}` means "no
+    escalation" (stays local-first) for every survey.yaml written before
+    this field existed and every survey that doesn't opt in; set it looks
+    like `{"threshold": 6, "model": {"provider": ..., "name": ...,
+    "temperature": ..., "max_tokens": ..., "top_p": ...}}`.
+    `AgentCard.escalation_exempt: bool` (default `False`) is the
+    per-agent-card override this task named ("unless overridden
+    per-agent-card"): `True` keeps that one agent on its own configured
+    model regardless of the survey's escalation rule.
+
+    `Agent.run()` (agent.py) is where these compose: given a hierarchical
+    instrument (`hasattr(instrument, "levels_for_panel")`), a non-exempt,
+    non-manual card, and a survey `escalation` dict with both `threshold`
+    and `model` set, it computes `escalated_level_ids(...)` against that
+    run's actual levels and, if non-empty, builds an `effective_model =
+    ModelSpec(**escalation["model"])` used for that run's provider
+    resolution and `run_with_guardrails(...)` call instead of
+    `self.card.model` — the card itself is never mutated. `_resolve_provider()`
+    gained a `model_provider: Optional[str] = None` override parameter for
+    exactly this (defaults to `self.card.model.provider` when omitted, so
+    every pre-Phase-4 caller is unaffected). `orchestrator.py` threads
+    `escalation=survey.escalation` into its `agent.run(...)` call.
+
+    Tests: `tests/test_policy_engine_escalation.py` (the pure predicates),
+    `tests/test_config_escalation.py` (`SurveyConfig.escalation` loading,
+    including the `escalation: ` (bare, parses to `None` via
+    `yaml.safe_load`) edge case), `tests/test_agent_card.py`
+    (`escalation_exempt` round-tripping through `to_dict()`/`new_card()`/
+    `load_card()`, including the pre-existing-card-missing-the-field case),
+    `tests/test_logger.py` (`write_model_escalation`),
+    `tests/test_agent_resolve_provider.py` (the `model_provider` override,
+    both backends), and `tests/test_agent_model_escalation.py` (the full
+    `Agent.run()` branch: escalation triggers, doesn't trigger when no
+    level exceeds threshold, is skipped for an exempt card, a manual-provider
+    card, and a flat non-hierarchical instrument).
+21. Every escalation decision is written to the same `conversation.jsonl`
+    trail as everything else — via `SurveyStorage.write_model_escalation()`
+    (`audit/logger.py`), not a separate `audit/events.py` module (no such
+    module exists in this codebase; this deviation from the task's original
+    phrasing matches the same pattern already noted for Phase 3's
+    `SurveyPanelFlow`/`FlowFactory`). Event shape: `{"kind":
+    "model_escalated", "reason": ..., "levels": [...], "from_model": ...,
+    "to_model": ...}`.
+22. Confirmed: no change was required inside OpenManus itself.
+    `runtime/openmanus.py`'s existing `AgentCard.model -> LLMSettings`
+    mapping (task 13) already routes to whichever provider/model
+    `_resolve_provider()`/`run_with_guardrails()` are given, so an
+    OpenManus-backed run genuinely escalates provider (not just model name)
+    for that one run.
 
 ### Phase 5: coding-capable roles (deferred until actually needed)
 
@@ -468,14 +515,27 @@ inside the flow) is not — see its own note below.**
     Symphysis survey flow; available to other consumers of this control
     plane.
 
-### Phase 6: UI
+### Phase 6: UI — implemented and tested
 
-25. `TraceViewer.jsx`: add a "Lineage" tab rendering `lineage.json` as a
-    tree (agent_id, did, parent, capabilities_granted), alongside the
-    existing Reasoning/Prompt/Conversation-log tabs. This is additive to
-    the existing component, not a rewrite.
-26. Surface `model_escalated` events (task 21) in the existing Conversation
-    log tab's `KIND_LABEL` map, the same pattern already used for
+25. `TraceViewer.jsx`: added a "Lineage" tab rendering `lineage.json` as a
+    tree (child_agent_id, child_did, parent_did, declared_at), alongside
+    the existing Reasoning/Prompt/Conversation-log tabs — additive to the
+    existing component, no rewrite. Lineage is survey-wide (the full
+    parent-to-child spawn tree, not one agent's own edge), so it's fetched
+    once per survey via a new backend endpoint,
+    `GET /api/surveys/{survey_id}/lineage` (`web/backend/routers/agents.py`,
+    reading `lineage.json` directly off the survey directory the same way
+    every other route in that file reads its files, not through
+    `SurveyStorage`) and a matching `api.getLineage(surveyId)`
+    (`web/frontend/src/api.js`). An empty edge list (every agent today is a
+    flat root spawn; no agent has actually spawned a child yet) renders as
+    "No spawns recorded yet.", not an error — `lineage.json` is written
+    lazily on first spawn declaration. Verified with `vite build` (clean
+    build, no errors) since this repo has no frontend test runner.
+26. Surfaced `model_escalated` events (task 21) in the existing Conversation
+    log tab's `KIND_LABEL` map ("Model escalated") plus a dedicated render
+    block (`from_model → to_model`, the reason, and which levels
+    triggered it), the same pattern already used for
     `qa_precheck`/`tool_call`/`fabricated_source_citation`.
 
 ## 7. What this plan deliberately does not do

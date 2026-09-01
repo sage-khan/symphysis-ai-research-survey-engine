@@ -59,6 +59,27 @@ def test_write_tool_call_logs_to_conversation(tmp_path):
     assert "logged_at" in lines[0]
 
 
+def test_write_model_escalation_logs_to_conversation(tmp_path):
+    storage = SurveyStorage(tmp_path)
+    storage.write_model_escalation(
+        "test-agent",
+        reason="level(s) L2 exceed 6 criteria",
+        levels=["L2"],
+        from_model="ollama/qwen2.5:14b",
+        to_model="anthropic/claude-sonnet-5",
+    )
+
+    conv_path = storage.agent_dir("test-agent") / "conversation.jsonl"
+    lines = [json.loads(l) for l in conv_path.read_text().splitlines()]
+    assert len(lines) == 1
+    assert lines[0]["kind"] == "model_escalated"
+    assert lines[0]["reason"] == "level(s) L2 exceed 6 criteria"
+    assert lines[0]["levels"] == ["L2"]
+    assert lines[0]["from_model"] == "ollama/qwen2.5:14b"
+    assert lines[0]["to_model"] == "anthropic/claude-sonnet-5"
+    assert "logged_at" in lines[0]
+
+
 def test_write_guarded_run_renders_filled_survey(tmp_path):
     card = _card()
     card_path = tmp_path / "test-agent.json"
