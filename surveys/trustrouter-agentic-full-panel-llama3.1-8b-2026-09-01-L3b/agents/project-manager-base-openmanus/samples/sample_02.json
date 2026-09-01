@@ -1,0 +1,15 @@
+{
+  "best": "T_history",
+  "worst": "T_source",
+  "best_to_others": {
+    "T_history": 1,
+    "T_chain": 7,
+    "T_source": 9
+  },
+  "others_to_worst": {
+    "T_source": 1,
+    "T_chain": 5,
+    "T_history": 9
+  },
+  "reasoning": "Best factor: T_history\nWorst factor: T_source\n\nT_history vs T_chain: 7\nT_history vs T_source: 9\nT_chain vs T_source: 5"
+}

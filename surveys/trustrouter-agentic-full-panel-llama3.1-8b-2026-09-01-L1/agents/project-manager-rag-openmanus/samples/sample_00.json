@@ -1,0 +1,17 @@
+{
+  "best": "E",
+  "worst": "F",
+  "best_to_others": {
+    "E": 1,
+    "DVS": 3,
+    "A": 2,
+    "F": 4
+  },
+  "others_to_worst": {
+    "F": 1,
+    "DVS": 6,
+    "A": 5,
+    "E": 4
+  },
+  "reasoning": "Best factor: E\nWorst factor: F\n\nHere are the ratings:\n\nE vs DVS: 3\nE vs A: 2\nE vs F: 4\nDVS vs F: 6\nA vs F: 5"
+}

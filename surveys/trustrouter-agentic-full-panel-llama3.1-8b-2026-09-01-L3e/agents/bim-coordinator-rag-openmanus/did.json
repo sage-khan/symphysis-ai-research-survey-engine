@@ -1,0 +1,8 @@
+{
+  "agent_id": "bim-coordinator-rag-openmanus",
+  "did": "did:key:z6MkpoN6ZxEiXJLit9D8EbXZc71aTdFRyArm5HxXnyfE9Qk1",
+  "method": "did:key",
+  "public_key_multibase": "z6MkpoN6ZxEiXJLit9D8EbXZc71aTdFRyArm5HxXnyfE9Qk1",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01:bim-coordinator-rag-openmanus')"
+}

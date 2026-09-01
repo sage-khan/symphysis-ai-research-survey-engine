@@ -1,0 +1,15 @@
+{
+  "best": "V_audit",
+  "worst": "V_crypto",
+  "best_to_others": {
+    "V_audit": 1,
+    "V_diversity": 3,
+    "V_crypto": 7
+  },
+  "others_to_worst": {
+    "V_crypto": 1,
+    "V_diversity": 5,
+    "V_audit": 7
+  },
+  "reasoning": "Best factor: V_audit\nWorst factor: V_crypto\n\nHere are the ratings:\n\nV_audit vs V_diversity: 3\nV_audit vs V_crypto: 7\nV_diversity vs V_crypto: 5"
+}

@@ -1,0 +1,112 @@
+{
+  "agent_id": "compliance-officer-rag-openmanus",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "L",
+      "worst": "PT",
+      "best_to_others": {
+        "L": 1,
+        "Q": 8,
+        "V": 9,
+        "IC": 7,
+        "C": 6,
+        "PT": 9
+      },
+      "others_to_worst": {
+        "PT": 1,
+        "Q": 4,
+        "V": 5,
+        "IC": 3,
+        "C": 2,
+        "L": 9
+      },
+      "reasoning": "Best factor: L\nWorst factor: PT\n\nL vs Q: 8\nL vs V: 9\nL vs IC: 7\nL vs C: 6\nL vs PT: 9\nQ vs PT: 4\nV vs PT: 5\nIC vs PT: 3\nC vs PT: 2"
+    },
+    {
+      "best": "L",
+      "worst": "V",
+      "best_to_others": {
+        "L": 1,
+        "Q": 8,
+        "PT": 7,
+        "IC": 6,
+        "C": 9,
+        "V": 5
+      },
+      "others_to_worst": {
+        "V": 1,
+        "Q": 4,
+        "PT": 3,
+        "IC": 2,
+        "C": 1,
+        "L": 5
+      },
+      "reasoning": "Best factor: L\nWorst factor: V\n\nL vs Q: 8\nL vs PT: 7\nL vs IC: 6\nL vs C: 9\nL vs V: 5\nQ vs V: 4\nPT vs V: 3\nIC vs V: 2\nC vs V: 1"
+    },
+    {
+      "best": "L",
+      "worst": "V",
+      "best_to_others": {
+        "L": 1,
+        "Q": 8,
+        "PT": 9,
+        "IC": 7,
+        "C": 6,
+        "V": 9
+      },
+      "others_to_worst": {
+        "V": 1,
+        "Q": 4,
+        "PT": 5,
+        "IC": 3,
+        "C": 2,
+        "L": 9
+      },
+      "reasoning": "Best factor: L\nWorst factor: V\n\nL vs Q: 8\nL vs PT: 9\nL vs IC: 7\nL vs C: 6\nL vs V: 9\nQ vs V: 4\nPT vs V: 5\nIC vs V: 3\nC vs V: 2"
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": null,
+      "available_tags": [
+        "gdpr_and_data_governance.md",
+        "SOURCES.md",
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "gdpr_and_data_governance.md",
+        "SOURCES.md",
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "gdpr_and_data_governance.md",
+        "SOURCES.md",
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    }
+  ]
+}

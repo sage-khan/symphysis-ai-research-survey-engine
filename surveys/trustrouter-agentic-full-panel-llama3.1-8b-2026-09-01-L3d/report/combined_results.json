@@ -1,0 +1,490 @@
+{
+  "survey_id": "trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01-L3d",
+  "title": "TrustRouter Agentic Full Panel (llama3.1:8b) -- Level L3d: Attack Resistance sub-parts",
+  "dimensions": [
+    "A_sybil",
+    "A_oracle",
+    "A_insider"
+  ],
+  "instrument": "bwm",
+  "agent_panel": {
+    "num_agents": 36,
+    "per_agent_meta": [
+      {
+        "agent_id": "bim-coordinator-base-openmanus",
+        "did": "did:key:z6MkpforTMij12doroyuXnu1pfRBrjmR7eDBdkHhBjTawEJh",
+        "role": "BIM Coordinator",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "bim-coordinator-base-openmanus",
+        "did": "did:key:z6MkpforTMij12doroyuXnu1pfRBrjmR7eDBdkHhBjTawEJh",
+        "role": "BIM Coordinator",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "bim-coordinator-base-openmanus",
+        "did": "did:key:z6MkpforTMij12doroyuXnu1pfRBrjmR7eDBdkHhBjTawEJh",
+        "role": "BIM Coordinator",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "bim-coordinator-rag-openmanus",
+        "did": "did:key:z6MkpoN6ZxEiXJLit9D8EbXZc71aTdFRyArm5HxXnyfE9Qk1",
+        "role": "BIM Coordinator",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "bim-coordinator-rag-openmanus",
+        "did": "did:key:z6MkpoN6ZxEiXJLit9D8EbXZc71aTdFRyArm5HxXnyfE9Qk1",
+        "role": "BIM Coordinator",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "bim-coordinator-rag-openmanus",
+        "did": "did:key:z6MkpoN6ZxEiXJLit9D8EbXZc71aTdFRyArm5HxXnyfE9Qk1",
+        "role": "BIM Coordinator",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "blockchain-engineer-base-openmanus",
+        "did": "did:key:z6Mkt5Bszs1yRUiy4xhJAiC9QbH4b1LXE5R79EvbyHTFrAWs",
+        "role": "Blockchain / DLT Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "blockchain-engineer-base-openmanus",
+        "did": "did:key:z6Mkt5Bszs1yRUiy4xhJAiC9QbH4b1LXE5R79EvbyHTFrAWs",
+        "role": "Blockchain / DLT Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "blockchain-engineer-base-openmanus",
+        "did": "did:key:z6Mkt5Bszs1yRUiy4xhJAiC9QbH4b1LXE5R79EvbyHTFrAWs",
+        "role": "Blockchain / DLT Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "blockchain-engineer-rag-openmanus",
+        "did": "did:key:z6Mkhs8429nwt52FYPPssdRYwQHR1TRked2Eco6o4i6uHiEn",
+        "role": "Blockchain / DLT Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "blockchain-engineer-rag-openmanus",
+        "did": "did:key:z6Mkhs8429nwt52FYPPssdRYwQHR1TRked2Eco6o4i6uHiEn",
+        "role": "Blockchain / DLT Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "blockchain-engineer-rag-openmanus",
+        "did": "did:key:z6Mkhs8429nwt52FYPPssdRYwQHR1TRked2Eco6o4i6uHiEn",
+        "role": "Blockchain / DLT Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "compliance-officer-base-openmanus",
+        "did": "did:key:z6MkuP9PdPpZcMwRVLjAcq5tj13j4STHBpoyHT5q6hoXtzPN",
+        "role": "Compliance and Regulatory Officer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "compliance-officer-base-openmanus",
+        "did": "did:key:z6MkuP9PdPpZcMwRVLjAcq5tj13j4STHBpoyHT5q6hoXtzPN",
+        "role": "Compliance and Regulatory Officer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "compliance-officer-base-openmanus",
+        "did": "did:key:z6MkuP9PdPpZcMwRVLjAcq5tj13j4STHBpoyHT5q6hoXtzPN",
+        "role": "Compliance and Regulatory Officer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "compliance-officer-rag-openmanus",
+        "did": "did:key:z6MktFkdxqRYufQP1SGaAkXUZGm8oSkT7vowAwh1EohdBBrL",
+        "role": "Compliance and Regulatory Officer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "compliance-officer-rag-openmanus",
+        "did": "did:key:z6MktFkdxqRYufQP1SGaAkXUZGm8oSkT7vowAwh1EohdBBrL",
+        "role": "Compliance and Regulatory Officer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "compliance-officer-rag-openmanus",
+        "did": "did:key:z6MktFkdxqRYufQP1SGaAkXUZGm8oSkT7vowAwh1EohdBBrL",
+        "role": "Compliance and Regulatory Officer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "data-engineer-base-openmanus",
+        "did": "did:key:z6MkpzPPNLDZuKDvjSNqq3t3b7sKC3oZs5ZdaBESsAJsWHxJ",
+        "role": "Data Engineering Specialist",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "data-engineer-base-openmanus",
+        "did": "did:key:z6MkpzPPNLDZuKDvjSNqq3t3b7sKC3oZs5ZdaBESsAJsWHxJ",
+        "role": "Data Engineering Specialist",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "data-engineer-base-openmanus",
+        "did": "did:key:z6MkpzPPNLDZuKDvjSNqq3t3b7sKC3oZs5ZdaBESsAJsWHxJ",
+        "role": "Data Engineering Specialist",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "data-engineer-rag-openmanus",
+        "did": "did:key:z6Mkg9KDWM895yBWsveUXMBPcSM8dw3ESMktye2rHR85Rjjh",
+        "role": "Data Engineering Specialist",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "data-engineer-rag-openmanus",
+        "did": "did:key:z6Mkg9KDWM895yBWsveUXMBPcSM8dw3ESMktye2rHR85Rjjh",
+        "role": "Data Engineering Specialist",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "data-engineer-rag-openmanus",
+        "did": "did:key:z6Mkg9KDWM895yBWsveUXMBPcSM8dw3ESMktye2rHR85Rjjh",
+        "role": "Data Engineering Specialist",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "project-manager-base-openmanus",
+        "did": "did:key:z6MkmN7vzHnh2icWr6YL16BEoJ3tVgESyM2YguEVrwiXHwKZ",
+        "role": "Construction Project Manager",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "project-manager-base-openmanus",
+        "did": "did:key:z6MkmN7vzHnh2icWr6YL16BEoJ3tVgESyM2YguEVrwiXHwKZ",
+        "role": "Construction Project Manager",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "project-manager-base-openmanus",
+        "did": "did:key:z6MkmN7vzHnh2icWr6YL16BEoJ3tVgESyM2YguEVrwiXHwKZ",
+        "role": "Construction Project Manager",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "project-manager-rag-openmanus",
+        "did": "did:key:z6Mkk9YZHYYmftsH3k42bQQVpGmzoHo1xot33JbJMWcuU47A",
+        "role": "Construction Project Manager",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "project-manager-rag-openmanus",
+        "did": "did:key:z6Mkk9YZHYYmftsH3k42bQQVpGmzoHo1xot33JbJMWcuU47A",
+        "role": "Construction Project Manager",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "project-manager-rag-openmanus",
+        "did": "did:key:z6Mkk9YZHYYmftsH3k42bQQVpGmzoHo1xot33JbJMWcuU47A",
+        "role": "Construction Project Manager",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "structural-engineer-base-openmanus",
+        "did": "did:key:z6MkvCDYKdQ96esHSaxFCSv8E4U8mMu3zsdGvtceSETYN6aF",
+        "role": "Structural Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "structural-engineer-base-openmanus",
+        "did": "did:key:z6MkvCDYKdQ96esHSaxFCSv8E4U8mMu3zsdGvtceSETYN6aF",
+        "role": "Structural Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "structural-engineer-base-openmanus",
+        "did": "did:key:z6MkvCDYKdQ96esHSaxFCSv8E4U8mMu3zsdGvtceSETYN6aF",
+        "role": "Structural Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "structural-engineer-rag-openmanus",
+        "did": "did:key:z6MkjfvqEHLcBxWq1Eq5fDje3bZRRJYiiwkzjRFYWsPmNHi3",
+        "role": "Structural Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "structural-engineer-rag-openmanus",
+        "did": "did:key:z6MkjfvqEHLcBxWq1Eq5fDje3bZRRJYiiwkzjRFYWsPmNHi3",
+        "role": "Structural Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "structural-engineer-rag-openmanus",
+        "did": "did:key:z6MkjfvqEHLcBxWq1Eq5fDje3bZRRJYiiwkzjRFYWsPmNHi3",
+        "role": "Structural Engineer",
+        "model": "llama3.1:8b",
+        "provider": "ollama",
+        "rag_enabled": true
+      }
+    ],
+    "bayesian": {
+      "criteria": [
+        "A_sybil",
+        "A_oracle",
+        "A_insider"
+      ],
+      "method": "pymc-nuts",
+      "num_experts": 36,
+      "agg_mean": [
+        0.15753423046297088,
+        0.27206618009439465,
+        0.5703995894426341
+      ],
+      "agg_ci_lower": [
+        0.1348463617748289,
+        0.2407322043059008,
+        0.5296403917051042
+      ],
+      "agg_ci_upper": [
+        0.18153386133942986,
+        0.3062829386335956,
+        0.6096809278108474
+      ],
+      "credal_matrix": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          1.0,
+          1.0,
+          0.0
+        ]
+      ]
+    },
+    "classical_consistency": [
+      {
+        "consistent": true,
+        "cr": 0.04660611854684513
+      },
+      {
+        "consistent": true,
+        "cr": 0.03951561504142766
+      },
+      {
+        "consistent": true,
+        "cr": 0.0528624451692723
+      },
+      {
+        "consistent": true,
+        "cr": 0.04660611854684513
+      },
+      {
+        "consistent": true,
+        "cr": 0.04660611854684513
+      },
+      {
+        "consistent": true,
+        "cr": 0.03951561504142766
+      },
+      {
+        "consistent": true,
+        "cr": 0.03951561504142766
+      },
+      {
+        "consistent": true,
+        "cr": 0.0528624451692723
+      },
+      {
+        "consistent": true,
+        "cr": 0.03682458749380356
+      },
+      {
+        "consistent": true,
+        "cr": 0.0528624451692723
+      },
+      {
+        "consistent": true,
+        "cr": 0.04660611854684513
+      },
+      {
+        "consistent": true,
+        "cr": 0.04660611854684513
+      },
+      {
+        "consistent": true,
+        "cr": 0.03682458749380356
+      },
+      {
+        "consistent": true,
+        "cr": 0.04660611854684513
+      },
+      {
+        "consistent": true,
+        "cr": 0.03951561504142766
+      },
+      {
+        "consistent": true,
+        "cr": 0.03682458749380356
+      },
+      {
+        "consistent": true,
+        "cr": 0.03682458749380356
+      },
+      {
+        "consistent": true,
+        "cr": 0.01961072706770605
+      },
+      {
+        "consistent": true,
+        "cr": 0.03951561504142766
+      },
+      {
+        "consistent": true,
+        "cr": 0.0528624451692723
+      },
+      {
+        "consistent": true,
+        "cr": 0.04660611854684513
+      },
+      {
+        "consistent": true,
+        "cr": 0.03951561504142766
+      },
+      {
+        "consistent": true,
+        "cr": 0.03951561504142766
+      },
+      {
+        "consistent": true,
+        "cr": 0.04660611854684513
+      },
+      {
+        "consistent": true,
+        "cr": 0.03951561504142766
+      },
+      {
+        "consistent": true,
+        "cr": 0.03682458749380356
+      },
+      {
+        "consistent": true,
+        "cr": 0.03951561504142766
+      },
+      {
+        "consistent": true,
+        "cr": 0.02785418335016191
+      },
+      {
+        "consistent": true,
+        "cr": 0.08588298443370908
+      },
+      {
+        "consistent": true,
+        "cr": 0.03682458749380356
+      },
+      {
+        "consistent": true,
+        "cr": 0.03682458749380356
+      },
+      {
+        "consistent": true,
+        "cr": 0.03682458749380356
+      },
+      {
+        "consistent": true,
+        "cr": 0.08588298443370902
+      },
+      {
+        "consistent": true,
+        "cr": 0.03682458749380356
+      },
+      {
+        "consistent": true,
+        "cr": 0.08588298443370908
+      },
+      {
+        "consistent": true,
+        "cr": 0.08588298443370908
+      }
+    ]
+  }
+}

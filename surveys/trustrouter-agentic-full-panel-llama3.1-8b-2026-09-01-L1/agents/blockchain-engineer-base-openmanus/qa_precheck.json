@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "blockchain-engineer-base-openmanus",
+    "role": "Blockchain / DLT Engineer",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"blockchain-engineer-base-openmanus\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am configured as a Blockchain / DLT Engineer, running on the ollama/llama3.1:8b model, with access to the shared survey knowledge repository but no dedicated RAG corpus or web search capabilities. I will attempt to answer this survey task based on my professional expertise in blockchain and distributed ledger technology.\"\n}",
+    "model": "llama3.1:8b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "llama3.1:8b",
+      "created_at": "2026-09-01T19:05:59.183663892Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"blockchain-engineer-base-openmanus\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am configured as a Blockchain / DLT Engineer, running on the ollama/llama3.1:8b model, with access to the shared survey knowledge repository but no dedicated RAG corpus or web search capabilities. I will attempt to answer this survey task based on my professional expertise in blockchain and distributed ledger technology.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1472439757,
+      "load_duration": 85049712,
+      "prompt_eval_count": 2178,
+      "prompt_eval_duration": 271520338,
+      "eval_count": 163,
+      "eval_duration": 1054859688
+    }
+  },
+  "claimed": {
+    "agent_id": "blockchain-engineer-base-openmanus",
+    "role": "Blockchain / DLT Engineer",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand that I am configured as a Blockchain / DLT Engineer, running on the ollama/llama3.1:8b model, with access to the shared survey knowledge repository but no dedicated RAG corpus or web search capabilities. I will attempt to answer this survey task based on my professional expertise in blockchain and distributed ledger technology."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "blockchain-engineer-base-openmanus",
+      "role": "Blockchain / DLT Engineer",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "blockchain-engineer-base-openmanus",
+      "role": "Blockchain / DLT Engineer",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand that I am configured as a Blockchain / DLT Engineer, running on the ollama/llama3.1:8b model, with access to the shared survey knowledge repository but no dedicated RAG corpus or web search capabilities. I will attempt to answer this survey task based on my professional expertise in blockchain and distributed ledger technology."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

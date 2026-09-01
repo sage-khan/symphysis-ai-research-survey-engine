@@ -1,0 +1,20 @@
+{
+  "agent_id": "project-manager-base-openmanus",
+  "did": "did:key:z6MkmN7vzHnh2icWr6YL16BEoJ3tVgESyM2YguEVrwiXHwKZ",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Construction Project Manager",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "llama3.1:8b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01-L3d"
+}

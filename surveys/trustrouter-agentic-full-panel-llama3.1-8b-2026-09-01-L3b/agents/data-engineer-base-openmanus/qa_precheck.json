@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-base-openmanus",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-base-openmanus\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am configured as a Data Engineering Specialist, running on the ollama/llama3.1:8b model, with access to the shared survey knowledge repository but no dedicated RAG corpus or web search capabilities. I will attempt this task as an expert in my role, adhering to the provided rules and guidelines.\"\n}",
+    "model": "llama3.1:8b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "llama3.1:8b",
+      "created_at": "2026-09-01T19:12:18.96613077Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"data-engineer-base-openmanus\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am configured as a Data Engineering Specialist, running on the ollama/llama3.1:8b model, with access to the shared survey knowledge repository but no dedicated RAG corpus or web search capabilities. I will attempt this task as an expert in my role, adhering to the provided rules and guidelines.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1430067308,
+      "load_duration": 84928609,
+      "prompt_eval_count": 2102,
+      "prompt_eval_duration": 262201837,
+      "eval_count": 159,
+      "eval_duration": 1026227725
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-base-openmanus",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand that I am configured as a Data Engineering Specialist, running on the ollama/llama3.1:8b model, with access to the shared survey knowledge repository but no dedicated RAG corpus or web search capabilities. I will attempt this task as an expert in my role, adhering to the provided rules and guidelines."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-base-openmanus",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-base-openmanus",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand that I am configured as a Data Engineering Specialist, running on the ollama/llama3.1:8b model, with access to the shared survey knowledge repository but no dedicated RAG corpus or web search capabilities. I will attempt this task as an expert in my role, adhering to the provided rules and guidelines."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "agent_id": "data-engineer-base-openmanus",
+  "did": "did:key:z6MkpzPPNLDZuKDvjSNqq3t3b7sKC3oZs5ZdaBESsAJsWHxJ",
+  "method": "did:key",
+  "public_key_multibase": "z6MkpzPPNLDZuKDvjSNqq3t3b7sKC3oZs5ZdaBESsAJsWHxJ",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01:data-engineer-base-openmanus')"
+}

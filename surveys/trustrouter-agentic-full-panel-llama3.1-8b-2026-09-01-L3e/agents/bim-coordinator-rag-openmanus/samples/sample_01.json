@@ -1,0 +1,15 @@
+{
+  "best": "E_demand",
+  "worst": "E_market",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_liquidity": 8,
+    "E_market": 6
+  },
+  "others_to_worst": {
+    "E_market": 1,
+    "E_liquidity": 7,
+    "E_demand": 6
+  },
+  "reasoning": "Best factor: E_demand\nWorst factor: E_market\n\nAs a BIM Coordinator with 10+ years of experience managing multi-stakeholder Building Information Models, I'll provide my ratings based on the importance of each factor in the context of construction-project records considered for blockchain storage.\n\nE_demand vs E_liquidity: 8\nE_demand vs E_market: 6\nE_liquidity vs E_market: 7"
+}

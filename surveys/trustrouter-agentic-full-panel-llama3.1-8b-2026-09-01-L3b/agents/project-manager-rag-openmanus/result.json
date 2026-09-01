@@ -1,0 +1,94 @@
+{
+  "agent_id": "project-manager-rag-openmanus",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "T_source",
+      "worst": "T_history",
+      "best_to_others": {
+        "T_source": 1,
+        "T_chain": 8,
+        "T_history": 9
+      },
+      "others_to_worst": {
+        "T_history": 1,
+        "T_chain": 6,
+        "T_source": 9
+      },
+      "reasoning": "Best factor: T_source\nWorst factor: T_history\n\nT_source vs T_chain: 8\nT_source vs T_history: 9\nT_chain vs T_history: 6"
+    },
+    {
+      "best": "T_source",
+      "worst": "T_history",
+      "best_to_others": {
+        "T_source": 1,
+        "T_chain": 8,
+        "T_history": 9
+      },
+      "others_to_worst": {
+        "T_history": 1,
+        "T_chain": 6,
+        "T_source": 9
+      },
+      "reasoning": "Best factor: T_source\nWorst factor: T_history\n\nT_source vs T_chain: 8\nT_source vs T_history: 9\nT_chain vs T_history: 6"
+    },
+    {
+      "best": "T_source",
+      "worst": "T_history",
+      "best_to_others": {
+        "T_source": 1,
+        "T_chain": 8,
+        "T_history": 9
+      },
+      "others_to_worst": {
+        "T_history": 1,
+        "T_chain": 6,
+        "T_source": 9
+      },
+      "reasoning": "Best factor: T_source\nWorst factor: T_history\n\nT_source vs T_chain: 8\nT_source vs T_history: 9\nT_chain vs T_history: 6"
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": null,
+      "available_tags": [
+        "SOURCES.md",
+        "construction_project_management_and_mcdm.md",
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "SOURCES.md",
+        "construction_project_management_and_mcdm.md",
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "SOURCES.md",
+        "construction_project_management_and_mcdm.md",
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    }
+  ]
+}

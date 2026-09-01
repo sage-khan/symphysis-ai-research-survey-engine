@@ -1,0 +1,15 @@
+{
+  "best": "E_market",
+  "worst": "E_demand",
+  "best_to_others": {
+    "E_market": 1,
+    "E_liquidity": 6,
+    "E_demand": 8
+  },
+  "others_to_worst": {
+    "E_demand": 1,
+    "E_liquidity": 5,
+    "E_market": 8
+  },
+  "reasoning": "Best factor: E_market\nWorst factor: E_demand\n\nBased on my professional judgement as a Construction Project Manager, I would rate the importance of each factor relative to the others as follows:\n\nE_market vs E_liquidity: 6\nE_market vs E_demand: 8\nE_liquidity vs E_demand: 5"
+}
