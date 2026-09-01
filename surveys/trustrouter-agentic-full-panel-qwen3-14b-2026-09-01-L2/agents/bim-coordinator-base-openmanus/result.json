@@ -1,0 +1,106 @@
+{
+  "agent_id": "bim-coordinator-base-openmanus",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "C",
+      "worst": "PT",
+      "best_to_others": {
+        "C": 1,
+        "Q": 7,
+        "V": 6,
+        "IC": 8,
+        "L": 7,
+        "PT": 9
+      },
+      "others_to_worst": {
+        "PT": 1,
+        "Q": 5,
+        "V": 6,
+        "IC": 7,
+        "L": 6,
+        "C": 9
+      },
+      "reasoning": "Best factor: C  \nWorst factor: PT\n\nC vs Q: 7  \nC vs V: 6  \nC vs IC: 8  \nC vs L: 7  \nC vs PT: 9  \nQ vs PT: 5  \nV vs PT: 6  \nIC vs PT: 7  \nL vs PT: 6"
+    },
+    {
+      "best": "L",
+      "worst": "IC",
+      "best_to_others": {
+        "L": 1,
+        "Q": 6,
+        "PT": 5,
+        "V": 7,
+        "C": 5,
+        "IC": 9
+      },
+      "others_to_worst": {
+        "IC": 1,
+        "Q": 3,
+        "PT": 4,
+        "V": 5,
+        "C": 4,
+        "L": 9
+      },
+      "reasoning": "Best factor: L  \nWorst factor: IC\n\nL vs Q: 6  \nL vs PT: 5  \nL vs V: 7  \nL vs C: 5  \nL vs IC: 9  \nQ vs IC: 3  \nPT vs IC: 4  \nV vs IC: 5  \nC vs IC: 4"
+    },
+    {
+      "best": "C",
+      "worst": "V",
+      "best_to_others": {
+        "C": 1,
+        "Q": 7,
+        "PT": 8,
+        "IC": 8,
+        "L": 7,
+        "V": 9
+      },
+      "others_to_worst": {
+        "V": 1,
+        "Q": 6,
+        "PT": 7,
+        "IC": 6,
+        "L": 7,
+        "C": 9
+      },
+      "reasoning": "Best factor: C  \nWorst factor: V\n\nC vs Q: 7  \nC vs PT: 8  \nC vs IC: 8  \nC vs L: 7  \nC vs V: 9  \nQ vs V: 6  \nPT vs V: 7  \nIC vs V: 6  \nL vs V: 7"
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    }
+  ]
+}

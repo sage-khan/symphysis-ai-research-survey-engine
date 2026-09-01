@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-rag-openmanus",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"compliance-officer-rag-openmanus\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": \"none\",\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter Agentic Full Panel Level L2 survey task and will respond as a Compliance and Regulatory Officer, adhering strictly to the provided rules and reference materials.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T16:40:21.784409909Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"compliance-officer-rag-openmanus\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": \"none\",\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter Agentic Full Panel Level L2 survey task and will respond as a Compliance and Regulatory Officer, adhering strictly to the provided rules and reference materials.\"\n}",
+        "thinking": "Okay, I need to confirm my configuration as per the user's instructions. Let me start by carefully reading the query again to make sure I don't miss any details.\n\nThe user provided specific details about the agent ID, role, model, and capabilities. My task is to return a JSON object that restates this configuration accurately. The key points are:\n\n- Agent ID: compliance-officer-rag-openmanus\n- Role: Compliance and Regulatory Officer\n- Model: ollama/qwen3:14b\n- Capabilities: dedicated RAG corpus (True), shared knowledge repo (True), role pack (none), web search (False)\n- Acknowledgement: A short confirmation that I understand the assignment and will perform it as an expert in my role.\n\nI need to ensure that each field in the JSON matches exactly what was provided. Let me double-check each part. The agent_id, role, and model must be copied verbatim. The capabilities section should reflect the boolean values correctly. The role_pack is \"none\" as specified. Web_search is False. \n\nFor the acknowledgement, I should use 1-2 sentences confirming understanding and commitment to the task. It's important to mention acting as a Compliance and Regulatory Officer and adhering to the rules provided.\n\nI need to avoid adding any extra information or capabilities beyond what's listed. Also, the JSON structure must be correct with proper commas and brackets. No markdown, just plain JSON. Let me put this all together now.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 5551954581,
+      "load_duration": 53466310,
+      "prompt_eval_count": 2153,
+      "prompt_eval_duration": 106660696,
+      "eval_count": 438,
+      "eval_duration": 5288306062
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-rag-openmanus",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": "none",
+      "web_search": false
+    },
+    "acknowledgement": "I confirm understanding of the TrustRouter Agentic Full Panel Level L2 survey task and will respond as a Compliance and Regulatory Officer, adhering strictly to the provided rules and reference materials."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-rag-openmanus",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-rag-openmanus",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": "none",
+        "web_search": false
+      },
+      "acknowledgement": "I confirm understanding of the TrustRouter Agentic Full Panel Level L2 survey task and will respond as a Compliance and Regulatory Officer, adhering strictly to the provided rules and reference materials."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": false,
+      "web_search": true
+    },
+    "all_match": false
+  }
+}

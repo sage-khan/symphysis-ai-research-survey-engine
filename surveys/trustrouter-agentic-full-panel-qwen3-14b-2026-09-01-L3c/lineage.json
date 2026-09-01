@@ -1,0 +1,74 @@
+[
+  {
+    "child_did": "did:key:z6MkudbAFJTsT2nAaosLBXGy3dK9HHhxJRGYp85L1rpGG6MW",
+    "child_agent_id": "bim-coordinator-base-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:19:47.462235+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkrS7nJZ3C7iB8kChprkVGtviujb1Avhvb1uK7D4V5yACK",
+    "child_agent_id": "bim-coordinator-rag-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:20:49.205735+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkvKSFkcT6DEpWEsxp95m1wb9T1hSVzyS5BFz4rn1dkQX2",
+    "child_agent_id": "blockchain-engineer-base-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:22:16.736190+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkefhuQ6kB1idjYsNndYCBmDNMXzrmmDaSSNrB7uygb6tb",
+    "child_agent_id": "blockchain-engineer-rag-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:23:13.160204+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkhe8EvcrtatxJKQFwRpetMw5DkpvZbrHXSSPefLe5DfVf",
+    "child_agent_id": "compliance-officer-base-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:24:41.885586+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkhGj5AAyBKcqGQ794QBjrs7aqk5ChKYRr2bnej5XYT3L2",
+    "child_agent_id": "compliance-officer-rag-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:25:36.418350+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkoHX584uNGsUNkT4wu6bvscjg7jXYsKj13JDFkz2TH799",
+    "child_agent_id": "data-engineer-base-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:27:00.792215+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkw1baUuVQnipgbiBvSVDb8wz6t59Gcd6GT2tqAYBBy8xt",
+    "child_agent_id": "data-engineer-rag-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:28:05.244178+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkfMGqRV6T6XUBBe8xDRug3Wf1bA8CzrJeUpsbHgq2TYcL",
+    "child_agent_id": "project-manager-base-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:29:18.597313+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkhqFWadXvwg3s6b7ZtNrQPLq6YT88kwodKPsLp3PqQoVA",
+    "child_agent_id": "project-manager-rag-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:30:25.726346+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkjijSmZJ4VbnK5WEgJsauUfmcN1JPnNQ9qPUAJf5MS9fW",
+    "child_agent_id": "structural-engineer-base-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:31:38.927359+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkhs5XsGsxBPxgbvuoZrUdk9QpW6F8xCP9Q5ZRZPqWvGnm",
+    "child_agent_id": "structural-engineer-rag-openmanus",
+    "parent_did": null,
+    "declared_at": "2026-09-01T17:32:44.059623+00:00"
+  }
+]

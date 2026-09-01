@@ -1,0 +1,94 @@
+{
+  "agent_id": "bim-coordinator-base-openmanus",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "DVS",
+      "worst": "E",
+      "best_to_others": {
+        "DVS": 1,
+        "F": 7,
+        "A": 8,
+        "E": 9
+      },
+      "others_to_worst": {
+        "E": 1,
+        "F": 8,
+        "A": 9,
+        "DVS": 9
+      },
+      "reasoning": "Best factor: DVS  \nWorst factor: E\n\nDVS vs F: 7  \nDVS vs A: 8  \nDVS vs E: 9  \nF vs E: 8  \nA vs E: 9"
+    },
+    {
+      "best": "DVS",
+      "worst": "E",
+      "best_to_others": {
+        "DVS": 1,
+        "F": 7,
+        "A": 7,
+        "E": 9
+      },
+      "others_to_worst": {
+        "E": 1,
+        "F": 8,
+        "A": 8,
+        "DVS": 9
+      },
+      "reasoning": "Best factor: DVS  \nWorst factor: E\n\nDVS vs F: 7  \nDVS vs A: 7  \nDVS vs E: 9  \nF vs E: 8  \nA vs E: 8"
+    },
+    {
+      "best": "DVS",
+      "worst": "E",
+      "best_to_others": {
+        "DVS": 1,
+        "F": 7,
+        "A": 8,
+        "E": 9
+      },
+      "others_to_worst": {
+        "E": 1,
+        "F": 7,
+        "A": 8,
+        "DVS": 9
+      },
+      "reasoning": "Best factor: DVS  \nWorst factor: E\n\nDVS vs F: 7  \nDVS vs A: 8  \nDVS vs E: 9  \nF vs E: 7  \nA vs E: 8"
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    }
+  ]
+}

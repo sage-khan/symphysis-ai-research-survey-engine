@@ -1,0 +1,15 @@
+{
+  "best": "A_oracle",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_oracle": 1,
+    "A_insider": 7,
+    "A_sybil": 8
+  },
+  "others_to_worst": {
+    "A_sybil": 1,
+    "A_insider": 6,
+    "A_oracle": 8
+  },
+  "reasoning": "Best factor: A_oracle  \nWorst factor: A_sybil\n\nA_oracle vs A_insider: 7  \nA_oracle vs A_sybil: 8  \nA_insider vs A_sybil: 6"
+}

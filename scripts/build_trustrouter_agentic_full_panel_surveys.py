@@ -15,27 +15,43 @@ agentic-experiment-design-decisions.md (project-veritas) for the full
 design log behind this flow, and its "Wired into the production runtime"
 entry for the one-agent pilot this script scales up from.
 
-Run:
+Run (Phase 1, mistral:7b -- kept as the default for reproducibility):
     cd /path/to/symphysis-ai-research-survey-engine
     python3 scripts/build_trustrouter_agentic_full_panel_surveys.py
+
+Run (Phase 2, any other locally-served Ollama model -- pass the Ollama
+model name and a filesystem-safe slug for it):
+    python3 scripts/build_trustrouter_agentic_full_panel_surveys.py qwen3:14b qwen3-14b
+    python3 scripts/build_trustrouter_agentic_full_panel_surveys.py phi4:14b phi4-14b
+    python3 scripts/build_trustrouter_agentic_full_panel_surveys.py llama3.1:8b llama3.1-8b
+
+Each invocation builds its own 7 survey folders under
+surveys/trustrouter-agentic-full-panel-<slug>-2026-09-01-<level_id>/,
+sharing everything (personas, dimensions, RAG corpora, knowledge_repo,
+rulefile template) with the Phase 1 mistral run except the model name
+and the resulting PARENT_RUN_ID slug -- see
+agentic-experiment-design-decisions.md's Phase 2 entry (project-veritas)
+for why qwen3:14b/phi4:14b/llama3.1:8b were the three candidates chosen.
 """
 
 from __future__ import annotations
 
 import shutil
+import sys
 from pathlib import Path
 
 import yaml
 
-import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from symphysis.agent_card import ModelSpec, RagSpec, SamplingSpec, PermissionsSpec, GuardrailsSpec, new_card
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SOURCE_SURVEY = REPO_ROOT / "surveys" / "trustrouter-hawc-bwm"
-PARENT_RUN_ID = "trustrouter-agentic-full-panel-mistral-2026-09-01"
-MODEL_NAME = "mistral:7b"
+
+MODEL_NAME = sys.argv[1] if len(sys.argv) > 1 else "mistral:7b"
+MODEL_SLUG = sys.argv[2] if len(sys.argv) > 2 else "mistral"
+PARENT_RUN_ID = f"trustrouter-agentic-full-panel-{MODEL_SLUG}-2026-09-01"
 DID_SEED = PARENT_RUN_ID
 
 ROLES = [

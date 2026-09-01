@@ -1,0 +1,88 @@
+{
+  "agent_id": "structural-engineer-base-openmanus",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "IQ",
+      "worst": "RQ",
+      "best_to_others": {
+        "IQ": 1,
+        "CQ": 7,
+        "RQ": 8
+      },
+      "others_to_worst": {
+        "RQ": 1,
+        "CQ": 6,
+        "IQ": 8
+      },
+      "reasoning": "Best factor: IQ  \nWorst factor: RQ\n\nIQ vs CQ: 7  \nIQ vs RQ: 8  \nCQ vs RQ: 6"
+    },
+    {
+      "best": "IQ",
+      "worst": "RQ",
+      "best_to_others": {
+        "IQ": 1,
+        "CQ": 7,
+        "RQ": 9
+      },
+      "others_to_worst": {
+        "RQ": 1,
+        "CQ": 6,
+        "IQ": 9
+      },
+      "reasoning": "Best factor: IQ  \nWorst factor: RQ\n\nIQ vs CQ: 7  \nIQ vs RQ: 9  \nCQ vs RQ: 6"
+    },
+    {
+      "best": "IQ",
+      "worst": "RQ",
+      "best_to_others": {
+        "IQ": 1,
+        "CQ": 7,
+        "RQ": 8
+      },
+      "others_to_worst": {
+        "RQ": 1,
+        "CQ": 6,
+        "IQ": 8
+      },
+      "reasoning": "Best factor: IQ  \nWorst factor: RQ\n\nIQ vs CQ: 7  \nIQ vs RQ: 8  \nCQ vs RQ: 6"
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    }
+  ]
+}

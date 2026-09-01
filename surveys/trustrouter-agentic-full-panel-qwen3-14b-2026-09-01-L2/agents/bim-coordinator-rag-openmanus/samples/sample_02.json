@@ -1,0 +1,21 @@
+{
+  "best": "C",
+  "worst": "V",
+  "best_to_others": {
+    "C": 1,
+    "Q": 7,
+    "PT": 6,
+    "IC": 5,
+    "L": 6,
+    "V": 9
+  },
+  "others_to_worst": {
+    "V": 1,
+    "Q": 7,
+    "PT": 6,
+    "IC": 7,
+    "L": 8,
+    "C": 9
+  },
+  "reasoning": "Best factor: C  \nWorst factor: V\n\nC vs Q: 7  \nC vs PT: 6  \nC vs IC: 5  \nC vs L: 6  \nC vs V: 9  \nQ vs V: 7  \nPT vs V: 6  \nIC vs V: 7  \nL vs V: 8  \n\n**Reasoning:**  \n- **C (Criticality)** is prioritized because errors in critical data (e.g., structural integrity, safety) have irreversible consequences, making its importance paramount.  \n- **V (Verification Strength)** is rated lowest because cryptographic evidence, while valuable, is secondary to the *impact* of data accuracy (C) and *legal mandates* (L).  \n- **Q (Quality)** is important but secondary to criticality; clean data is less impactful if the data\u2019s stakes are low.  \n- **L (Legal Compliance)** is weighted highly because non-compliance risks legal penalties, but it is less urgent than the direct operational risks of incorrect data (C).  \n- **IC (Independent Confirmation)** and **PT (Provenance Trust)** are mid-tier, as they add reliability but are not as immediately critical as C or L.  \n- Comparisons like **L vs V** (8) reflect that legal compliance is more urgent than verification methods, which may not always be legally required."
+}

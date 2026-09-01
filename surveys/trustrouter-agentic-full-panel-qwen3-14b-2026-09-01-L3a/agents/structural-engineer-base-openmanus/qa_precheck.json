@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "structural-engineer-base-openmanus",
+    "role": "Structural Engineer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"structural-engineer-base-openmanus\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter Agentic Full Panel Level L3a survey configuration. As a Structural Engineer, I will evaluate ISO 25012 quality clusters (IQ, CQ, RQ) for construction-project records using the provided shared knowledge repository and role-specific expertise.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T17:03:31.671683756Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"structural-engineer-base-openmanus\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter Agentic Full Panel Level L3a survey configuration. As a Structural Engineer, I will evaluate ISO 25012 quality clusters (IQ, CQ, RQ) for construction-project records using the provided shared knowledge repository and role-specific expertise.\"\n}",
+        "thinking": "Okay, I need to confirm my configuration as per the user's instructions. Let me start by carefully reading the query again to make sure I don't miss any details.\n\nThe user provided specific details about the agent ID, role, model, and capabilities. The agent ID is \"structural-engineer-base-openmanus\", role is \"Structural Engineer\", and the model is \"ollama/qwen3:14b\". The capabilities include a shared knowledge repository set to True, dedicated RAG corpus and web search as False, and no role pack. \n\nI need to structure the JSON response exactly as specified. The keys are agent_id, role, model, capabilities, and acknowledgement. Under capabilities, the dedicated_rag_corpus, shared_knowledge_repo, role_pack, and web_search need to be correctly set. The role_pack is \"none\" as per the instructions. \n\nFor the acknowledgement, I should write a brief confirmation that I understand the assignment and will proceed as an expert in the role. It needs to be 1-2 sentences. \n\nI must ensure that I don't add any extra information or capabilities beyond what's provided. Also, the JSON should have no other text, just the object. Let me double-check each field to make sure they match the user's input exactly. Once that's confirmed, I can proceed to format the JSON correctly without any syntax errors.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 5845275746,
+      "load_duration": 59074209,
+      "prompt_eval_count": 2128,
+      "prompt_eval_duration": 483240839,
+      "eval_count": 432,
+      "eval_duration": 5204141863
+    }
+  },
+  "claimed": {
+    "agent_id": "structural-engineer-base-openmanus",
+    "role": "Structural Engineer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm understanding of the TrustRouter Agentic Full Panel Level L3a survey configuration. As a Structural Engineer, I will evaluate ISO 25012 quality clusters (IQ, CQ, RQ) for construction-project records using the provided shared knowledge repository and role-specific expertise."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "structural-engineer-base-openmanus",
+      "role": "Structural Engineer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "structural-engineer-base-openmanus",
+      "role": "Structural Engineer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm understanding of the TrustRouter Agentic Full Panel Level L3a survey configuration. As a Structural Engineer, I will evaluate ISO 25012 quality clusters (IQ, CQ, RQ) for construction-project records using the provided shared knowledge repository and role-specific expertise."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

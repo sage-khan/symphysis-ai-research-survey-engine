@@ -1,0 +1,15 @@
+{
+  "best": "IQ",
+  "worst": "CQ",
+  "best_to_others": {
+    "IQ": 1,
+    "RQ": 7,
+    "CQ": 9
+  },
+  "others_to_worst": {
+    "CQ": 1,
+    "RQ": 7,
+    "IQ": 9
+  },
+  "reasoning": "Best factor: IQ  \nWorst factor: CQ\n\nIQ vs RQ: 7  \nIQ vs CQ: 9  \nRQ vs CQ: 7  \n\n**Reasoning:**  \n- **IQ vs RQ (7):** Intrinsic Quality (IQ) is foundational for trust in blockchain storage, as inaccurate or invalid data undermines the entire system. Representational Quality (RQ) is important for cross-source consistency, but less critical than ensuring data accuracy/validity first.  \n- **IQ vs CQ (9):** Intrinsic Quality (IQ) is far more critical than Contextual Quality (CQ). Even complete and timely data (CQ) is useless if it\u2019s inaccurate or invalid (IQ). Blockchain relies on immutable, trustworthy data, making IQ paramount.  \n- **RQ vs CQ (7):** Representational consistency (RQ) is more important than completeness/timeliness (CQ) in blockchain contexts. Inconsistent data across sources can create conflicts, but incomplete/timely data can often be addressed later (e.g., through updates or reconciliation). However, RQ\u2019s impact on trust is still secondary to IQ.  \n\nCitations: Role knowledge: data_engineer (ISO 25012 quality clusters, blockchain data integrity requirements)."
+}

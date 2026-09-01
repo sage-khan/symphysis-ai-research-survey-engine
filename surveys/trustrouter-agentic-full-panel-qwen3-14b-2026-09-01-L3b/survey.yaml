@@ -1,0 +1,21 @@
+id: trustrouter-agentic-full-panel-qwen3-14b-2026-09-01-L3b
+title: 'TrustRouter Agentic Full Panel (qwen3:14b) -- Level L3b: Provenance Trust
+  sub-parts'
+description: 'One of 7 sibling per-level surveys (parent run: trustrouter-agentic-full-panel-qwen3-14b-2026-09-01).
+  Can we trust where the data came from? Uses the flat bwm instrument answered via
+  the OpenManus bwm_two_stage flow (runtime_backend=openmanus).'
+instrument: bwm
+instrument_params:
+  dimensions:
+  - T_source
+  - T_chain
+  - T_history
+  dimension_labels:
+    T_source: Source credentials
+    T_chain: Custody chain
+    T_history: Historical track record
+  dimension_descriptions:
+    T_source: Who produced the data?
+    T_chain: What happened on the way here?
+    T_history: Has the source been reliable?
+created_at: '2026-09-01T00:00:00+00:00'

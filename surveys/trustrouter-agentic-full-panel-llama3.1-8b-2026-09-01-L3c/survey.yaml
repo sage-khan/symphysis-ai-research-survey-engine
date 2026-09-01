@@ -1,0 +1,21 @@
+id: trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01-L3c
+title: 'TrustRouter Agentic Full Panel (llama3.1:8b) -- Level L3c: Verification Strength
+  sub-parts'
+description: 'One of 7 sibling per-level surveys (parent run: trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01).
+  What kind of evidence backs up the data? Uses the flat bwm instrument answered via
+  the OpenManus bwm_two_stage flow (runtime_backend=openmanus).'
+instrument: bwm
+instrument_params:
+  dimensions:
+  - V_crypto
+  - V_audit
+  - V_diversity
+  dimension_labels:
+    V_crypto: Cryptographic evidence
+    V_audit: Audit trail completeness
+    V_diversity: Diversity of verification sources
+  dimension_descriptions:
+    V_crypto: Signatures, hashes, PKI.
+    V_audit: Who did what, when.
+    V_diversity: Multiple independent parties.
+created_at: '2026-09-01T00:00:00+00:00'
