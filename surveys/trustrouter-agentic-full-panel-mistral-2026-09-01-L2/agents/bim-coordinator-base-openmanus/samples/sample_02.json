@@ -1,0 +1,21 @@
+{
+  "best": "C",
+  "worst": "PT",
+  "best_to_others": {
+    "C": 1,
+    "Q": 7,
+    "V": 9,
+    "IC": 8,
+    "L": 6,
+    "PT": 1
+  },
+  "others_to_worst": {
+    "PT": 1,
+    "Q": 5,
+    "V": 3,
+    "IC": 2,
+    "L": 4,
+    "C": 1
+  },
+  "reasoning": " You are comparing the following criteria:\n- Q: Quality\n- PT: Provenance Trust\n- V: Verification Strength\n- IC: Independent Confirmation\n- L: Legal Compliance\n- C: Criticality\n\nBest factor: C (Criticality)\nWorst factor: PT (Provenance Trust)\n\n C vs Q: 7\nC vs V: 9\nC vs IC: 8\nC vs L: 6\nC vs PT: 1\nQ vs PT: 5\nV vs PT: 3\nIC vs PT: 2\nL vs PT: 4"
+}

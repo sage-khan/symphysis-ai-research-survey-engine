@@ -1,0 +1,21 @@
+{
+  "best": "L",
+  "worst": "C",
+  "best_to_others": {
+    "L": 1,
+    "Q": 9,
+    "PT": 8,
+    "V": 7,
+    "IC": 6,
+    "C": 1
+  },
+  "others_to_worst": {
+    "C": 1,
+    "Q": 5,
+    "PT": 4,
+    "V": 3,
+    "IC": 2,
+    "L": 1
+  },
+  "reasoning": " Best factor: L (Legal Compliance)\nWorst factor: C (Criticality)\n\n L vs Q: 9\nL vs PT: 8\nL vs V: 7\nL vs IC: 6\nL vs C: 1\nQ vs C: 5\nPT vs C: 4\nV vs C: 3\nIC vs C: 2"
+}

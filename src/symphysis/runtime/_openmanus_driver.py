@@ -53,7 +53,15 @@ tests/test_runtime_openmanus.py):
                                   # tool-call submission proved fragile for small local
                                   # models, and this flow was validated as the fix.
   "codes": ["DVS", "F", "E", "A"],          # required when flow="bwm_two_stage"
-  "labels": {"DVS": "Data Value Score"}     # optional when flow="bwm_two_stage"
+  "labels": {"DVS": "Data Value Score"},    # optional when flow="bwm_two_stage"
+  "context_chunks": ["[role knowledge: ...] ...", "[rag: ...] ..."]  # optional when
+                                             # flow="bwm_two_stage" -- RAG/knowledge-repo/
+                                             # role-pack material (agent.py's Agent.run()
+                                             # already assembled this the same way it does
+                                             # for every other flow); prepended to turn 1's
+                                             # prompt and kept in conversation history for
+                                             # turn 2, exactly like any other flow's whole-
+                                             # response prompt would carry it
 }
 
 Output: one JSON object per line on stdout (NDJSON), flushed immediately so
@@ -69,10 +77,16 @@ validator) expects, since every level's answer it contains has already been
 individually validated in-loop via instrument_submit before being included.
 In flow="bwm_two_stage" mode, "thought" payloads carry "step": 1 (best/worst
 elicitation) and "step": 2 (pairwise ratings), each with the raw model text
-in "reasoning"; "raw_completion"'s response.text is a JSON object already
-shaped exactly as instruments/bwm.py::BWMInstrument.parse() expects (best,
-worst, best_to_others, others_to_worst, reasoning) -- no tool call is ever
-issued in this flow.
+in "reasoning"; on success, "raw_completion"'s response.text is a JSON
+object already shaped exactly as instruments/bwm.py::BWMInstrument.parse()
+expects (best, worst, best_to_others, others_to_worst, reasoning) -- no
+tool call is ever issued in this flow. On a turn 1/2 parse failure, this
+flow still emits "raw_completion" (never "error"), but with a deliberately
+incomplete JSON object (missing whatever field could not be determined) so
+BWMInstrument.parse() flags it invalid and guardrails.py's existing
+reject-and-repair loop retries it per-sample -- an "error" event here would
+instead raise OpenManusProviderError, which orchestrator.py catches by
+skipping the WHOLE agent, not just one malformed sample.
 
 Exit code is 0 on a clean run (including one that ends in an "error" event
 for an OpenManus-internal failure), nonzero only for a driver-level crash
@@ -260,8 +274,8 @@ def _build_survey_panel_flow_class():
 # here in the same commit.
 # ---------------------------------------------------------------------------
 
-_BEST_LINE_RE = re.compile(r"Best factor:\s*([A-Za-z0-9_]+)", re.IGNORECASE)
-_WORST_LINE_RE = re.compile(r"Worst factor:\s*([A-Za-z0-9_]+)", re.IGNORECASE)
+_BEST_LINE_RE = re.compile(r"Best factor:\s*(?:<[^>]+>\s*)?([A-Za-z0-9_]+)", re.IGNORECASE)
+_WORST_LINE_RE = re.compile(r"Worst factor:\s*(?:<[^>]+>\s*)?([A-Za-z0-9_]+)", re.IGNORECASE)
 
 
 def _build_best_worst_prompt(codes, labels):
@@ -272,8 +286,8 @@ def _build_best_worst_prompt(codes, labels):
         "Which ONE criterion is BEST (most important), and which ONE is "
         "WORST (least important)? Answer in EXACTLY these two lines, using "
         f"the bare code only (one of {', '.join(codes)}), nothing else:\n"
-        "Best factor: <code>\n"
-        "Worst factor: <code>"
+        "Best factor: <CRITERION_CODE>\n"
+        "Worst factor: <CRITERION_CODE>"
     )
 
 
@@ -285,12 +299,12 @@ def _parse_best_worst(text, codes):
     best = best_match.group(1) if best_match else None
     worst = worst_match.group(1) if worst_match else None
     if best is None:
-        errors.append("No 'Best factor: <code>' line found")
+        errors.append("No 'Best factor: <CRITERION_CODE>' line found")
     elif best not in code_set:
         errors.append(f"best={best!r} is not a known code {sorted(code_set)}")
         best = None
     if worst is None:
-        errors.append("No 'Worst factor: <code>' line found")
+        errors.append("No 'Worst factor: <CRITERION_CODE>' line found")
     elif worst not in code_set:
         errors.append(f"worst={worst!r} is not a known code {sorted(code_set)}")
         worst = None
@@ -362,37 +376,101 @@ def _assemble_bwm_payload(codes, best, worst, ratings, reasoning_text):
 
 async def _run_bwm_two_stage(spec: dict, llm) -> None:
     """No agent, no tool loop: two plain llm.ask() completions, each parsed
-    deterministically. A parse failure at either turn emits an "error" event
-    (never a fabricated/guessed value) and returns -- run_with_guardrails'
-    existing reject-and-repair loop (guardrails.py, unchanged) is what
-    retries the whole two-turn attempt, exactly as it already retries a
-    single malformed completion from any other flow."""
+    deterministically.
+
+    A parse failure at either turn emits a "raw_completion" whose text is a
+    deliberately-incomplete JSON object (never a fabricated/guessed value --
+    it simply omits whatever field could not be determined) rather than an
+    "error" event. This matters mechanically, not just stylistically:
+    OpenManusProvider.complete() (runtime/openmanus.py) turns an "error"
+    event into a raised OpenManusProviderError, which orchestrator.py
+    catches at the PER-AGENT level -- skipping every remaining repeat for
+    that agent entirely, not just this one malformed sample. A malformed
+    "raw_completion", by contrast, flows into instrument.parse()
+    (instruments/bwm.py), which flags the missing/invalid fields, which
+    guardrails.py's existing reject-and-repair loop (unchanged) already
+    knows how to retry per-sample -- exactly like a malformed completion
+    from any other flow. 2026-09-01: the first version of this function
+    used "error" events for parse failures and was live-validated only
+    against a single non-RAG pilot agent that never hit this path; scaling
+    to the full 12-agent panel immediately surfaced it via 3 agents (all at
+    L2's 6 criteria, 2 of them RAG-enabled) hard-skipped on their very
+    first malformed sample instead of getting the normal 3 retry attempts.
+
+    Turn 2 is asked as a genuine follow-up in the SAME conversation (turn
+    1's prompt, the model's own turn-1 answer, then turn 2's prompt), not a
+    second independent call with no memory of turn 1: this both gives the
+    model back its own stated best/worst as real context (not just restated
+    in turn 2's prompt text) and keeps any reference material handed to
+    turn 1 visible for turn 2's ratings too. context_chunks (RAG/knowledge-
+    repo/role-pack material, when present) is prepended to turn 1's prompt
+    for the same reason it would appear in any other flow's whole-response
+    prompt -- 2026-09-01: an earlier version of this function silently
+    dropped context_chunks entirely (it only ever looked at the "system"
+    message, never the "user" message where that material lives), which
+    would have made every RAG-enabled agent behave identically to its base
+    counterpart. Caught before it reached a full-panel run."""
     from app.schema import Message
 
     codes = spec["codes"]
     labels = spec.get("labels", {})
+    context_chunks = spec.get("context_chunks") or []
     system_content = next(
         (m.get("content", "") for m in spec["messages"] if m.get("role") == "system"), ""
     )
     system_msgs = [Message.system_message(system_content)] if system_content else None
 
     turn1_prompt = _build_best_worst_prompt(codes, labels)
-    turn1_text = await llm.ask([Message.user_message(turn1_prompt)], system_msgs=system_msgs, stream=False)
+    if context_chunks:
+        joined = "\n\n---\n\n".join(context_chunks)
+        # 2026-09-01: reference material placed before the task instructions
+        # is not sufficient on its own -- live-observed at L2 (6 criteria):
+        # mistral:7b, given a long RAG corpus chunk, answered with a prose
+        # summary of the reference material instead of the required two
+        # lines, in every one of several agents' first attempts (same root
+        # cause diagnosed for the direct_completion backend in
+        # instruments/bwm.py: long reference material invites the model to
+        # describe/summarize it rather than perform the task that follows).
+        # An explicit "do not summarize, answer only the format below"
+        # directive right at the reference-material/task boundary is the
+        # same fix pattern bwm.py already uses, applied here too.
+        turn1_prompt = (
+            f"Reference material to ground your judgement:\n\n{joined}\n\n"
+            "Do not summarize or describe the reference material above. Answer ONLY the "
+            f"question below, in exactly the two-line format requested:\n\n{turn1_prompt}"
+        )
+
+    conversation = [Message.user_message(turn1_prompt)]
+    turn1_text = await llm.ask(conversation, system_msgs=system_msgs, stream=False)
     _emit("thought", {"step": 1, "reasoning": turn1_text, "result": "turn 1: best/worst elicitation"})
 
     best, worst, errors = _parse_best_worst(turn1_text, codes)
     if errors:
-        _emit("error", {"message": f"bwm_two_stage turn 1 parse failure: {'; '.join(errors)}"})
+        payload = {"reasoning": f"[bwm_two_stage turn 1 parse failure: {'; '.join(errors)}] {turn1_text}"}
+        _emit(
+            "raw_completion",
+            {"response": {"text": json.dumps(payload), "raw": {}, "model": llm.model, "finish_reason": "stop"}},
+        )
         return
 
+    conversation.append(Message.assistant_message(turn1_text))
     others = [c for c in codes if c not in (best, worst)]
     turn2_prompt = _build_ratings_prompt(best, worst, others, labels)
-    turn2_text = await llm.ask([Message.user_message(turn2_prompt)], system_msgs=system_msgs, stream=False)
+    conversation.append(Message.user_message(turn2_prompt))
+    turn2_text = await llm.ask(conversation, system_msgs=system_msgs, stream=False)
     _emit("thought", {"step": 2, "reasoning": turn2_text, "result": "turn 2: pairwise ratings"})
 
     ratings, errors = _parse_ratings(turn2_text, best, worst, others)
     if errors:
-        _emit("error", {"message": f"bwm_two_stage turn 2 parse failure: {'; '.join(errors)}"})
+        payload = {
+            "best": best,
+            "worst": worst,
+            "reasoning": f"[bwm_two_stage turn 2 parse failure: {'; '.join(errors)}] {turn1_text}\n\n{turn2_text}",
+        }
+        _emit(
+            "raw_completion",
+            {"response": {"text": json.dumps(payload), "raw": {}, "model": llm.model, "finish_reason": "stop"}},
+        )
         return
 
     payload = _assemble_bwm_payload(codes, best, worst, ratings, turn1_text + "\n\n" + turn2_text)

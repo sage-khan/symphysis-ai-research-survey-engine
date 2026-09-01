@@ -1,0 +1,106 @@
+{
+  "agent_id": "bim-coordinator-base-openmanus",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "C",
+      "worst": "PT",
+      "best_to_others": {
+        "C": 1,
+        "Q": 9,
+        "V": 7,
+        "IC": 8,
+        "L": 6,
+        "PT": 1
+      },
+      "others_to_worst": {
+        "PT": 1,
+        "Q": 3,
+        "V": 5,
+        "IC": 4,
+        "L": 2,
+        "C": 1
+      },
+      "reasoning": " You are comparing the following criteria:\n- Q: Quality\n- PT: Provenance Trust\n- V: Verification Strength\n- IC: Independent Confirmation\n- L: Legal Compliance\n- C: Criticality\n\nBest factor: C (Criticality)\nWorst factor: PT (Provenance Trust)\n\n C vs Q: 9\nC vs V: 7\nC vs IC: 8\nC vs L: 6\nC vs PT: 1\nQ vs PT: 3\nV vs PT: 5\nIC vs PT: 4\nL vs PT: 2"
+    },
+    {
+      "best": "C",
+      "worst": "PT",
+      "best_to_others": {
+        "C": 1,
+        "Q": 9,
+        "V": 8,
+        "IC": 7,
+        "L": 6,
+        "PT": 1
+      },
+      "others_to_worst": {
+        "PT": 1,
+        "Q": 4,
+        "V": 5,
+        "IC": 3,
+        "L": 2,
+        "C": 1
+      },
+      "reasoning": " You are comparing the following criteria:\n- Q: Quality\n- PT: Provenance Trust\n- V: Verification Strength\n- IC: Independent Confirmation\n- L: Legal Compliance\n- C: Criticality\n\nWhich ONE criterion is BEST (most important), and which ONE is WORST (least important)? Answer in EXACTLY these two lines, using the bare code only (one of Q, PT, V, IC, L, C):\nBest factor: C\nWorst factor: PT\n\n C vs Q: 9\nC vs V: 8\nC vs IC: 7\nC vs L: 6\nC vs PT: 1\nQ vs PT: 4\nV vs PT: 5\nIC vs PT: 3\nL vs PT: 2"
+    },
+    {
+      "best": "C",
+      "worst": "PT",
+      "best_to_others": {
+        "C": 1,
+        "Q": 7,
+        "V": 9,
+        "IC": 8,
+        "L": 6,
+        "PT": 1
+      },
+      "others_to_worst": {
+        "PT": 1,
+        "Q": 5,
+        "V": 3,
+        "IC": 2,
+        "L": 4,
+        "C": 1
+      },
+      "reasoning": " You are comparing the following criteria:\n- Q: Quality\n- PT: Provenance Trust\n- V: Verification Strength\n- IC: Independent Confirmation\n- L: Legal Compliance\n- C: Criticality\n\nBest factor: C (Criticality)\nWorst factor: PT (Provenance Trust)\n\n C vs Q: 7\nC vs V: 9\nC vs IC: 8\nC vs L: 6\nC vs PT: 1\nQ vs PT: 5\nV vs PT: 3\nIC vs PT: 2\nL vs PT: 4"
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    }
+  ]
+}

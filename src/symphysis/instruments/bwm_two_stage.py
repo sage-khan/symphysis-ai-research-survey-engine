@@ -64,13 +64,13 @@ def build_best_worst_prompt(codes: List[str], labels: Dict[str, str]) -> str:
         "Which ONE criterion is BEST (most important), and which ONE is "
         "WORST (least important)? Answer in EXACTLY these two lines, using "
         f"the bare code only (one of {', '.join(codes)}), nothing else:\n"
-        "Best factor: <code>\n"
-        "Worst factor: <code>"
+        "Best factor: <CRITERION_CODE>\n"
+        "Worst factor: <CRITERION_CODE>"
     )
 
 
-_BEST_LINE_RE = re.compile(r"Best factor:\s*([A-Za-z0-9_]+)", re.IGNORECASE)
-_WORST_LINE_RE = re.compile(r"Worst factor:\s*([A-Za-z0-9_]+)", re.IGNORECASE)
+_BEST_LINE_RE = re.compile(r"Best factor:\s*(?:<[^>]+>\s*)?([A-Za-z0-9_]+)", re.IGNORECASE)
+_WORST_LINE_RE = re.compile(r"Worst factor:\s*(?:<[^>]+>\s*)?([A-Za-z0-9_]+)", re.IGNORECASE)
 
 
 def parse_best_worst(text: str, codes: List[str]) -> BestWorstResult:
@@ -84,13 +84,13 @@ def parse_best_worst(text: str, codes: List[str]) -> BestWorstResult:
     worst = worst_match.group(1) if worst_match else None
 
     if best is None:
-        errors.append("No 'Best factor: <code>' line found")
+        errors.append("No 'Best factor: <CRITERION_CODE>' line found")
     elif best not in code_set:
         errors.append(f"best={best!r} is not a known code {sorted(code_set)}")
         best = None
 
     if worst is None:
-        errors.append("No 'Worst factor: <code>' line found")
+        errors.append("No 'Worst factor: <CRITERION_CODE>' line found")
     elif worst not in code_set:
         errors.append(f"worst={worst!r} is not a known code {sorted(code_set)}")
         worst = None

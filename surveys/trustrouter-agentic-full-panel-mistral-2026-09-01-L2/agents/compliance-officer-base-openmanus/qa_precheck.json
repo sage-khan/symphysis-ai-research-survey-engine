@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-base-openmanus",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/mistral:7b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": " {\n  \"agent_id\": \"compliance-officer-base-openmanus\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/mistral:7b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm that I understand the assignment as a Compliance and Regulatory Officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle. I will attempt to answer the survey questions based on my professional judgement in this role.\"\n}",
+    "model": "mistral:7b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "mistral:7b",
+      "created_at": "2026-09-01T15:49:41.462711554Z",
+      "message": {
+        "role": "assistant",
+        "content": " {\n  \"agent_id\": \"compliance-officer-base-openmanus\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/mistral:7b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm that I understand the assignment as a Compliance and Regulatory Officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle. I will attempt to answer the survey questions based on my professional judgement in this role.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1394926294,
+      "load_duration": 10689010,
+      "prompt_eval_count": 2424,
+      "prompt_eval_duration": 298008033,
+      "eval_count": 173,
+      "eval_duration": 1059699795
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-base-openmanus",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/mistral:7b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm that I understand the assignment as a Compliance and Regulatory Officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle. I will attempt to answer the survey questions based on my professional judgement in this role."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-base-openmanus",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/mistral:7b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-base-openmanus",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/mistral:7b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm that I understand the assignment as a Compliance and Regulatory Officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle. I will attempt to answer the survey questions based on my professional judgement in this role."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

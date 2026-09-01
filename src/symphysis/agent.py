@@ -405,6 +405,7 @@ class Agent:
                 "flow": "bwm_two_stage",
                 "codes": instrument_params["dimensions"],
                 "labels": instrument_params.get("dimension_labels", {}),
+                "context_chunks": context_chunks,
             }
 
         run = run_with_guardrails(

@@ -141,3 +141,12 @@ def test_flat_instrument_on_openmanus_backend_gets_bwm_two_stage_flow(tmp_path, 
     assert run_fake.calls[0]["extra"]["flow"] == "bwm_two_stage"
     assert run_fake.calls[0]["extra"]["codes"] == FLAT_PARAMS["dimensions"]
     assert run_fake.calls[0]["extra"]["labels"] == {}
+    # Regression guard (2026-09-01): an earlier version of this wiring
+    # silently dropped context_chunks (RAG/knowledge-repo/role-pack
+    # material) on the floor for this flow -- _openmanus_driver.py's
+    # _run_bwm_two_stage() only ever looked at the prompt's "system"
+    # message, never the "user" message where that material actually
+    # lives, so every RAG-enabled agent would have answered with zero
+    # grounding material. "context_chunks" must always be present here,
+    # even when empty (as in this fixture, which has no role_pack/RAG).
+    assert "context_chunks" in run_fake.calls[0]["extra"]

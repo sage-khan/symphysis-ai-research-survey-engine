@@ -1,0 +1,17 @@
+{
+  "best": "DVS",
+  "worst": "A",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 9,
+    "E": 8,
+    "A": 1
+  },
+  "others_to_worst": {
+    "A": 1,
+    "F": 7,
+    "E": 6,
+    "DVS": 1
+  },
+  "reasoning": " Assuming that \"higher / more\" is better for all criteria as stated in the corpus, the best criterion would be DVS (Data Value Score) and the worst criterion would be A (Attack Resistance).\n\nBest factor: DVS\nWorst factor: A\n\n DVS vs F: 9\nDVS vs E: 8\nDVS vs A: 1\nF vs A: 7\nE vs A: 6"
+}

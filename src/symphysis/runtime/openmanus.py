@@ -190,6 +190,7 @@ class OpenManusBackend:
             spec["flow"] = "bwm_two_stage"
             spec["codes"] = task.extra["codes"]
             spec["labels"] = task.extra.get("labels", {})
+            spec["context_chunks"] = task.extra.get("context_chunks", [])
 
         fd, input_path_str = tempfile.mkstemp(prefix=f"openmanus-{task.agent_id}-", suffix=".json")
         input_path = Path(input_path_str)
@@ -313,6 +314,7 @@ class OpenManusProvider:
             extra_task_fields["flow"] = "bwm_two_stage"
             extra_task_fields["codes"] = extra["codes"]
             extra_task_fields["labels"] = extra.get("labels", {})
+            extra_task_fields["context_chunks"] = extra.get("context_chunks", [])
         proxy_server = None
         if self.tools and self.storage is not None:
             from ..tools.proxy import ToolProxyServer
