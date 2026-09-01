@@ -135,3 +135,73 @@ def test_build_messages_lists_available_source_tags_when_context_present():
         PARAMS,
     )
     assert '"role knowledge: blockchain_trust_specialist"' in messages[1]["content"]
+
+
+def test_levels_for_panel_returns_the_same_level_defs_as_params():
+    instrument = HierarchicalBWMInstrument()
+    assert instrument.levels_for_panel(PARAMS) == PARAMS["levels"]
+
+
+def test_build_level_messages_scopes_to_one_level_only():
+    instrument = HierarchicalBWMInstrument()
+    messages = instrument.build_level_messages("L1", "You are a blockchain trust specialist.", [], PARAMS)
+    user_content = messages[1]["content"]
+    assert "Level L1" in user_content
+    assert "Level L2" not in user_content
+    for code in ["DVS", "F", "E", "A"]:
+        assert code in user_content
+    assert "- Q: Q" not in user_content  # L2's dimension_list line format never appears
+    assert 'level_id="L1"' in user_content
+    assert "instrument_submit" in user_content
+
+
+def test_build_level_messages_includes_reference_material_when_present():
+    instrument = HierarchicalBWMInstrument()
+    messages = instrument.build_level_messages(
+        "L1", "You are a blockchain trust specialist.", ["[general_knowledge] some primer"], PARAMS
+    )
+    assert "some primer" in messages[1]["content"]
+
+
+def test_validate_level_accepts_a_correct_single_level_answer():
+    instrument = HierarchicalBWMInstrument()
+    answer = _level_answer(["DVS", "F", "E", "A"], "DVS", "F")
+    result = instrument.validate_level("L1", answer, PARAMS)
+    assert result.valid
+    assert result.errors == []
+    assert result.payload == {"L1": answer}
+
+
+def test_validate_level_reports_the_same_error_message_as_parse_for_the_same_mistake():
+    # Regression guard for the DRY refactor: parse() and validate_level()
+    # must produce byte-identical error text for the same mistake, since
+    # they now share _validate_level_fields() as their one implementation.
+    instrument = HierarchicalBWMInstrument()
+    bad_answer = _level_answer(["DVS", "F", "E", "A"], "DVS", "F")
+    bad_answer["best_to_others"]["DVS"] = 9  # self-rating mistake
+
+    whole_payload = _valid_payload()
+    whole_payload["levels"]["L1"] = bad_answer
+    whole_result = instrument.parse(json.dumps(whole_payload), PARAMS)
+
+    level_result = instrument.validate_level("L1", bad_answer, PARAMS)
+
+    assert not level_result.valid
+    assert level_result.errors == [e for e in whole_result.errors if "L1" in e]
+
+
+def test_validate_level_rejects_an_unknown_level_id():
+    instrument = HierarchicalBWMInstrument()
+    result = instrument.validate_level("L99", {}, PARAMS)
+    assert not result.valid
+    assert "Unknown level 'L99'" in result.errors[0]
+
+
+def test_validate_level_isolates_one_level_from_a_totally_different_levels_mistakes():
+    # The whole point of per-level validation: a mistake belonging to a
+    # DIFFERENT level from the one being checked must never surface here.
+    instrument = HierarchicalBWMInstrument()
+    good_l1 = _level_answer(["DVS", "F", "E", "A"], "DVS", "F")
+    result = instrument.validate_level("L1", good_l1, PARAMS)
+    assert result.valid
+    assert result.errors == []

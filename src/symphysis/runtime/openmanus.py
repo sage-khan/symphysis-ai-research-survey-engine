@@ -171,6 +171,16 @@ class OpenManusBackend:
             spec["proxy_port"] = task.extra["proxy_port"]
         if "available_tools" in task.extra:
             spec["available_tools"] = task.extra["available_tools"]
+        # Phase 3 (plan doc tasks 17-19): present only when Agent.run()
+        # built a "survey_panel" call (a hierarchical instrument on an
+        # openmanus-backend card, see agent.py::run()) — see
+        # _openmanus_driver.py's module docstring for the full contract.
+        if task.extra.get("flow") == "survey_panel":
+            spec["flow"] = "survey_panel"
+            spec["levels"] = task.extra["levels"]
+            spec["level_messages"] = task.extra["level_messages"]
+            if "level_max_steps" in task.extra:
+                spec["level_max_steps"] = task.extra["level_max_steps"]
 
         fd, input_path_str = tempfile.mkstemp(prefix=f"openmanus-{task.agent_id}-", suffix=".json")
         input_path = Path(input_path_str)
@@ -284,6 +294,12 @@ class OpenManusProvider:
         from ..providers.base import ProviderResponse
 
         extra_task_fields: Dict[str, Any] = {"max_steps": self.max_steps}
+        if extra.get("flow") == "survey_panel":
+            extra_task_fields["flow"] = "survey_panel"
+            extra_task_fields["levels"] = extra["levels"]
+            extra_task_fields["level_messages"] = extra["level_messages"]
+            if "level_max_steps" in extra:
+                extra_task_fields["level_max_steps"] = extra["level_max_steps"]
         proxy_server = None
         if self.tools and self.storage is not None:
             from ..tools.proxy import ToolProxyServer

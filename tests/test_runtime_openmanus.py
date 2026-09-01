@@ -198,3 +198,94 @@ def test_openmanus_provider_complete_raises_when_no_events_at_all():
 
     with pytest.raises(OpenManusProviderError, match="no completion event"):
         provider.complete([{"role": "user", "content": "hi"}], model="qwen2.5:14b", temperature=0.7, max_tokens=512)
+
+
+def test_openmanus_provider_complete_threads_survey_panel_extra_through_to_the_task(monkeypatch):
+    # Phase 3 (plan doc tasks 17-19): Agent.run() passes flow/levels/
+    # level_messages through complete()'s **extra; this is the boundary
+    # test proving OpenManusProvider forwards them into TaskSpec.extra
+    # unchanged, without needing a real subprocess.
+    from symphysis.runtime.base import Event
+    from symphysis.runtime.openmanus import OpenManusProvider
+
+    provider = OpenManusProvider(model_provider="ollama", agent_id="a1", did="did:key:z6Mktest")
+    provider._backend = _FakeBackend(
+        [Event(kind="raw_completion", payload={"response": {"text": "{}", "model": "qwen2.5:14b", "finish_reason": "stop"}})]
+    )
+    levels = [{"id": "L1", "dimensions": ["A", "B"]}]
+    level_messages = {"L1": [{"role": "user", "content": "answer L1"}]}
+
+    provider.complete(
+        [{"role": "user", "content": "hi"}],
+        model="qwen2.5:14b",
+        temperature=0.7,
+        max_tokens=512,
+        flow="survey_panel",
+        levels=levels,
+        level_messages=level_messages,
+    )
+
+    task = provider._backend.spawned_tasks[0]
+    assert task.extra["flow"] == "survey_panel"
+    assert task.extra["levels"] == levels
+    assert task.extra["level_messages"] == level_messages
+
+
+def test_openmanus_provider_complete_ignores_flow_extra_when_not_survey_panel():
+    from symphysis.runtime.base import Event
+    from symphysis.runtime.openmanus import OpenManusProvider
+
+    provider = OpenManusProvider(model_provider="ollama", agent_id="a1", did="did:key:z6Mktest")
+    provider._backend = _FakeBackend(
+        [Event(kind="raw_completion", payload={"response": {"text": "{}", "model": "qwen2.5:14b", "finish_reason": "stop"}})]
+    )
+
+    provider.complete([{"role": "user", "content": "hi"}], model="qwen2.5:14b", temperature=0.7, max_tokens=512)
+
+    task = provider._backend.spawned_tasks[0]
+    assert "flow" not in task.extra
+    assert "levels" not in task.extra
+
+
+def test_backend_spawn_writes_survey_panel_fields_into_the_driver_spec(tmp_path, monkeypatch):
+    from symphysis.runtime import openmanus as openmanus_runtime
+    from symphysis.runtime.base import TaskSpec
+
+    monkeypatch.setattr(openmanus_runtime, "isolated_venv_ready", lambda: True)
+
+    captured = {}
+
+    class _FakePopen:
+        def __init__(self, args, **kwargs):
+            captured["input_path"] = Path(args[2])
+            self.stdout = iter([])
+            self.stderr = None
+
+        def wait(self):
+            return 0
+
+    monkeypatch.setattr(openmanus_runtime.subprocess, "Popen", _FakePopen)
+
+    backend = openmanus_runtime.OpenManusBackend()
+    task = TaskSpec(
+        agent_id="a1",
+        did="did:key:z6Mktest",
+        messages=[{"role": "user", "content": "hi"}],
+        model_provider="ollama",
+        model_name="qwen2.5:14b",
+        temperature=0.7,
+        max_tokens=512,
+        extra={
+            "flow": "survey_panel",
+            "levels": [{"id": "L1", "dimensions": ["A", "B"]}],
+            "level_messages": {"L1": [{"role": "user", "content": "answer L1"}]},
+            "level_max_steps": 4,
+        },
+    )
+    backend.spawn(task)
+
+    spec = json.loads(captured["input_path"].read_text(encoding="utf-8"))
+    assert spec["flow"] == "survey_panel"
+    assert spec["levels"] == [{"id": "L1", "dimensions": ["A", "B"]}]
+    assert spec["level_messages"] == {"L1": [{"role": "user", "content": "answer L1"}]}
+    assert spec["level_max_steps"] == 4

@@ -10,8 +10,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from symphysis.agent import Agent
 from symphysis.agent_card import ModelSpec, PermissionsSpec, RagSpec, new_card
 from symphysis.audit.logger import SurveyStorage
+from symphysis.instruments.hierarchical_bwm import HierarchicalBWMInstrument
 from symphysis.tools.registry import build_registry
 from symphysis.tools.web_search import WebSearchError
+
+_PANEL_PARAMS = {
+    "levels": [
+        {"id": "L1", "name": "Top-level factors", "description": "d1", "dimensions": ["DVS", "F"]},
+    ],
+}
 
 
 def _write_prompt_template(tmp_path: Path) -> Path:
@@ -100,3 +107,49 @@ def test_citation_verify_wraps_qa_checks(tmp_path):
     result = registry["citation_verify"].execute(claimed=["source_a", "source_z"], available_tags=["source_a"])
     assert result["genuine"] is False
     assert result["fabricated"] == ["source_z"]
+
+
+def test_instrument_submit_not_registered_without_an_instrument(tmp_path):
+    agent = _make_agent(tmp_path)
+    registry = build_registry(agent)
+    assert "instrument_submit" not in registry
+
+
+def test_instrument_submit_registered_for_a_panel_capable_instrument(tmp_path):
+    agent = _make_agent(tmp_path)
+    registry = build_registry(agent, instrument=HierarchicalBWMInstrument(), instrument_params=_PANEL_PARAMS)
+    assert "instrument_submit" in registry
+    assert registry["instrument_submit"].capability is None
+
+
+def test_instrument_submit_execute_accepts_a_correct_level_answer(tmp_path):
+    agent = _make_agent(tmp_path)
+    registry = build_registry(agent, instrument=HierarchicalBWMInstrument(), instrument_params=_PANEL_PARAMS)
+    result = registry["instrument_submit"].execute(
+        level_id="L1",
+        best="DVS",
+        worst="F",
+        best_to_others={"DVS": 1, "F": 3},
+        others_to_worst={"DVS": 3, "F": 1},
+        reasoning="DVS matters most.",
+    )
+    assert result == {"valid": True, "errors": []}
+
+    conv_path = agent.storage.agent_dir(agent.card.agent_id) / "conversation.jsonl"
+    logged = conv_path.read_text(encoding="utf-8")
+    assert '"tool": "instrument_submit"' in logged
+
+
+def test_instrument_submit_execute_rejects_and_reports_errors(tmp_path):
+    agent = _make_agent(tmp_path)
+    registry = build_registry(agent, instrument=HierarchicalBWMInstrument(), instrument_params=_PANEL_PARAMS)
+    result = registry["instrument_submit"].execute(
+        level_id="L1",
+        best="DVS",
+        worst="F",
+        best_to_others={"DVS": 9, "F": 3},  # self-rating mistake
+        others_to_worst={"DVS": 3, "F": 1},
+        reasoning="",
+    )
+    assert result["valid"] is False
+    assert any("best_to_others[best] must be 1" in e for e in result["errors"])

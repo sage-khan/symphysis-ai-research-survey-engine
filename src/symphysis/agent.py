@@ -269,7 +269,7 @@ class Agent:
         )
         return [f"[web: {r['title']} ({r['url']})] {r['content']}" for r in results]
 
-    def _resolve_provider(self) -> Any:
+    def _resolve_provider(self, instrument: Any = None, instrument_params: Optional[Dict[str, Any]] = None) -> Any:
         """The single seam Phase 2 (docs/architecture/governance-layer-and-runtime-backends-plan.md
         tasks 13-14) needed into Agent.run(): the default path is unchanged
         (get_provider(...) -> a direct single-completion call, exactly as
@@ -277,7 +277,13 @@ class Agent:
         runtime_backend="openmanus" gets an OpenManusProvider instead, which
         satisfies the exact same LLMProvider.complete(...) interface. Every
         caller downstream of this point (run_with_guardrails, parsing,
-        retries, storage.write_guarded_run) is unaware which one it got."""
+        retries, storage.write_guarded_run) is unaware which one it got.
+
+        `instrument`/`instrument_params` are optional and only used to build
+        Phase 3's `instrument_submit` tool via `tools/registry.py`'s own
+        matching optional parameters — omitting them here (the default for
+        every existing caller/test) simply means that tool is absent from
+        the resulting registry, exactly as before this parameter existed."""
         if self.card.runtime_backend == "direct_completion":
             return get_provider(self.card.model.provider)
         if self.card.runtime_backend == "openmanus":
@@ -288,7 +294,7 @@ class Agent:
                 model_provider=self.card.model.provider,
                 agent_id=self.card.agent_id,
                 did=self.card.did.id,
-                tools=build_registry(self),
+                tools=build_registry(self, instrument=instrument, instrument_params=instrument_params),
                 storage=self.storage,
             )
         raise AgentCardError(
@@ -319,11 +325,27 @@ class Agent:
 
         messages = instrument.build_messages(role_description, context_chunks, instrument_params)
         self.storage.write_prompt(self.card.agent_id, messages)
-        provider = self._resolve_provider()
+        provider = self._resolve_provider(instrument=instrument, instrument_params=instrument_params)
 
         extra_call_kwargs = None
         if self.card.model.provider == "manual":
             extra_call_kwargs = {"manual_dir": str(self.storage.agent_dir(self.card.agent_id) / "manual_input")}
+        elif self.card.runtime_backend == "openmanus" and hasattr(instrument, "levels_for_panel"):
+            # Phase 3: a hierarchical instrument run through OpenManus gets
+            # decomposed into one InstrumentSubmit-gated step per level
+            # (runtime/openmanus.py's "survey_panel" flow) instead of one
+            # whole-response ReAct loop, so a model's per-level convention
+            # mistake costs one tool-call retry instead of a whole-response
+            # reject-and-repair round. messages (the whole-response prompt
+            # built above) is still sent to run_with_guardrails/storage as
+            # the logged prompt/fallback, but the panel flow drives its own
+            # per-level prompts built here, not that one.
+            levels = instrument.levels_for_panel(instrument_params)
+            level_messages = {
+                lvl["id"]: instrument.build_level_messages(lvl["id"], role_description, context_chunks, instrument_params)
+                for lvl in levels
+            }
+            extra_call_kwargs = {"flow": "survey_panel", "levels": levels, "level_messages": level_messages}
 
         run = run_with_guardrails(
             provider,

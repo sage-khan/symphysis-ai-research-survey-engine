@@ -16,8 +16,13 @@ were found and fixed while wiring this end-to-end (see the implementation
 note after Phase 2's task list below): a missing `vendor/openmanus/config/
 config.toml` `[daytona]` section (an OpenManus import-time gap, not specific
 to this integration) and an incorrect `LLM(...)` construction in this repo's
-own driver script. Not yet done: Phases 3-6 (Phase 5 is deliberately
-deferred, not merely unstarted — see its own section). Companion to
+own driver script. Phase 3 is mostly implemented and tested (per-level
+`instrument_submit` validation/submission, and `SurveyPanelFlow` driving one
+`InstrumentSubmitProxyTool`-gated agent per level inside the isolated
+subprocess) — see that phase's own task list for exactly which of its three
+tasks landed and which (agent proposal/reuse inside the flow) did not. Not
+yet done: Phase 3 task 19, Phases 4-6 (Phase 5 is deliberately deferred, not
+merely unstarted — see its own section). Companion to
 `target-pipeline-vision.drawio`/`.png` (see `architecture-overview.md`)
 rather than a replacement for it: that diagram's Orchestration/AI-panel
 layers are the vision this plan makes concrete at the module level. Read
@@ -362,20 +367,75 @@ and with what authority, across an entire run.
 
 ### Phase 3: per-level instrument decomposition
 
-17. `tools/registry.py`: add `InstrumentSubmit`, wrapping the already-fixed
-    per-level `level_errors` isolation in `instruments/hierarchical_bwm.py`
-    (this fix already shipped, see `diagnostics.md`'s "Reject-and-repair
-    still produced accepted_count: 0" entry), now called in-loop rather than
-    only at the end of a whole-response parse.
-18. New `FlowType.SURVEY_PANEL` registered in OpenManus's `FlowFactory`,
-    backed by `SurveyPanelFlow(BaseFlow)`: one plan step per instrument
-    level, gated on `InstrumentSubmit` accepting that level before the next
-    step runs. This directly targets the diagnostics.md failure mode ("one
-    new error discovered per attempt, budget exhausted before convergence")
-    by scoping retries to one level instead of the whole nested structure.
-19. `SurveyPanelFlow`'s plan-authoring step also covers agent
-    proposal/reuse, wrapping the existing `agent_proposer.py` logic
-    unchanged, not rewritten.
+**Tasks 17-18 are implemented and tested; task 19 (agent proposal/reuse
+inside the flow) is not — see its own note below.**
+
+17. `instruments/hierarchical_bwm.py`: the already-fixed per-level
+    `level_errors` isolation (see `diagnostics.md`'s "Reject-and-repair
+    still produced accepted_count: 0" entry) is now factored into a
+    reusable `_validate_level_fields()` static method, shared by `parse()`
+    (unchanged, whole-response validation) and a new public
+    `validate_level(level_id, answer, params)` (validates ONE level's
+    answer in isolation, byte-identical error text to `parse()`'s for the
+    same mistake — see `tests/test_hierarchical_bwm_instrument.py`'s
+    regression test asserting this). Also added: `levels_for_panel(params)`
+    (a thin public wrapper on the existing private `_levels()`, the
+    duck-typing signal `Agent.run()` checks via `hasattr(instrument,
+    "levels_for_panel")` to decide whether panel mode even applies to a
+    given instrument) and `build_level_messages(level_id, ...)` (a
+    per-level prompt, instructing the agent to call `instrument_submit`
+    rather than emit whole-response JSON). `tools/registry.py`'s
+    `build_registry()` gained matching optional `instrument`/
+    `instrument_params` parameters that register `instrument_submit`
+    (ungated, calls `instrument.validate_level(...)`) only when the given
+    instrument implements `validate_level` — any future instrument with
+    the same per-level contract gets this tool for free.
+18. **Implementation note (differs from this task's original phrasing):**
+    `SurveyPanelFlow(BaseFlow)` exists, but is defined and constructed
+    entirely inside `_openmanus_driver.py` (`_build_survey_panel_flow_class()`),
+    never registered into `vendor/openmanus/app/flow/flow_factory.py`'s
+    `FlowType`/`FlowFactory` — consistent with this plan's own rule that
+    nothing under `vendor/openmanus/` is ever hand-edited (§7). OpenManus's
+    `FlowFactory` is a plain lookup-dict convenience, not a required
+    registration point for using a `BaseFlow` subclass, so `_run()`
+    instantiates `SurveyPanelFlow` directly when
+    `spec.get("flow") == "survey_panel"`. One plan step per instrument
+    level, gated on the level's `InstrumentSubmitProxyTool` recording an
+    accepted (`valid: true`) submission before the next level starts (a
+    fresh `SurveyElicitationAgent` instance per level, sharing the same
+    `llm`/`available_tools`, rather than resetting one long-lived agent's
+    internal state — see the class docstring for why). A level that never
+    converges within its own `level_max_steps` budget (default 5,
+    independent of the whole-run `max_steps`) falls back to its last
+    attempted (possibly still invalid) answer, letting the existing outer
+    `guardrails.py` reject-and-repair loop catch whatever specifically
+    remains wrong — the panel flow is a fast-path optimization layered on
+    top of that existing correctness backstop, not a replacement for it.
+    `Agent.run()` builds this call's `extra_call_kwargs`
+    (`flow="survey_panel"` + `levels`/`level_messages`, built from
+    `instrument.levels_for_panel()`/`build_level_messages()`) only when
+    `card.runtime_backend == "openmanus"` AND the instrument has
+    `levels_for_panel` — a flat instrument (`bwm.py`, `ahp.py`) or a
+    direct-completion card is completely unaffected. Verified end-to-end
+    with a real cross-process integration test
+    (`tests/test_openmanus_survey_panel_flow.py`): a real
+    `tools/proxy.py::ToolProxyServer` wired to a real
+    `HierarchicalBWMInstrument`, driving the real isolated-venv
+    `SurveyPanelFlow`/`InstrumentSubmitProxyTool`, with a scripted
+    `SurveyElicitationAgent` subclass standing in for the LLM call itself
+    (this test targets the flow's own orchestration, not OpenManus's
+    already-tested `ToolCallAgent.step()` internals) — one level rejected
+    once then corrected and accepted, one level scripted to never converge
+    and confirmed to fall back to its last attempt, both then re-verified
+    by feeding the flow's final assembled JSON back through the same
+    `instrument.parse()` the outer guardrails loop uses in production.
+19. **Not implemented.** `SurveyPanelFlow`'s plan-authoring step covering
+    agent proposal/reuse (wrapping `agent_proposer.py`'s existing logic) is
+    still open: today's panel flow operates on one already-spawned agent's
+    own per-level answers; it does not itself decide which agent answers
+    which level. Revisit if/when a survey design actually needs
+    per-level agent selection inside the flow rather than at the existing
+    survey-config level.
 
 ### Phase 4: model-tiering
 

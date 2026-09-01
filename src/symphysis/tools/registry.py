@@ -61,6 +61,19 @@ _CITATION_VERIFY_PARAMETERS = {
     "required": ["claimed", "available_tags"],
 }
 
+_INSTRUMENT_SUBMIT_PARAMETERS = {
+    "type": "object",
+    "properties": {
+        "level_id": {"type": "string", "description": "Which level this submission answers, e.g. \"L1\"."},
+        "best": {"type": "string", "description": "The code of the single best (most important) criterion in this level."},
+        "worst": {"type": "string", "description": "The code of the single worst (least important) criterion in this level."},
+        "best_to_others": {"type": "object", "description": "Ratio (1-9 int) of best vs. every criterion in this level, keyed by code."},
+        "others_to_worst": {"type": "object", "description": "Ratio (1-9 int) of every criterion vs. worst in this level, keyed by code."},
+        "reasoning": {"type": "string", "description": "Your reasoning for this level's ratings."},
+    },
+    "required": ["level_id", "best", "worst", "best_to_others", "others_to_worst"],
+}
+
 
 @dataclass
 class ToolSpec:
@@ -76,12 +89,26 @@ class ToolSpec:
     parameters: Dict[str, Any] = None
 
 
-def build_registry(agent: "Agent") -> Dict[str, ToolSpec]:
+def build_registry(
+    agent: "Agent",
+    *,
+    instrument: Optional[Any] = None,
+    instrument_params: Optional[Dict[str, Any]] = None,
+) -> Dict[str, ToolSpec]:
     """One registry per agent run. Only includes a tool the agent's card
     actually supports (a RAG tool is present only if `agent._retriever` was
     built, i.e. `card.rag.enabled`); `tools/authorization.py`'s capability
     check is the actual gate on whether a call is *permitted*, this is
-    just which tools *exist* for this agent to be gated on at all."""
+    just which tools *exist* for this agent to be gated on at all.
+
+    `instrument`/`instrument_params` are optional and only used to register
+    `instrument_submit` (Phase 3's per-level "survey_panel" flow, see
+    docs/architecture/governance-layer-and-runtime-backends-plan.md):
+    duck-typed on `hasattr(instrument, "validate_level")` rather than an
+    isinstance check against `HierarchicalBWMInstrument` specifically, so
+    any future instrument that implements the same per-level validation
+    contract gets this tool for free without this module needing to know
+    about it by name."""
     registry: Dict[str, ToolSpec] = {}
 
     if agent._retriever is not None:
@@ -184,5 +211,44 @@ def build_registry(agent: "Agent") -> Dict[str, ToolSpec]:
         ),
         parameters=_CITATION_VERIFY_PARAMETERS,
     )
+
+    if instrument is not None and instrument_params is not None and hasattr(instrument, "validate_level"):
+
+        def _instrument_submit(
+            level_id: str,
+            best: str,
+            worst: str,
+            best_to_others: Dict[str, Any],
+            others_to_worst: Dict[str, Any],
+            reasoning: str = "",
+            _agent=agent,
+            _instrument=instrument,
+            _params=instrument_params,
+        ) -> Dict[str, Any]:
+            answer = {
+                "best": best,
+                "worst": worst,
+                "best_to_others": best_to_others,
+                "others_to_worst": others_to_worst,
+                "reasoning": reasoning,
+            }
+            result = _instrument.validate_level(level_id, answer, _params)
+            _agent.storage.write_tool_call(
+                _agent.card.agent_id,
+                tool="instrument_submit",
+                detail={"level_id": level_id, "valid": result.valid, "errors": result.errors},
+            )
+            return {"valid": result.valid, "errors": result.errors}
+
+        registry["instrument_submit"] = ToolSpec(
+            name="instrument_submit",
+            capability=None,  # a validation check against the agent's own answer, not a protected resource
+            execute=_instrument_submit,
+            description=(
+                "Submit your completed answer for one instrument level for validation. Returns "
+                "valid=true/false and, if false, the exact problems to fix before resubmitting."
+            ),
+            parameters=_INSTRUMENT_SUBMIT_PARAMETERS,
+        )
 
     return registry
