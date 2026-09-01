@@ -1,0 +1,96 @@
+{
+  "survey_id": "trustrouter-agentic-two-stage-pilot-2026-09-01",
+  "title": "TrustRouter Agentic Two-Stage Pilot (mistral:7b) -- Level L1",
+  "dimensions": [
+    "DVS",
+    "F",
+    "E",
+    "A"
+  ],
+  "instrument": "bwm",
+  "agent_panel": {
+    "num_agents": 2,
+    "per_agent_meta": [
+      {
+        "agent_id": "blockchain-engineer-openmanus-ollama",
+        "did": "did:key:z6MksfJdDd2LbuMjAB5Eg4UqNeuNpnyKqrL4YmtmeShxHwdx",
+        "role": "Blockchain / DLT Engineer",
+        "model": "mistral:7b",
+        "provider": "ollama",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "blockchain-engineer-openmanus-ollama",
+        "did": "did:key:z6MksfJdDd2LbuMjAB5Eg4UqNeuNpnyKqrL4YmtmeShxHwdx",
+        "role": "Blockchain / DLT Engineer",
+        "model": "mistral:7b",
+        "provider": "ollama",
+        "rag_enabled": false
+      }
+    ],
+    "bayesian": {
+      "criteria": [
+        "DVS",
+        "F",
+        "E",
+        "A"
+      ],
+      "method": "pymc-nuts",
+      "num_experts": 2,
+      "agg_mean": [
+        0.3857676586020869,
+        0.35570136137843406,
+        0.15048571952960016,
+        0.10804526048987736
+      ],
+      "agg_ci_lower": [
+        0.23645917956121704,
+        0.20268027076563583,
+        0.06626281725019749,
+        0.04380251314377772
+      ],
+      "agg_ci_upper": [
+        0.5377815825681295,
+        0.5038526470781397,
+        0.26774671234776526,
+        0.20513226580248706
+      ],
+      "credal_matrix": [
+        [
+          0.0,
+          0.595,
+          0.9783333333333334,
+          0.9933333333333333
+        ],
+        [
+          0.405,
+          0.0,
+          0.9643333333333334,
+          0.9843333333333333
+        ],
+        [
+          0.021666666666666667,
+          0.035666666666666666,
+          0.0,
+          0.7743333333333333
+        ],
+        [
+          0.006666666666666667,
+          0.015666666666666666,
+          0.22566666666666665,
+          0.0
+        ]
+      ]
+    },
+    "classical_consistency": [
+      {
+        "consistent": true,
+        "cr": 0.035732040765597765
+      },
+      {
+        "consistent": true,
+        "cr": 0.035732040765597765
+      }
+    ]
+  }
+}

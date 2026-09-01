@@ -1,0 +1,31 @@
+{
+  "file_count": 23,
+  "files": {
+    "agents/blockchain-engineer-openmanus-ollama.json": "e8630d0ab60069395725671c693b0d907a6421ebae912ab39c8add07f5715bab",
+    "agents/blockchain-engineer-openmanus-ollama/card.json": "e8630d0ab60069395725671c693b0d907a6421ebae912ab39c8add07f5715bab",
+    "agents/blockchain-engineer-openmanus-ollama/conversation.jsonl": "997eddceeecd78a75dd5dbc3b582edda06d7724b4af84899a174553d07116993",
+    "agents/blockchain-engineer-openmanus-ollama/did.json": "cb5399a0aa0dfda2c37a3574c0fd581ad5d7bdde953c9c7e4b9bd4d93e94f162",
+    "agents/blockchain-engineer-openmanus-ollama/filled_survey.md": "4d12a438e9f22bfca858c060fcc8cbaa8d64bf318d5c89da3015e5117cdd4fc6",
+    "agents/blockchain-engineer-openmanus-ollama/prompt.md": "7940f49f796adeac91b11a664ed65691650e96cca4df396edfe40d4449dab3c0",
+    "agents/blockchain-engineer-openmanus-ollama/qa_precheck.json": "6cc821a49efe4f8e80a2f05d049dc2e04409752ba3b75e0a66c501619fc638c6",
+    "agents/blockchain-engineer-openmanus-ollama/result.json": "984ad4af4ae5d8a2bfb2bf610ec6345f4ba7d9779bd7a2e144fe224de1a975ee",
+    "agents/blockchain-engineer-openmanus-ollama/samples/sample_00.json": "e719d3d21493a6cfd2bac11b3357436c98a9edc6e70090566cdb0d1c963d6926",
+    "agents/blockchain-engineer-openmanus-ollama/samples/sample_00.md": "26a7f1f9d14098c7953a401006fdc584affa365c9a8b271c2f0c8249e0279b06",
+    "agents/blockchain-engineer-openmanus-ollama/samples/sample_01.json": "73b9578e4926239b1ce93c5a6e0b79736ff0fe0378ff4824616373eebf1b1c34",
+    "agents/blockchain-engineer-openmanus-ollama/samples/sample_01.md": "5c1cc9ad6f229bdea7ccd65c1556629cdfa8116cdba45679130c7db32c7932b1",
+    "agents/blockchain-engineer-openmanus-ollama/spawn_declaration.json": "74280baa0aa7fed48a468f8f75a46222622b079bad0428b74d3e5fa7a2f1fda7",
+    "agents/blockchain-engineer-openmanus-ollama/thoughts.md": "a115db9b4c6153db460381b5d2c72d9bfdb114762a185c4c50ad5e9b048819c4",
+    "knowledge_repo/trustrouter_concept_paper_primer.md": "44d29bca0cf891f6ee55fb63bd4b51453ca23b128a3294b1cd80e38a801db2f3",
+    "knowledge_repo/trustrouter_expert_questionnaire_v5_real_survey_instrument.md": "7ab91d25795325eb1d6143b5c159dade187942651ef9f2967a7f0c0bf1e79dea",
+    "knowledge_repo/trustrouter_research_hypothesis.md": "0b6acd2ea5436f68b3758efa6157c21f2029d6bfe34377000be5afd33d9b1625",
+    "lineage.json": "8393531660c143b35ad2ce6cbc0d3fc2cf6e2350a0bdb7b495111ee8c59bc73b",
+    "report/charts/agent_panel_weights.png": "78d946e504d3211e6652b0e3c0cdfd223076bd008884c8bc2c044d6b7c8c78da",
+    "report/combined_results.json": "495600ad82f5c7d1d682149ebaf3f184f1259836c8f4ac63e5e7ee0a817dca75",
+    "report/report.md": "85112234cdc875a250356ef2f99aa26a4f74279002a328056a4d91476854b6a4",
+    "rulefile.md": "fad0214c06d2127e7d3eb36ec0b9ed23a8c5815f5a4547399599b1edd2f207f6",
+    "survey.yaml": "89c7bfb5b98b4759f7f1354ea874db528ff2e836c266efbfb88b1589320a536c"
+  },
+  "generated_at": "2026-09-01T15:07:03.429098+00:00",
+  "hash_algorithm": "sha256",
+  "root_hash": "edfc48f57765bcdb7f380e9043c036312aad043f801d906e308e89ace2ce366c"
+}

@@ -42,6 +42,18 @@ tests/test_runtime_openmanus.py):
   "level_messages": {"L1": [{"role": ..., "content": ...}, ...], ...},  # required when flow="survey_panel"
   "level_max_steps": 5           # optional (Phase 3): per-level step budget, independent
                                   # of the top-level "max_steps" above (default 5)
+  "flow": "bwm_two_stage",       # optional (2026-09-01): when present, _run() drives
+                                  # _run_bwm_two_stage() instead of either flow above --
+                                  # a flat (non-hierarchical) `bwm` instrument answered as
+                                  # two plain, non-tool-calling completions (best/worst,
+                                  # then dynamically-built ratings) instead of one
+                                  # tool-calling turn. See agentic-experiment-design-
+                                  # decisions.md (project-veritas) 2026-09-01 entries for
+                                  # why: combining free-text reasoning with a structured
+                                  # tool-call submission proved fragile for small local
+                                  # models, and this flow was validated as the fix.
+  "codes": ["DVS", "F", "E", "A"],          # required when flow="bwm_two_stage"
+  "labels": {"DVS": "Data Value Score"}     # optional when flow="bwm_two_stage"
 }
 
 Output: one JSON object per line on stdout (NDJSON), flushed immediately so
@@ -55,6 +67,13 @@ response.text is a JSON object shaped {"levels": {"L1": {...}, ...}} —
 already the exact shape instrument.parse() (the outer, whole-response
 validator) expects, since every level's answer it contains has already been
 individually validated in-loop via instrument_submit before being included.
+In flow="bwm_two_stage" mode, "thought" payloads carry "step": 1 (best/worst
+elicitation) and "step": 2 (pairwise ratings), each with the raw model text
+in "reasoning"; "raw_completion"'s response.text is a JSON object already
+shaped exactly as instruments/bwm.py::BWMInstrument.parse() expects (best,
+worst, best_to_others, others_to_worst, reasoning) -- no tool call is ever
+issued in this flow.
+
 Exit code is 0 on a clean run (including one that ends in an "error" event
 for an OpenManus-internal failure), nonzero only for a driver-level crash
 before any output was produced (e.g. malformed input JSON).
@@ -64,6 +83,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -194,11 +214,21 @@ def _build_survey_panel_flow_class():
                     )
 
                 while level_agent.state != AgentState.FINISHED and level_agent.current_step < level_agent.max_steps:
+                    pre_len = len(level_agent.memory.messages)
                     result = await level_agent.step()
                     level_agent.current_step += 1
+                    # step() = think() (adds exactly one new assistant-role
+                    # message carrying the model's own reasoning content,
+                    # even on a turn that also issues a tool call) + act()
+                    # (returns only the post-execution tool OBSERVATION,
+                    # never the reasoning itself). Recover that content from
+                    # memory so the persisted trail keeps the model's actual
+                    # reasoning, not just what the tool call did.
+                    new_messages = level_agent.memory.messages[pre_len:]
+                    reasoning = next((m.content for m in new_messages if m.role == "assistant"), "") or ""
                     _emit(
                         "tool_call" if level_agent.tool_calls else "thought",
-                        {"step": level_agent.current_step, "level": level_id, "result": result},
+                        {"step": level_agent.current_step, "level": level_id, "reasoning": reasoning, "result": result},
                     )
                     if submit_tool is not None and level_id in submit_tool.accepted:
                         break
@@ -220,18 +250,209 @@ def _build_survey_panel_flow_class():
     return SurveyPanelFlow
 
 
+# ---------------------------------------------------------------------------
+# "bwm_two_stage" flow (2026-09-01). Deliberately duplicated here, not
+# imported, from symphysis/instruments/bwm_two_stage.py: this script runs in
+# OpenManus's own isolated venv with zero Symphysis imports (see module
+# docstring) and no path back to the parent package. Keep behaviorally
+# identical to that module (covered by tests/test_bwm_two_stage.py in the
+# parent interpreter) -- if the algorithm changes there, mirror the change
+# here in the same commit.
+# ---------------------------------------------------------------------------
+
+_BEST_LINE_RE = re.compile(r"Best factor:\s*([A-Za-z0-9_]+)", re.IGNORECASE)
+_WORST_LINE_RE = re.compile(r"Worst factor:\s*([A-Za-z0-9_]+)", re.IGNORECASE)
+
+
+def _build_best_worst_prompt(codes, labels):
+    dimension_list = "\n".join(f"- {c}: {labels.get(c, c)}" for c in codes)
+    return (
+        "You are comparing the following criteria:\n"
+        f"{dimension_list}\n\n"
+        "Which ONE criterion is BEST (most important), and which ONE is "
+        "WORST (least important)? Answer in EXACTLY these two lines, using "
+        f"the bare code only (one of {', '.join(codes)}), nothing else:\n"
+        "Best factor: <code>\n"
+        "Worst factor: <code>"
+    )
+
+
+def _parse_best_worst(text, codes):
+    errors = []
+    code_set = set(codes)
+    best_match = _BEST_LINE_RE.search(text)
+    worst_match = _WORST_LINE_RE.search(text)
+    best = best_match.group(1) if best_match else None
+    worst = worst_match.group(1) if worst_match else None
+    if best is None:
+        errors.append("No 'Best factor: <code>' line found")
+    elif best not in code_set:
+        errors.append(f"best={best!r} is not a known code {sorted(code_set)}")
+        best = None
+    if worst is None:
+        errors.append("No 'Worst factor: <code>' line found")
+    elif worst not in code_set:
+        errors.append(f"worst={worst!r} is not a known code {sorted(code_set)}")
+        worst = None
+    if best is not None and worst is not None and best == worst:
+        errors.append("best and worst must differ")
+        best = worst = None
+    return best, worst, errors
+
+
+def _build_ratings_prompt(best, worst, others, labels):
+    lines = [
+        f"You said the BEST factor is {best} ({labels.get(best, best)}) "
+        f"and the WORST factor is {worst} ({labels.get(worst, worst)})."
+    ]
+    lines.append(
+        "Now state exactly the following ratings, each on a 1-9 integer "
+        "scale (1 = equally important, 9 = extremely more important), "
+        "one per line, in EXACTLY this format (replace only <N>):"
+    )
+    pairs = [(best, o) for o in others]
+    pairs.append((best, worst))
+    pairs.extend((o, worst) for o in others)
+    for a, b in pairs:
+        lines.append(f"{a} vs {b}: <N>")
+    return "\n".join(lines)
+
+
+def _pair_regex(a, b):
+    return re.compile(rf"\b{re.escape(a)}\s+vs\.?\s+{re.escape(b)}\s*:\s*(\d+)", re.IGNORECASE)
+
+
+def _parse_ratings(text, best, worst, others):
+    errors = []
+    ratings = {}
+    pairs = [(best, o) for o in others]
+    pairs.append((best, worst))
+    pairs.extend((o, worst) for o in others)
+    for a, b in pairs:
+        match = _pair_regex(a, b).search(text)
+        if match is None:
+            errors.append(f"No explicit '{a} vs {b}: <N>' line found")
+            continue
+        value = int(match.group(1))
+        if not (1 <= value <= 9):
+            errors.append(f"{a} vs {b} = {value} is out of the required 1-9 range")
+            continue
+        ratings[(a, b)] = value
+    return ratings, errors
+
+
+def _assemble_bwm_payload(codes, best, worst, ratings, reasoning_text):
+    others = [c for c in codes if c not in (best, worst)]
+    best_to_others = {best: 1}
+    for o in others:
+        best_to_others[o] = ratings[(best, o)]
+    best_to_others[worst] = ratings[(best, worst)]
+    others_to_worst = {worst: 1}
+    for o in others:
+        others_to_worst[o] = ratings[(o, worst)]
+    others_to_worst[best] = ratings[(best, worst)]
+    return {
+        "best": best,
+        "worst": worst,
+        "best_to_others": best_to_others,
+        "others_to_worst": others_to_worst,
+        "reasoning": reasoning_text,
+    }
+
+
+async def _run_bwm_two_stage(spec: dict, llm) -> None:
+    """No agent, no tool loop: two plain llm.ask() completions, each parsed
+    deterministically. A parse failure at either turn emits an "error" event
+    (never a fabricated/guessed value) and returns -- run_with_guardrails'
+    existing reject-and-repair loop (guardrails.py, unchanged) is what
+    retries the whole two-turn attempt, exactly as it already retries a
+    single malformed completion from any other flow."""
+    from app.schema import Message
+
+    codes = spec["codes"]
+    labels = spec.get("labels", {})
+    system_content = next(
+        (m.get("content", "") for m in spec["messages"] if m.get("role") == "system"), ""
+    )
+    system_msgs = [Message.system_message(system_content)] if system_content else None
+
+    turn1_prompt = _build_best_worst_prompt(codes, labels)
+    turn1_text = await llm.ask([Message.user_message(turn1_prompt)], system_msgs=system_msgs, stream=False)
+    _emit("thought", {"step": 1, "reasoning": turn1_text, "result": "turn 1: best/worst elicitation"})
+
+    best, worst, errors = _parse_best_worst(turn1_text, codes)
+    if errors:
+        _emit("error", {"message": f"bwm_two_stage turn 1 parse failure: {'; '.join(errors)}"})
+        return
+
+    others = [c for c in codes if c not in (best, worst)]
+    turn2_prompt = _build_ratings_prompt(best, worst, others, labels)
+    turn2_text = await llm.ask([Message.user_message(turn2_prompt)], system_msgs=system_msgs, stream=False)
+    _emit("thought", {"step": 2, "reasoning": turn2_text, "result": "turn 2: pairwise ratings"})
+
+    ratings, errors = _parse_ratings(turn2_text, best, worst, others)
+    if errors:
+        _emit("error", {"message": f"bwm_two_stage turn 2 parse failure: {'; '.join(errors)}"})
+        return
+
+    payload = _assemble_bwm_payload(codes, best, worst, ratings, turn1_text + "\n\n" + turn2_text)
+    _emit(
+        "raw_completion",
+        {"response": {"text": json.dumps(payload), "raw": {}, "model": llm.model, "finish_reason": "stop"}},
+    )
+
+
 def _build_survey_elicitation_agent_class():
     from app.agent.toolcall import ToolCallAgent
-    from app.tool import CreateChatCompletion, Terminate, ToolCollection
+    from app.schema import ToolChoice
+    from app.tool import Terminate, ToolCollection
 
+    # 2026-09-01 diagnostic finding, isolated by a matched A/B curl test
+    # directly against Ollama's OpenAI-compat endpoint (bypassing OpenManus
+    # entirely, same model/tools/tool_choice=required both times): the
+    # single sentence "State your reasoning before your final rating..."
+    # in the system prompt reliably (3/3) made mistral:7b respond with
+    # tool_calls=None and its answer folded into plain-text content instead
+    # of a real structured tool call — even under tool_choice=REQUIRED.
+    # Removing only that sentence produced a clean native tool_calls
+    # response 3/3 times, same model, same tools, unchanged otherwise. The
+    # model reliably treats "reason, then act" as license to answer in
+    # prose and skip the tool call; this is not a model-capability ceiling
+    # (the first curl test in this same diagnostic pass got a clean tool
+    # call from mistral:7b on a bare prompt with no system message at all).
+    # Fix: never ask for free-text reasoning as a step separate from the
+    # tool call. Reasoning is captured as a field INSIDE the tool call's
+    # own arguments instead (e.g. instrument_submit's own `reasoning`
+    # field) — consistent with how instruments/bwm.py's direct_completion
+    # JSON schema already asks for a `reasoning` field inside the same
+    # structured answer, not as prose preceding it.
     SURVEY_ELICITATION_SYSTEM_PROMPT = (
         "You are a domain-expert panel member completing a structured survey "
         "instrument (e.g. a Best-Worst Method or AHP pairwise-comparison "
         "elicitation). You answer only from your own domain knowledge and any "
         "retrieved evidence you are given via tool calls; you never invent a "
-        "citation you were not actually shown. State your reasoning before "
-        "your final rating so the trail this agent produces is auditable, "
-        "not just its answer."
+        "citation you were not actually shown. Always answer by calling the "
+        "appropriate tool — never as plain text. Include your reasoning as "
+        "part of the tool call's own arguments (its `reasoning` field) so "
+        "the trail this agent produces is auditable, not just its answer."
+    )
+
+    # `CreateChatCompletion` (a second, generically-worded "give a text
+    # response" tool OpenManus ships by default alongside Terminate) was
+    # also confirmed to worsen the same failure in this diagnostic pass:
+    # offered alongside Terminate, the model would call CreateChatCompletion
+    # and stuff the intended terminate(...) call inside it as literal text
+    # rather than invoking Terminate directly. Neither tool is needed for a
+    # survey-elicitation agent (its only legitimate terminal actions are
+    # Terminate or, in panel mode, instrument_submit), so it is dropped
+    # here rather than worked around. tool_choice=REQUIRED (below) is kept
+    # as a second, independent layer of defense on top of the prompt fix
+    # above — both were confirmed individually to matter in this pass.
+    NEXT_STEP_PROMPT = (
+        "If you have reached your final answer for this step, you MUST "
+        "record it via a tool call (instrument_submit if it is offered, "
+        "otherwise terminate) — do not just restate the answer as plain "
+        "text without calling the tool."
     )
 
     class SurveyElicitationAgent(ToolCallAgent):
@@ -246,8 +467,9 @@ def _build_survey_elicitation_agent_class():
             "grounding its answers in retrieved evidence and declaring its reasoning."
         )
         system_prompt: str = SURVEY_ELICITATION_SYSTEM_PROMPT
-        next_step_prompt: str = ""
-        available_tools: "ToolCollection" = ToolCollection(CreateChatCompletion(), Terminate())
+        next_step_prompt: str = NEXT_STEP_PROMPT
+        available_tools: "ToolCollection" = ToolCollection(Terminate())
+        tool_choices: str = ToolChoice.REQUIRED
         max_steps: int = 15
 
     return SurveyElicitationAgent
@@ -257,7 +479,7 @@ async def _run(spec: dict) -> None:
     from app.config import LLMSettings
     from app.llm import LLM
     from app.schema import AgentState, Message
-    from app.tool import CreateChatCompletion, Terminate, ToolCollection
+    from app.tool import Terminate, ToolCollection
 
     SurveyElicitationAgent = _build_survey_elicitation_agent_class()
 
@@ -272,6 +494,12 @@ async def _run(spec: dict) -> None:
     # this driver has exactly one model per run.
     settings = LLMSettings(**spec["llm_settings"])
     llm = LLM(config_name=spec["config_name"], llm_config={spec["config_name"]: settings, "default": settings})
+
+    if spec.get("flow") == "bwm_two_stage":
+        # No SurveyElicitationAgent/ToolCallAgent construction needed at all:
+        # this flow never calls a tool, so it only needs the raw LLM client.
+        await _run_bwm_two_stage(spec, llm)
+        return
 
     is_panel = spec.get("flow") == "survey_panel"
     agent_kwargs = {"llm": llm, "max_steps": spec.get("max_steps", 15)}
@@ -294,7 +522,7 @@ async def _run(spec: dict) -> None:
             )
             for t in available_tools
         ]
-        agent_kwargs["available_tools"] = ToolCollection(CreateChatCompletion(), Terminate(), *proxy_tools)
+        agent_kwargs["available_tools"] = ToolCollection(Terminate(), *proxy_tools)
 
     agent = SurveyElicitationAgent(**agent_kwargs)
 
@@ -320,9 +548,15 @@ async def _run(spec: dict) -> None:
         agent.memory.add_message(Message.user_message(content) if role == "user" else Message.assistant_message(content))
 
     while agent.state != AgentState.FINISHED and agent.current_step < agent.max_steps:
+        pre_len = len(agent.memory.messages)
         result = await agent.step()
         agent.current_step += 1
-        _emit("tool_call" if agent.tool_calls else "thought", {"step": agent.current_step, "result": result})
+        new_messages = agent.memory.messages[pre_len:]
+        reasoning = next((m.content for m in new_messages if m.role == "assistant"), "") or ""
+        _emit(
+            "tool_call" if agent.tool_calls else "thought",
+            {"step": agent.current_step, "reasoning": reasoning, "result": result},
+        )
 
     final_message = agent.memory.messages[-1].content if agent.memory.messages else ""
     _emit(

@@ -181,6 +181,15 @@ class OpenManusBackend:
             spec["level_messages"] = task.extra["level_messages"]
             if "level_max_steps" in task.extra:
                 spec["level_max_steps"] = task.extra["level_max_steps"]
+        # 2026-09-01: a flat (non-hierarchical) `bwm` instrument run through
+        # OpenManus, answered as two plain non-tool-calling completions
+        # instead of one tool-calling turn — see _openmanus_driver.py's
+        # module docstring and _run_bwm_two_stage() for the full contract
+        # and the design-decision log this fixes.
+        if task.extra.get("flow") == "bwm_two_stage":
+            spec["flow"] = "bwm_two_stage"
+            spec["codes"] = task.extra["codes"]
+            spec["labels"] = task.extra.get("labels", {})
 
         fd, input_path_str = tempfile.mkstemp(prefix=f"openmanus-{task.agent_id}-", suffix=".json")
         input_path = Path(input_path_str)
@@ -300,6 +309,10 @@ class OpenManusProvider:
             extra_task_fields["level_messages"] = extra["level_messages"]
             if "level_max_steps" in extra:
                 extra_task_fields["level_max_steps"] = extra["level_max_steps"]
+        if extra.get("flow") == "bwm_two_stage":
+            extra_task_fields["flow"] = "bwm_two_stage"
+            extra_task_fields["codes"] = extra["codes"]
+            extra_task_fields["labels"] = extra.get("labels", {})
         proxy_server = None
         if self.tools and self.storage is not None:
             from ..tools.proxy import ToolProxyServer

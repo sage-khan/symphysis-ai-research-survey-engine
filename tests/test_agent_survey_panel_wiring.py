@@ -119,9 +119,13 @@ def test_hierarchical_instrument_on_direct_completion_backend_gets_no_panel_kwar
     assert "flow" not in run_fake.calls[0]["extra"]
 
 
-def test_flat_instrument_on_openmanus_backend_gets_no_panel_kwargs(tmp_path, monkeypatch):
-    # BWMInstrument has no levels_for_panel(): hasattr(...) gates the panel
-    # branch off entirely, even though runtime_backend is "openmanus".
+def test_flat_instrument_on_openmanus_backend_gets_bwm_two_stage_flow(tmp_path, monkeypatch):
+    # BWMInstrument has no levels_for_panel(): hasattr(...) gates the
+    # "survey_panel" branch off entirely, even though runtime_backend is
+    # "openmanus" -- but a flat bwm instrument on openmanus now gets the
+    # "bwm_two_stage" flow instead (2026-09-01, see agent.py::Agent.run()
+    # and agentic-experiment-design-decisions.md's "Wired into the
+    # production runtime" entry, project-veritas), not no flow at all.
     _stub_qa_precheck(monkeypatch)
     agent = _make_agent(tmp_path, runtime_backend="openmanus")
     run_fake = _FakeProvider(json.dumps({
@@ -134,4 +138,6 @@ def test_flat_instrument_on_openmanus_backend_gets_no_panel_kwargs(tmp_path, mon
     agent.run(BWMInstrument(), FLAT_PARAMS)
 
     assert len(run_fake.calls) >= 1
-    assert "flow" not in run_fake.calls[0]["extra"]
+    assert run_fake.calls[0]["extra"]["flow"] == "bwm_two_stage"
+    assert run_fake.calls[0]["extra"]["codes"] == FLAT_PARAMS["dimensions"]
+    assert run_fake.calls[0]["extra"]["labels"] == {}

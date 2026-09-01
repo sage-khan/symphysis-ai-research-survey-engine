@@ -392,6 +392,20 @@ class Agent:
                 for lvl in levels
             }
             extra_call_kwargs = {"flow": "survey_panel", "levels": levels, "level_messages": level_messages}
+        elif self.card.runtime_backend == "openmanus" and instrument.name == "bwm":
+            # 2026-09-01: a flat (non-hierarchical) bwm instrument on an
+            # openmanus-backend card gets the two-turn deterministic flow
+            # (_openmanus_driver.py::_run_bwm_two_stage) instead of the
+            # plain whole-response ToolCallAgent loop above's tool-calling
+            # elicitation, which combining free-text reasoning with a
+            # structured tool-call submission proved fragile for small
+            # local models. See agentic-experiment-design-decisions.md
+            # (project-veritas) for the full experimental log.
+            extra_call_kwargs = {
+                "flow": "bwm_two_stage",
+                "codes": instrument_params["dimensions"],
+                "labels": instrument_params.get("dimension_labels", {}),
+            }
 
         run = run_with_guardrails(
             provider,
