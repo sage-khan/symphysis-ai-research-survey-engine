@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-rag-ollama",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"project-manager-rag-ollama\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed to complete the TrustRouter SLM Panel Run 1 Level L2 survey as a Construction Project Manager using the specified capabilities.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T09:57:44.894916311Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"project-manager-rag-ollama\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed to complete the TrustRouter SLM Panel Run 1 Level L2 survey as a Construction Project Manager using the specified capabilities.\"\n}",
+        "thinking": "Okay, let me make sure I understand what the user is asking. They want me to confirm my configuration as per the rules provided. The user provided a detailed setup for the TrustRouter SLM Panel Run 1, specifically Level L2. My task is to output a JSON object that restates the given configuration accurately without adding any extra information.\n\nFirst, I need to check the agent ID, role, model, and capabilities. The agent ID is \"project-manager-rag-ollama\", role is \"Construction Project Manager\", and the model is \"ollama/qwen3:14b\". The capabilities include dedicated RAG corpus (True), shared knowledge repo (True), no role pack, and web search (False). \n\nI must ensure that the JSON structure matches exactly what's specified. The acknowledgement should be a brief confirmation that I understand the task and will proceed as instructed. I need to avoid any markdown and only output the JSON. Let me double-check each field to make sure there are no typos or omissions. Once verified, I can construct the JSON accordingly.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4894632307,
+      "load_duration": 53453614,
+      "prompt_eval_count": 2481,
+      "prompt_eval_duration": 557997020,
+      "eval_count": 346,
+      "eval_duration": 4197432704
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-rag-ollama",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will proceed to complete the TrustRouter SLM Panel Run 1 Level L2 survey as a Construction Project Manager using the specified capabilities."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-rag-ollama",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-rag-ollama",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will proceed to complete the TrustRouter SLM Panel Run 1 Level L2 survey as a Construction Project Manager using the specified capabilities."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

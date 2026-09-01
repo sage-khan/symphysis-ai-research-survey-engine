@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-rag-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-rag-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as a Data Engineering Specialist using the specified capabilities and model.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T09:53:06.591124786Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"data-engineer-rag-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as a Data Engineering Specialist using the specified capabilities and model.\"\n}",
+        "thinking": "Okay, let me make sure I understand what's being asked here. The user wants me to confirm my configuration as per the given rules. They provided a specific JSON structure that I need to fill out accurately. Let me check each part of the configuration they mentioned.\n\nFirst, the agent ID is \"data-engineer-rag-ollama\", role is \"Data Engineering Specialist\", and the model is \"ollama/qwen3:14b\". The capabilities include dedicated RAG corpus: True, shared knowledge repo: True, role pack: none, and web search: False. The acknowledgment should be a short confirmation.\n\nI need to ensure that I copy each of these exactly as provided. No extra information or capabilities should be added. The JSON must be valid, so I'll double-check the keys and boolean values. Also, the acknowledgment should be in 1-2 sentences, confirming understanding and commitment to the task. Let me structure that properly.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4487358102,
+      "load_duration": 59292423,
+      "prompt_eval_count": 2485,
+      "prompt_eval_duration": 562149119,
+      "eval_count": 307,
+      "eval_duration": 3786593309
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-rag-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will proceed as a Data Engineering Specialist using the specified capabilities and model."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-rag-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-rag-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will proceed as a Data Engineering Specialist using the specified capabilities and model."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

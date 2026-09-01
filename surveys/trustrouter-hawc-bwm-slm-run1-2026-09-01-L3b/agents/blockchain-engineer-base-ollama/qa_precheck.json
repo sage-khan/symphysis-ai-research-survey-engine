@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "blockchain-engineer-base-ollama",
+    "role": "Blockchain / DLT Engineer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"blockchain-engineer-base-ollama\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as a Blockchain/DTL Engineer expert, adhering strictly to the provided rules and knowledge sources.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T10:34:07.976518488Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"blockchain-engineer-base-ollama\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as a Blockchain/DTL Engineer expert, adhering strictly to the provided rules and knowledge sources.\"\n}",
+        "thinking": "Okay, let me make sure I understand what's being asked here. The user wants me to confirm my configuration as per the given rules. They provided a specific JSON structure that I need to follow. Let me check each part step by step.\n\nFirst, the agent ID is \"blockchain-engineer-base-ollama\". I need to copy that exactly. The role is \"Blockchain / DLT Engineer\" and the model is \"ollama/qwen3:14b\". Got that.\n\nNext, the capabilities section. The user mentioned that dedicated RAG corpus is False, shared knowledge repo is True, role pack is none, and web search is False. I need to translate that into the JSON correctly. For role_pack, since there's none, it should be null.\n\nThen the acknowledgement. It needs to be 1-2 sentences confirming understanding. I should mention my role and that I'll follow the instructions accurately. Let me phrase that clearly without any extra information.\n\nWait, I need to ensure that I'm not adding any extra fields or capabilities. The user emphasized not to include anything beyond what's stated. Let me double-check the JSON structure against the requirements. Yes, all the keys are there, and the values are correctly set. No markdown, just plain JSON. Alright, that should do it.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 5413753540,
+      "load_duration": 54971990,
+      "prompt_eval_count": 2420,
+      "prompt_eval_duration": 541687020,
+      "eval_count": 391,
+      "eval_duration": 4731950582
+    }
+  },
+  "claimed": {
+    "agent_id": "blockchain-engineer-base-ollama",
+    "role": "Blockchain / DLT Engineer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will proceed as a Blockchain/DTL Engineer expert, adhering strictly to the provided rules and knowledge sources."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "blockchain-engineer-base-ollama",
+      "role": "Blockchain / DLT Engineer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "blockchain-engineer-base-ollama",
+      "role": "Blockchain / DLT Engineer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will proceed as a Blockchain/DTL Engineer expert, adhering strictly to the provided rules and knowledge sources."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

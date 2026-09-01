@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "bim-coordinator-rag-ollama",
+    "role": "BIM Coordinator",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"bim-coordinator-rag-ollama\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration check requirements and will proceed as instructed.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T11:20:09.131546048Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"bim-coordinator-rag-ollama\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration check requirements and will proceed as instructed.\"\n}",
+        "thinking": "Okay, let me make sure I understand what's being asked here. The user wants me to confirm my configuration as per the given rules. I need to output a JSON object with specific fields. Let me check the details again.\n\nThe agent ID is \"bim-coordinator-rag-ollama\", role is \"BIM Coordinator\", and the model is \"ollama/qwen3:14b\". The capabilities include dedicated RAG corpus set to True, shared knowledge repo True, no role pack, and web search False. The acknowledgement should be a short confirmation.\n\nI need to ensure that I copy each field exactly as provided. No extra information, just the JSON. Let me structure it step by step. First, the agent_id, role, model. Then the capabilities with the correct boolean values. Finally, the acknowledgment. Double-checking each part to avoid any mistakes. Alright, that should do it.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4248867007,
+      "load_duration": 61432889,
+      "prompt_eval_count": 2414,
+      "prompt_eval_duration": 543748739,
+      "eval_count": 294,
+      "eval_duration": 3566709255
+    }
+  },
+  "claimed": {
+    "agent_id": "bim-coordinator-rag-ollama",
+    "role": "BIM Coordinator",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration check requirements and will proceed as instructed."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "bim-coordinator-rag-ollama",
+      "role": "BIM Coordinator",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "bim-coordinator-rag-ollama",
+      "role": "BIM Coordinator",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration check requirements and will proceed as instructed."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

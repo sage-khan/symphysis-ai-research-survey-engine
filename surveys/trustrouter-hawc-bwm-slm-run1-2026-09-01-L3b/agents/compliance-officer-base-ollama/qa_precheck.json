@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-base-ollama",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"compliance-officer-base-ollama\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will follow the survey rules as a Compliance and Regulatory Officer expert.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T10:37:16.636154454Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"compliance-officer-base-ollama\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will follow the survey rules as a Compliance and Regulatory Officer expert.\"\n}",
+        "thinking": "Okay, let me make sure I understand what the user is asking. They want me to confirm my configuration as per the given rules. The user provided specific details about the agent ID, role, model, and capabilities. I need to restate those exactly without adding any extra information.\n\nFirst, I'll check the agent ID: \"compliance-officer-base-ollama\". The role is \"Compliance and Regulatory Officer\", and the model is \"ollama/qwen3:14b\". The capabilities include dedicated RAG corpus as False, shared knowledge repo as True, no role pack, and web search as False. \n\nI need to structure this into a JSON object exactly as specified. The acknowledgment should be a brief confirmation that I understand the task and will follow the rules. I must avoid any markdown and ensure only the JSON is returned. Let me double-check each field to ensure accuracy and compliance with the user's instructions.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4328487408,
+      "load_duration": 60137435,
+      "prompt_eval_count": 2409,
+      "prompt_eval_duration": 540876252,
+      "eval_count": 304,
+      "eval_duration": 3665849374
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-base-ollama",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will follow the survey rules as a Compliance and Regulatory Officer expert."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-base-ollama",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-base-ollama",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will follow the survey rules as a Compliance and Regulatory Officer expert."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "structural-engineer-rag-ollama",
+    "role": "Structural Engineer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"structural-engineer-rag-ollama\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the configuration and will proceed as instructed, adhering strictly to the role and capabilities defined.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T11:41:40.198642447Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"structural-engineer-rag-ollama\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the configuration and will proceed as instructed, adhering strictly to the role and capabilities defined.\"\n}",
+        "thinking": "Okay, let me make sure I understand what the user is asking for. They want me to confirm my configuration as per the given rules. The user provided specific details about the agent ID, role, model, and capabilities. I need to structure the JSON response exactly as specified, without any additional information or deviations.\n\nFirst, I'll check the agent ID: \"structural-engineer-rag-ollama\". The role is \"Structural Engineer\", and the model is \"ollama/qwen3:14b\". The capabilities include dedicated RAG corpus (True), shared knowledge repo (True), no role pack, and web search (False). The acknowledgment should be a brief confirmation of understanding the task.\n\nI need to ensure that the JSON keys and values match exactly. No extra fields or capabilities should be added. The user emphasized using only the provided information. Also, the response must be in JSON format without any other text. Let me double-check each part to avoid any mistakes. Once verified, I'll construct the JSON accordingly.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4606599436,
+      "load_duration": 60766270,
+      "prompt_eval_count": 2403,
+      "prompt_eval_duration": 543117083,
+      "eval_count": 324,
+      "eval_duration": 3930570133
+    }
+  },
+  "claimed": {
+    "agent_id": "structural-engineer-rag-ollama",
+    "role": "Structural Engineer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm understanding of the configuration and will proceed as instructed, adhering strictly to the role and capabilities defined."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "structural-engineer-rag-ollama",
+      "role": "Structural Engineer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "structural-engineer-rag-ollama",
+      "role": "Structural Engineer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm understanding of the configuration and will proceed as instructed, adhering strictly to the role and capabilities defined."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

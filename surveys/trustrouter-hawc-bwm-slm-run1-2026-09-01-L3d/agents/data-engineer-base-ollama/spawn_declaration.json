@@ -1,0 +1,20 @@
+{
+  "agent_id": "data-engineer-base-ollama",
+  "did": "did:key:z6Mktr6j6uD7oNbpdvpbNoTD3B1XRmVEw84L5UwHyzcJc2tE",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Data Engineering Specialist",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "qwen3:14b",
+    "temperature": 0.7
+  },
+  "runtime_backend": "direct_completion",
+  "survey_id": "trustrouter-hawc-bwm-slm-run1-2026-09-01-L3d"
+}

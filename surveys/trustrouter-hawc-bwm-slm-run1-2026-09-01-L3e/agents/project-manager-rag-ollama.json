@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "agent_id": "project-manager-rag-ollama",
+  "role": "Construction Project Manager",
+  "display_name": null,
+  "expertise": "",
+  "role_pack": null,
+  "rulefile": "",
+  "role_description": "A construction project manager responsible for coordinating multi-stakeholder documentation flows across a renovation or new-build project's full lifecycle.",
+  "instrument": "bwm",
+  "system_prompt_template": "config/prompts/expert_panel_system.txt",
+  "system_prompt_override": null,
+  "tools": [],
+  "runtime_backend": "direct_completion",
+  "escalation_exempt": false,
+  "model": {
+    "provider": "ollama",
+    "name": "qwen3:14b",
+    "temperature": 0.7,
+    "max_tokens": 4096,
+    "top_p": 1.0,
+    "seed": 42,
+    "model_hash": null
+  },
+  "rag": {
+    "enabled": true,
+    "corpus_path": "surveys/trustrouter-hawc-bwm/rag_corpora/project-manager",
+    "top_k": 5,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "chunk_size": 800,
+    "chunk_overlap": 100
+  },
+  "sampling": {
+    "repeats": 5,
+    "max_retries_on_malformed": 2,
+    "agreement_threshold": 0.0
+  },
+  "permissions": {
+    "data_scopes": [
+      "surveys/trustrouter-hawc-bwm/rag_corpora/project-manager/**"
+    ],
+    "network": [],
+    "allowed_providers": [
+      "ollama"
+    ],
+    "max_cost_usd": null
+  },
+  "guardrails": {
+    "schema_validation": true,
+    "denylist_patterns": [
+      "ignore (all|any|the) (previous|prior|above) instructions",
+      "sk-[A-Za-z0-9]{20,}",
+      "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+    ]
+  },
+  "did": {
+    "method": "did:key",
+    "id": "did:key:z6Mko2mZ4TytzFzWnMt7vDBh9mgJQSWR5gYCR9LtpYnqS22N",
+    "public_key_multibase": "z6Mko2mZ4TytzFzWnMt7vDBh9mgJQSWR5gYCR9LtpYnqS22N",
+    "deterministic": true,
+    "seed_derivation": "sha256('trustrouter-hawc-bwm-slm-run1-2026-09-01:project-manager-rag-ollama')"
+  },
+  "environment": {
+    "runtime": "symphysis",
+    "runtime_version": "0.1.0",
+    "python_version": "3.12.3",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+    "container_image": null
+  }
+}

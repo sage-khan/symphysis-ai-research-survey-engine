@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use Symphysis in your research, please cite it as below."
+title: "Symphysis: Config-Driven Agent Panels for Expert-Elicitation Surveys"
+abstract: >-
+  A config-driven engine for running structured expert-elicitation surveys
+  (Best-Worst Method, Analytic Hierarchy Process, and multi-level
+  hierarchical variants) against a panel of real, individually configured
+  AI agents, alongside or in place of a human panel. Every agent is
+  defined by a portable, self-certifying Agent Card (did:key identity,
+  role, model, RAG corpus, permissions, guardrails), so an identical panel
+  can be respawned anywhere from one JSON file per agent.
+authors:
+  - family-names: "Khan"
+    given-names: "Muhammad Danyal"
+    orcid: "https://orcid.org/0009-0001-5084-6122"
+    affiliation: "Universidad de Granada"
+type: software
+license: Apache-2.0
+repository-code: "https://github.com/sage-khan/symphysis-ai-research-survey-engine"
+version: 0.1.0
+date-released: "2026-08-03"
+keywords:
+  - expert elicitation
+  - best-worst method
+  - analytic hierarchy process
+  - multi-agent systems
+  - large language models
+  - decision analysis
+  - research tooling
+preferred-citation:
+  type: software
+  title: "Symphysis: Config-Driven Agent Panels for Expert-Elicitation Surveys"
+  authors:
+    - family-names: "Khan"
+      given-names: "Muhammad Danyal"
+      orcid: "https://orcid.org/0009-0001-5084-6122"
+      affiliation: "Universidad de Granada"
+  repository-code: "https://github.com/sage-khan/symphysis-ai-research-survey-engine"
+  version: 0.1.0
+  year: 2026

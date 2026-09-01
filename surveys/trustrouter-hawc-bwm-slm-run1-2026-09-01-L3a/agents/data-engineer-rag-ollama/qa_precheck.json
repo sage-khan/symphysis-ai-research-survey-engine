@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-rag-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-rag-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter SLM Panel Run 1 Level L3a survey configuration and will execute the ISO 25012 quality clusters comparison as a Data Engineering Specialist with the specified capabilities.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T10:19:40.893169143Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"data-engineer-rag-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter SLM Panel Run 1 Level L3a survey configuration and will execute the ISO 25012 quality clusters comparison as a Data Engineering Specialist with the specified capabilities.\"\n}",
+        "thinking": "Okay, let me make sure I understand what the user is asking for. They want me to confirm my configuration as per the given rules. The user provided a detailed setup, including agent ID, role, model, and capabilities. I need to output a JSON object that restates this configuration accurately without adding any extra information.\n\nFirst, I'll check the agent ID: \"data-engineer-rag-ollama\". The role is \"Data Engineering Specialist\", and the model is \"ollama/qwen3:14b\". The capabilities include dedicated RAG corpus (True), shared knowledge repo (True), role pack (none), and web search (False). The acknowledgment should be a brief confirmation that I understand the task and will proceed as instructed.\n\nI need to ensure that the JSON structure matches exactly what's specified. No additional fields or capabilities should be included. The acknowledgment should be concise, maybe something like confirming understanding and commitment to the task. Let me put that all together in the correct JSON format.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4834991565,
+      "load_duration": 57667597,
+      "prompt_eval_count": 2432,
+      "prompt_eval_duration": 547459804,
+      "eval_count": 340,
+      "eval_duration": 4154434051
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-rag-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm understanding of the TrustRouter SLM Panel Run 1 Level L3a survey configuration and will execute the ISO 25012 quality clusters comparison as a Data Engineering Specialist with the specified capabilities."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-rag-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-rag-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm understanding of the TrustRouter SLM Panel Run 1 Level L3a survey configuration and will execute the ISO 25012 quality clusters comparison as a Data Engineering Specialist with the specified capabilities."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

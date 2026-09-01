@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-base-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-base-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as a Data Engineering Specialist expert, adhering to the specified capabilities and survey rules.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T11:06:03.032668534Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"data-engineer-base-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as a Data Engineering Specialist expert, adhering to the specified capabilities and survey rules.\"\n}",
+        "thinking": "Okay, let me make sure I understand what the user is asking for. They want me to confirm my configuration as per the given rules. The user provided specific details about the agent ID, role, model, and capabilities. I need to restate those exactly without adding any extra information.\n\nFirst, I'll check the agent ID: \"data-engineer-base-ollama\". The role is \"Data Engineering Specialist\", and the model is \"ollama/qwen3:14b\". The capabilities mention that dedicated RAG corpus is False, shared knowledge repo is True, no role pack, and web search is False. \n\nI need to structure this into a JSON object as specified. The acknowledgment should be a brief confirmation that I understand the task and will proceed as an expert. I must ensure that I don't include any additional capabilities or knowledge sources beyond what's provided. Also, no markdown, just plain JSON. Let me double-check each field to make sure they match the user's input exactly. Once that's confirmed, I can output the JSON response.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4738463417,
+      "load_duration": 60955871,
+      "prompt_eval_count": 2408,
+      "prompt_eval_duration": 542699864,
+      "eval_count": 333,
+      "eval_duration": 4054536484
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-base-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will proceed as a Data Engineering Specialist expert, adhering to the specified capabilities and survey rules."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-base-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-base-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will proceed as a Data Engineering Specialist expert, adhering to the specified capabilities and survey rules."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

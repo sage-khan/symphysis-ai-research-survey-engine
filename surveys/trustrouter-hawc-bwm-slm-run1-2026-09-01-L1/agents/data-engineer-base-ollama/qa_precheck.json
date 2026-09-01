@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-base-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-base-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as a Data Engineering Specialist expert for the TrustRouter SLM Panel Run 1 Level L1 survey.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T09:23:04.886153652Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"data-engineer-base-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as a Data Engineering Specialist expert for the TrustRouter SLM Panel Run 1 Level L1 survey.\"\n}",
+        "thinking": "Okay, I need to confirm my configuration as per the user's instructions. Let me start by recalling the details provided. The agent ID is \"data-engineer-base-ollama\", role is \"Data Engineering Specialist\", and the model is \"ollama/qwen3:14b\". The capabilities mentioned are dedicated RAG corpus: False, shared knowledge repo: True, role pack: none, and web search: False. The project is TrustRouter SLM Panel Run 1, Level L1.\n\nI should make sure I copy each part exactly as given. The JSON structure needs to be correct with the right keys and values. The acknowledgement should be a short confirmation that I understand the task and will proceed as an expert. Let me double-check each field to ensure there's no typo or mistake. Once that's verified, I can output the JSON without any additional text.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4314263414,
+      "load_duration": 57910340,
+      "prompt_eval_count": 2486,
+      "prompt_eval_duration": 557565034,
+      "eval_count": 300,
+      "eval_duration": 3631690423
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-base-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will proceed as a Data Engineering Specialist expert for the TrustRouter SLM Panel Run 1 Level L1 survey."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-base-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-base-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will proceed as a Data Engineering Specialist expert for the TrustRouter SLM Panel Run 1 Level L1 survey."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}
