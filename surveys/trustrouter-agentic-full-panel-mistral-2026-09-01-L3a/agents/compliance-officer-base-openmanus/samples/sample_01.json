@@ -1,0 +1,15 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 7,
+    "RQ": 9
+  },
+  "others_to_worst": {
+    "RQ": 1,
+    "CQ": 6,
+    "IQ": 9
+  },
+  "reasoning": " Best factor: IQ\nWorst factor: RQ\n\nReasoning:\n\nIn the context of a facility management compliance officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle, Intrinsic Quality (IQ) is considered the best factor as it encompasses accuracy, validity, and uniqueness which are crucial for ensuring the data is technically clean and reliable. On the other hand, Representational Quality (RQ), which focuses on consistency across sources, might be less important in this role since the officer's primary concern is ensuring compliance with regulations rather than comparing multiple versions of the same data.\n\n IQ vs CQ: 7\nIQ vs RQ: 9\nCQ vs RQ: 6"
+}

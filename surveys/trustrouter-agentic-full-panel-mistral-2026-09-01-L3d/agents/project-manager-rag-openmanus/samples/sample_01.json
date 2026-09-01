@@ -1,0 +1,15 @@
+{
+  "best": "A_sybil",
+  "worst": "A_oracle",
+  "best_to_others": {
+    "A_sybil": 1,
+    "A_insider": 1,
+    "A_oracle": 5
+  },
+  "others_to_worst": {
+    "A_oracle": 1,
+    "A_insider": 7,
+    "A_sybil": 5
+  },
+  "reasoning": " You are comparing the following criteria:\n- A_sybil: Sybil resistance\n- A_oracle: Oracle resistance\n- A_insider: Insider resistance\n\nWhich ONE criterion is BEST (most important), and which ONE is WORST (least important)? Answer in EXACTLY these two lines, using the bare code only (one of A_sybil, A_oracle, A_insider):\nBest factor: A_sybil\nWorst factor: A_oracle\n\n A_sybil vs A_insider: 1\nA_sybil vs A_oracle: 5\nA_insider vs A_oracle: 7"
+}

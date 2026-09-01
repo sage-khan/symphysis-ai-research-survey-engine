@@ -1,0 +1,15 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 1,
+    "RQ": 9
+  },
+  "others_to_worst": {
+    "RQ": 1,
+    "CQ": 3,
+    "IQ": 9
+  },
+  "reasoning": " You are comparing the following criteria:\n- IQ: Intrinsic Quality\n- CQ: Contextual Quality\n- RQ: Representational Quality\n\nBest factor: IQ\nWorst factor: RQ\n\n IQ vs CQ: 1\nIQ vs RQ: 9\nCQ vs RQ: 3"
+}

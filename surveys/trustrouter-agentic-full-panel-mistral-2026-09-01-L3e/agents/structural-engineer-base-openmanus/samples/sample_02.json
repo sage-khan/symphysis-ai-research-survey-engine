@@ -1,0 +1,15 @@
+{
+  "best": "E_demand",
+  "worst": "E_market",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_liquidity": 7,
+    "E_market": 1
+  },
+  "others_to_worst": {
+    "E_market": 1,
+    "E_liquidity": 9,
+    "E_demand": 1
+  },
+  "reasoning": " Best factor: E_demand\nWorst factor: E_market\n\nReasoning: As a structural engineer responsible for long-term retention of data, the most important criterion is future demand (E_demand) as it ensures the data remains relevant and useful over the decades. Current marketplace demand (E_market) is less important because the data may not be immediately valuable to buyers, but its long-term value depends on future demand. Tokenisation ease (E_liquidity) is least important in this context as the focus is on the structural capacity dossier's long-term storage and retention rather than its immediate tradeability.\n\n E_demand vs E_liquidity: 7\nE_demand vs E_market: 1\nE_liquidity vs E_market: 9"
+}

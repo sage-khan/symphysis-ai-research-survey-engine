@@ -1,0 +1,88 @@
+{
+  "agent_id": "data-engineer-base-openmanus",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "T_history",
+      "worst": "T_chain",
+      "best_to_others": {
+        "T_history": 1,
+        "T_source": 7,
+        "T_chain": 9
+      },
+      "others_to_worst": {
+        "T_chain": 1,
+        "T_source": 6,
+        "T_history": 9
+      },
+      "reasoning": " Best factor: T_history\nWorst factor: T_chain\n\n T_history vs T_source: 7\nT_history vs T_chain: 9\nT_source vs T_chain: 6"
+    },
+    {
+      "best": "T_history",
+      "worst": "T_chain",
+      "best_to_others": {
+        "T_history": 1,
+        "T_source": 3,
+        "T_chain": 9
+      },
+      "others_to_worst": {
+        "T_chain": 1,
+        "T_source": 7,
+        "T_history": 9
+      },
+      "reasoning": " Best factor: T_history\nWorst factor: T_chain\n\n T_history vs T_source: 3\nT_history vs T_chain: 9\nT_source vs T_chain: 7"
+    },
+    {
+      "best": "T_history",
+      "worst": "T_chain",
+      "best_to_others": {
+        "T_history": 1,
+        "T_source": 7,
+        "T_chain": 9
+      },
+      "others_to_worst": {
+        "T_chain": 1,
+        "T_source": 5,
+        "T_history": 9
+      },
+      "reasoning": " Best factor: T_history\nWorst factor: T_chain\n\n T_history vs T_source: 7\nT_history vs T_chain: 9\nT_source vs T_chain: 5"
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    }
+  ]
+}

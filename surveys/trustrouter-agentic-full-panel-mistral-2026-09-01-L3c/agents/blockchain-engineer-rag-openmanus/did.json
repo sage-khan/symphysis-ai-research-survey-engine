@@ -1,0 +1,8 @@
+{
+  "agent_id": "blockchain-engineer-rag-openmanus",
+  "did": "did:key:z6MkmucumNftjXuU1cP1wD4kXfg8GN5qLwkyp7b89yPpKxwP",
+  "method": "did:key",
+  "public_key_multibase": "z6MkmucumNftjXuU1cP1wD4kXfg8GN5qLwkyp7b89yPpKxwP",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-mistral-2026-09-01:blockchain-engineer-rag-openmanus')"
+}

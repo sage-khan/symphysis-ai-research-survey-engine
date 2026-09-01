@@ -1,0 +1,15 @@
+{
+  "best": "T_history",
+  "worst": "T_chain",
+  "best_to_others": {
+    "T_history": 1,
+    "T_source": 1,
+    "T_chain": 9
+  },
+  "others_to_worst": {
+    "T_chain": 1,
+    "T_source": 5,
+    "T_history": 9
+  },
+  "reasoning": " Best factor: T_history\nWorst factor: T_chain\n\n T_history vs T_source: 1\nT_history vs T_chain: 9\nT_source vs T_chain: 5\n\nReasoning:\n\n* T_history (Historical track record) is the best factor because it provides an indication of a data source's reliability and trustworthiness based on its past performance. In the context of construction-project records, a reliable historical track record can provide confidence that the data being stored is accurate and relevant.\n* T_chain (Custody chain) is the worst factor because it is more susceptible to manipulation and errors during the process of storing and transferring data. In the context of construction-project records, a weak custody chain could lead to inaccurate or corrupted data being stored on the blockchain, which would undermine the trustworthiness of the data.\n* T_source (Source credentials) is less important than T_history because while it can provide some indication of the credibility of the data source, it does not necessarily guarantee the accuracy or relevance of the data itself. In contrast, a strong historical track record provides evidence that the data source has consistently produced reliable and accurate data in the past.\n* The ratings are based on the professional judgement of a facility-management compliance officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle."
+}

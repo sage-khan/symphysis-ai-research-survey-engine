@@ -1,0 +1,8 @@
+{
+  "agent_id": "structural-engineer-rag-openmanus",
+  "did": "did:key:z6Mkq9sxQdnLDNKYHKSbcFf6ApWb78WMj6E8VgRRcmWNpJib",
+  "method": "did:key",
+  "public_key_multibase": "z6Mkq9sxQdnLDNKYHKSbcFf6ApWb78WMj6E8VgRRcmWNpJib",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-mistral-2026-09-01:structural-engineer-rag-openmanus')"
+}
