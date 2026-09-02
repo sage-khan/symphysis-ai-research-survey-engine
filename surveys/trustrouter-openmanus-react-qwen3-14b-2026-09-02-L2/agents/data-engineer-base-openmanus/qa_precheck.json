@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-base-openmanus",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-base-openmanus\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the TrustRouter L2 survey configuration and will answer as a Data Engineering Specialist using the provided shared knowledge repository.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-02T13:56:31.604661246Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"data-engineer-base-openmanus\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the TrustRouter L2 survey configuration and will answer as a Data Engineering Specialist using the provided shared knowledge repository.\"\n}",
+        "thinking": "Okay, let me make sure I understand what's being asked here. The user wants me to confirm my configuration as per the given rules. They provided a detailed setup for the TrustRouter Agentic Full Panel survey, specifically Level L2. My role is a Data Engineering Specialist, and I need to respond with a JSON object that restates the configuration accurately.\n\nFirst, I need to check the agent ID, role, model, and capabilities. The agent ID is \"data-engineer-base-openmanus\", role is \"Data Engineering Specialist\", and the model is \"ollama/qwen3:14b\". The capabilities include shared_knowledge_repo set to True, and the others as specified. I must ensure that I don't add any extra capabilities or knowledge sources beyond what's provided. \n\nThe acknowledgment should be a short confirmation that I understand the task and will proceed as an expert in my role. I need to avoid any markdown and strictly follow the JSON structure. Let me double-check each field to ensure accuracy. No mistakes there. Alright, time to structure the JSON response correctly.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4700097992,
+      "load_duration": 54084253,
+      "prompt_eval_count": 2177,
+      "prompt_eval_duration": 488193683,
+      "eval_count": 338,
+      "eval_duration": 4077286796
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-base-openmanus",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the TrustRouter L2 survey configuration and will answer as a Data Engineering Specialist using the provided shared knowledge repository."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-base-openmanus",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-base-openmanus",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the TrustRouter L2 survey configuration and will answer as a Data Engineering Specialist using the provided shared knowledge repository."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

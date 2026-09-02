@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "qwen-react-test",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"qwen-react-test\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter L2 survey configuration and will respond as a Data Engineering Specialist using the provided shared knowledge repository and role-specific expertise.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-02T13:47:00.076729107Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"qwen-react-test\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter L2 survey configuration and will respond as a Data Engineering Specialist using the provided shared knowledge repository and role-specific expertise.\"\n}",
+        "thinking": "Okay, I need to confirm my configuration as per the user's instructions. Let me start by carefully reading the query again to make sure I don't miss any details.\n\nThe user provided specific details about the agent ID, role, model, and capabilities. The agent ID is \"qwen-react-test\", role is \"Data Engineering Specialist\", and the model is \"ollama/qwen3:14b\". The capabilities include a shared knowledge repository set to True, dedicated RAG corpus and web search as False, and no role pack. The current date and time are 2026-09-02 13:46 UTC, and the project details are about the TrustRouter Agentic Full Panel Level L2.\n\nThe user wants a JSON object that restates this configuration exactly. I need to make sure each field is copied accurately. The \"capabilities\" section should have the correct boolean values. The \"role_pack\" is null since there's no standard role knowledge pack provided. The \"acknowledgement\" should be a short confirmation that I understand the task and will proceed as an expert in the given role.\n\nI should double-check each part of the JSON to ensure there are no typos or mismatches. For example, ensuring that \"shared_knowledge_repo\" is correctly set to True, and \"role_pack\" is null. Also, the model name must be exactly \"ollama/qwen3:14b\" as provided.\n\nOnce the JSON structure is correct, the acknowledgment should be concise, mentioning understanding the assignment and acting as a Data Engineering Specialist. I need to avoid any additional text beyond the JSON object as specified.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 7248010128,
+      "load_duration": 58276430,
+      "prompt_eval_count": 2150,
+      "prompt_eval_duration": 565040909,
+      "eval_count": 456,
+      "eval_duration": 6350657738
+    }
+  },
+  "claimed": {
+    "agent_id": "qwen-react-test",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm understanding of the TrustRouter L2 survey configuration and will respond as a Data Engineering Specialist using the provided shared knowledge repository and role-specific expertise."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "qwen-react-test",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "qwen-react-test",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm understanding of the TrustRouter L2 survey configuration and will respond as a Data Engineering Specialist using the provided shared knowledge repository and role-specific expertise."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

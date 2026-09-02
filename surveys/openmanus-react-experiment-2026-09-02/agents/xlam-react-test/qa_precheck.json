@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "xlam-react-test",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/xlam2-3b-fc:latest",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"xlam-react-test\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/xlam2-3b-fc:latest\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will attempt it as an expert in the role of a Data Engineering Specialist.\"\n}",
+    "model": "xlam2-3b-fc:latest",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "xlam2-3b-fc:latest",
+      "created_at": "2026-09-02T13:49:32.373930911Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"xlam-react-test\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/xlam2-3b-fc:latest\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will attempt it as an expert in the role of a Data Engineering Specialist.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 2254180864,
+      "load_duration": 1545252033,
+      "prompt_eval_count": 2151,
+      "prompt_eval_duration": 140991954,
+      "eval_count": 108,
+      "eval_duration": 514795946
+    }
+  },
+  "claimed": {
+    "agent_id": "xlam-react-test",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/xlam2-3b-fc:latest",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand the assignment and will attempt it as an expert in the role of a Data Engineering Specialist."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "xlam-react-test",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/xlam2-3b-fc:latest",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "xlam-react-test",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/xlam2-3b-fc:latest",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand the assignment and will attempt it as an expert in the role of a Data Engineering Specialist."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

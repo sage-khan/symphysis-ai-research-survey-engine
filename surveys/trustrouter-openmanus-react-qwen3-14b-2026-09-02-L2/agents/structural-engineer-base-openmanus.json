@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "agent_id": "structural-engineer-base-openmanus",
+  "role": "Structural Engineer",
+  "display_name": null,
+  "expertise": "",
+  "role_pack": null,
+  "rulefile": "",
+  "role_description": "A chartered structural engineer responsible for structural-capacity dossiers and their downstream reliance by insurers, regulators, and building owners over decades.",
+  "instrument": "bwm",
+  "system_prompt_template": "config/prompts/expert_panel_system.txt",
+  "system_prompt_override": null,
+  "tools": [],
+  "runtime_backend": "openmanus_react",
+  "escalation_exempt": false,
+  "model": {
+    "provider": "ollama",
+    "name": "qwen3:14b",
+    "temperature": 0.3,
+    "max_tokens": 4096,
+    "top_p": 1.0,
+    "seed": 42,
+    "model_hash": null
+  },
+  "rag": {
+    "enabled": false,
+    "corpus_path": null,
+    "top_k": 5,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "chunk_size": 800,
+    "chunk_overlap": 100
+  },
+  "sampling": {
+    "repeats": 3,
+    "max_retries_on_malformed": 1,
+    "agreement_threshold": 0.0
+  },
+  "permissions": {
+    "data_scopes": [],
+    "network": [],
+    "allowed_providers": [
+      "ollama"
+    ],
+    "max_cost_usd": null
+  },
+  "guardrails": {
+    "schema_validation": true,
+    "denylist_patterns": [
+      "ignore (all|any|the) (previous|prior|above) instructions",
+      "sk-[A-Za-z0-9]{20,}",
+      "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+    ]
+  },
+  "did": {
+    "method": "did:key",
+    "id": "did:key:z6MkjijSmZJ4VbnK5WEgJsauUfmcN1JPnNQ9qPUAJf5MS9fW",
+    "public_key_multibase": "z6MkjijSmZJ4VbnK5WEgJsauUfmcN1JPnNQ9qPUAJf5MS9fW",
+    "deterministic": true,
+    "seed_derivation": "sha256('trustrouter-agentic-full-panel-qwen3-14b-2026-09-01:structural-engineer-base-openmanus')"
+  },
+  "environment": {
+    "runtime": "symphysis",
+    "runtime_version": "0.1.0",
+    "python_version": "3.13.2",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "container_image": null
+  }
+}

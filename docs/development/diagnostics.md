@@ -3,6 +3,139 @@
 Bugs found, their root cause, and the fix. Kept separate from
 `changelog.md` (which tracks what changed) so root causes stay easy to find
 later.
+
+## Vendored OpenManus's ToolChoice.REQUIRED crashed the whole sample on one dropped tool call, instead of retrying
+
+**Found:** live run of the real ReAct/tool-calling harness (`runtime_backend:
+"openmanus_react"`, `_openmanus_driver.py`), TrustRouter L2, qwen3:14b,
+2026-09-02. All 6 RAG-enabled agents (`*-rag-openmanus`) failed 100% of
+samples (0/18 accepted), while all 6 matching base agents mostly succeeded
+(14/18). Every RAG failure's `conversation.jsonl` entry was identical:
+`provider call failed: OpenManusProviderError: ValueError: Tool calls
+required but none provided`.
+
+**Root cause:** vendored `app/agent/toolcall.py`'s `ToolCallAgent.act()`
+raises a hard `ValueError(TOOL_CALL_REQUIRED)` the moment a step's
+completion contains zero tool calls under `tool_choices = ToolChoice.
+REQUIRED` (this survey-elicitation agent's setting, so a plain-text answer
+is never silently accepted as a real one). `_openmanus_driver.py`'s
+per-step loop had no handling for this exception at all: the first time it
+happened, the whole sample died right there, with no retry and the model's
+already-recorded (in `think()`, before `act()` raises) failed text attempt
+simply discarded. A RAG agent's prompt sequence (retrieve from its own
+dedicated corpus, then retrieve from the shared knowledge repo, THEN
+submit) is one full extra tool round-trip longer than a base agent's
+(retrieve from shared knowledge once, then submit), which was the visible
+correlation, though see the note below on how deterministic this actually
+is.
+
+**Fix:** the flat (non-panel) step loop in `_run()` now catches
+`ValueError(TOOL_CALL_REQUIRED)` specifically, increments the step counter,
+appends one corrective user message ("you MUST call the tool, do not
+restate the answer as plain text") to the agent's own memory, and retries
+the step, up to 3 consecutive recoveries before re-raising (so a model that
+is genuinely, persistently incapable of tool-calling still terminates via
+this bound rather than looping to `max_steps` silently). This is the direct
+tool-calling-path analogue of the "RAG context made qwen3:14b answer with
+full criterion labels" entry above (same underlying idea: restate a
+hard requirement at the actual point of generation, don't just state it
+once earlier and hope it survives), but a different failure surface (the
+tool-calling API's own hard enforcement, not a text/JSON-parsing drift).
+
+**Important honesty note, checked before writing this up:** after applying
+the fix, all 4 RAG agents re-tested (`compliance-officer`, `bim-coordinator`,
+`data-engineer`, `structural-engineer`) passed 3/3 cleanly, but **the new
+recovery path never actually fired for any of them** (`grep -c
+tool_call_required_recovery */conversation.jsonl` = 0 across all four). So
+while the fix is a real, independently-justified hardening of a genuine
+crash-the-whole-sample bug in the vendored agent's REQUIRED-mode handling
+(worth keeping regardless), it is NOT confirmed to be the actual cause of
+the original 18/18 RAG failure -- that specific failure did not reproduce
+on re-test even before the new recovery code could have intervened, which
+points more toward a transient cause (the veritas server was running
+concurrent Ollama model load from other phases of this same project at the
+time of the original failing run) than a deterministic prompt-length/
+recency defect. Recorded here plainly rather than claimed as a confirmed
+fix for the specific incident, per this project's standing rule against
+reporting an inflated success.
+
+## RAG context made qwen3:14b answer with full criterion labels (or abandon JSON) instead of bare codes
+
+**Found:** same live run (TrustRouter SLM Panel Run 1, level L1). Every RAG-enabled
+agent (`*-rag-ollama`) failed 100% of samples (0 accepted / 15 attempted for
+`bim-coordinator-rag-ollama`), while the matching base (non-RAG) agent for the
+same role succeeded 5/5. Reading rejected samples: some used the full label
+instead of the bare code (`"best": "DVS (Data Value Score)"` or
+`"F (Technical Feasibility Fit)"` instead of `"DVS"`/`"F"`), and the worst
+cases abandoned JSON entirely for a discursive markdown answer with headers
+and prose reasoning, no JSON object at all.
+
+**Root cause:** `instruments/bwm.py::build_messages` builds `user_parts = [task]`
+(the JSON-schema instructions, using bare short codes) and then, only when
+`context_chunks` is non-empty, *appends* the reference material after it
+(`Reference material to ground your judgement:\n\n{joined}`) with nothing
+after that. This survey's shared knowledge repository includes the real,
+verbatim human-facing survey instrument (`trustrouter_expert_questionnaire_v5_real_survey_instrument.md`),
+which correctly tells a HUMAN respondent to write out full labels ("Glossary
+lock ... Use these exact four full labels in Best/Worst"). For a base agent
+(short prompt: 3 shared-knowledge files only), the model still weighted the
+earlier bare-code JSON-schema instruction correctly. For a RAG agent (the
+same shared knowledge plus its own role-specific corpus chunks appended on
+top), the reference material became long enough that a straightforward
+recency effect took over: the LAST thing the model read before generating
+was the human-survey glossary telling it to use full labels, not the JSON
+schema stated earlier, so it followed the reference material's own
+(correct-for-a-human, wrong-for-this-agent) convention instead.
+
+**Fix:** `build_messages` now appends one final short reminder *after* the
+reference material, restating (a) the exact bare-code list for this level
+and (b) "respond with ONLY the JSON object" -- so the schema requirement is
+the last thing read regardless of how much reference material precedes it.
+This is the same class of fix already applied once in this codebase for a
+different rule (the per-level self-rating ratio rule, restated locally
+instead of stated once up front, see the "qwen2.5:32b still rated
+Best-to-itself as 9" entry below) -- a rule stated early and only once loses
+to whatever is read last, and the fix is always to restate it at the point
+of generation, not to state it more emphatically earlier. New regression
+test: `tests/test_bwm_instrument.py::test_build_messages_restates_bare_codes_after_context_so_it_is_read_last`.
+Full suite: 309 passed.
+
+**Not yet re-verified against a fresh live run** at the time this entry was
+written -- the run was stopped after 4/12 L1 agents (all base, all correct)
+to apply this fix, and restarted from scratch so every sample across all 7
+levels uses the same, final prompt structure.
+
+## Flat bwm.py crashed the whole run instead of rejecting one malformed sample: missing dict-type guard
+
+**Found:** live run of the TrustRouter SLM Panel Run 1 (2026-09-01, qwen3:14b,
+per-level flat-bwm surveys, see `scripts/build_trustrouter_slm_run1_per_level_surveys.py`)
+on the veritas server. Level L1's `symphysis run` crashed the entire process
+with an uncaught `AttributeError: 'str' object has no attribute 'items'` in
+`instruments/bwm.py::parse`, aborting the whole survey (zero results written)
+rather than rejecting the one malformed sample and continuing.
+
+**Root cause:** `parse()` read `vec = data.get(field_name, {})` (for
+`best_to_others`/`others_to_worst`) and immediately called `set(vec)` then
+`vec.items()` with no check that `vec` was actually a JSON object. qwen3:14b
+returned one sample with `best_to_others` as a bare string rather than an
+object, something qwen2.5:14b/32b never produced in prior sessions, so this
+path had never been exercised live before. `instruments/hierarchical_bwm.py`'s
+`_validate_level_fields` already had the correct `isinstance(vec, dict)`
+guard (added when that module was factored out for the Phase 3 per-level
+flow) -- this fix was never backported to the older flat `bwm.py`, which is
+what every per-level survey in this run actually uses.
+
+**Fix:** `bwm.py::parse` now checks `isinstance(vec, dict)` before treating
+it as one, appending a `"{field_name} must be an object"` error and
+`continue`-ing to the next field instead of crashing, exactly mirroring
+`hierarchical_bwm.py`'s existing guard. Also backported that module's
+`isinstance(value, bool)` exclusion (Python's `bool` is a subclass of `int`,
+so `1 <= True <= 9` is `True` and a bare `isinstance(value, int)` check would
+silently accept a JSON boolean as a valid rating). New regression tests:
+`tests/test_bwm_instrument.py::test_parse_rejects_best_to_others_that_is_not_an_object_instead_of_crashing`
+and `::test_parse_rejects_a_boolean_rating_value`. Full `tests/test_bwm_instrument.py`
+suite: 13 passed.
+
 ## GPU vs CPU inference on the veritas server: partially used, not unused, and not fixed here
 
 **Found:** `nvidia-smi` fails outright on the veritas server (`Failed to initialize NVML:
