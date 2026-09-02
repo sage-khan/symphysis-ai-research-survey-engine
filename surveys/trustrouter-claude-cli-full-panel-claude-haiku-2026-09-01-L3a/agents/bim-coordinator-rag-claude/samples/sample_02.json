@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 2,
+    "RQ": 3
+  },
+  "others_to_worst": {
+    "IQ": 3,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "As a BIM coordinator managing multi-stakeholder model federation, I rank Intrinsic Quality (accuracy, validity, uniqueness) as Best because it is the foundational criterion on which all other data qualities depend. In practice, an inaccurate spatial model or specification will compromise clash detection, coordination, and construction safety regardless of how consistent or timely it is\u2014this is a non-negotiable starting point in BIM. The Hospital Real scenario reinforces this: renovation of a complex public asset serving institutional owners, insurers, and authorities over decades demands absolute accuracy in structural, energy, and compliance data before anything else. Contextual Quality (completeness, timeliness) ranks second; it is nearly as critical for project delivery and long-term asset stewardship, but a dataset can be slightly less complete and still usable if the parts present are accurate, whereas inaccurate data cannot be rescued by timeliness alone. Representational Quality (consistency across sources) ranks Worst among the three because, while essential for multi-party federation, it is a secondary quality check that depends on both IQ and CQ being sound first. Consistency of poor data serves no one; consistent accuracy is the goal. In the real ISO 19650 validation process that BIM coordinators execute (multiple independent parties validating federated models), consistency is verified *after* the source data is sound, not before. The ratings reflect IQ's slight but clear primacy (2x more important than CQ, 3x more important than RQ) while acknowledging that all three clusters matter in construction data management.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

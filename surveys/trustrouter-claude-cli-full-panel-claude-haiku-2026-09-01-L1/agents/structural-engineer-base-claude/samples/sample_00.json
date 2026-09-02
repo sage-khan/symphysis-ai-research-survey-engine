@@ -1,0 +1,21 @@
+{
+  "best": "DVS",
+  "worst": "A",
+  "best_to_others": {
+    "DVS": 1,
+    "E": 3,
+    "F": 4,
+    "A": 7
+  },
+  "others_to_worst": {
+    "DVS": 7,
+    "E": 3,
+    "F": 3,
+    "A": 1
+  },
+  "reasoning": "As a structural engineer, DVS is the foundational pillar. For a multi-decade structural capacity dossier used by insurers and authorities (Scenario A), trustworthiness\u2014comprising quality of the record, provenance (chartered engineer signature and custody chain), and verification strength (digital seal + audit evidence)\u2014is non-negotiable. Blockchain cannot retrofit weak provenance; if the source is untrustworthy, immutability becomes a liability, not an asset. DVS underpins decades of regulatory and insurance reliance on what could be safety-critical data.\n\nE (economic value) and F (technical feasibility fit) are enabling factors, not drivers. The 2MB structural report is trivially within blockchain constraints (F is clearly passed), so feasibility is necessary but entirely secondary. Economic value justifies *why* we archive (the multi-decade public asset and insurance exposure), but it does not determine *whether* the specific data is trustworthy. Both E and F are amplifiers or context, not core.\n\nA (attack resistance) is least critical for this use case. While preventing undetected manipulation of structural data is important, the primary risks to a decades-long institutional archive are accidental loss, format obsolescence, and custody gaps\u2014not sophisticated adversarial attacks on blockchain-stored professional reports. Attack resistance presupposes that the data is already worth protecting (DVS) and economically justified (E); it cannot overcome weak provenance. The multiplicative formula TrustRouter = DVS \u00d7 F \u00d7 (1+E) \u00d7 A reflects this: A amplifies only if the other factors are solid.\n\nRatings reflect the hierarchy: DVS is 7\u00d7 more important than A (trustworthiness vs. active-attack surface), 4\u00d7 more important than F (core vs. enabler), and 3\u00d7 more important than E (intrinsic vs. contextual). E and F are roughly equivalent as secondary factors (~3\u00d7 more important than A).\n\nThis judgement is grounded in the structural capacity dossier scenario (Scenario A) and generalizes to institutional archiving of professional records over decades: the source and chain of custody matter more than defence against adversaries.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

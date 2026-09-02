@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: A_insider
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+As a construction project manager, my primary concern for blockchain-stored construction data is controlling risk from actors with legitimate access—inspectors, engineers, project coordinators, BIM managers—who can directly falsify records despite holding valid credentials. This is the most damaging threat vector because: (1) In real disputes over construction data (change orders, inspection sign-offs, compliance certification), the problem is rarely that a fake person created a false identity; it is that a real person with genuine authority modified or approved defective work and later denied it or claimed coercion. Gartoumi (2024) identifies dispute resolution as a primary blockchain use case in construction, and those disputes hinge on whether a legitimate stakeholder can later be held accountable for what they signed. (2) The reference scenario—a multi-decade public asset serving institutional owners and insurers—depends on an auditable chain of accountability. An insider (a corrupt inspector signing off on structural defects, a project manager altering handover documentation) breaks that institutional trust directly and catastrophically. (3) In construction, pre-verification through professional licenses, bonding, and insurance already raises the cost and risk of maintaining fake identities; most actors are pre-screened. Sybil resistance is least important because creating and sustaining multiple fake contractor identities while actually performing work on a major renovation is impractical in a regulated, licensed industry. Oracle resistance (tampered sensors/device data) is important for compliance and long-term digital monitoring but intermediate: physical construction creates natural verification mechanisms (you can inspect work physically), and while sensor tampering matters for digital handover, it requires direct physical access and expertise, making it less of a systemic governance risk than insider abuse of legitimate authority. The ratings reflect that insider threats are 6× more critical than sybil attacks and 3× more critical than oracle tampering for a construction PM's trust model.
+
+## Sources cited
+
+construction_project_management_and_mcdm.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

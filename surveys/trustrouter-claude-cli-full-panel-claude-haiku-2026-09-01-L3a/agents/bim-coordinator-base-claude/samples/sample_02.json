@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 4,
+    "RQ": 6
+  },
+  "others_to_worst": {
+    "IQ": 6,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "As a BIM coordinator managing multi-stakeholder federated models over decades, I rank Intrinsic Quality as best because accuracy, validity, and uniqueness are foundational trust properties\u2014especially for institutional records supporting structural, energy, and compliance decisions in a long-term renovation context. Wrong data that is complete, timely, and consistent across sources is worse than incomplete but accurate data; accuracy cannot be recovered by consistency or timeliness alone. Contextual Quality (completeness + timeliness) ranks second: for institutional use spanning decades, having current, complete records matters significantly, but gaps in accurate data are preferable to errors. Representational Quality ranks worst because: (1) in a properly designed blockchain archive with version control and metadata, consistency issues can be managed via audit trails rather than being a primary trust failure; (2) the Hospital Real scenario involves archival of renovation records where a single authoritative version-controlled source is the design pattern, not continuous federation across mutable sources; (3) consistency presupposes that underlying data is accurate\u2014consistent errors are trust failures. In federated BIM during *active design*, RQ would rank higher, but for long-term institutional storage and lifecycle documentation, IQ dominates. IQ is rated 4\u00d7 more important than CQ (accuracy critical, but completeness still matters), and 6\u00d7 more important than RQ (accuracy foundational, consistency secondary). CQ rates 2\u00d7 more important than RQ (gaps are preferable to versioning confusion for an archivist, though both matter far less than getting the data right).",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

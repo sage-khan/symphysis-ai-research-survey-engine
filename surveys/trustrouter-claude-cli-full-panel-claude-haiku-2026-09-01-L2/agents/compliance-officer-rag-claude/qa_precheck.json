@@ -1,0 +1,161 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-rag-claude",
+    "role": "Compliance and Regulatory Officer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"compliance-officer-rag-claude\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand I am completing a structured expert-elicitation survey (TrustRouter Level L2) on six trust dimensions within the Data Value Score for construction-project blockchain-storage records, answering independently from the perspective of a facility-management compliance officer with GDPR and construction-regulatory expertise, grounded in provided reference materials and applied domain knowledge, without fabrication or reliance on unverifiable sources.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 5898,
+      "stop_reason": "end_turn",
+      "session_id": "8daf6fe9-9ece-467a-acb0-273be5b9158f",
+      "total_cost_usd": 0.0178678,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 6741,
+        "cache_read_input_tokens": 8048,
+        "output_tokens": 434,
+        "output_tokens_details": {
+          "thinking_tokens": 235
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 6741,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 434,
+            "cache_read_input_tokens": 8048,
+            "cache_creation_input_tokens": 6741,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 6741
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1341,
+          "outputTokens": 448,
+          "cacheReadInputTokens": 8048,
+          "cacheCreationInputTokens": 6741,
+          "webSearchRequests": 0,
+          "costUSD": 0.0178678,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 235,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"compliance-officer-rag-claude\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand I am completing a structured expert-elicitation survey (TrustRouter Level L2) on six trust dimensions within the Data Value Score for construction-project blockchain-storage records, answering independently from the perspective of a facility-management compliance officer with GDPR and construction-regulatory expertise, grounded in provided reference materials and applied domain knowledge, without fabrication or reliance on unverifiable sources.\"\n}\n```",
+      "ttft_ms": 3095,
+      "type": "result",
+      "duration_ms": 5016,
+      "uuid": "f4dd20b5-25b5-40ac-8185-2fec0d6b9e13",
+      "ttft_stream_ms": 816,
+      "time_to_request_ms": 22,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-rag-claude",
+    "role": "Compliance and Regulatory Officer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand I am completing a structured expert-elicitation survey (TrustRouter Level L2) on six trust dimensions within the Data Value Score for construction-project blockchain-storage records, answering independently from the perspective of a facility-management compliance officer with GDPR and construction-regulatory expertise, grounded in provided reference materials and applied domain knowledge, without fabrication or reliance on unverifiable sources."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-rag-claude",
+      "role": "Compliance and Regulatory Officer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-rag-claude",
+      "role": "Compliance and Regulatory Officer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand I am completing a structured expert-elicitation survey (TrustRouter Level L2) on six trust dimensions within the Data Value Score for construction-project blockchain-storage records, answering independently from the perspective of a facility-management compliance officer with GDPR and construction-regulatory expertise, grounded in provided reference materials and applied domain knowledge, without fabrication or reliance on unverifiable sources."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

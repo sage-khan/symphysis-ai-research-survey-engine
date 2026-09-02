@@ -1,0 +1,19 @@
+{
+  "best": "E_demand",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_market": 3,
+    "E_liquidity": 6
+  },
+  "others_to_worst": {
+    "E_demand": 6,
+    "E_market": 3,
+    "E_liquidity": 1
+  },
+  "reasoning": "From a permissioned-ledger engineer's perspective evaluating technical feasibility and tamper-evidence guarantees for construction records, future regulatory and AI-driven demand (E_demand) is the most economically significant criterion. Regulatory mandates such as EU digital building logbooks and the emerging requirements for auditable, tamper-evident data trails in construction create concrete, stable demand signals that justify blockchain investment. Digital-twin applications and AI integration fundamentally require reliable, immutable record histories\u2014a core strength of permissioned blockchains. This forward-looking demand is more substantial than current marketplace adoption, which remains limited in construction despite pilot projects. Current marketplace demand (E_market) represents proof of existing interest and is genuinely important\u2014it validates that real buyers exist\u2014but it ranks below future regulatory and technical demand drivers because the construction blockchain market is still nascent. Tokenisation ease (E_liquidity) ranks least important because: (1) constructability and tamper-evidence do not require easy tokenization; (2) not all construction data should be readily tradeable due to liability, privacy, and contractual confidentiality (which the survey instrument explicitly acknowledges as gates); and (3) technical barriers to tokenization on permissioned blockchains are minimal\u2014regulatory and contractual barriers are the real constraints, not technical capability. A permissioned blockchain can deliver full value for construction records without serving a secondary market for data tokens. The comparison is not close: E_demand and E_market are both economically meaningful, but E_liquidity is materially less central to the decision to adopt blockchain for construction records.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

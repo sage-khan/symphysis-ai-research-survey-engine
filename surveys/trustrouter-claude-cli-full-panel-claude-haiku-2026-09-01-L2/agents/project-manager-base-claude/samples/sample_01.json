@@ -1,0 +1,25 @@
+{
+  "best": "Q",
+  "worst": "IC",
+  "best_to_others": {
+    "Q": 1,
+    "PT": 2,
+    "V": 2,
+    "IC": 4,
+    "L": 2,
+    "C": 2
+  },
+  "others_to_worst": {
+    "Q": 4,
+    "PT": 2,
+    "V": 2,
+    "IC": 1,
+    "L": 2,
+    "C": 2
+  },
+  "reasoning": "Quality is the foundational criterion for routing construction data to blockchain. From a project manager's perspective coordinating multi-stakeholder documentation flows, data fidelity\u2014whether records are technically clean, semantically coherent, and contextually accurate (as exemplified by IFC-valid models in the reference material)\u2014gates every downstream decision. Poor data quality contaminates the entire ledger and cascades into disputes, rework, and cost overruns, regardless of how trusted the provenance, how strong the verification, or how legally mandated the record. Quality must be the pivot point: it determines whether other criteria can even meaningfully apply. The other five criteria sit roughly at parity relative to Q (2:1 ratio), each materially important but secondary to having fit-for-purpose data. Independent Confirmation ranks as least influential for routing decisions. While valuable in principle, many construction records are created by single authoritative sources (a chartered structural engineer's design calculations, a specialist's certification) and lack independent corroboration, yet remain essential for long-term institutional, insurance, and regulatory stewardship. A project manager regularly works with single-source-of-truth documents that have no practical independent verification pathway; asking for IC before routing to blockchain would needlessly exclude essential records. Provenance Trust, Verification Strength, Legal Compliance, and Criticality all outweigh IC because they more directly constrain what data is trustworthy enough to preserve at all. The Hospital Real renovation reference illustrates this: decades of institutional stewardship depend first on having clean structural and energy data, not on achieving consensus across multiple parties on that data's correctness.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

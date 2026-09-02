@@ -1,0 +1,19 @@
+{
+  "best": "E_demand",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_market": 5,
+    "E_liquidity": 8
+  },
+  "others_to_worst": {
+    "E_demand": 8,
+    "E_market": 2,
+    "E_liquidity": 1
+  },
+  "reasoning": "From a BIM coordinator's perspective managing multi-stakeholder renovation and new-build projects, the ranking reflects real professional incentives and structural barriers in construction data ecosystems. E_demand (future) emerges as best because regulatory drivers are concrete and growing: EU Digital Building Logbooks, energy-performance compliance over building lifecycles, and increasingly mandatory facility-management analytics create structural demand for trustworthy historical records, independent of blockchain adoption. This is not speculative\u2014it flows directly from existing regulatory trajectories and real facility-management needs across decades of asset operation. Current marketplace demand (E_market) is weak but real: some early-adopter firms and blockchain consortia exist, whereas tokenisation (E_liquidity) faces fundamental barriers that make it worst. Tokenisation of construction records adds technical and legal overhead (fractionation of multi-stakeholder models, unclear ownership rights, no clear secondary market for partial building-data records) without solving construction's core problem\u2014trustworthy, federated documentation across disciplines and lifecycle. Most stakeholders (institutional owners, insurers, authorities, as per the reference scenario) demand authoritative records, not tradeable instruments. E_market ranks above E_liquidity because current (weak) adoption at least reflects real pain points; tokenisation is solution-seeking rather than demand-driven. The 5:1 ratio (demand vs. market) reflects that future regulatory and analytics drivers dwarf today's niche adoption; the 8:1 ratio (demand vs. liquidity) reflects the near-absence of coherent demand for tokenised construction records. The 2:1 ratio (market vs. liquidity) reflects a modest but genuine difference: some practitioners and projects care about current blockchain use; almost none care about tokenisation specifically.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

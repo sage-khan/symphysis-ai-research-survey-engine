@@ -1,0 +1,26 @@
+{
+  "best": "PT",
+  "worst": "L",
+  "best_to_others": {
+    "Q": 2,
+    "PT": 1,
+    "V": 3,
+    "IC": 2,
+    "L": 6,
+    "C": 5
+  },
+  "others_to_worst": {
+    "Q": 3,
+    "PT": 6,
+    "V": 5,
+    "IC": 3,
+    "L": 1,
+    "C": 2
+  },
+  "reasoning": "As a BIM coordinator managing multi-stakeholder models across task teams and decades of building lifecycle, Provenance Trust (PT) is the foundational criterion for trustworthy construction-project records in blockchain storage. The core challenge in federated BIM environments is answering: Who made this claim about the building, and can we trust their credentials and methodology? This question precedes all others. Kochovski et al. (2026) in the reference material specifically addresses PT as 'trust in who created the data and custody until handover,' using W3C decentralized identifiers to establish verifiable provenance. In practice, I have seen disputes arise repeatedly in model federation: coordination model elements are questioned not because they lack intrinsic quality (Q) but because their authorship is unclear. Quality without known provenance is epistemically hollow. Verification Strength (V) can only verify what has been captured and stored; it cannot retroactively establish the trustworthiness of the original source. Independent Confirmation (IC), mandated by ISO 19650 for multiple-party validation, is itself contingent on trusting the parties doing the confirming. Each tier builds on PT. Legal Compliance (L) is the weakest criterion for this assessment because it addresses governance requirement (whether we are legally required to store a record) rather than trust in the record itself. A data point may be legally required to retain yet come from an untrustworthy source. The five other dimensions directly assess trustworthiness; L is orthogonal to that question. Criticality (C), while relevant to the storage decision, matters less than provenance because non-critical data can still require trustworthiness for accurate lifecycle documentation, whereas legal compliance is a separate governance domain. The ratings reflect close complementarity between PT and both Q and IC (reflecting their procedural interdependence in practice), greater distance to V and C (both important but not foundational to source trust), and strong separation from L (governance rather than trust).",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

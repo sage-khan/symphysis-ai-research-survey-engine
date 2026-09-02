@@ -1,0 +1,20 @@
+{
+  "best": "T_chain",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_chain": 1,
+    "T_source": 2,
+    "T_history": 5
+  },
+  "others_to_worst": {
+    "T_chain": 5,
+    "T_source": 3,
+    "T_history": 1
+  },
+  "reasoning": "From a data engineering perspective focused on provenance tracking and pipeline integrity for blockchain-routed construction data, T_chain (custody chain integrity) is the most influential criterion for routing decisions. Here is the reasoning: (1) **T_chain is foundational to verification:** Even data from a credible source (T_source) becomes untrusted if the custody chain cannot be verified. In blockchain and distributed ledger contexts, the integrity of the chain itself is the verification mechanism\u2014audit trails and lineage tracking provide the direct, first-hand evidence that a record has not been tampered with in transit. The reference material on data quality emphasizes that 'a data pipeline's own audit logging and lineage tracking is often the first-hand source of evidence a Verification Strength (V) or Provenance Trust (PT) score should actually be based on' (shared knowledge: data_quality_and_polyglot_persistence.md). For my role, T_chain directly maps to this audit-logging capability. (2) **T_source and T_history are secondary:** T_source (credentials of the originating party) is necessary for initial intake decisions but does not protect against corruption or manipulation en route. T_history (past reliability) is useful for risk scoring but is predictive rather than confirmatory\u2014a source with excellent past performance can still deliver corrupted or altered data if the custody chain is not verified. For blockchain routing specifically, current verification (T_chain) is more actionable than statistical inference from history. (3) **T_history is least important:** It requires longitudinal data that may not exist for all sources, and its predictive value is superseded by verifiable current-state custody evidence. If you can confirm chain integrity, historical track record becomes supplementary. **Ratings justification:** T_chain is approximately 2x more critical than T_source (source credentials matter, but chain integrity is the actual verification gate). T_chain is approximately 5x more critical than T_history (current verification vs. past patterns). T_source is approximately 3x more critical than T_history (at least source credibility is directly actionable; history requires longitudinal data and inference).",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "data_quality_and_polyglot_persistence.md",
+    "general_knowledge"
+  ]
+}

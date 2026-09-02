@@ -1,0 +1,21 @@
+{
+  "best": "F",
+  "worst": "E",
+  "best_to_others": {
+    "F": 1,
+    "DVS": 2,
+    "A": 4,
+    "E": 6
+  },
+  "others_to_worst": {
+    "F": 6,
+    "DVS": 3,
+    "A": 2,
+    "E": 1
+  },
+  "reasoning": "From a production blockchain engineer's perspective, Technical Feasibility (F) is the most operationally influential decision gate for routing construction data to a ledger tier. Here is the logic: (1) F is a hard constraint \u2014 if data does not fit ledger capacity, latency, or update-rate constraints, implementation fails technically regardless of other factors. This gating property aligns with the multiplicative TrustRouter formula (DVS \u00d7 F \u00d7 (1+E) \u00d7 A), where F near zero collapses the entire score. (2) In real permissioned-ledger deployments, feasibility assessment is the first go/no-go decision: Can the throughput, state size, and finality requirements of the ledger accommodate this data? If not, the project stops. (3) Data Value Score (DVS) is close in importance because trustworthiness is foundational \u2014 untrusted data should not be on-chain \u2014 but DVS is typically evaluated *after* determining that feasibility is viable. I rate F 2\u00d7 more important than DVS because feasibility gates whether the architecture is even buildable, whereas DVS is an input quality check. (4) Attack Resistance (A) is important but secondary to feasibility; a technically infeasible system cannot be secured. (5) Economic Value (E) is least influential because legitimate on-chain routing decisions can be driven by regulatory compliance, transparency mandates, or industry-standard provenance requirements independent of financial value at stake. Routing decisions prioritize 'can we build this safely?' over 'is it financially justified?'",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

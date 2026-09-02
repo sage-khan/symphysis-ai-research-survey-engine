@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: C
+- Worst: L
+
+## Stated reasoning (submitted with the answer)
+
+As a data engineering specialist making polyglot-persistence routing decisions, Criticality (C) is the primary decision lever for construction-project records. The routing choice (on-chain vs. hybrid vs. conventional) is fundamentally driven by consequence: if a record is low-criticality, the operational cost of blockchain verification overhead is unjustifiable; if criticality is high (structural loads, safety coordinates), on-chain immutability and verification become essential regardless of other factors. Criticality thus gates whether other trust properties are even needed at this granularity. Quality (Q) is foundational (low-quality data undermines any verification), Provenance Trust (PT) and Verification Strength (V) are equally critical for on-chain decisions (they determine trustworthiness of the record), and Independent Confirmation (IC) strengthens but does not determine routing. Legal Compliance (L) is rated worst because it operates largely as a binary gate ('data must be compliant or cannot be used') rather than a graded trust-routing differentiator. Most construction projects operate in similar regulatory frameworks, making compliance less variable across routing decisions than the technical trust properties. Compliance mandates on-chain storage directly only in specific domains (liability records), not across the general class of construction data. The multiplicative structure (TrustRouter = DVS × F × (1 + E) × A) amplifies criticality's effect: a high-criticality record with moderate trust properties still demands on-chain routing, whereas low-criticality data with perfect trust properties may not warrant the cost. This front-loads Criticality's importance in the decision.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

@@ -1,0 +1,20 @@
+{
+  "best": "E_demand",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_market": 4,
+    "E_liquidity": 8
+  },
+  "others_to_worst": {
+    "E_demand": 8,
+    "E_market": 2,
+    "E_liquidity": 1
+  },
+  "reasoning": "From a construction project manager's perspective, future demand (E_demand) is the strongest economic value driver for blockchain-stored construction records. Regulatory momentum\u2014EU building passports, digital logbooks, GDPR-compliant data archiving\u2014creates genuine structural demand beyond current niche adoption. AI and digital-twin applications require trustworthy, immutable historical records; the reference scenario emphasizes 'data must serve institutional owners, insurers, and authorities for decades,' which aligns squarely with forward-looking regulatory and compliance demand, not current market pull. This is not aspirational; it reflects emerging legal requirements (EU digital-building directives, inspection certification mandates) and technical necessity (AI-driven predictive maintenance, building performance analytics require verifiable baselines). Current marketplace demand (E_market) is substantially weaker\u2014blockchain adoption in construction remains a boutique practice, with most firms still using traditional document management or cloud storage\u2014but ranks above tokenisation because some institutional buyers (especially in dispute-prone jurisdictions or heavily regulated sectors like hospitals or heritage properties) already have cost-of-trust problems that motivate adoption. Tokenisation ease (E_liquidity) is the weakest factor, nearly a category mismatch for construction records. Construction project documentation (structural assessments, inspection certificates, BIM models, compliance signoffs) is fundamentally non-fungible and project-specific. A structural engineer's certification of a building's load capacity cannot be tokenized and traded like a commodity; its value is bound to the original building context and professional credentials. Tokenisation assumes tradeable economic value, which construction records lack. This creates a semantic gap between the criterion and the use case\u2014the records must be trusted and immutable (addressed by blockchain properties), but their value does not derive from tradability. Ratings reflect: E_demand 4\u00d7 more important than E_market (structural legal/technical drivers vs. current weak market); E_market 2\u00d7 more important than E_liquidity (niche but present adoption challenges vs. inapplicable tokenisation); E_demand 8\u00d7 more important than E_liquidity (the gap between regulatory necessity and a fundamentally mismatched economic model).",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

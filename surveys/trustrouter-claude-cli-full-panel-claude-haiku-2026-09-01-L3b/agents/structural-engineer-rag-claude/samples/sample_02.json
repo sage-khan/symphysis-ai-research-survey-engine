@@ -1,0 +1,20 @@
+{
+  "best": "T_source",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_source": 1,
+    "T_chain": 3,
+    "T_history": 6
+  },
+  "others_to_worst": {
+    "T_source": 6,
+    "T_chain": 2,
+    "T_history": 1
+  },
+  "reasoning": "As a structural engineer responsible for dossiers that guide safety and insurance decisions for decades, source credentials (T_source) must be Best because no amount of custody integrity or historical reliability can compensate for data originating from an unqualified or non-credentialed author. For structural data\u2014load-bearing assessments, material properties, safety-critical measurements\u2014I must first answer: Is this measurement/analysis from a PE, a CEng, or a reputable structural firm with documented qualifications? If the original source lacks verifiable technical credentials, the data is unreliable at face value, regardless of how well it was preserved afterward.\n\nCustody chain (T_chain) ranks second because even excellent source credentials become worthless if data was corrupted, altered, or tampered with during transmission. For decades-long asset documentation serving insurers and regulators, demonstrable integrity of the chain (what happened to this data after creation) is critical. However, a broken chain can often be detected and rejected; bad source credentials are frequently discovered only after the data is already in use.\n\nHistorical track record (T_history) is Worst because it is partially redundant with the other two: if I can verify the current source's credentials and audit the current custody chain, I have the most actionable information for a specific data item. Track record offers confirmatory value\u2014a source with decades of reliability is reassuring\u2014but it cannot substitute for knowing who created this particular record and whether its integrity is intact. New sources with strong credentials and unbroken chains can be trusted without historical precedent; conversely, a source with excellent history can fail on a single measurement if that measurement lacked proper credentials or was corrupted in transit.\n\nThe rating multipliers reflect that T_source dominates: T_source is approximately 3\u00d7 more critical than T_chain (because source identity is foundational, even if chain verification requires cryptographic or audit evidence per the structural_health_monitoring_and_digital_twins.md reference to sensor provenance anchoring), and approximately 6\u00d7 more critical than T_history (because credentials and chain integrity are verifiable for any given data item without needing years of background history). T_chain is approximately 2\u00d7 more important than T_history because present custody integrity is more actionable than past reputation.",
+  "sources_used": [
+    "structural_health_monitoring_and_digital_twins.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

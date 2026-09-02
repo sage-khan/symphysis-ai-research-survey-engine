@@ -1,0 +1,20 @@
+{
+  "agent_id": "compliance-officer-base-claude",
+  "did": "did:key:z6MkgGS4Yb7TwydcexnZQyhuB5HMp1ig3wLJaXRe6WiEC8hb",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Compliance and Regulatory Officer",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "claude_cli",
+    "name": "haiku",
+    "temperature": 0.3
+  },
+  "runtime_backend": "direct_completion",
+  "survey_id": "trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01-L2"
+}

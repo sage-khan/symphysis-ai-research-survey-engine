@@ -1,0 +1,20 @@
+{
+  "best": "T_chain",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_chain": 1,
+    "T_source": 2,
+    "T_history": 4
+  },
+  "others_to_worst": {
+    "T_source": 3,
+    "T_chain": 5,
+    "T_history": 1
+  },
+  "reasoning": "From a blockchain/DLT engineer's perspective focused on permissioned-ledger deployments and tamper-evidence guarantees, T_chain (custody chain integrity) is the most important provenance criterion because it directly addresses blockchain's core value proposition: protecting data from creation through submission against tampering. Rouhani and Deters (2021) frames provenance as a key data trust property implemented on-chain with adaptive validation\u2014the integrity of the path data takes is what determines whether on-chain storage is meaningful at all. Without a trustworthy custody chain, the data cannot be verified to be unaltered, making the blockchain itself ineffective. T_source (source credentials) ranks second: identifying the authoring source is essential for establishing accountability and is a prerequisite for any trust assessment, but source authentication alone does not guarantee the data has not been altered in transit. T_history (historical track record) ranks worst because while historical reliability provides statistical confidence in a source's future behaviour, it does not address the immediate integrity concerns of the current submission and is therefore less directly relevant to the routing decision for a specific construction record. A source with a good track record could still submit tampered data; conversely, a trustworthy chain of custody provides cryptographic assurance regardless of historical context. The ratings reflect this hierarchy: T_chain is 4x more important than historical track record because it is the determinative factor for on-chain suitability, while T_source-to-T_history rating of 3x reflects that source identification is notably more binding than historical confidence, but less critical than chain integrity.",
+  "sources_used": [
+    "blockchain_trust_and_attack_resistance.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

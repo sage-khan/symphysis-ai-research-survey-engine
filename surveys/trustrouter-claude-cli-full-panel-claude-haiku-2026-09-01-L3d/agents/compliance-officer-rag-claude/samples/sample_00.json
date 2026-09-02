@@ -1,0 +1,20 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 5
+  },
+  "others_to_worst": {
+    "A_insider": 5,
+    "A_oracle": 2,
+    "A_sybil": 1
+  },
+  "reasoning": "As a facility-management compliance officer, I ground this ranking in three observations from the role's regulatory jurisdiction and the construction context provided in the reference material.\n\nFirst, insider threats are the single most consequential attack vector for construction-project records in a compliance context. Insider resistance addresses the malicious legitimate user\u2014a project manager, site engineer, or even a regulatory inspector with genuine access rights who falsifies, conceals, or misrepresents data. In construction, this is a known compliance liability: false inspection sign-offs, concealed safety incidents, or misattributed design changes expose both the project and my organization to GDPR data-integrity violations, regulatory non-compliance, and liability. Insiders are trusted precisely because they hold professional credentials and legitimate authority, making detection harder than external attacks and the compliance breach more severe. This aligns with the reference material's framing (gdpr_and_data_governance.md) that construction blockchain adoption has grown without rigorous governance criteria, and the most actionable gate is whether a given data item should be immutably stored at all\u2014an insider-falsification scenario is the primary threat to that decision.\n\nSecond, oracle resistance (device and sensor tampering) ranks second. Construction project records increasingly depend on external sensors (site IoT, measurement devices, material certificates from third parties, inspection reports). If these can be tampered with, the immutable record's integrity collapses. However, oracle attacks are partially mitigated by procurement practices, chain-of-custody procedures, and audit trails that construction already employs\u2014these are not novel vulnerabilities unique to blockchain. Sybil resistance addresses fake identities. In a permissioned construction blockchain (implied by the reference material's discussion of practical architectural limits), participants are already subject to Know-Your-Customer (KYC) and anti-money-laundering (AML) compliance per the on-chain identity framing (gdpr_and_data_governance.md, citing Vaziry et al., 2024). A subcontractor, material supplier, or consulting engineer cannot easily create multiple legitimate-looking identities and join the consortium\u2014they are already verified at registration. Sybil attacks are a more acute threat in public, pseudonymous blockchains; they are substantially less material in a permissioned, identity-verified construction consortium. My ratings reflect this hierarchy: insider is 5\u00d7 more critical than sybil and 3\u00d7 more critical than oracle; oracle is 2\u00d7 more critical than sybil.\n\nI distinguish this from an abstract security ranking: all three resistances matter, but the compliance officer's concern is proportional to likelihood and consequence within a construction project's actual threat model and regulatory obligations. Insider threat is both higher likelihood (trusted users go rogue or are coerced) and higher regulatory consequence (GDPR breach, professional liability, contract non-compliance) than identity forgery in a KYC'd environment.",
+  "sources_used": [
+    "gdpr_and_data_governance.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

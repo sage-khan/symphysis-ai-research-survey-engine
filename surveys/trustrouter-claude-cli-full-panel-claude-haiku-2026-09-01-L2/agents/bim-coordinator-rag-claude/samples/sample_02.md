@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: PT
+- Worst: L
+
+## Stated reasoning (submitted with the answer)
+
+From a BIM coordinator's perspective managing multi-stakeholder models over decades, Provenance Trust (PT) is the foundational trust anchor. In construction, the identity and professional credentials of who created a record—a chartered structural engineer, a certified inspector, a qualified manufacturer—is the primary basis for accepting the data. All downstream verification and compliance flows from confidence in the source. The reference material (bim_and_digital_building_logbooks.md, Kochovski et al. 2026) emphasizes decentralized identity as central to digital building logbooks; this is provenance. Quality (Q) ranks equally with PT because accurate data from a trusted source are both necessary, but I rate PT marginally equal because PT is the gate through which we initially decide to trust a record—poor provenance taints all else. Verification Strength (V) and Independent Confirmation (IC) are both rated 2× less important than PT: while cryptographic audit evidence and multi-party validation strengthen confidence in blockchain storage, they cannot fully compensate for weak source credentials. A well-signed report from an unqualified person is still untrustworthy; a signed report from a PE is inherently more valuable even without cryptographic enhancement. Criticality (C) is also 2× less important because it is contextual—it determines how much verification effort we should invest, but does not itself establish trustworthiness. Legal Compliance (L) is rated Worst at 4× less important than PT. Regulatory fit is jurisdiction-specific and often determinable post-hoc if needed, whereas provenance is intrinsic to the record. In a hospital renovation serving institutional owners, insurers, and authorities for decades, a technically excellent record from a qualified source that is not currently legally mandated is more trustworthy than a marginally-sourced record that happens to be compliance-aligned. The multiplicative TrustRouter model requires all six dimensions to be non-trivial, but PT gates the entire evaluation: untrustworthy provenance makes the entire trust score fail regardless of downstream verification.
+
+## Sources cited
+
+bim_and_digital_building_logbooks.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

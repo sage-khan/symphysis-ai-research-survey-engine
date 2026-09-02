@@ -1,0 +1,161 @@
+{
+  "ground_truth": {
+    "agent_id": "blockchain-engineer-rag-claude",
+    "role": "Blockchain / DLT Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"blockchain-engineer-rag-claude\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am configured as a blockchain/DLT engineer with production experience on permissioned-ledger deployments. I will answer this structured expert-elicitation survey on economic value decomposition for construction-project blockchain storage, drawing strictly from provided reference material and my domain expertise, following all global and survey-specific rules for genuineness, transparency, and independence.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 4796,
+      "stop_reason": "end_turn",
+      "session_id": "93010337-46d8-4184-93ac-a42fa32af134",
+      "total_cost_usd": 0.0102934,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3195,
+        "cache_read_input_tokens": 8284,
+        "output_tokens": 333,
+        "output_tokens_details": {
+          "thinking_tokens": 143
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3195,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 333,
+            "cache_read_input_tokens": 8284,
+            "cache_creation_input_tokens": 3195,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3195
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1345,
+          "outputTokens": 346,
+          "cacheReadInputTokens": 8284,
+          "cacheCreationInputTokens": 3195,
+          "webSearchRequests": 0,
+          "costUSD": 0.0102934,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 143,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"blockchain-engineer-rag-claude\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am configured as a blockchain/DLT engineer with production experience on permissioned-ledger deployments. I will answer this structured expert-elicitation survey on economic value decomposition for construction-project blockchain storage, drawing strictly from provided reference material and my domain expertise, following all global and survey-specific rules for genuineness, transparency, and independence.\"\n}\n```",
+      "ttft_ms": 2202,
+      "type": "result",
+      "duration_ms": 4092,
+      "uuid": "fb1a6fd2-d915-42c9-a9c7-0579acbd1b67",
+      "ttft_stream_ms": 886,
+      "time_to_request_ms": 189,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "blockchain-engineer-rag-claude",
+    "role": "Blockchain / DLT Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I am configured as a blockchain/DLT engineer with production experience on permissioned-ledger deployments. I will answer this structured expert-elicitation survey on economic value decomposition for construction-project blockchain storage, drawing strictly from provided reference material and my domain expertise, following all global and survey-specific rules for genuineness, transparency, and independence."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "blockchain-engineer-rag-claude",
+      "role": "Blockchain / DLT Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "blockchain-engineer-rag-claude",
+      "role": "Blockchain / DLT Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I am configured as a blockchain/DLT engineer with production experience on permissioned-ledger deployments. I will answer this structured expert-elicitation survey on economic value decomposition for construction-project blockchain storage, drawing strictly from provided reference material and my domain expertise, following all global and survey-specific rules for genuineness, transparency, and independence."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: IQ
+- Worst: CQ
+
+## Stated reasoning (submitted with the answer)
+
+As a compliance officer assessing whether construction-project records should be stored on an immutable blockchain, intrinsic quality (IQ) is foundational and must be Best. Once a record is committed to an immutable ledger, accuracy, validity, and uniqueness cannot be corrected. Wrong material specifications, invalid safety certifications, or duplicate entries locked on blockchain create permanent regulatory liability and directly violate GDPR rights of rectification and erasure. This is the core gate: intrinsic data quality determines whether blockchain storage is legally and practically appropriate at all. From the GDPR governance materials (Wilson et al. 2019), blockchain's immutability directly conflicts with the right to erasure and complex data corrections; the decision to use blockchain must hinge on whether the data is accurate enough to warrant permanent storage with no correction path. Representational Quality (RQ—consistency across sources) ranks second. Consistency matters for blockchain's multi-party verification value and audit credibility, and inconsistencies should be resolved before blockchain entry. However, inconsistencies are detectable and their sources are auditable; they do not create the same irreversible lock-in risk as intrinsic inaccuracy. Contextual Quality (CQ—completeness and timeliness) ranks Worst, though not negligibly. Completeness and timeliness are important process-management and audit factors, but they present differently under immutability: incomplete records can be flagged and supplemented through process controls; late timestamps can be noted in audit logs. Neither creates the permanent data-integrity damage that IQ deficiencies do. CQ issues are governance and workflow problems, not immutability problems. From the construction context (Gartoumi 2024), the industry lacks rigorous decision criteria for blockchain appropriateness—this ranking reflects that the compliance gate must prioritize intrinsic data trustworthiness before any record reaches an immutable ledger.
+
+## Sources cited
+
+gdpr_and_data_governance.md, shared knowledge: trustrouter_concept_paper_primer.md, general_knowledge (all claims verified genuine)

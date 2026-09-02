@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 5,
+    "RQ": 8
+  },
+  "others_to_worst": {
+    "IQ": 8,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "From a blockchain/DLT engineer's perspective focused on construction-project records, Intrinsic Quality (IQ\u2014accuracy, validity, uniqueness) is the dominant factor because blockchain's immutability creates an asymmetric cost structure around recording errors. Once a construction record (structural certification, compliance attestation, material specification) is committed to an immutable ledger, inaccuracy becomes a permanent, costly liability. A blockchain's trust proposition depends fundamentally on the integrity of data at the point of commitment, not on how consistently it is later formatted or managed operationally. Contextual Quality (CQ\u2014completeness, timeliness) ranks second; incomplete or delayed data can still be accurate within its scope, and timeliness is primarily an operational concern rather than a tamper-evidence or trust concern. Governance and operational discipline can mitigate CQ gaps. Representational Quality (RQ\u2014consistency across sources) ranks lowest; consistency in data representation can be enforced through schema validation and programmatic rules, and it addresses a surface-level concern relative to accuracy. A consistently formatted but inaccurate record is worse than an inconsistently formatted but accurate one. The 8:1 ratio (IQ to RQ) reflects the primacy of accuracy under immutability; the 5:1 ratio (IQ to CQ) reflects that accuracy and validity are more foundational to blockchain trust than operational completeness or timeliness; the 3:1 ratio (CQ to RQ) reflects that completeness at least affects decision-making, whereas consistency is primarily a usability concern.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

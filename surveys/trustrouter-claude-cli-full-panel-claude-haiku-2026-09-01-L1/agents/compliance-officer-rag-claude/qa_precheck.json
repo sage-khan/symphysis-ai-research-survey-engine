@@ -1,0 +1,163 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-rag-claude",
+    "role": "Compliance and Regulatory Officer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"compliance-officer-rag-claude\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a facility-management compliance officer responsible for GDPR and construction-regulatory obligations. I will answer this TrustRouter Level L1 survey on the four top-level factors (DVS, F, E, A) strictly from the professional judgment this role brings, grounding all comparisons in construction-project record data-trust contexts, using only provided reference material and verified domain knowledge, and reasoning transparently about trade-offs.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 4888,
+      "stop_reason": "end_turn",
+      "session_id": "d0d99982-448f-4f50-aa6d-a1cfd30d77da",
+      "total_cost_usd": 0.010754,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3205,
+        "cache_read_input_tokens": 8340,
+        "output_tokens": 416,
+        "output_tokens_details": {
+          "thinking_tokens": 211
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3205,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 416,
+            "cache_read_input_tokens": 8340,
+            "cache_creation_input_tokens": 3205,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3205
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1355,
+          "outputTokens": 431,
+          "cacheReadInputTokens": 8340,
+          "cacheCreationInputTokens": 3205,
+          "webSearchRequests": 0,
+          "costUSD": 0.010754,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 211,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"compliance-officer-rag-claude\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a facility-management compliance officer responsible for GDPR and construction-regulatory obligations. I will answer this TrustRouter Level L1 survey on the four top-level factors (DVS, F, E, A) strictly from the professional judgment this role brings, grounding all comparisons in construction-project record data-trust contexts, using only provided reference material and verified domain knowledge, and reasoning transparently about trade-offs.\"\n}\n```",
+      "ttft_ms": 2411,
+      "type": "result",
+      "duration_ms": 4217,
+      "uuid": "bd44a5cc-6b7d-4ad3-b5a4-f3caddb5b680",
+      "ttft_stream_ms": 1105,
+      "time_to_request_ms": 270,
+      "queued_turn_count": 0,
+      "message": {
+        "thinking": "The user is asking me to confirm my configuration before starting the survey. Let me carefully restate what I was told:\n\n1. Agent ID: \"compliance-officer-rag-claude\"\n2. Display name: \"Compliance and Regulatory Officer\"\n3. Role: \"Compliance and Regulatory Officer\"\n4. Model: \"claude_cli/haiku\"\n5. Project: \"TrustRouter Claude CLI Panel (haiku) -- Level L1: Top-level TrustRouter factors\"\n6. Capabilities granted:\n   - dedicated RAG corpus: True\n   - shared survey knowledge repository: True\n   - standard role knowledge pack: none\n   - web search: False\n\nThe user is asking me to respond with ONLY a JSON object with this exact shape, restating the configuration accurately. I should not add anything beyond what was stated, and I should not answer the actual survey questions yet.\n\nLet me construct the JSON response:"
+      }
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-rag-claude",
+    "role": "Compliance and Regulatory Officer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I am a facility-management compliance officer responsible for GDPR and construction-regulatory obligations. I will answer this TrustRouter Level L1 survey on the four top-level factors (DVS, F, E, A) strictly from the professional judgment this role brings, grounding all comparisons in construction-project record data-trust contexts, using only provided reference material and verified domain knowledge, and reasoning transparently about trade-offs."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-rag-claude",
+      "role": "Compliance and Regulatory Officer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-rag-claude",
+      "role": "Compliance and Regulatory Officer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I am a facility-management compliance officer responsible for GDPR and construction-regulatory obligations. I will answer this TrustRouter Level L1 survey on the four top-level factors (DVS, F, E, A) strictly from the professional judgment this role brings, grounding all comparisons in construction-project record data-trust contexts, using only provided reference material and verified domain knowledge, and reasoning transparently about trade-offs."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

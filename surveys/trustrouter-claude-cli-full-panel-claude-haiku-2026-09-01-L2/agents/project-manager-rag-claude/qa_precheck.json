@@ -1,0 +1,163 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-rag-claude",
+    "role": "Construction Project Manager",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"project-manager-rag-claude\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand I am completing Level L2 of the TrustRouter Claude CLI Panel survey, evaluating six trust dimensions (Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, and Criticality) that compose the Data Value Score factor, using the flat bwm instrument. I will answer from my professional judgment as a construction project manager, grounding all comparisons in the survey's reference materials and applying strict anti-fabrication discipline.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 5515,
+      "stop_reason": "end_turn",
+      "session_id": "9d5f6f16-404c-4e23-b74d-8bc93cb0c21a",
+      "total_cost_usd": 0.0106966,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3185,
+        "cache_read_input_tokens": 8316,
+        "output_tokens": 418,
+        "output_tokens_details": {
+          "thinking_tokens": 208
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3185,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 418,
+            "cache_read_input_tokens": 8316,
+            "cache_creation_input_tokens": 3185,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3185
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1335,
+          "outputTokens": 432,
+          "cacheReadInputTokens": 8316,
+          "cacheCreationInputTokens": 3185,
+          "webSearchRequests": 0,
+          "costUSD": 0.0106966,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 208,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"project-manager-rag-claude\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand I am completing Level L2 of the TrustRouter Claude CLI Panel survey, evaluating six trust dimensions (Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, and Criticality) that compose the Data Value Score factor, using the flat bwm instrument. I will answer from my professional judgment as a construction project manager, grounding all comparisons in the survey's reference materials and applying strict anti-fabrication discipline.\"\n}\n```",
+      "ttft_ms": 3097,
+      "type": "result",
+      "duration_ms": 4786,
+      "uuid": "415af93d-51c9-4a80-8d81-f5142243b6fb",
+      "ttft_stream_ms": 1048,
+      "time_to_request_ms": 292,
+      "queued_turn_count": 0,
+      "message": {
+        "thinking": "The user is asking me to confirm my configuration before starting the survey task. I need to restate exactly what I was told:\n\n- Agent ID: \"project-manager-rag-claude\"\n- Display name: \"Construction Project Manager\"\n- Role: \"Construction Project Manager\"\n- Model: \"claude_cli/haiku\"\n- Project: \"TrustRouter Claude CLI Panel (haiku) -- Level L2: Six trust dimensions inside DVS: One of 7 sibling per-level surveys\"\n\nCapabilities granted:\n- Dedicated RAG corpus: True\n- Shared survey knowledge repository: True\n- Standard role knowledge pack: none\n- Web search: False\n\nI need to respond with ONLY a JSON object in the exact shape requested, with no other text. I should not add any capability or knowledge source beyond what was stated, and I should not answer the survey questions yet.\n\nLet me construct the JSON object:"
+      }
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-rag-claude",
+    "role": "Construction Project Manager",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand I am completing Level L2 of the TrustRouter Claude CLI Panel survey, evaluating six trust dimensions (Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, and Criticality) that compose the Data Value Score factor, using the flat bwm instrument. I will answer from my professional judgment as a construction project manager, grounding all comparisons in the survey's reference materials and applying strict anti-fabrication discipline."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-rag-claude",
+      "role": "Construction Project Manager",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-rag-claude",
+      "role": "Construction Project Manager",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand I am completing Level L2 of the TrustRouter Claude CLI Panel survey, evaluating six trust dimensions (Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, and Criticality) that compose the Data Value Score factor, using the flat bwm instrument. I will answer from my professional judgment as a construction project manager, grounding all comparisons in the survey's reference materials and applying strict anti-fabrication discipline."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "best": "V",
+  "worst": "IC",
+  "best_to_others": {
+    "V": 1,
+    "Q": 2,
+    "PT": 2,
+    "C": 3,
+    "L": 4,
+    "IC": 9
+  },
+  "others_to_worst": {
+    "V": 9,
+    "Q": 5,
+    "PT": 5,
+    "C": 3,
+    "L": 2,
+    "IC": 1
+  },
+  "reasoning": "From a blockchain/DLT engineer's perspective on routing construction-project data to ledger systems, Verification Strength (V) is the decisive criterion. Blockchain's core value proposition\u2014what justifies its operational overhead\u2014is cryptographic evidence and immutability. If a construction dataset cannot achieve strong verification through qualified signatures, tamper-evidence audit trails, or other provable mechanisms (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, definition: \"Qualified electronic signature dossier + tamper-evidence\"), then blockchain offers no technical advantage over conventional systems. Weak verification makes the ledger redundant. This aligns directly with my stated responsibility for \"tamper-evidence guarantees\"; V is the criterion that operationalizes that guarantee.\n\nQuality (Q) and Provenance Trust (PT) rank as the next tier. Both are foundational: data must be intrinsically sound (IFC-valid models), and we must trust the originating party (e.g., a chartered engineer's signed report). However, blockchain does not repair poor quality nor create trust where the source is untrustworthy\u2014these are preconditions, not problems blockchain solves. Criticality (C) ranks third; high-criticality data (e.g., structural load calculations) strengthens the risk/reward case for ledger use, but criticality alone does not drive the routing decision if verification strength is absent.\n\nLegal Compliance (L) ranks fourth. Whether data is legally required or regulated is contextual and orthogonal to technical routing. A dataset can be legally mandated but technically unsuitable for blockchain (e.g., if it requires frequent modification); conversely, highly valuable datasets may not be legally required at all. The regulatory envelope is a gating constraint, not a discrimination criterion.\n\nIndependent Confirmation (IC) ranks last. A single authoritative source (e.g., an official structural engineer's report with strong cryptographic verification, clear provenance, and high criticality) needs no external confirmation to justify ledger storage. IC becomes valuable only when verification or provenance is weaker and must be reinforced by consensus. Single-source, high-confidence datasets are common in construction\u2014a structural design from the lead engineer is authoritative without needing confirmation from a second engineer. Thus IC is optional, conditional on other factors being weak.\n\nThe rating V:IC = 9:1 reflects that verification is the lever that makes or breaks the blockchain case; all six factors influence risk and routing, but V is the gating technical criterion unique to ledger systems.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

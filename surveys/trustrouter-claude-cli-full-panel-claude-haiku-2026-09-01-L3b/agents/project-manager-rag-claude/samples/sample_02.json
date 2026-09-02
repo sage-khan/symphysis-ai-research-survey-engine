@@ -1,0 +1,20 @@
+{
+  "best": "T_chain",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_chain": 1,
+    "T_source": 3,
+    "T_history": 5
+  },
+  "others_to_worst": {
+    "T_chain": 5,
+    "T_source": 2,
+    "T_history": 1
+  },
+  "reasoning": "As a construction project manager evaluating records for blockchain storage, the custody chain is the single most critical factor for determining whether a document can be trusted in a dispute context. Blockchain's core value proposition for construction is creating an immutable, verifiable audit trail\u2014a property that depends entirely on the integrity of the chain from creation through submission. A perfectly sourced document from a qualified, credible author (T_source) is of little value if subsequent handlers modified it, and this risk is exactly what blockchain is designed to mitigate. In multi-year projects with dozens of signatures and revisions, the ability to prove 'this document was not altered after this date by this person' is more legally and operationally critical than either the source's credentials or historical reliability. Source credentials (T_source) matter, but they rank second because they describe the document's *initial* trustworthiness; they do not protect against post-creation tampering, which is the dispute scenario the literature emphasizes (Gartoumi 2024 identifies dispute resolution as a primary blockchain use case in construction). Historical track record (T_history) ranks last because it is contextual and probabilistic rather than direct evidence for this specific record. A reliable organization can make a single error; an unreliable one might document something correctly. For blockchain storage\u2014where the goal is to pin records to an immutable ledger precisely because future disputes may arise\u2014direct cryptographic and chronological evidence of the chain outweighs reputational factors. The magnitude of the gaps (T_chain is 3x T_source, and 5x T_history) reflects that chain integrity is not merely one factor among several in construction, but the primary problem blockchain solves.",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

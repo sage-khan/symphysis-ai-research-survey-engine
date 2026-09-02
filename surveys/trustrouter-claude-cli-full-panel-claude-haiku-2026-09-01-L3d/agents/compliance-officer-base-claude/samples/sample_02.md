@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: A_insider
+- Worst: A_oracle
+
+## Stated reasoning (submitted with the answer)
+
+From a facility-management compliance perspective, insider resistance ranks as the most critical attack vector for construction-project blockchain records. Legitimate actors (project managers, facility staff, compliance engineers) with authenticated system access pose the highest threat because: (1) they bypass identity verification controls entirely; (2) they understand the system's audit mechanisms and can cover their tracks; (3) their tampering directly violates GDPR Article 32 (integrity and confidentiality obligations); and (4) in construction, a facility manager falsifying inspection records, compliance sign-offs, or safety certifications creates regulatory liability that is difficult to detect post-facto and undermines the entire audit trail. Sybil resistance ranks second—fake identities attempting to create fraudulent records are significant but somewhat easier to detect through credential verification and are foundational rather than catastrophic if the identity-verification layer functions. Oracle resistance (sensor/device tampering) ranks third because in construction-project records, primary authentication typically rests on human-created professional documentation (engineer reports, licensed inspections, certified compliance statements) with sensor data serving a corroborating role. Tampering with a single sensor is more detectable through multi-sensor redundancy and cross-validation than an insider's deliberate falsification of authorized records. The multiplicative nature of Attack Resistance in the TrustRouter formula means insider compromise has systemic impact—it degrades the entire A factor, not just one attack class.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

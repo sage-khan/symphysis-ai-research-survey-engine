@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: E_demand
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+From a compliance and regulatory officer's perspective, these three dimensions reflect different temporal and governance drivers of value for blockchain-stored construction records. E_demand (future/regulatory demand) emerges as best because: (1) regulatory requirements and compliance obligations—GDPR, building codes, energy performance standards—create sustained, binding drivers of data retention and evidence archiving, not discretionary ones; (2) digital twins and lifecycle analytics are increasingly becoming mandatory under evolving building regulations, not optional conveniences; (3) as a compliance officer, the regulatory architecture determines what records *must* be maintained, and blockchain's utility should be judged against whether it serves that mandate. E_liquidity ranks as worst because: (1) tokenization and tradability of construction records directly triggers GDPR data-governance concerns, particularly where personal or sensitive operational data is involved (reference material: Wilson et al., 2019, emphasizing that blockchain's immutability conflicts with GDPR's right to erasure; Vaziry et al., 2024, framing on-chain identity as a regulatory compliance problem); (2) construction records are not typically traded as financial instruments—tokenization creates a speculative value narrative that does not align with regulatory or operational reality in this domain; (3) data-governance best practice (per reference material) treats blockchain as a complement to traditional databases for immutable audit logs, not as a wholesale replacement that introduces liquidity/tokenization as a primary feature. E_market (current demand) ranks between them: existing market adoption is limited (Gartoumi 2024 notes the construction sector has adopted blockchain for five years without rigorous decision criteria for appropriateness), so present demand is real but modest, and it will remain secondary to regulatory drivers. The ratio of 7:1 (Best to Worst) reflects that regulatory compliance is a binding, non-negotiable constraint that dominates discretionary tokenization; the ratio of 3:1 (Best to Current market) reflects that regulatory futures outweigh present market signals, though market viability still matters for implementation feasibility.
+
+## Sources cited
+
+gdpr_and_data_governance.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

@@ -1,0 +1,504 @@
+{
+  "survey_id": "trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01-L1",
+  "title": "TrustRouter Claude CLI Panel (haiku) -- Level L1: Top-level TrustRouter factors",
+  "dimensions": [
+    "DVS",
+    "F",
+    "E",
+    "A"
+  ],
+  "instrument": "bwm",
+  "agent_panel": {
+    "num_agents": 36,
+    "per_agent_meta": [
+      {
+        "agent_id": "bim-coordinator-base-claude",
+        "did": "did:key:z6MkjBimqskXZkR9Zx6uMHqsjZopoCEJaQ9tb7XoVSAZiujx",
+        "role": "BIM Coordinator",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "bim-coordinator-base-claude",
+        "did": "did:key:z6MkjBimqskXZkR9Zx6uMHqsjZopoCEJaQ9tb7XoVSAZiujx",
+        "role": "BIM Coordinator",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "bim-coordinator-base-claude",
+        "did": "did:key:z6MkjBimqskXZkR9Zx6uMHqsjZopoCEJaQ9tb7XoVSAZiujx",
+        "role": "BIM Coordinator",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "bim-coordinator-rag-claude",
+        "did": "did:key:z6MkgKPXYGDwJ56epiD68PaM63oukrBdhu5ziYGo84AZKm9n",
+        "role": "BIM Coordinator",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "bim-coordinator-rag-claude",
+        "did": "did:key:z6MkgKPXYGDwJ56epiD68PaM63oukrBdhu5ziYGo84AZKm9n",
+        "role": "BIM Coordinator",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "bim-coordinator-rag-claude",
+        "did": "did:key:z6MkgKPXYGDwJ56epiD68PaM63oukrBdhu5ziYGo84AZKm9n",
+        "role": "BIM Coordinator",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "blockchain-engineer-base-claude",
+        "did": "did:key:z6MkjavCfxYpe2BkYMXfrJDvcH43kkcZRgoJAFJLDqtqyLmk",
+        "role": "Blockchain / DLT Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "blockchain-engineer-base-claude",
+        "did": "did:key:z6MkjavCfxYpe2BkYMXfrJDvcH43kkcZRgoJAFJLDqtqyLmk",
+        "role": "Blockchain / DLT Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "blockchain-engineer-base-claude",
+        "did": "did:key:z6MkjavCfxYpe2BkYMXfrJDvcH43kkcZRgoJAFJLDqtqyLmk",
+        "role": "Blockchain / DLT Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "blockchain-engineer-rag-claude",
+        "did": "did:key:z6MkooUJEyuLt3VzrACQLf8YLETe6fkJK66UWcp4jm9g2LzP",
+        "role": "Blockchain / DLT Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "blockchain-engineer-rag-claude",
+        "did": "did:key:z6MkooUJEyuLt3VzrACQLf8YLETe6fkJK66UWcp4jm9g2LzP",
+        "role": "Blockchain / DLT Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "blockchain-engineer-rag-claude",
+        "did": "did:key:z6MkooUJEyuLt3VzrACQLf8YLETe6fkJK66UWcp4jm9g2LzP",
+        "role": "Blockchain / DLT Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "compliance-officer-base-claude",
+        "did": "did:key:z6MkgGS4Yb7TwydcexnZQyhuB5HMp1ig3wLJaXRe6WiEC8hb",
+        "role": "Compliance and Regulatory Officer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "compliance-officer-base-claude",
+        "did": "did:key:z6MkgGS4Yb7TwydcexnZQyhuB5HMp1ig3wLJaXRe6WiEC8hb",
+        "role": "Compliance and Regulatory Officer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "compliance-officer-base-claude",
+        "did": "did:key:z6MkgGS4Yb7TwydcexnZQyhuB5HMp1ig3wLJaXRe6WiEC8hb",
+        "role": "Compliance and Regulatory Officer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "compliance-officer-rag-claude",
+        "did": "did:key:z6MkvsMfbM7uWXaYfBeyMot693DSNk3VXfm2U8UeY54UDj2D",
+        "role": "Compliance and Regulatory Officer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "compliance-officer-rag-claude",
+        "did": "did:key:z6MkvsMfbM7uWXaYfBeyMot693DSNk3VXfm2U8UeY54UDj2D",
+        "role": "Compliance and Regulatory Officer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "compliance-officer-rag-claude",
+        "did": "did:key:z6MkvsMfbM7uWXaYfBeyMot693DSNk3VXfm2U8UeY54UDj2D",
+        "role": "Compliance and Regulatory Officer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "data-engineer-base-claude",
+        "did": "did:key:z6MkwWLFsHqByat9fpS7uQaUXhG2ERBVxYgB8hVuvtEatajg",
+        "role": "Data Engineering Specialist",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "data-engineer-base-claude",
+        "did": "did:key:z6MkwWLFsHqByat9fpS7uQaUXhG2ERBVxYgB8hVuvtEatajg",
+        "role": "Data Engineering Specialist",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "data-engineer-base-claude",
+        "did": "did:key:z6MkwWLFsHqByat9fpS7uQaUXhG2ERBVxYgB8hVuvtEatajg",
+        "role": "Data Engineering Specialist",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "data-engineer-rag-claude",
+        "did": "did:key:z6Mknx9SDBfJkpRBgat4tMwAWaw5EZtoMF8kY6JBeuWvWSen",
+        "role": "Data Engineering Specialist",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "data-engineer-rag-claude",
+        "did": "did:key:z6Mknx9SDBfJkpRBgat4tMwAWaw5EZtoMF8kY6JBeuWvWSen",
+        "role": "Data Engineering Specialist",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "data-engineer-rag-claude",
+        "did": "did:key:z6Mknx9SDBfJkpRBgat4tMwAWaw5EZtoMF8kY6JBeuWvWSen",
+        "role": "Data Engineering Specialist",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "project-manager-base-claude",
+        "did": "did:key:z6MkmbMHfpwQi6Y7FbdLU12dMCxJZnxzRBXEPi1iKygbQ1AP",
+        "role": "Construction Project Manager",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "project-manager-base-claude",
+        "did": "did:key:z6MkmbMHfpwQi6Y7FbdLU12dMCxJZnxzRBXEPi1iKygbQ1AP",
+        "role": "Construction Project Manager",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "project-manager-base-claude",
+        "did": "did:key:z6MkmbMHfpwQi6Y7FbdLU12dMCxJZnxzRBXEPi1iKygbQ1AP",
+        "role": "Construction Project Manager",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "project-manager-rag-claude",
+        "did": "did:key:z6MkgcpBWMRETjwEN39T1S93W7uzSnGEo6oioFMta7r3bPMs",
+        "role": "Construction Project Manager",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "project-manager-rag-claude",
+        "did": "did:key:z6MkgcpBWMRETjwEN39T1S93W7uzSnGEo6oioFMta7r3bPMs",
+        "role": "Construction Project Manager",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "project-manager-rag-claude",
+        "did": "did:key:z6MkgcpBWMRETjwEN39T1S93W7uzSnGEo6oioFMta7r3bPMs",
+        "role": "Construction Project Manager",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "structural-engineer-base-claude",
+        "did": "did:key:z6MkwHPjNHbEfDhha3TFbbzwGmk6cFQ7di85Qq6pNXn25w2M",
+        "role": "Structural Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "structural-engineer-base-claude",
+        "did": "did:key:z6MkwHPjNHbEfDhha3TFbbzwGmk6cFQ7di85Qq6pNXn25w2M",
+        "role": "Structural Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "structural-engineer-base-claude",
+        "did": "did:key:z6MkwHPjNHbEfDhha3TFbbzwGmk6cFQ7di85Qq6pNXn25w2M",
+        "role": "Structural Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": false
+      },
+      {
+        "agent_id": "structural-engineer-rag-claude",
+        "did": "did:key:z6MkkkSr7eLXockuCDowP5tCv9MLkuxWwbxeWDZKDF1MzpSM",
+        "role": "Structural Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "structural-engineer-rag-claude",
+        "did": "did:key:z6MkkkSr7eLXockuCDowP5tCv9MLkuxWwbxeWDZKDF1MzpSM",
+        "role": "Structural Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      },
+      {
+        "agent_id": "structural-engineer-rag-claude",
+        "did": "did:key:z6MkkkSr7eLXockuCDowP5tCv9MLkuxWwbxeWDZKDF1MzpSM",
+        "role": "Structural Engineer",
+        "model": "haiku",
+        "provider": "claude_cli",
+        "rag_enabled": true
+      }
+    ],
+    "bayesian": {
+      "criteria": [
+        "DVS",
+        "F",
+        "E",
+        "A"
+      ],
+      "method": "pymc-nuts",
+      "num_experts": 36,
+      "agg_mean": [
+        0.4022324365593143,
+        0.19060617650023087,
+        0.16105484894500172,
+        0.24610653799545282
+      ],
+      "agg_ci_lower": [
+        0.3605658655068083,
+        0.1631202179453272,
+        0.13776711288763507,
+        0.21460950061862177
+      ],
+      "agg_ci_upper": [
+        0.4422193076667437,
+        0.2194360502923394,
+        0.18630883521659225,
+        0.2798005386557527
+      ],
+      "credal_matrix": [
+        [
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        [
+          0.0,
+          0.0,
+          0.9283333333333333,
+          0.012
+        ],
+        [
+          0.0,
+          0.07166666666666667,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.988,
+          1.0,
+          0.0
+        ]
+      ]
+    },
+    "classical_consistency": [
+      {
+        "consistent": true,
+        "cr": 0.04379105411323118
+      },
+      {
+        "consistent": true,
+        "cr": 0.01624827362092778
+      },
+      {
+        "consistent": true,
+        "cr": 0.055772448410485245
+      },
+      {
+        "consistent": true,
+        "cr": 0.026315789473684164
+      },
+      {
+        "consistent": true,
+        "cr": 0.042990977865617376
+      },
+      {
+        "consistent": true,
+        "cr": 0.019607843137255162
+      },
+      {
+        "consistent": true,
+        "cr": 0.0
+      },
+      {
+        "consistent": true,
+        "cr": 0.009009009009009009
+      },
+      {
+        "consistent": true,
+        "cr": 0.0394736842105263
+      },
+      {
+        "consistent": true,
+        "cr": 0.010033444816053526
+      },
+      {
+        "consistent": true,
+        "cr": 0.0
+      },
+      {
+        "consistent": true,
+        "cr": 0.0317325999576899
+      },
+      {
+        "consistent": true,
+        "cr": 0.0317325999576899
+      },
+      {
+        "consistent": true,
+        "cr": 0.044682752457551406
+      },
+      {
+        "consistent": true,
+        "cr": 0.029214139643587496
+      },
+      {
+        "consistent": true,
+        "cr": 0.023699139424999658
+      },
+      {
+        "consistent": true,
+        "cr": 0.014705882352941124
+      },
+      {
+        "consistent": true,
+        "cr": 0.04830917874396128
+      },
+      {
+        "consistent": true,
+        "cr": 0.04379105411323118
+      },
+      {
+        "consistent": true,
+        "cr": 0.0
+      },
+      {
+        "consistent": true,
+        "cr": 0.0618440779610195
+      },
+      {
+        "consistent": true,
+        "cr": 0.0506465695206743
+      },
+      {
+        "consistent": true,
+        "cr": 0.029214139643587496
+      },
+      {
+        "consistent": true,
+        "cr": 0.04682274247491639
+      },
+      {
+        "consistent": true,
+        "cr": 0.08108108108108103
+      },
+      {
+        "consistent": true,
+        "cr": 0.0
+      },
+      {
+        "consistent": true,
+        "cr": 0.047615597213452425
+      },
+      {
+        "consistent": true,
+        "cr": 0.07440130202278539
+      },
+      {
+        "consistent": true,
+        "cr": 0.04299097786561734
+      },
+      {
+        "consistent": true,
+        "cr": 0.050646569520674235
+      },
+      {
+        "consistent": true,
+        "cr": 0.016085790884718513
+      },
+      {
+        "consistent": true,
+        "cr": 0.019762845849802452
+      },
+      {
+        "consistent": true,
+        "cr": 0.01694915254237291
+      },
+      {
+        "consistent": true,
+        "cr": 0.010033444816053526
+      },
+      {
+        "consistent": true,
+        "cr": 0.03462173534790404
+      },
+      {
+        "consistent": true,
+        "cr": 0.010033444816053507
+      }
+    ]
+  }
+}

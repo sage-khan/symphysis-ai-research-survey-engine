@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "From a construction compliance and GDPR perspective, Intrinsic Quality (IQ)\u2014accuracy, validity, uniqueness\u2014is the foundational criterion. GDPR explicitly mandates data accuracy as a core principle, and construction safety depends critically on accurate records. Without intrinsic correctness, no downstream quality attribute can remediate the breach of compliance. Contextual Quality (CQ)\u2014completeness and timeliness\u2014ranks second: GDPR requires data to be adequate and relevant to its purpose, and construction projects are time-bound; incomplete or stale data fails regulatory obligations. Representational Quality (RQ)\u2014consistency across sources\u2014ranks least important, though not negligibly. While consistency matters for audit trails and distributed-ledger verification, it is more a property that emerges from sound IQ and CQ than a primary compliance requirement. You can have accurate, complete, timely data that is representationally inconsistent (different formatting, schemas) and still meet substantive compliance; conversely, you can have perfectly consistent-but-wrong data that fails compliance entirely. The ratio 5:3:1 (IQ:CQ:RQ) reflects this hierarchy: IQ is approximately 1.7\u00d7 more critical than CQ, and substantially more critical than RQ, while CQ and RQ are closer in secondary importance.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

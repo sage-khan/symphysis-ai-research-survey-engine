@@ -1,0 +1,19 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "For construction-project records on an immutable blockchain ledger, Intrinsic Quality (accuracy, validity, uniqueness) is the most critical factor. Blockchain's immutability is a double-edged sword: once incorrect data is recorded, it cannot be erased\u2014only amended, creating a permanent liability and audit trail of the error. This makes accuracy and validity non-negotiable foundations for construction records, where structural calculations, material certifications, and compliance proofs are legally and safety-critical. Contextual Quality (completeness, timeliness) is important but secondary: incomplete data can be remedied through future submissions or process improvements; inaccurate data on an immutable ledger cannot. Representational Quality (consistency across sources) is least influential for the routing decision. Consistency of representation is a downstream usability and interoperability concern; if the underlying data is accurate and complete, representation inconsistencies are manageable. Conversely, consistent representation of inaccurate or incomplete data does not solve the core trust problem blockchain is meant to address. The 3:2 ratio between CQ and RQ reflects that completeness is functionally necessary for a construction logbook, whereas consistency is supplementary to correctness. The 5:1 ratio IQ:RQ reflects the foundational importance of accuracy in immutable systems.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

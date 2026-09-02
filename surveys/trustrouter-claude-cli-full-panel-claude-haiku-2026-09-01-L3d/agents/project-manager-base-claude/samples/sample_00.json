@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 7
+  },
+  "others_to_worst": {
+    "A_insider": 7,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "From a construction project manager's perspective on Hospital Real's multi-stakeholder, multi-decade asset lifecycle, insider resistance is the most critical attack vector. The scenario involves institutional owners, insurers, and authorities with legitimate system access\u2014making malicious abuse of that access the highest-probability, highest-impact threat. Construction fraud historically concentrates on insiders (corrupt contractors, inspectors, or institutional staff) falsifying records for financial gain or liability avoidance. This threat is both more common and harder to prevent through technical controls alone than the other two vectors. Oracle resistance (sensor tampering) ranks second: while IoT device tampering is a real concern during renovation work, sensor deployments are typically temporary, physically secured at the site, and not the primary evidentiary source for critical compliance and structural records. Institutional governance and pre-deployment calibration mitigate much of this risk. Sybil resistance ranks third for this institutional context specifically: Hospital Real's stakeholders\u2014the public institution, licensed contractors, certified inspectors, regulated insurers\u2014arrive with pre-verified, institutional identities managed through contracts, licenses, and insurance bonds. The multi-stakeholder framework of the project inherently reduces the likelihood and impact of fake-identity attacks compared to a less-coordinated or open-participation system. While Sybil attacks are a general blockchain concern, their relevance to this specific scenario is lower than the insider and oracle threats.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: V_diversity
+- Worst: V_crypto
+
+## Stated reasoning (submitted with the answer)
+
+As a BIM coordinator managing multi-stakeholder federated models, I ground this ranking in ISO 19650 standard practice and the real constraints of construction project delivery. V_diversity ranks highest because ISO 19650 explicitly mandates independent validation by multiple parties (lead appointed party, task teams) before accepting federated models—this is the operationalized mechanism for managing trust in a multi-stakeholder environment. In renovation projects with structural, MEP, and architectural teams, independent verification by multiple parties catches errors and coordinate conflicts that no single party (or single cryptographic signature) would catch. This aligns with the principle that blockchain's value for construction data lies in distributing verification across independent validators, not in cryptography alone. V_audit ranks second because complete audit trails (who did what, when) are essential for traceability, accountability, and dispute resolution in construction. However, audit trails can be incomplete or manipulated if not backed by diversity of independent observers; they document the verification process but do not by themselves establish confidence in correctness. V_crypto ranks lowest because while cryptographic signatures, hashes, and PKI are necessary prerequisites—proving data has not been tampered with since signing—they are not sufficient to establish that the data was correct at creation. A cryptographically signed model with coordinate errors or unresolved clashes is still trustworthy as a tamper-proof record of what was signed, but not trustworthy as a correct construction record. In blockchain-backed storage specifically, the strength of verification depends fundamentally on consensus across independent parties, not on the cryptographic layer alone. Sources: ISO 19650 governance model cited in bim_and_digital_building_logbooks.md; trustrouter_expert_questionnaire_v5_real_survey_instrument.md defining the three criteria; Kochovski et al. 2026 describing BUILDCHAIN DBL's implementation of cryptographic identity alongside multi-party validation. This is a judgment grounded in 10+ years managing federated model workflows, not a close call.
+
+## Sources cited
+
+bim_and_digital_building_logbooks.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, shared knowledge: trustrouter_concept_paper_primer.md, general_knowledge (all claims verified genuine)

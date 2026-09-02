@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: A_insider
+- Worst: A_oracle
+
+## Stated reasoning (submitted with the answer)
+
+From the perspective of a facility-management compliance officer, insider resistance represents the most critical attack vector for construction-project records. Insiders possess legitimate access, institutional trust, and domain expertise, enabling them to execute sophisticated attacks that are difficult to detect—such as falsifying inspection certifications, manipulating maintenance records, or altering safety documentation. Both GDPR's accountability principle and construction-regulatory frameworks (building codes, professional engineering standards) place direct organizational responsibility on preventing insider abuse; technical controls cannot fully mitigate risk from authorized users. Sybil resistance is moderately important but less acute in construction contexts. Identity verification at enrollment occurs through formal business registration and professional licensing (architects, engineers, inspectors), and once verified, the opportunity for one actor to create multiple fake identities is constrained by regulatory frameworks that tie qualifications to licensed individuals. Oracle resistance (sensor and device tampering) ranks as least important for construction-project records. While IoT sensors are deployed increasingly for monitoring, the critical regulatory records—structural engineering reports, permits, compliance certifications, inspection sign-offs—remain primarily document-based with established custody and signature chains. Where sensors are used, they are typically supplementary, exist in controlled physical environments, and do not carry direct regulatory force. The primary compliance burden centers on document authenticity, provenance trust, and authorized signatory accountability, not sensor data integrity.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md (all claims verified genuine)

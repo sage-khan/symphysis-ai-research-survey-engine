@@ -1,0 +1,18 @@
+# Sample 1 of 3
+
+- Best: E_demand
+- Worst: E_market
+
+## Stated reasoning (submitted with the answer)
+
+For construction-project data destined for ledger storage, future demand (E_demand) emerges as most influential because it captures the structural regulatory and technological drivers that will shape ledger suitability over the deployment horizon. The reference material frames BSI multiplicatively, where Economic Value acts as a scaling factor: (1 + E). This formula is forward-looking — the term (1 + E) amplifies BSI when regulatory mandates and digital-twin integration create sustained demand. Construction is a heavily regulated sector with clear emerging drivers: EU digital building logbooks, net-zero tracking requirements, and circular-economy data flows are not speculative — they are policy commitments with legal force. These structural demand drivers matter far more than today's modest marketplace adoption.
+
+Current marketplace demand (E_market) ranks least influential because it reflects a lagging and immature market, not fundamental unsuitability. Blockchain adoption in construction is nascent; absence of current buyers tells us little about whether ledger solutions should be deployed *now* for future use. Construction adoption cycles are measured in years; early-mover ledger infrastructure serves future demand, not present demand. Current market thinness is a chicken-and-egg artifact, not evidence against ledger adoption.
+
+Tokenisation ease (E_liquidity) ranks between them. Technical feasibility of creating tradeable records from construction assets is proven; permissioned-ledger tokenisation is a solved problem at the infrastructure level. However, capability without demand is inert. E_liquidity is a necessary condition (infrastructure must exist), but not a sufficient one — future demand drives the question of whether tokenisation capability will be exercised.
+
+Ratings reflect this ordering: E_demand outranks E_liquidity by 4x (demand is the final governor; capability alone is secondary), and E_demand outranks E_market by 7x (regulatory and AI drivers are far more predictive than current buyer counts). E_liquidity exceeds E_market by 3x (feasibility is necessary; current adoption is not).
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

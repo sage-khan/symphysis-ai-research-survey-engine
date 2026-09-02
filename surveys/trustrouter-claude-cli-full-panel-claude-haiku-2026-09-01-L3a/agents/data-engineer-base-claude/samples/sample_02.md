@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+IQ (Intrinsic Quality—accuracy, validity, uniqueness) is the most critical dimension for construction-project records destined for blockchain storage. The fundamental property of blockchain is immutability: once data is committed to the ledger, it cannot be corrected or deleted. This makes accuracy and validity non-negotiable at the point of entry. An inaccurate record is permanently inaccurate; there is no recovery path through downstream governance. For construction data, this is catastrophic—e.g., structural loads recorded incorrectly, material specifications wrong, or safety-critical measurements invalid—these errors persist forever in the distributed ledger. Uniqueness within IQ is also important to prevent duplicate records that could cause ambiguity in the chain of custody or project timeline. CQ (Contextual Quality—completeness, timeliness) is important but secondary. Incomplete data hampers decision-making during active construction and complicates audits; timeliness affects operational responsiveness. However, these issues are addressable through data-entry governance, validation gates before blockchain commit, and backward-filling of late-arriving records with proper timestamping. Blockchain's append-only design actually supports complete historical records even if data arrives later than collection. RQ (Representational Quality—consistency across sources) is the least critical of the three. Construction projects inherently involve multiple independent parties (contractors, engineers, inspectors, facility managers) producing different versions of the truth at different times and from different vantage points. Blockchain systems are designed to track and reconcile such versions through transparent audit trails and timestamps. Consistency can be managed through reconciliation logic, version selection policies, and ledger-based adjudication, whereas IQ issues cannot be repaired post-commit. The multiplicative nature of TrustRouter's design (referenced in the concept paper) means that defects in foundational dimensions (IQ) cascade; a unit defect in accuracy is more damaging than a unit defect in consistency.
+
+## Sources cited
+
+shared knowledge: trustrouter_concept_paper_primer.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

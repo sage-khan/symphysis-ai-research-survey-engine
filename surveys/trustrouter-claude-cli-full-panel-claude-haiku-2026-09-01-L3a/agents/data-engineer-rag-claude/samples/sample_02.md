@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+From a data-engineering perspective on construction-project records destined for blockchain storage, Intrinsic Quality (IQ) is best, and Representational Quality (RQ) is worst. IQ—accuracy, validity, uniqueness—is foundational because blockchain's immutability means incorrect or duplicate data cannot be corrected retroactively without governance overhead. Once a flawed record is committed to the ledger, the data-engineering cost of remediating it is asymmetrically high. Construction projects have cascading temporal dependencies (e.g., inspection sequencing, material provenance chains); errors in intrinsic data quality propagate downstream through project logic in ways that incomplete or slightly-untimely data do not. CQ (Contextual Quality: completeness, timeliness) is notably important—missing data or data recorded after the fact reduces usability and complicates lineage tracking—but it does not compromise the correctness of what *is* present. RQ (Representational Quality: consistency across sources) is least critical in a blockchain context because the ledger itself serves as the single authoritative source. If data is validated properly on entry (IQ) and scoped correctly (CQ), representational consistency is enforced by the distributed consensus mechanism and ledger structure, not by pre-ingestion cross-source reconciliation. The polyglot-persistence literature (Prasad and S B, 2014, on energy data management) reinforces that different data types require different storage treatment per their structural needs; in blockchain's case, structural consistency is a property of the ledger, not something IQ/CQ/RQ must supply. The Rouhani and Deters (2021) trust framework emphasizes data provenance and auditing, which ties more closely to validation chains (IQ) and temporal accountability (CQ) than to cross-source agreement (RQ). The gap between IQ and CQ is 4× (IQ substantially more critical, but CQ still material for project sequencing). The gap between CQ and RQ is 2× (RQ is least critical but not negligible if data pathways do converge from multiple sources upstream of blockchain commitment).
+
+## Sources cited
+
+data_quality_and_polyglot_persistence.md, shared knowledge: trustrouter_concept_paper_primer.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

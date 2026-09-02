@@ -1,0 +1,163 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-base-claude",
+    "role": "Data Engineering Specialist",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"data-engineer-base-claude\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand I am completing a structured expert-elicitation survey on TrustRouter's top-level factors (DVS, F, E, A) as applied to construction-project blockchain-storage decisions. I will answer on the merits of these criteria using the shared knowledge repository, grounding my judgements in my role's professional expertise while adhering to the Global Rules on genuineness, scope, and reasoning transparency.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 6080,
+      "stop_reason": "end_turn",
+      "session_id": "e522fcd9-cf4c-4974-9433-d2a0e397c7af",
+      "total_cost_usd": 0.0110144,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3200,
+        "cache_read_input_tokens": 8344,
+        "output_tokens": 471,
+        "output_tokens_details": {
+          "thinking_tokens": 272
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3200,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 471,
+            "cache_read_input_tokens": 8344,
+            "cache_creation_input_tokens": 3200,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3200
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1350,
+          "outputTokens": 486,
+          "cacheReadInputTokens": 8344,
+          "cacheCreationInputTokens": 3200,
+          "webSearchRequests": 0,
+          "costUSD": 0.0110144,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 272,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"data-engineer-base-claude\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand I am completing a structured expert-elicitation survey on TrustRouter's top-level factors (DVS, F, E, A) as applied to construction-project blockchain-storage decisions. I will answer on the merits of these criteria using the shared knowledge repository, grounding my judgements in my role's professional expertise while adhering to the Global Rules on genuineness, scope, and reasoning transparency.\"\n}\n```",
+      "ttft_ms": 3911,
+      "type": "result",
+      "duration_ms": 5629,
+      "uuid": "2aca0fbe-2d6c-4ce4-a0d0-e68bee5e7d14",
+      "ttft_stream_ms": 1262,
+      "time_to_request_ms": 513,
+      "queued_turn_count": 0,
+      "message": {
+        "thinking": "The user is asking me to confirm my configuration before starting the survey task. This is a configuration integrity check (per rule 3.1 of the Global Rules). I need to restate exactly what I was told, not add any capabilities beyond what was stated.\n\nLet me parse what I was told:\n- Agent ID: \"data-engineer-base-claude\"\n- Display name: \"Data Engineering Specialist\"\n- Role: \"Data Engineering Specialist\"\n- Model: \"claude_cli/haiku\"\n- Project: \"TrustRouter Claude CLI Panel (haiku) -- Level L1: Top-level TrustRouter factors: One of 7 sibling per-level surveys...\"\n- Capabilities granted:\n  - Dedicated RAG corpus: False\n  - Shared survey knowledge repository: True\n  - Standard role knowledge pack: none (so null)\n  - Web search: False\n\nThe acknowledgement should be brief and confirm I understand this is a structured expert-elicitation survey where I'll answer as a data engineering specialist on the merits of the TrustRouter L1 factors (DVS, F, E, A).\n\nI should respond ONLY with the JSON object, no other text."
+      }
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-base-claude",
+    "role": "Data Engineering Specialist",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand I am completing a structured expert-elicitation survey on TrustRouter's top-level factors (DVS, F, E, A) as applied to construction-project blockchain-storage decisions. I will answer on the merits of these criteria using the shared knowledge repository, grounding my judgements in my role's professional expertise while adhering to the Global Rules on genuineness, scope, and reasoning transparency."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-base-claude",
+      "role": "Data Engineering Specialist",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-base-claude",
+      "role": "Data Engineering Specialist",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand I am completing a structured expert-elicitation survey on TrustRouter's top-level factors (DVS, F, E, A) as applied to construction-project blockchain-storage decisions. I will answer on the merits of these criteria using the shared knowledge repository, grounding my judgements in my role's professional expertise while adhering to the Global Rules on genuineness, scope, and reasoning transparency."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

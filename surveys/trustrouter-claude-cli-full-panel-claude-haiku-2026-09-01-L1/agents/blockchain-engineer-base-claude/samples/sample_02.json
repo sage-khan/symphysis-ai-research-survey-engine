@@ -1,0 +1,21 @@
+{
+  "best": "F",
+  "worst": "E",
+  "best_to_others": {
+    "DVS": 3,
+    "F": 1,
+    "E": 6,
+    "A": 3
+  },
+  "others_to_worst": {
+    "DVS": 5,
+    "F": 6,
+    "E": 1,
+    "A": 4
+  },
+  "reasoning": "From the perspective of a blockchain/DLT engineer with production experience on permissioned-ledger deployments, I rank F (Technical Feasibility Fit) as BEST because it acts as a hard gate-keeper in routing decisions. In practice, even high-quality, high-value, high-security construction data cannot be stored on-chain if it violates fundamental blockchain constraints\u2014size limits, update frequency, or latency requirements\u2014regardless of how trustworthy or economically valuable it is. Construction records are often large, complex (IFC models), and subject to frequent updates during active project phases; infeasibility is a common dealbreaker. E (Economic Value) is WORST because while important for business justification, it is secondary to the technical and trust dimensions. A safety-critical construction record (e.g., structural-engineer certification, inspection findings) may justify blockchain storage on trustworthiness and tamper-evidence grounds even if the direct financial value is modest; conversely, high-value data lacking trustworthiness or feasibility cannot be rescued by economic metrics alone. DVS ranks 3\u00d7 less important than F because both are fundamental, but feasibility is the immediate practical constraint; A ranks similarly because both affect deployability, though feasibility more directly gates the routing decision. DVS ranks 5\u00d7 more important than E because data quality, provenance, and verification strength are intrinsic to why construction data needs blockchain protection in the first place; E is an amplifier, not a foundational criterion. A ranks 4\u00d7 more important than E because resistance to tampering directly justifies on-chain storage, whereas economic value is a cost-benefit lever after that justification is already made.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

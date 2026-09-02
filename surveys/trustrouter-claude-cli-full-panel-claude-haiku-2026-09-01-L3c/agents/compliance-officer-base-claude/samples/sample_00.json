@@ -1,0 +1,20 @@
+{
+  "best": "V_audit",
+  "worst": "V_crypto",
+  "best_to_others": {
+    "V_audit": 1,
+    "V_crypto": 6,
+    "V_diversity": 3
+  },
+  "others_to_worst": {
+    "V_audit": 6,
+    "V_crypto": 1,
+    "V_diversity": 3
+  },
+  "reasoning": "As a compliance and regulatory officer, audit-trail completeness is foundational to GDPR and construction-regulatory obligations. The principle of accountability (GDPR Article 5) and contractual/liability oversight in construction projects require demonstrable chains of custody: who performed each action, when, and under what authority. A complete audit trail is non-negotiable for demonstrating compliance and managing liability across the operational lifecycle. Diversity of verification sources is secondary but substantial\u2014multiple independent parties (inspectors, engineers, auditors) corroborating the same facts reduces collusion risk and provides the independent confirmation that regulatory oversight relies on. Cryptographic evidence, while technically valuable for tamper-detection, is a necessary but insufficient mechanism. A cryptographically signed datum can still originate from a false claim, be produced under duress, or represent a single point of failure if only one party's signature is present. In a construction context, regulators and auditors require accountability\u2014that is, a traceable record of human responsibility and decision-making\u2014more than they require proof that bits were not flipped after initial recording. The multiplicative nature of the TrustRouter model (shared knowledge: trustrouter_concept_paper_primer.md) means that V_audit, being foundational to regulatory compliance, anchors the entire V factor.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

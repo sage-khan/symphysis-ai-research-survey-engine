@@ -1,0 +1,20 @@
+# Sample 2 of 3
+
+- Best: E_demand
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+From a BIM coordinator's perspective managing multi-stakeholder renovation and new-build projects over 10+ years, future regulatory demand (E_demand) is decisively more important than current marketplace adoption or tokenisation capability for construction records on blockchain.
+
+E_demand is Best because: (1) Gartoumi 2024 documents that construction lacks calibrated criteria for blockchain adoption—the market currently exists in principle, not practice. (2) Kochovski et al. 2026 demonstrates working digital building logbooks (DBL) combining IFC semantics with W3C decentralized identifiers, which are entering regulatory frameworks, not established markets. (3) Real lifecycle pressure comes from ISO 19650's requirement that federated models be independently validated before acceptance; this is a decades-long institutional need (Hospital Real reference scenario), not a current buyer base. (4) Future demand will be driven by GDPR/EU digital acts compliance, digital-twin integration for asset management, and regulatory mandates on deep-renovation documentation—none of which depend on today's market.
+
+E_liquidity is Worst because tokenisation of construction records is inapplicable: (1) Project records are not fungible or divisible assets—you do not trade fractional ownership of inspection certificates or RFI logs. (2) Records are owned by institutions (public bodies, facilities managers, regulators) for compliance and asset stewardship, not for secondary-market speculation. (3) GDPR and data-protection rules actively prevent the secondary-market tokenisation this criterion implies. (4) No construction professional I have worked with has ever requested the ability to tokenise or trade project documentation. The criterion, while syntactically valid, measures a non-existent use case.
+
+E_market ranks between them: there is some immediate institutional demand (authorities, insurers) for trustworthy long-term documentation, as ISO 19650 practice demonstrates. However, this demand exists in federated BIM and ISO 19650 processes already; blockchain adds marginal value only if future regulation makes it mandatory. Current buyers are few and their demand is not blockchain-specific. Future regulatory drivers (E_demand) are far more consequential for a technology platform decision than existing (but blockchain-agnostic) institutional record-keeping.
+
+Rating rationale: E_demand at 8× E_liquidity reflects that liquidity is essentially orthogonal to construction records. E_demand at 4× E_market reflects that future regulatory/digital-twin drivers outweigh weak current adoption. E_market at 2× E_liquidity reflects minimal but non-zero institutional demand for record-keeping, versus zero demand for tokenisation.
+
+## Sources cited
+
+bim_and_digital_building_logbooks.md, SOURCES.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

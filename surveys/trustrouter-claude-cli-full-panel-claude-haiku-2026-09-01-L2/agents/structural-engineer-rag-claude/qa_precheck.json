@@ -1,0 +1,163 @@
+{
+  "ground_truth": {
+    "agent_id": "structural-engineer-rag-claude",
+    "role": "Structural Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"structural-engineer-rag-claude\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a chartered structural engineer answering a structured expert-elicitation survey on six trust dimensions (Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, Criticality) that comprise the Data Value Score factor in TrustRouter. I will answer independently, cite only provided reference material and verifiable sources, and ground my reasoning in professional judgement as it applies to construction-project records for blockchain storage.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 6286,
+      "stop_reason": "end_turn",
+      "session_id": "7bf49559-8275-4cc0-82b7-9c757f18b531",
+      "total_cost_usd": 0.011307000000000001,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3185,
+        "cache_read_input_tokens": 8320,
+        "output_tokens": 540,
+        "output_tokens_details": {
+          "thinking_tokens": 337
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3185,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 540,
+            "cache_read_input_tokens": 8320,
+            "cache_creation_input_tokens": 3185,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3185
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1335,
+          "outputTokens": 554,
+          "cacheReadInputTokens": 8320,
+          "cacheCreationInputTokens": 3185,
+          "webSearchRequests": 0,
+          "costUSD": 0.011307000000000001,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 337,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"structural-engineer-rag-claude\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a chartered structural engineer answering a structured expert-elicitation survey on six trust dimensions (Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, Criticality) that comprise the Data Value Score factor in TrustRouter. I will answer independently, cite only provided reference material and verifiable sources, and ground my reasoning in professional judgement as it applies to construction-project records for blockchain storage.\"\n}\n```",
+      "ttft_ms": 3346,
+      "type": "result",
+      "duration_ms": 4878,
+      "uuid": "1187c552-9a6d-4011-83c7-c69233bead33",
+      "ttft_stream_ms": 1372,
+      "time_to_request_ms": 116,
+      "queued_turn_count": 0,
+      "message": {
+        "thinking": "The user is asking me to confirm my configuration as part of a structured expert-elicitation survey. I need to restate exactly what I was told, without adding any capabilities I wasn't given.\n\nLet me parse the configuration statement carefully:\n\n1. Agent ID: \"structural-engineer-rag-claude\"\n2. Display name: \"Structural Engineer\" \n3. Role: \"Structural Engineer\"\n4. Model: \"claude_cli/haiku\"\n5. Project: \"TrustRouter Claude CLI Panel (haiku) -- Level L2: Six trust dimensions inside DVS: One of 7 sibling per-level surveys (parent run: trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01). The six trust lenses that make up the Data Value Score. Uses the flat bwm instrument answered via a single structured-JSON completion (provider=claude_cli, runtime_backend=direct_completion).\"\n\nCapabilities granted:\n- Dedicated RAG corpus: True\n- Shared survey knowledge repository: True\n- Standard role knowledge pack: none (so null)\n- Web search: False\n\nThe instructions say: \"Respond with ONLY a JSON object, no other text, in exactly this shape, restating the configuration above accurately. Do not add any capability or knowledge source beyond what was just stated, and do not answer the actual survey questions yet: this turn is only your configuration check.\"\n\nSo I need to respond with ONLY JSON, no other text."
+      }
+    }
+  },
+  "claimed": {
+    "agent_id": "structural-engineer-rag-claude",
+    "role": "Structural Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I am a chartered structural engineer answering a structured expert-elicitation survey on six trust dimensions (Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, Criticality) that comprise the Data Value Score factor in TrustRouter. I will answer independently, cite only provided reference material and verifiable sources, and ground my reasoning in professional judgement as it applies to construction-project records for blockchain storage."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "structural-engineer-rag-claude",
+      "role": "Structural Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "structural-engineer-rag-claude",
+      "role": "Structural Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I am a chartered structural engineer answering a structured expert-elicitation survey on six trust dimensions (Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, Criticality) that comprise the Data Value Score factor in TrustRouter. I will answer independently, cite only provided reference material and verifiable sources, and ground my reasoning in professional judgement as it applies to construction-project records for blockchain storage."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

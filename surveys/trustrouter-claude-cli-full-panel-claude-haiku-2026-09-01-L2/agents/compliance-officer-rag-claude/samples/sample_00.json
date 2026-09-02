@@ -1,0 +1,26 @@
+{
+  "best": "L",
+  "worst": "IC",
+  "best_to_others": {
+    "L": 1,
+    "C": 2,
+    "Q": 2,
+    "PT": 3,
+    "V": 4,
+    "IC": 5
+  },
+  "others_to_worst": {
+    "L": 5,
+    "C": 3,
+    "Q": 4,
+    "PT": 2,
+    "V": 2,
+    "IC": 1
+  },
+  "reasoning": "L (Legal Compliance) is BEST. As a compliance officer, the foundational gate for storing any construction record on blockchain is whether it is legally permissible to do so. The core tension\u2014identified in the Wilson et al. (2019) analysis within gdpr_and_data_governance.md\u2014is that GDPR's right to erasure cannot be honoured against an immutable ledger. Before evaluating technical quality, provenance trust, or verification strength, I must determine whether storing a record on blockchain creates a regulatory liability or violates binding statutory obligations. This is existential: if L fails, the record cannot go on blockchain at all, regardless of how good the data quality or verification is. The governance gap described in the construction blockchain literature reflects the lack of systematic assessment of this dimension.\n\nIC (Independent Confirmation) is WORST. In a regulated construction context, specific accountable parties (licensed structural engineers, architects, building control bodies) bear legal responsibility and are subject to professional liability. A single authoritative, qualified, and verified source\u2014combined with strong provenance trust (PT) and verification strength (V)\u2014is typically sufficient in this context. Independent confirmation of the same quantities adds value for redundancy but is not necessary when the primary source is trusted and cryptographically verifiable. In contrast, all other dimensions directly support the compliance decision: C (consequence of error) determines the verification rigor required; Q (data quality) is foundational to any trust assessment; PT (provenance trust) establishes credibility of the source; V (verification strength) enables blockchain's core benefit of immutable audit trails.\n\nThe tiered ratings reflect: L as the existential gate; C and Q as jointly critical (determining both whether to proceed and how thoroughly to verify); PT as necessary for source credibility; V as supporting the blockchain value proposition; IC as least essential when single-source accountability and qualification are clear. This ranking is grounded in the regulatory and governance context described in the reference materials (trustrouter_concept_paper_primer.md, trustrouter_expert_questionnaire_v5_real_survey_instrument.md, gdpr_and_data_governance.md) and in the professional judgment that legal compliance determines feasibility while other dimensions determine thoroughness and confidence within that feasible space.",
+  "sources_used": [
+    "gdpr_and_data_governance.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md"
+  ]
+}

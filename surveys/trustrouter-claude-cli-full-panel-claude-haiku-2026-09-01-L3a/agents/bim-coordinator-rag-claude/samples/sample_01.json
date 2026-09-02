@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 6
+  },
+  "others_to_worst": {
+    "IQ": 6,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "As a BIM coordinator managing federated models over decades-long renovation projects, I rank Intrinsic Quality (IQ) as best because accuracy, validity, and uniqueness of the underlying data are foundational to trust. If structural geometry, material specifications, or system configurations are inaccurate, no downstream institutional decision\u2014insurance claims, regulatory compliance, design intervention\u2014can be trusted, regardless of how complete or consistent the record is. For blockchain-stored construction records that will inform decisions over decades, the data's correctness at its source is non-negotiable.\n\nContextual Quality (CQ\u2014completeness and timeliness) ranks second. Renovation projects require comprehensive information (all building systems documented) and current data reflecting actual as-built conditions. However, incompleteness or staleness is more recoverable than inaccuracy: an incomplete record can be supplemented; an inaccurate one cannot be trusted when supplemented with more inaccurate data. CQ is significantly important but derivative of IQ.\n\nRepresentational Quality (RQ\u2014consistency across sources) ranks last, not because it is unimportant, but because of how professional BIM federation already handles it and what blockchain adds. ISO 19650's information-delivery process (reference: bim_and_digital_building_logbooks.md) already requires independent validation across federated models before acceptance\u2014consistency is a gatekeeping step enforced upstream. Additionally, blockchain's immutability and audit trail mean that version inconsistencies can be documented and traced; the provenance of different states is clear rather than hidden. Within a federated model managed under ISO 19650, consistency problems are typically identified and resolved before blockchain storage; where versions legitimately differ, their history is auditable.\n\nThe 3:1 ratio (IQ vs CQ) reflects that accuracy is foundational but completeness is still essential. The 6:1 ratio (IQ vs RQ) reflects that accuracy is far more trust-critical than consistency when the consistency-assurance process is already established by professional practice. The 2:1 ratio (CQ vs RQ) reflects that timeliness and completeness matter for utility but are secondary to the accuracy-first and process-enforced-consistency baseline.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+From a construction project manager's perspective, Intrinsic Quality (accuracy, validity, uniqueness) is the foundation upon which all other quality dimensions rest. For a multi-decade public asset like the Hospital Real renovation, where records serve institutional owners, insurers, and authorities with legal and safety implications, inaccurate structural data, material specifications, or test results are worse than no record at all. Blockchain immutability amplifies this risk — wrong data becomes permanently embedded. Contextual Quality (completeness and timeliness) is the next priority. A PM must have complete documentation of what was built and when, and timely access to those records for decision-making. However, completeness is somewhat more tractable through document management procedures — missing records can be pursued and added. The PM can document the gap in coverage. Representational Quality (consistency across versions) ranks third because: (1) construction practice typically establishes a clear authoritative version (the as-built record or record drawings), and stakeholders know to consult that single source; (2) blockchain's immutability actually mitigates consistency risk — once recorded, a version cannot change; (3) version inconsistency is primarily a governance and reference problem, not a data-quality problem in the ISO 25012 sense. A PM can resolve which version is current; they cannot easily fix data that was recorded inaccurately to begin with. IQ and CQ are closer than IQ and RQ, reflecting that completeness is nearly as critical as accuracy in project management, but accuracy remains foundational.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

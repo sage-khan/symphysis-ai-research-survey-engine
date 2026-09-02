@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: E_demand
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+From a facility-compliance officer's perspective, future demand (E_demand) is the decisive criterion. The reference material on construction-sector blockchain adoption (Gartoumi, 2024, in gdpr_and_data_governance.md) documents a five-year growth in blockchain use without corresponding development of rigorous decision criteria for when blockchain storage is legally appropriate—a governance gap this framework is designed to close. This gap will be resolved by regulatory drivers: mandatory digital-twin requirements, enhanced lifecycle transparency mandates, and energy-performance disclosure obligations coming through EU building regulations. These future regulatory and industry developments will establish whether blockchain records become necessary (not optional). Current marketplace demand (E_market) is secondary and limited; it signals feasibility but does not yet validate business need. Tokenisation ease (E_liquidity) is the least important for compliance and facility-management governance. A compliance officer's mandate is regulatory fit, custody integrity, and GDPR alignment—not financial tradability. The GDPR tensions documented in Wilson et al. (2019, cited in gdpr_and_data_governance.md)—the tension between blockchain immutability and the right to erasure—must be resolved at the governance-gate stage before economic factors drive adoption. Tradability is a downstream financial concern, not a compliance driver. The comparison assumes construction-project records as the subject, where regulatory necessity (future) outweighs current market pull, and compliance suitability outweighs liquidity. This ranking reflects the professional judgment of a compliance role prioritizing legal obligation and governance over current market signals or financial marketability.
+
+## Sources cited
+
+gdpr_and_data_governance.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

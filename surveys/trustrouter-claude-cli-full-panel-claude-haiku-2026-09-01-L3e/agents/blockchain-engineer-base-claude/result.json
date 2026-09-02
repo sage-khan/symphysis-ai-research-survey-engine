@@ -1,0 +1,106 @@
+{
+  "agent_id": "blockchain-engineer-base-claude",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "E_demand",
+      "worst": "E_market",
+      "best_to_others": {
+        "E_demand": 1,
+        "E_liquidity": 4,
+        "E_market": 7
+      },
+      "others_to_worst": {
+        "E_demand": 7,
+        "E_liquidity": 3,
+        "E_market": 1
+      },
+      "reasoning": "For construction-project data destined for ledger storage, future demand (E_demand) emerges as most influential because it captures the structural regulatory and technological drivers that will shape ledger suitability over the deployment horizon. The reference material frames BSI multiplicatively, where Economic Value acts as a scaling factor: (1 + E). This formula is forward-looking \u2014 the term (1 + E) amplifies BSI when regulatory mandates and digital-twin integration create sustained demand. Construction is a heavily regulated sector with clear emerging drivers: EU digital building logbooks, net-zero tracking requirements, and circular-economy data flows are not speculative \u2014 they are policy commitments with legal force. These structural demand drivers matter far more than today's modest marketplace adoption.\n\nCurrent marketplace demand (E_market) ranks least influential because it reflects a lagging and immature market, not fundamental unsuitability. Blockchain adoption in construction is nascent; absence of current buyers tells us little about whether ledger solutions should be deployed *now* for future use. Construction adoption cycles are measured in years; early-mover ledger infrastructure serves future demand, not present demand. Current market thinness is a chicken-and-egg artifact, not evidence against ledger adoption.\n\nTokenisation ease (E_liquidity) ranks between them. Technical feasibility of creating tradeable records from construction assets is proven; permissioned-ledger tokenisation is a solved problem at the infrastructure level. However, capability without demand is inert. E_liquidity is a necessary condition (infrastructure must exist), but not a sufficient one \u2014 future demand drives the question of whether tokenisation capability will be exercised.\n\nRatings reflect this ordering: E_demand outranks E_liquidity by 4x (demand is the final governor; capability alone is secondary), and E_demand outranks E_market by 7x (regulatory and AI drivers are far more predictive than current buyer counts). E_liquidity exceeds E_market by 3x (feasibility is necessary; current adoption is not).",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    },
+    {
+      "best": "E_market",
+      "worst": "E_liquidity",
+      "best_to_others": {
+        "E_market": 1,
+        "E_demand": 3,
+        "E_liquidity": 7
+      },
+      "others_to_worst": {
+        "E_market": 7,
+        "E_demand": 3,
+        "E_liquidity": 1
+      },
+      "reasoning": "From a blockchain/DLT engineer's perspective on production deployments: Current marketplace demand (E_market) is the most influential criterion because it provides concrete, present-day validation that there are actual buyers willing to deploy and maintain a permissioned ledger for construction records. In production systems, proven market pull\u2014not speculative future demand\u2014justifies the operational overhead, governance complexity, and infrastructure costs of running a distributed ledger. Without current market demand, even strong future prospects cannot justify initial deployment. Future demand (E_demand), while significant for long-term business case justification (regulations, AI integration, digital twins), is inherently more uncertain and cannot drive near-term feasibility decisions. Tokenisation ease (E_liquidity) is the least important of the three. Construction project records derive their primary economic value from tamper-evidence and provenance assurance, not from secondary trading of data tokens. Most construction workflows do not commoditise or trade project records; liquidity would be a peripheral economic feature rather than a core value driver. While tokenisation might enable novel markets, the baseline case\u2014integrity and data-trust verification\u2014does not require it. The 3:1 ratio between market and future demand reflects that current demand is more actionable; the 7:1 ratio between market and liquidity reflects that demand (both current and future) addresses the core ledger use case while liquidity addresses a secondary economic model that is not essential to construction-data blockchain viability. Sources: reasoning grounded in production DLT deployment experience (general knowledge) and reference material context on BSI decomposition and Economic Value as a multiplicative pillar in the blockchain-suitability framework.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    },
+    {
+      "best": "E_demand",
+      "worst": "E_liquidity",
+      "best_to_others": {
+        "E_demand": 1,
+        "E_market": 3,
+        "E_liquidity": 6
+      },
+      "others_to_worst": {
+        "E_demand": 6,
+        "E_market": 2,
+        "E_liquidity": 1
+      },
+      "reasoning": "From a blockchain/DLT engineer's perspective evaluating construction-project data suitability, future demand (E_demand) is the strongest driver of economic value because: (1) Regulatory mandates\u2014particularly EU initiatives around Digital Building Passports and lifecycle documentation\u2014are foreseeable and binding, creating structural demand independent of current speculation. (2) Digital twin integration requires trusted, tamper-evidenced data lineage; blockchain provides a natural mechanism for this, and regulation will mandate it. (3) AI systems training on construction data demand immutable provenance; this regulatory/technical coupling creates substantial, predictable future demand. Current marketplace demand (E_market) matters\u2014no system survives without some viable buyers\u2014but is secondary because current blockchain-based construction data markets remain nascent and unproven. Any economic model must account for forward-looking regulatory drivers, not just today's limited adoption. Tokenisation ease (E_liquidity) ranks last because construction project records are not primarily tradeable financial assets. The core value proposition of blockchain for construction data is immutability and tamper-evidence, not secondary-market liquidity. Liquidity is a nice-to-have overlay feature, but most legitimate use cases (warranty proof, compliance documentation, supply-chain traceability, BIM handover) do not require data to be liquid or traded. Therefore: E_demand drives strategic feasibility; E_market represents current-but-limited viability; E_liquidity is a peripheral concern. Under the multiplicative BSI model, future demand justifies infrastructure investment today, while current-market absence does not necessarily disqualify ledger deployment if regulatory/technical demand is strong.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    },
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    },
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    }
+  ]
+}

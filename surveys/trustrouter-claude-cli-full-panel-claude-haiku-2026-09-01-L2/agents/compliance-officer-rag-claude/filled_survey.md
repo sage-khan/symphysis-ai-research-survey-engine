@@ -1,0 +1,113 @@
+# Filled survey: compliance-officer-rag-claude
+
+- Agent ID: `compliance-officer-rag-claude`
+- Role / expertise: Compliance and Regulatory Officer
+- Model: claude_cli/haiku
+- DID: `did:key:z6MkvsMfbM7uWXaYfBeyMot693DSNk3VXfm2U8UeY54UDj2D`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/compliance-officer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | L | IC |
+| 1 | L | IC |
+| 2 | L | IC |
+
+## Sample 0
+
+**Best:** L (Legal Compliance)  
+**Worst:** IC (Independent Confirmation)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 2 |
+| PT (Provenance Trust) | 3 |
+| V (Verification Strength) | 4 |
+| IC (Independent Confirmation) | 5 |
+| L (Legal Compliance) | 1 |
+| C (Criticality) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 4 |
+| PT (Provenance Trust) | 2 |
+| V (Verification Strength) | 2 |
+| IC (Independent Confirmation) | 1 |
+| L (Legal Compliance) | 5 |
+| C (Criticality) | 3 |
+
+### Reasoning
+
+L (Legal Compliance) is BEST. As a compliance officer, the foundational gate for storing any construction record on blockchain is whether it is legally permissible to do so. The core tension—identified in the Wilson et al. (2019) analysis within gdpr_and_data_governance.md—is that GDPR's right to erasure cannot be honoured against an immutable ledger. Before evaluating technical quality, provenance trust, or verification strength, I must determine whether storing a record on blockchain creates a regulatory liability or violates binding statutory obligations. This is existential: if L fails, the record cannot go on blockchain at all, regardless of how good the data quality or verification is. The governance gap described in the construction blockchain literature reflects the lack of systematic assessment of this dimension.
+
+IC (Independent Confirmation) is WORST. In a regulated construction context, specific accountable parties (licensed structural engineers, architects, building control bodies) bear legal responsibility and are subject to professional liability. A single authoritative, qualified, and verified source—combined with strong provenance trust (PT) and verification strength (V)—is typically sufficient in this context. Independent confirmation of the same quantities adds value for redundancy but is not necessary when the primary source is trusted and cryptographically verifiable. In contrast, all other dimensions directly support the compliance decision: C (consequence of error) determines the verification rigor required; Q (data quality) is foundational to any trust assessment; PT (provenance trust) establishes credibility of the source; V (verification strength) enables blockchain's core benefit of immutable audit trails.
+
+The tiered ratings reflect: L as the existential gate; C and Q as jointly critical (determining both whether to proceed and how thoroughly to verify); PT as necessary for source credibility; V as supporting the blockchain value proposition; IC as least essential when single-source accountability and qualification are clear. This ranking is grounded in the regulatory and governance context described in the reference materials (trustrouter_concept_paper_primer.md, trustrouter_expert_questionnaire_v5_real_survey_instrument.md, gdpr_and_data_governance.md) and in the professional judgment that legal compliance determines feasibility while other dimensions determine thoroughness and confidence within that feasible space.
+
+## Sample 1
+
+**Best:** L (Legal Compliance)  
+**Worst:** IC (Independent Confirmation)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 3 |
+| PT (Provenance Trust) | 4 |
+| V (Verification Strength) | 3 |
+| IC (Independent Confirmation) | 6 |
+| L (Legal Compliance) | 1 |
+| C (Criticality) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 4 |
+| PT (Provenance Trust) | 4 |
+| V (Verification Strength) | 4 |
+| IC (Independent Confirmation) | 1 |
+| L (Legal Compliance) | 6 |
+| C (Criticality) | 3 |
+
+### Reasoning
+
+As a compliance officer, Legal Compliance (L) is foundational because it is the gating criterion: data that fails regulatory or legal requirements should not be stored on blockchain at all, regardless of its quality, provenance, or verification strength. The reference material (Wilson et al., 2019, cited in gdpr_and_data_governance.md) explicitly identifies that blockchain's immutability directly conflicts with GDPR's right to erasure—a core legal obligation. Before any trust-scoring logic applies, I must determine whether the specific data item is legally permissible to store immutably and decentralized. This is categorical: non-compliant data creates regulatory liability with no offsetting benefit, whereas other trust dimensions can be traded within a compliant data set. Criticality (C) is close to L in importance (ratio 2:1) because high-impact data demands rigorous trust; however, regulatory compliance is the prerequisite condition rather than a consequence of importance. Quality (Q) and Verification Strength (V) both rate 3:1 to L because they establish technical soundness, but legal compliance determines whether that technical soundness can be deployed at all. Provenance Trust (PT) rates 4:1 to L because knowing who created and held the data is important for trust, but regulatory permission precedes provenance assessment. Independent Confirmation (IC) rates 6:1 worst because: (1) many authoritative construction records come from single qualified sources (e.g., a structural engineer's sealed report) and do not require independent cross-verification to be trustworthy; (2) demanding independent confirmation for every data item could be impractical and economically unreasonable; (3) the other five dimensions can establish sufficient trust without IC, whereas L is non-negotiable. IC is valuable where available but not universally necessary, whereas Q, PT, V, C, and especially L are structurally essential.
+
+## Sample 2
+
+**Best:** L (Legal Compliance)  
+**Worst:** IC (Independent Confirmation)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 5 |
+| PT (Provenance Trust) | 5 |
+| V (Verification Strength) | 4 |
+| IC (Independent Confirmation) | 8 |
+| L (Legal Compliance) | 1 |
+| C (Criticality) | 3 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 2 |
+| PT (Provenance Trust) | 2 |
+| V (Verification Strength) | 3 |
+| IC (Independent Confirmation) | 1 |
+| L (Legal Compliance) | 8 |
+| C (Criticality) | 3 |
+
+### Reasoning
+
+As a Compliance and Regulatory Officer, my judgment prioritizes Legal Compliance (L) as the foundational criterion. The construction-sector decision principle is gatekeeping: before any blockchain storage is considered, we must first establish whether the specific data artefact is legally required to exist and whether blockchain storage creates or violates compliance obligations. Wilson et al. (2019, referenced in gdpr_and_data_governance.md) identifies the core tension between blockchain's immutability and GDPR's right to erasure; this is not a technical problem to engineer around but a legal boundary that determines whether blockchain is even appropriate for a given dataset. The concept-paper primer clarifies that L (Legal Compliance) is distinct from the Stage-1 legal gate—a record can pass the gate and still have a low L score if it is not regulatory-required—but as a gating principle before trust scoring begins, legal compliance is the first question a compliance officer must answer. Gartoumi (2024, referenced in gdpr_and_data_governance.md) documents that the construction sector has evolved for five years without rigorous decision criteria for when blockchain storage is legally and practically appropriate; this governance gap makes the L dimension the most critical gate. Criticality (C) ranks second because safety, financial, and contractual impacts create regulatory obligations and due-diligence duties. Verification Strength (V) and Provenance Trust (PT) rank third and fourth—both are essential for demonstrating authenticity and regulatory auditability, but they presuppose that blockchain storage is legally justified in the first place. Quality (Q) and Independent Confirmation (IC) rank lowest. Quality matters, but if the other dimensions are strong, quality issues in a single item may be manageable or remediable. Independent Confirmation (IC) is the weakest dimension for this role: a single trusted source—such as a licensed structural engineer's signed report—can satisfy governance and legal audit requirements without requiring cross-validation by a second independent party on every item. Operationally, requiring IC for all records would be impractical; IC is a desirable-to-have rather than a gate. The best-to-others and others-to-worst ratings reflect that L is much more important than IC (8:1 ratio), moderately more important than V and C (3-4:1), and somewhat more important than PT and Q (5:1). This ranking directly reflects the professional duties and constraints a compliance officer faces: legal permissibility first; risk and evidence second; independent agreement last.

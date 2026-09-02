@@ -1,0 +1,161 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-rag-claude",
+    "role": "Construction Project Manager",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"project-manager-rag-claude\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a Construction Project Manager answering a structured expert-elicitation survey on Provenance Trust sub-parts (T_source, T_chain, T_history) for blockchain-stored construction-project records. I will answer independently on the merits of these criteria, grounding comparisons in reference material and my professional judgment, and will cite only real, verifiable sources while clearly distinguishing assumptions from verified facts.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 6860,
+      "stop_reason": "end_turn",
+      "session_id": "c1aabaf2-0103-497d-be51-aef133ca48ff",
+      "total_cost_usd": 0.0166617,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 6182,
+        "cache_read_input_tokens": 7997,
+        "output_tokens": 420,
+        "output_tokens_details": {
+          "thinking_tokens": 222
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 6182,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 420,
+            "cache_read_input_tokens": 7997,
+            "cache_creation_input_tokens": 6182,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 6182
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1333,
+          "outputTokens": 433,
+          "cacheReadInputTokens": 7997,
+          "cacheCreationInputTokens": 6182,
+          "webSearchRequests": 0,
+          "costUSD": 0.0166617,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 222,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"project-manager-rag-claude\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a Construction Project Manager answering a structured expert-elicitation survey on Provenance Trust sub-parts (T_source, T_chain, T_history) for blockchain-stored construction-project records. I will answer independently on the merits of these criteria, grounding comparisons in reference material and my professional judgment, and will cite only real, verifiable sources while clearly distinguishing assumptions from verified facts.\"\n}\n```",
+      "ttft_ms": 3950,
+      "type": "result",
+      "duration_ms": 5765,
+      "uuid": "ea315ac8-b694-4933-8ac7-45b6a99f2d3d",
+      "ttft_stream_ms": 1715,
+      "time_to_request_ms": 24,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-rag-claude",
+    "role": "Construction Project Manager",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I am a Construction Project Manager answering a structured expert-elicitation survey on Provenance Trust sub-parts (T_source, T_chain, T_history) for blockchain-stored construction-project records. I will answer independently on the merits of these criteria, grounding comparisons in reference material and my professional judgment, and will cite only real, verifiable sources while clearly distinguishing assumptions from verified facts."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-rag-claude",
+      "role": "Construction Project Manager",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-rag-claude",
+      "role": "Construction Project Manager",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I am a Construction Project Manager answering a structured expert-elicitation survey on Provenance Trust sub-parts (T_source, T_chain, T_history) for blockchain-stored construction-project records. I will answer independently on the merits of these criteria, grounding comparisons in reference material and my professional judgment, and will cite only real, verifiable sources while clearly distinguishing assumptions from verified facts."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

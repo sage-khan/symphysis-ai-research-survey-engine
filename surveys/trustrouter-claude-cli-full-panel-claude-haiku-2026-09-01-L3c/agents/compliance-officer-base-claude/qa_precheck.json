@@ -1,0 +1,161 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-base-claude",
+    "role": "Compliance and Regulatory Officer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"compliance-officer-base-claude\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand this is a structured expert-elicitation survey at Level L3c (Verification Strength sub-parts) for the TrustRouter Claude CLI Panel, comparing V_crypto, V_audit, and V_diversity as evidence criteria for construction-project records considered for blockchain storage. I will answer independently, on the merits of these criteria as the professional compliance and regulatory expertise would assess them, grounding reasoning in the shared knowledge repository and citing only verifiable sources.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 6115,
+      "stop_reason": "end_turn",
+      "session_id": "bfa900b6-35a8-4a50-8f22-faa8e4456753",
+      "total_cost_usd": 0.0139855,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 4985,
+        "cache_read_input_tokens": 6475,
+        "output_tokens": 393,
+        "output_tokens_details": {
+          "thinking_tokens": 181
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 4985,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 393,
+            "cache_read_input_tokens": 6475,
+            "cache_creation_input_tokens": 4985,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 4985
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1338,
+          "outputTokens": 406,
+          "cacheReadInputTokens": 6475,
+          "cacheCreationInputTokens": 4985,
+          "webSearchRequests": 0,
+          "costUSD": 0.0139855,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 181,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"compliance-officer-base-claude\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand this is a structured expert-elicitation survey at Level L3c (Verification Strength sub-parts) for the TrustRouter Claude CLI Panel, comparing V_crypto, V_audit, and V_diversity as evidence criteria for construction-project records considered for blockchain storage. I will answer independently, on the merits of these criteria as the professional compliance and regulatory expertise would assess them, grounding reasoning in the shared knowledge repository and citing only verifiable sources.\"\n}\n```",
+      "ttft_ms": 3329,
+      "type": "result",
+      "duration_ms": 5337,
+      "uuid": "b2a4da39-c925-4a67-b2f3-0b0436a3d7ed",
+      "ttft_stream_ms": 1109,
+      "time_to_request_ms": 159,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-base-claude",
+    "role": "Compliance and Regulatory Officer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand this is a structured expert-elicitation survey at Level L3c (Verification Strength sub-parts) for the TrustRouter Claude CLI Panel, comparing V_crypto, V_audit, and V_diversity as evidence criteria for construction-project records considered for blockchain storage. I will answer independently, on the merits of these criteria as the professional compliance and regulatory expertise would assess them, grounding reasoning in the shared knowledge repository and citing only verifiable sources."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-base-claude",
+      "role": "Compliance and Regulatory Officer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-base-claude",
+      "role": "Compliance and Regulatory Officer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand this is a structured expert-elicitation survey at Level L3c (Verification Strength sub-parts) for the TrustRouter Claude CLI Panel, comparing V_crypto, V_audit, and V_diversity as evidence criteria for construction-project records considered for blockchain storage. I will answer independently, on the merits of these criteria as the professional compliance and regulatory expertise would assess them, grounding reasoning in the shared knowledge repository and citing only verifiable sources."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

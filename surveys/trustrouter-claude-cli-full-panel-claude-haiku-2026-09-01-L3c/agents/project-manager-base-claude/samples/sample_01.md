@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: V_audit
+- Worst: V_diversity
+
+## Stated reasoning (submitted with the answer)
+
+From a construction project manager's perspective on multi-stakeholder documentation flows, audit-trail completeness (who did what, when) is the most critical verification factor for institutional accountability, compliance, and dispute resolution. In the Hospital Real scenario cited in the reference material, the data must serve institutional owners, insurers, and authorities over decades. A complete audit trail directly addresses this need by establishing an immutable chain of custody and decision provenance—essential for liability assignment, insurance claims, regulatory compliance verification, and resolving disputes among structural engineers, MEP specialists, inspectors, and authorities. This is particularly acute in renovation projects where multiple parties make sequential decisions with downstream consequences. Cryptographic evidence (V_crypto) is materially important but secondary: it provides technical assurance against post-hoc tampering and enables remote verification, but in a construction context where parties are known and audit trails capture who performed actions, crypto becomes a confirming layer rather than the foundational trust mechanism. The signature of an authorized engineer timestamped in an audit log is already cryptographically meaningful if the log itself is tamper-evident. Diversity of verification sources (V_diversity) is the least critical of the three because, unlike distributed networks with unknown peers, construction projects operate within a defined stakeholder ecosystem (contractors, inspectors, authorities, insurers). A complete audit trail from these known parties already provides inherent diversity of voice; additional independent verification adds robustness against Sybil attacks but is less fundamental to the primary need—establishing accountability and reconstructing decision history under scrutiny. Relative importance: V_audit is ~3x more critical than V_crypto (foundational vs. confirming layer) and ~4x more critical than V_diversity (direct accountability need vs. Sybil-resistance benefit). V_crypto is ~3x more important than V_diversity because data-integrity assurance is more urgent than multi-party redundancy in a known-stakeholder setting.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: V_audit
+- Worst: V_diversity
+
+## Stated reasoning (submitted with the answer)
+
+As a data engineering specialist responsible for provenance tracking and polyglot-persistence routing on construction datasets, I rank audit-trail completeness (V_audit) as best because audit logs are the foundational infrastructure of data-pipeline trust. The reference material on data-trust properties (from Rouhani & Deters, 2021) explicitly identifies auditing as a primary component of the trust taxonomy, and notes that 'a data pipeline's own audit logging and lineage tracking is often the first-hand source of evidence' on which Verification Strength scores should be based. Without knowing who modified what and when, neither cryptographic evidence nor source diversity has meaningful context. Cryptographic hashes, signatures, and PKI (V_crypto) are the operational mechanism for proving integrity and authenticity, but they only become actionable within an audit context that explains the chain of custody and authorization. Diversity of verification sources (V_diversity) ranks worst because it is a multiplier effect that strengthens verification only when the underlying audit and crypto foundations already exist; for construction projects with limited independent verifiers (site engineer, inspector, contractor), achieving high source diversity is often harder than establishing comprehensive audit trails and cryptographic integrity checks. The 3:1 ratio between audit and crypto reflects that auditing is more foundational but crypto remains essential. The 5:1 ratio between audit and diversity reflects that audit is orders-of-magnitude more critical to construction-data provenance than the availability of multiple independent parties.
+
+## Sources cited
+
+shared knowledge: trustrouter_concept_paper_primer.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, data_quality_and_polyglot_persistence.md, general_knowledge (all claims verified genuine)

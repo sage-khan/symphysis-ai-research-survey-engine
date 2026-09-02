@@ -1,0 +1,161 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-rag-claude",
+    "role": "Compliance and Regulatory Officer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"compliance-officer-rag-claude\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a facility-management compliance officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle. I will answer the TrustRouter L3b survey (Provenance Trust sub-parts: T_source, T_chain, T_history) strictly from my professional judgement on construction-project record trust, drawing on the dedicated RAG corpus and shared knowledge repository provided, without fabrication or overstatement of certainty.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 5342,
+      "stop_reason": "end_turn",
+      "session_id": "4fd6381a-40cb-4ed1-96cc-371cfb8bb5e5",
+      "total_cost_usd": 0.010464699999999999,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3188,
+        "cache_read_input_tokens": 7997,
+        "output_tokens": 377,
+        "output_tokens_details": {
+          "thinking_tokens": 169
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3188,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 377,
+            "cache_read_input_tokens": 7997,
+            "cache_creation_input_tokens": 3188,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3188
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1339,
+          "outputTokens": 390,
+          "cacheReadInputTokens": 7997,
+          "cacheCreationInputTokens": 3188,
+          "webSearchRequests": 0,
+          "costUSD": 0.010464699999999999,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 169,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"compliance-officer-rag-claude\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a facility-management compliance officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle. I will answer the TrustRouter L3b survey (Provenance Trust sub-parts: T_source, T_chain, T_history) strictly from my professional judgement on construction-project record trust, drawing on the dedicated RAG corpus and shared knowledge repository provided, without fabrication or overstatement of certainty.\"\n}\n```",
+      "ttft_ms": 2398,
+      "type": "result",
+      "duration_ms": 4440,
+      "uuid": "fa3137e1-a265-4e58-984e-b4f2387a93cc",
+      "ttft_stream_ms": 770,
+      "time_to_request_ms": 23,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-rag-claude",
+    "role": "Compliance and Regulatory Officer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I am a facility-management compliance officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle. I will answer the TrustRouter L3b survey (Provenance Trust sub-parts: T_source, T_chain, T_history) strictly from my professional judgement on construction-project record trust, drawing on the dedicated RAG corpus and shared knowledge repository provided, without fabrication or overstatement of certainty."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-rag-claude",
+      "role": "Compliance and Regulatory Officer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-rag-claude",
+      "role": "Compliance and Regulatory Officer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I am a facility-management compliance officer responsible for GDPR and construction-regulatory obligations across a building's operational lifecycle. I will answer the TrustRouter L3b survey (Provenance Trust sub-parts: T_source, T_chain, T_history) strictly from my professional judgement on construction-project record trust, drawing on the dedicated RAG corpus and shared knowledge repository provided, without fabrication or overstatement of certainty."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

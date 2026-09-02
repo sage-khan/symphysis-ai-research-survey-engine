@@ -81,6 +81,28 @@ def check_hosted_provider(provider: str) -> ProviderStatus:
     return ProviderStatus(provider=provider, ok=False, detail=f"{env_var} is not set")
 
 
+def check_claude_cli() -> ProviderStatus:
+    # No API key involved (see providers/claude_cli_provider.py): the
+    # actual requirement is that the `claude` binary exists and is already
+    # logged in via its own subscription auth, which `shutil.which` alone
+    # cannot confirm. A cheap, side-effect-free `claude --version` call
+    # confirms the binary is real and executable without spending an
+    # actual completion call just to run preflight.
+    import shutil
+    import subprocess
+
+    binary = shutil.which("claude")
+    if binary is None:
+        return ProviderStatus(provider="claude_cli", ok=False, detail="'claude' binary not found on PATH")
+    try:
+        result = subprocess.run([binary, "--version"], capture_output=True, text=True, timeout=10)
+    except (subprocess.TimeoutExpired, OSError) as exc:
+        return ProviderStatus(provider="claude_cli", ok=False, detail=f"'claude --version' failed: {exc}")
+    if result.returncode != 0:
+        return ProviderStatus(provider="claude_cli", ok=False, detail=f"'claude --version' exited {result.returncode}")
+    return ProviderStatus(provider="claude_cli", ok=True, detail=f"{binary} ({result.stdout.strip()})")
+
+
 def check_manual() -> ProviderStatus:
     # A human pastes every response by hand; there is no automated
     # endpoint to check. Always "ok": the check exists to catch a
@@ -94,6 +116,8 @@ def check_provider(provider: str) -> ProviderStatus:
         return check_ollama()
     if provider == "manual":
         return check_manual()
+    if provider == "claude_cli":
+        return check_claude_cli()
     return check_hosted_provider(provider)
 
 

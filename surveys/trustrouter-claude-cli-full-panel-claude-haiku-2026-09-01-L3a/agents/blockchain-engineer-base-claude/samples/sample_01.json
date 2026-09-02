@@ -1,0 +1,19 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 7
+  },
+  "others_to_worst": {
+    "IQ": 7,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "From a blockchain/DLT engineer's perspective focused on permissioned-ledger deployments and tamper-evidence guarantees, Intrinsic Quality (IQ) is the foundational criterion for construction-project records. The core value proposition of blockchain is creating immutable evidence of data presence and integrity, not correcting underlying data defects. If a record is inaccurate (wrong coordinates, specifications, or material certifications), validity-invalid (non-conforming to required schemas like IFC), or non-unique (ambiguous identity of structural elements or material batches), placing it on-chain with tamper-evidence does not remediate those problems\u2014it only makes the error permanent and widely witnessed. In construction contexts, such inaccuracy directly risks safety compliance, structural integrity, project disputes, and financial harm. Contextual Quality (CQ)\u2014completeness and timeliness\u2014is important for operational utility and decision-making, particularly for active construction coordination. However, completeness and timeliness can be enforced through data governance, schema validation, and application-layer business logic in a permissioned environment, reducing their criticality compared to the fundamental accuracy of what is recorded. Representational Quality (RQ)\u2014consistency across sources\u2014is the least critical for this use case. In a permissioned ledger with centralized governance and enforced schema, a single canonical record on-chain naturally resolves many consistency problems; this is one of blockchain's architectural advantages for construction. While consistency matters for interoperability and reducing confusion, it is more addressable through standardized encoding at the application layer than IQ or CQ failures. Internally, this ranking reflects: IQ is approximately 7 times more important than RQ, 3 times more important than CQ, with CQ approximately 2 times more important than RQ.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

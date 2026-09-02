@@ -1,0 +1,20 @@
+# Sample 1 of 3
+
+- Best: E_demand
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+From a data engineering specialist's perspective on polyglot-persistence routing for construction-project records, future demand (E_demand) is the most strategically important criterion, while tokenisation ease (E_liquidity) is the least relevant.
+
+E_demand is best because: (1) Regulatory drivers (EU digital building logbooks, lifecycle mandates) cited in the survey instrument create structural, long-term demand for construction data infrastructure. (2) Digital twins and AI-driven analytics for construction optimization represent emerging but material demand drivers that shape architectural decisions. (3) For polyglot-persistence routing, projected growth patterns determine whether to invest in blockchain, IPFS, or offchain alternatives — current adoption alone is insufficient to justify architectural choices. The reference material on polyglot persistence emphasizes that storage technology decisions depend on data type, access patterns, and performance requirements over time; future demand creates those requirements.
+
+E_liquidity is worst because: (1) Construction project records (blueprints, inspection certificates, RFI logs, progress reports) are not typically tokenized or traded as secondary-market assets. The data items themselves are not commodities. (2) Tokenisation ease does not materially affect the choice between blockchain, IPFS, or traditional databases for managing construction provenance and audit trails. (3) From a data engineering standpoint, this criterion adds minimal signal to polyglot-persistence routing decisions, which are driven by data volume, consistency requirements, query patterns, and auditability — not by tradability.
+
+E_market ranks between them because current marketplace demand, though real and growing, provides less strategic guidance than future demand for long-term architectural investment. However, it is more actionable than tokenisation ease because actual practitioners' current storage choices do inform whether to adopt blockchain for real use cases today, even if that market remains small.
+
+The rating of E_demand vs E_market (4:1) reflects that future demand is notably more important but not so overwhelmingly that current adoption signals are irrelevant. The rating of E_demand vs E_liquidity (7:1) reflects a large gap: future demand is a primary driver of infrastructure decisions, while tokenisation ease is tangential to construction data engineering.
+
+## Sources cited
+
+data_quality_and_polyglot_persistence.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

@@ -1,0 +1,19 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 2,
+    "RQ": 6
+  },
+  "others_to_worst": {
+    "IQ": 6,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "For structural-capacity dossiers serving institutional owners, insurers, and authorities over decades, Intrinsic Quality (accuracy and validity of technical content) is foundational. In the Hospital Real scenario and across building lifecycles, structural safety depends directly on whether load calculations, material properties, capacity assessments, and design assumptions are correct. Inaccurate data\u2014even if complete and consistent\u2014creates life-safety risk and exposes insurers to false confidence in structural capacity. Inaccuracy cannot be compensated by other qualities.\n\nContextual Quality (completeness and timeliness) ranks second. A structural engineer cannot properly assess building capacity, plan renovations, or verify regulatory compliance without complete documentation or current information. Twenty-year-old inspection records without recent updates create decision blindness. However, if forced to choose between perfect consistency with incomplete/outdated data versus a single, complete, accurate record, the latter serves the engineer's professional duty better.\n\nRepresentational Quality (consistency across copies) ranks third. In blockchain or distributed-ledger storage, consistency across nodes protects against tampering and drift, supporting verification of integrity. However, consistency is a necessary condition for trust, not a sufficient one for decision-making. If all copies of an inaccurate specification agree perfectly, that agreement provides false confidence. Consistency matters most as evidence that accurate, complete data has been preserved; it matters least as a substitute for substance.\n\nThe relative ratings reflect this hierarchy: IQ is twice as important as CQ because both are critical but accuracy precedes completeness in the causal chain of safety assurance. IQ is six times as important as RQ because RQ is derivative\u2014it verifies the integrity of IQ and CQ but does not substitute for either. CQ is three times as important as RQ because having the right information available is more essential than having multiple identical copies of insufficient information.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}
