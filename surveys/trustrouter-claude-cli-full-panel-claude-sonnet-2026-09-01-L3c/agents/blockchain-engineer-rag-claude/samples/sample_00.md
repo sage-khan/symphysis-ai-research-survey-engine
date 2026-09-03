@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: V_crypto
+- Worst: V_diversity
+
+## Stated reasoning (submitted with the answer)
+
+Verification Strength is defined in the questionnaire as 'strength of cryptographic and procedural audit evidence' (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, section 3.2 definition of V), and V_crypto, V_audit, V_diversity are its decomposition. From a permissioned-ledger engineering standpoint, cryptographic evidence (hashes, digital signatures, PKI) is the load-bearing mechanism that gives tamper-evidence its mathematical, non-repudiable strength -- it is what actually makes an alteration detectable and an author's claim unforgeable, which is the core value proposition of putting a record on a ledger at all rather than a conventional database. Audit trail completeness (who did what, when) is important for accountability and dispute reconstruction, but as a log it is only as trustworthy as the cryptographic anchoring underneath it (e.g. hash-chained log entries); an audit trail without crypto backing is just an assertion that could itself be edited, so I rank it as secondary and dependent on V_crypto rather than an independent equal. Diversity of verification sources (multiple independent parties) strengthens resistance to collusion and single-point failure -- this is real and relates to the kind of insider/Sybil resistance concerns raised in blockchain_trust_and_attack_resistance.md regarding on-chain identity trust gaps -- but it is a layered, reinforcing defense rather than the primary source of verification strength for a single record: a well-implemented PKI-rooted signature from one qualified party (e.g., the questionnaire's example of a chartered structural engineer's qualified electronic signature) can already constitute strong verification even without multiple independent submitters. I rated V_crypto as best and V_diversity as worst; the gap between V_crypto and V_audit (3x) is deliberately smaller than the gap between V_crypto and V_diversity (5x) because audit-trail completeness is closer in practical importance to cryptographic evidence than diversity of sources is -- this specific magnitude is a judgement call on my part, not read directly off any source, since none of the provided material ranks these three sub-parts against each other.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, blockchain_trust_and_attack_resistance.md, general_knowledge (all claims verified genuine)

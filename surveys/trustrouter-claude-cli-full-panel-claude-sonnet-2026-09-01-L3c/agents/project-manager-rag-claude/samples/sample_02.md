@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: V_audit
+- Worst: V_diversity
+
+## Stated reasoning (submitted with the answer)
+
+For a construction project record being considered for blockchain storage, the core question verification strength must answer is: can we later reconstruct who did what and when, and defend that account to an owner, insurer, or authority in a dispute? V_audit (audit trail completeness) most directly answers that -- it is the record of provenance and actor accountability that dispute resolution actually turns on, which construction_project_management_and_mcdm.md flags as the highest-cost failure mode ('an under-documented or unverifiable data item...creates the highest downstream cost if its trust cannot later be established'). V_crypto (signatures/hashes/PKI) is important but is essentially the tamper-evidence mechanism that protects an audit trail's integrity once it exists -- it's a necessary supporting technology, not the substance being verified. A cryptographically signed record with a broken or incomplete chain of custody is still hard to defend in a dispute, whereas a complete audit trail with weaker crypto is at least still forensically legible. V_diversity (multiple independent verification sources) matters most for adversarial or safety-critical data (e.g., IoT sensor tampering scenarios), but for the bulk of routine construction documentation (change orders, inspection sign-offs, approvals) a single well-audited, properly authenticated source is usually sufficient, and requiring multiple independent verifiers for every record is often impractical given real project stakeholder structures. So I rank V_audit > V_crypto > V_diversity. The gap between V_audit and V_crypto is moderate (crypto is a real and distinct value-add, not negligible) while the gap to V_diversity is larger, since diversity is more of a supplementary hardening measure than a primary trust driver for most construction records. This ranking is a professional judgement call informed by the dispute-resolution framing in the reference material, not a direct citation of a stated ranking -- the source material doesn't rank these three sub-criteria explicitly, so I'm extrapolating from its emphasis on provenance/accountability in dispute scenarios.
+
+## Sources cited
+
+construction_project_management_and_mcdm.md, general_knowledge (all claims verified genuine)

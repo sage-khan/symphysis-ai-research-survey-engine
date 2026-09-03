@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: A_insider
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+Construction blockchain deployments are almost always permissioned/consortium networks where participants (licensed contractors, chartered engineers, certifying inspectors, facility owners) are onboarded through existing industry credentialing and contractual gatekeeping rather than open, anonymous enrollment. That structural fact makes Sybil attacks (fake identities flooding the network to bias consensus or fabricate corroborating 'independent' records) the least realistic threat in this domain -- the KYC-like onboarding already inherent to construction supply chains and licensing bodies does most of the defensive work before any cryptographic mechanism is even invoked, so I rate A_sybil worst. Insider resistance is the most consequential and hardest-to-mitigate threat: a credentialed inspector, project manager, or contractor employee with legitimate write access can falsify a certification, backdate a report, or approve substandard work, and because their access is valid, standard authentication and signature checks do not catch the fraud -- it requires separation-of-duties, multi-party attestation, and audit-trail design, which is a much harder and more consequential engineering problem than keeping fake actors out. This matches well-documented construction industry integrity failures (falsified inspection/certification records, collusion) being the dominant real-world fraud pattern, more so than external identity spoofing. Oracle resistance sits in between: construction increasingly relies on IoT sensors (concrete curing, structural health monitoring, equipment telemetry) feeding data on-chain, and tampering at the sensor/device layer corrupts the record at its source regardless of downstream ledger immutability -- a serious and growing risk, but one that is more tractable via hardware attestation, redundant sensing, and calibration audits than the insider problem, and it affects a narrower slice of the data pipeline (sensor-originated records) than insider access does (which touches essentially all human-attested records). I judge this a moderately confident ranking rather than an overwhelming one -- the insider vs. oracle gap is the closer call of the two, since both are non-trivial and neither is fully solved by cryptography alone.
+
+## Sources cited
+
+general_knowledge (all claims verified genuine)

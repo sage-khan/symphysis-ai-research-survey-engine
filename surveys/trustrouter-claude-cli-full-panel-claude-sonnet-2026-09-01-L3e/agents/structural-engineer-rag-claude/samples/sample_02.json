@@ -1,0 +1,20 @@
+{
+  "best": "E_demand",
+  "worst": "E_market",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_liquidity": 2,
+    "E_market": 5
+  },
+  "others_to_worst": {
+    "E_demand": 5,
+    "E_liquidity": 3,
+    "E_market": 1
+  },
+  "reasoning": "For a structural capacity dossier (e.g. a masonry load assessment sealed by a chartered engineer), there is today essentially no active marketplace where third parties buy or sell tokenized access to that specific document \u2014 its 'customers' are the institutional owner, insurer, and authority who already receive it through normal channels, not open-market buyers. So E_market (current demand) is the weakest driver of economic value right now, and I rate it Worst. By contrast, the strongest driver of long-run economic value is E_demand: growth in regulated compliance regimes, AI-driven structural analytics, and digital-twin ecosystems that will increasingly need cryptographically anchored, provenance-verifiable structural records as an input \u2014 this matches the digital-twin/blockchain literature in structural_health_monitoring_and_digital_twins.md, which frames blockchain-anchored sensor/structural data as foundational to trustworthy digital twins, a use case whose growth is prospective rather than already monetized today. E_liquidity (technical ease of tokenising the document \u2014 hashing, unique token issuance, etc.) sits in between: it is a real enabling factor for any future economic value (you cannot capture E_demand's growth without some tokenisation mechanism), but ease of the mechanism does not by itself create demand, so it is less important than the demand trajectory itself and more important than the currently thin spot market. Ratios: I set E_demand as 5x more important than E_market (large gap between a live, low/no-market present state and a growth thesis with real regulatory and AI tailwinds), E_demand as 2x more important than E_liquidity (both matter, but the demand driver dominates the enabling mechanism), and E_liquidity as 3x more important than E_market (technical tokenisability is a meaningfully bigger contributor to future value than today's near-absent marketplace). This is a judgement call under real uncertainty \u2014 the reference material does not quantify market sizes for tokenized structural records, so the ratios reflect my professional assessment of where economic value in this specific asset class is actually headed, not a measured market figure.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "structural_health_monitoring_and_digital_twins.md",
+    "general_knowledge"
+  ]
+}

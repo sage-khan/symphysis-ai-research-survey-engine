@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: T_chain
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+From a data-engineering standpoint, what a pipeline can actually instrument and verify is the custody chain: hash chains, timestamps, digital signatures at each handoff, and lineage/audit-log records. Per data_quality_and_polyglot_persistence.md, 'a data pipeline's own audit logging and lineage tracking is often the first-hand source of evidence a Verification Strength (V) or Provenance Trust (PT) score should actually be based on' -- that is precisely T_chain's territory, and it is the signal most directly actionable when deciding whether a record's integrity justifies the cost of full on-chain storage versus hybrid/conventional routing. I rated T_chain as Best. T_source (credentials of the authoring person/org, e.g. PKI-verifiable identity) is a close second: it is also directly capturable in pipeline metadata, but it is a single point-in-time attestation rather than an evidentiary trail spanning the record's life, so I treat the T_chain-vs-T_source gap as narrow (rating 2) rather than large -- this is a genuinely close call and I don't want to overstate confidence there. T_history (has the source been reliable historically) I rated Worst: in construction projects, many contributing parties (subcontractors, one-off suppliers, new BIM tool vendors) simply lack an established track record, so this criterion is frequently unavailable or thin as an input, and even when available it is a longitudinal reputational signal closer to an insurance/vendor-management concern than something a data pipeline directly measures or enforces. That is a judgement call on my part rather than something drawn verbatim from the reference material. I did not find material in the provided sources that directly ranks these three sub-parts against each other, so the specific ratio magnitudes (2, 3, 4) reflect my own professional judgement about relative operational verifiability, calibrated to keep Best-vs-Worst consistent across both rating vectors (a_BW = 4 in each).
+
+## Sources cited
+
+data_quality_and_polyglot_persistence.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

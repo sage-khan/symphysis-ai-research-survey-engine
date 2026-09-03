@@ -1,0 +1,8 @@
+{
+  "agent_id": "structural-engineer-base-claude",
+  "did": "did:key:z6MkfkFDyriiXYLHQSvAKDEqD37TPNFypjdiGj7kufNnZkS6",
+  "method": "did:key",
+  "public_key_multibase": "z6MkfkFDyriiXYLHQSvAKDEqD37TPNFypjdiGj7kufNnZkS6",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-claude-cli-full-panel-claude-sonnet-2026-09-01:structural-engineer-base-claude')"
+}

@@ -1,0 +1,91 @@
+# Filled survey: structural-engineer-rag-claude
+
+- Agent ID: `structural-engineer-rag-claude`
+- Role / expertise: Structural Engineer
+- Model: claude_cli/sonnet
+- DID: `did:key:z6Mkt5DLWCfPfjvwPLqmLL4k9FkGGhaDdQNhDizMTWNqSoDA`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/structural-engineer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | T_source | T_chain |
+| 1 | T_source | T_history |
+| 2 | T_source | T_history |
+
+## Sample 0
+
+**Best:** T_source (Source credentials)  
+**Worst:** T_chain (Custody chain)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 1 |
+| T_chain (Custody chain) | 4 |
+| T_history (Historical track record) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 4 |
+| T_chain (Custody chain) | 1 |
+| T_history (Historical track record) | 3 |
+
+### Reasoning
+
+In structural engineering practice, the credentials of who authored a record (a licensed structural engineer's stamp, a certified inspector's sign-off, versus an unverified or unlicensed party) function as a gatekeeper: if the originating party lacks the professional standing to make the claim being recorded (e.g. a load-capacity assessment or as-built structural detail), no amount of intact custody or accumulated track record makes the content itself trustworthy for downstream reliance by insurers or regulators. This is why T_source is Best -- it mirrors how PE/CEng stamping already operates as the primary legal and professional trust anchor for structural documentation ('T_source: Quality of authoring source (person/organisation)', shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md). T_history (has this source been reliable before) is the second-most important sub-part: it substantiates or discounts the credential claim over time, and a firm/individual with strong credentials but a poor track record of errors or disputed reports is a real, recurring concern in dossier reliance over decades. T_chain (custody-chain integrity from creation to submission) I rank Worst of the three, not because it is unimportant, but because it is the sub-part that blockchain-based recording is most directly and mechanically suited to solving on its own (immutable timestamping, hash-chained handoffs) -- it is a process-integrity check rather than a substantive judgement about the originating party's competence or reliability, and a technically clean custody chain cannot rescue data that was unreliable or fabricated at the point of creation by an uncredentialed or historically unreliable source. This is a professional judgement call, not a certainty -- T_chain and T_history are reasonably close in importance (both matter for a decades-long reliance case), and I flag that explicitly rather than overstating the gap.
+
+## Sample 1
+
+**Best:** T_source (Source credentials)  
+**Worst:** T_history (Historical track record)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 1 |
+| T_chain (Custody chain) | 2 |
+| T_history (Historical track record) | 4 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 4 |
+| T_chain (Custody chain) | 2 |
+| T_history (Historical track record) | 1 |
+
+### Reasoning
+
+For a structural-capacity dossier that insurers, regulators, and owners will rely on for decades, the foundational trust question is: was this record produced by someone with the standing and accountability to be believed in the first place? T_source (credentials of the authoring person/organization -- e.g. a PE/CEng stamp, an accredited testing lab) is the primary legal and technical trust anchor: a licensed engineer's stamped calculation carries defined professional liability and legal standing that no amount of downstream process integrity can substitute for, and an unqualified source cannot be rescued by a perfect custody chain. I therefore rank T_source as Best. T_chain (custody-chain integrity from creation to submission) is also structurally important -- especially since blockchain's whole rationale is tamper-evidence across the many handoffs a record experiences over a building's lifetime (renovations, ownership changes, regulatory resubmissions) -- but it is a step removed from the credentialing question: chain integrity tells you the record wasn't altered, not whether the original author was competent to produce it, and in practice a break in the chain can sometimes be partially compensated by independent re-verification (re-inspection, cross-checking against as-built records) in a way that a lack of qualification cannot. T_history (the source's historical track record) is the weakest of the three: it is a derived, probabilistic heuristic -- useful as a secondary signal but neither a legal nor a technical guarantee. A newly licensed, fully qualified engineer's first-ever stamped report is not inherently less trustworthy for lack of track record, and a source with a long good history can still produce an isolated bad record; this makes it the least load-bearing criterion, hence Worst. The rating magnitudes reflect this ordering being real but not extreme -- source credentials clearly outweigh custody chain but the two are not orders of magnitude apart (ratio 2), while historical track record is materially less decisive than either (ratio 4 versus source, 2 versus chain), giving an internally consistent ranking. This is my own professional judgement about how these three provenance sub-factors matter for construction structural records; the survey's shared knowledge material defines the three sub-parts' meanings (T_source/T_chain/T_history table) but does not itself state a relative importance ranking, so I am not asserting the material supports one ordering over another.
+
+## Sample 2
+
+**Best:** T_source (Source credentials)  
+**Worst:** T_history (Historical track record)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 1 |
+| T_chain (Custody chain) | 3 |
+| T_history (Historical track record) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 5 |
+| T_chain (Custody chain) | 3 |
+| T_history (Historical track record) | 1 |
+
+### Reasoning
+
+For a structural-capacity dossier that insurers, regulators, and owners will rely on for decades, the root question is: who actually produced this data and are they qualified to certify it? T_source (source credentials) is the gatekeeping property in structural engineering practice — a load-bearing assessment or as-built structural record only carries professional and legal weight if it originates from a licensed/chartered engineer or an accredited testing body (analogous to a stamped/sealed drawing). Without credentialed authorship, nothing downstream in the trust chain can compensate. T_chain (custody integrity from creation to submission) is also clearly important, especially in a blockchain-storage context whose whole technical value proposition is tamper-evident custody tracking — a credentialed source's report is still worthless if it can be shown to have been altered before submission, so I place it second rather than far behind. T_history (historical track record) I rate lowest of the three: it is a useful but indirect, inferential signal — a newly licensed engineer or a new testing lab has no track record yet but may still produce perfectly sound, credentialed, chain-of-custody-intact data, and conversely a long clean track record does not verify that this specific record is authentic or unaltered. Track record is a probabilistic prior about the source, not a direct property of the record's provenance the way credentials and custody chain are, so it should carry the least weight of the three sub-parts. This is a genuine judgement call rather than a settled finding from the literature: the gap between T_source and T_chain (3x) is real but not overwhelming since both are direct provenance properties, while the gap to T_history (5x) reflects that track record is one step further removed as an inferential rather than intrinsic signal.

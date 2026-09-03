@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+For a structural-capacity dossier that insurers, regulators, and owners will rely on for decades, I judge Intrinsic Quality (IQ: accuracy, validity, uniqueness) as Best because it addresses whether the underlying values themselves are correct — a load-test result, a rebar diameter, or a foundation-monitoring reading that is inaccurate or invalid is dangerous regardless of how complete, timely, or consistently replicated it is. This is reinforced by structural_health_monitoring_and_digital_twins.md, which flags 'sensor drift' as a core data-quality failure mode for structural monitoring — sensor drift is precisely an accuracy/validity (IQ) failure with direct consequence-of-error for structural safety. Contextual Quality (CQ: completeness, timeliness) ranks second: the same reference material also flags 'missed anomaly windows' as a critical failure mode, which is a timeliness (CQ) problem, so I do not treat CQ as marginal — a record can be perfectly accurate yet arrive too late or cover too narrow a scope to catch a failure precursor. I placed Representational Quality (RQ: consistency across copies) as Worst because it is the narrowest of the three clusters (a single facet, versus IQ's three and CQ's two) and, importantly, consistency-across-copies is largely the failure mode that blockchain-based storage itself is designed to structurally eliminate by maintaining one canonical, tamper-evident record — once a record is anchored on a shared ledger, divergent copies become far less likely, whereas no amount of blockchain immutability fixes an underlying value that was wrong or arrived late. I rated IQ vs CQ at 2 (clearly more important but both are safety-relevant per the sensor-drift/missed-anomaly-window pairing in the reference material) and IQ vs RQ at 6 (a much larger gap, since accuracy is foundational and consistency is a narrower, more procedurally-remediable concern), with CQ vs RQ at 3 to keep the implied transitive ratio (2x3=6) consistent with the direct IQ-to-RQ ratio of 6. This is a judgement call under genuine uncertainty — CQ's timeliness component is safety-critical enough that the IQ-CQ gap is real but not large, and I say so explicitly rather than overstating separation between them.
+
+## Sources cited
+
+structural_health_monitoring_and_digital_twins.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

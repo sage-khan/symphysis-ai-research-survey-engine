@@ -1,0 +1,19 @@
+{
+  "best": "T_source",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_source": 1,
+    "T_chain": 3,
+    "T_history": 5
+  },
+  "others_to_worst": {
+    "T_source": 5,
+    "T_chain": 3,
+    "T_history": 1
+  },
+  "reasoning": "For a structural-capacity dossier that insurers, regulators, and owners will rely on for decades, the root question is: who actually produced this data and are they qualified to certify it? T_source (source credentials) is the gatekeeping property in structural engineering practice \u2014 a load-bearing assessment or as-built structural record only carries professional and legal weight if it originates from a licensed/chartered engineer or an accredited testing body (analogous to a stamped/sealed drawing). Without credentialed authorship, nothing downstream in the trust chain can compensate. T_chain (custody integrity from creation to submission) is also clearly important, especially in a blockchain-storage context whose whole technical value proposition is tamper-evident custody tracking \u2014 a credentialed source's report is still worthless if it can be shown to have been altered before submission, so I place it second rather than far behind. T_history (historical track record) I rate lowest of the three: it is a useful but indirect, inferential signal \u2014 a newly licensed engineer or a new testing lab has no track record yet but may still produce perfectly sound, credentialed, chain-of-custody-intact data, and conversely a long clean track record does not verify that this specific record is authentic or unaltered. Track record is a probabilistic prior about the source, not a direct property of the record's provenance the way credentials and custody chain are, so it should carry the least weight of the three sub-parts. This is a genuine judgement call rather than a settled finding from the literature: the gap between T_source and T_chain (3x) is real but not overwhelming since both are direct provenance properties, while the gap to T_history (5x) reflects that track record is one step further removed as an inferential rather than intrinsic signal.",
+  "sources_used": [
+    "general_knowledge",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md"
+  ]
+}

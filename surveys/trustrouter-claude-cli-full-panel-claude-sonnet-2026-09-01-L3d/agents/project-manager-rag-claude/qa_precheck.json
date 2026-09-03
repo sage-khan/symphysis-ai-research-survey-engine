@@ -1,0 +1,175 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-rag-claude",
+    "role": "Construction Project Manager",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"project-manager-rag-claude\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I will evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for construction-project blockchain data trust as a Construction Project Manager, grounding my Best/Worst comparisons in the shared knowledge repository and my dedicated RAG corpus where available, without fabricating sources or capabilities beyond those granted.\"\n}",
+    "model": "sonnet",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 4403,
+      "stop_reason": "end_turn",
+      "session_id": "ccc478de-7d70-4f60-b155-9a97be3c6f3f",
+      "total_cost_usd": 0.0215924,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3867,
+        "cache_read_input_tokens": 10932,
+        "output_tokens": 253,
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3867,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 253,
+            "cache_read_input_tokens": 10932,
+            "cache_creation_input_tokens": 3867,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3867
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1324,
+          "outputTokens": 16,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001404,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-sonnet-5": {
+          "inputTokens": 2,
+          "outputTokens": 253,
+          "cacheReadInputTokens": 10932,
+          "cacheCreationInputTokens": 3867,
+          "webSearchRequests": 0,
+          "costUSD": 0.020188400000000002,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-sonnet-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "{\n  \"agent_id\": \"project-manager-rag-claude\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I will evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for construction-project blockchain data trust as a Construction Project Manager, grounding my Best/Worst comparisons in the shared knowledge repository and my dedicated RAG corpus where available, without fabricating sources or capabilities beyond those granted.\"\n}",
+      "ttft_ms": 3397,
+      "type": "result",
+      "duration_ms": 3431,
+      "uuid": "edece541-7232-4ed4-ae6f-4781bc82ef17",
+      "ttft_stream_ms": 848,
+      "time_to_request_ms": 25,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-rag-claude",
+    "role": "Construction Project Manager",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "Understood: I will evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for construction-project blockchain data trust as a Construction Project Manager, grounding my Best/Worst comparisons in the shared knowledge repository and my dedicated RAG corpus where available, without fabricating sources or capabilities beyond those granted."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-rag-claude",
+      "role": "Construction Project Manager",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-rag-claude",
+      "role": "Construction Project Manager",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "Understood: I will evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for construction-project blockchain data trust as a Construction Project Manager, grounding my Best/Worst comparisons in the shared knowledge repository and my dedicated RAG corpus where available, without fabricating sources or capabilities beyond those granted."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

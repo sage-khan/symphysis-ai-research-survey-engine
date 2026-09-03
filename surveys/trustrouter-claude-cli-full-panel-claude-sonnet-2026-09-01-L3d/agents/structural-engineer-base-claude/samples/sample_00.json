@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_insider": 6,
+    "A_oracle": 5,
+    "A_sybil": 1
+  },
+  "reasoning": "For a multi-decade construction-project record relied on by insurers, regulators, and owners, the most damaging and hardest-to-defend attack is insider misuse: a chartered engineer, inspector, or contractor with legitimate signing credentials who falsifies a structural assessment, compliance sign-off, or material certificate. Cryptographic controls (signatures, hashes) don't stop someone with valid authority from attesting to something false in the first place -- that requires procedural/governance controls (segregation of duties, multi-party attestation, audit trails), which is a much harder and more consequential problem than the other two attack types, and construction has well-documented real-world cases of falsified inspection or certification records. Oracle resistance (sensor/device tampering) is a real and growing concern given increasing use of structural health monitoring IoT feeds, but a large share of construction documentation is still human-authored professional judgement rather than continuous automated sensor streams, so I rate it as clearly important but secondary to insider risk. Sybil resistance (fake identities) is the least critical of the three in this specific context because construction data ecosystems intended for institutional/insurer/regulator reliance are almost always permissioned or consortium-style rather than open/anonymous public networks -- participants are typically pre-vetted through professional licensure (chartered engineer registers, contractor licensing, procurement KYC), which substantially reduces the marginal value of on-chain Sybil defences compared to the other two attack surfaces. The reference material I was given (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) confirms Attack Resistance (A) is a top-level TrustRouter factor and shows the Best-Worst comparison table structure for this block, but it does not itself define or rank the three A sub-parts, so the substantive comparison here rests on my own domain judgement rather than being drawn directly from that text. This is a moderately close call between insider and oracle risk -- both are legitimate, non-trivial threats -- and I want to be explicit that the insider-over-oracle ranking, while I believe it's correct for construction's governance-heavy environment, is not an overwhelming margin.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

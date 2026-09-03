@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: V_crypto
+- Worst: V_diversity
+
+## Stated reasoning (submitted with the answer)
+
+In a blockchain-anchoring context for construction-project records, Verification Strength is fundamentally about whether a claim can be independently proven not to have been altered. Cryptographic evidence (signatures, hashes, PKI) is the mechanism that actually delivers that proof and is native to the ledger technology itself -- it is what makes tampering mathematically detectable regardless of who is looking. Audit-trail completeness (who did what, when) is a strong second: it supplies the procedural context that lets a reviewer interpret and trust the crypto evidence (e.g., whose key signed, at what workflow stage), but on its own an audit log is just an assertion unless backed by cryptographic binding, so it is logically downstream of V_crypto rather than co-equal. Diversity of verification sources is genuinely valuable for corroboration, but in practice construction records are often single-sourced by necessity (one inspector, one sensor feed, one BIM export) and diversity is expensive/infeasible to engineer for many record types; more importantly, additional independent sources do not compensate for weak cryptographic proof or a broken audit chain -- three unsigned, unlogged confirmations are not obviously stronger than one signed, fully-logged one. That is why I placed it lowest, though I note the V_audit vs V_diversity gap is the least clear-cut of the three judgments, since a strong case can be made that redundant corroboration meaningfully reduces single-point-of-failure risk in adversarial settings. My best_to_others ratios (1, 2, 5) and others_to_worst ratios (5, 3, 1) reflect crypto as the clear anchor, audit as a solid but secondary pillar, and diversity as the most conditional/hardest-to-guarantee of the three in this domain.
+
+## Sources cited
+
+shared knowledge: trustrouter_concept_paper_primer.md, general_knowledge (all claims verified genuine)

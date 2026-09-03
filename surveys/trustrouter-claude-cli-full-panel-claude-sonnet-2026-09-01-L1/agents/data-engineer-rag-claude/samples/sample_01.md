@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: DVS
+- Worst: E
+
+## Stated reasoning (submitted with the answer)
+
+I chose DVS as Best because it is the composite trustworthiness score (quality, provenance, verification, etc., per the L2 breakdown in the shared questionnaire) that answers the threshold question a data engineer actually cares about first: is this record even worth preserving immutably? Feasibility, economic stakes, and attack resistance are all downstream of that judgement -- a perfectly feasible, high-value, tamper-resistant placement of low-quality or unprovenanced data just immutably enshrines garbage, which is worse than not recording it. F (Technical Feasibility Fit) is my second-ranked factor and genuinely close to DVS in importance: from a polyglot-persistence routing perspective (data_quality_and_polyglot_persistence.md's discussion of routing heterogeneous artefacts to specialized stores by structural/performance fit, e.g. the Prasad & S B smart-grid case splitting time-series/relational/graph workloads), F is the hard technical gate -- a 20MB drawing set or 5MB/day photo stream simply cannot go on-chain regardless of how trustworthy or valuable it is, so it acts as a second near-binary constraint alongside DVS. A (Attack Resistance) ranks third: it matters for integrity assurance but is more of a property you engineer around a routing decision already justified by DVS and F, rather than a reason to route in the first place. E (Economic Value) is Worst: structurally the survey's own formula treats it as an additive modifier (1+E) rather than a multiplicative gate like the other three, meaning even at E=0 the score isn't zeroed out -- the instrument itself signals E as a secondary amplifier, not a core determinant. It's also the factor most detached from this role's actual technical remit (data quality assessment, provenance/lineage, and storage-fit routing); economic exposure is a business-risk overlay layered on top of, not a substitute for, the data-engineering trust and feasibility assessment. The DVS-vs-F gap is the one comparison I'd flag as genuinely close rather than clear-cut; both are near-gating factors in practice and reasonable data engineers could swap their order depending on whether they weight intrinsic data trust or storage-layer practicality more heavily.
+
+## Sources cited
+
+data_quality_and_polyglot_persistence.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

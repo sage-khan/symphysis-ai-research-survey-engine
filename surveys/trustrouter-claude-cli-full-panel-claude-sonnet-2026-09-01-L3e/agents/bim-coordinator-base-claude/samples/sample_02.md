@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: E_demand
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+For a public institutional asset like the Granada hospital renovation, the economic case for putting construction-project records on a blockchain rests primarily on where demand is heading, not where it stands today. E_demand (regulated digital building logbooks, EU digital-twin and ESG/compliance mandates, long-term facility-management analytics) is the driver that would justify the infrastructure investment over the building's multi-decade life, because institutional owners, insurers, and authorities are the parties who will progressively be required or incentivized to consume verifiable lifecycle data as these regulatory and digital-twin frameworks mature. E_market (current marketplace demand) is real but narrower today -- a handful of insurers/authorities already want structural and compliance documentation, so it's a meaningful but smaller-magnitude driver than the trajectory captured by E_demand. E_liquidity (ease of tokenising the record as a tradeable asset) is the least relevant of the three from a BIM-coordination standpoint: public institutional building records for a hospital are not designed to be traded as financial instruments, and tokenisation/tradability is a speculative, largely orthogonal concern to the actual data-trust and lifecycle-documentation function these records serve. I rated E_demand vs E_market at 3 (future regulatory/digital-twin growth is a clearly stronger value driver than the present snapshot of buyers, but current demand still has real weight, so not an extreme gap) and E_demand vs E_liquidity at 7 (tokenisation ease is nearly incidental for this asset class). Mirroring that, E_market vs E_liquidity is rated 3, keeping the two tables roughly consistent. This is a judgement call grounded in the Hospital Real reference scenario's institutional/public-asset framing from the shared knowledge glossary, combined with my own domain experience of how BIM/blockchain economic value is actually realized on renovation projects -- not a precise, independently-sourced ratio.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

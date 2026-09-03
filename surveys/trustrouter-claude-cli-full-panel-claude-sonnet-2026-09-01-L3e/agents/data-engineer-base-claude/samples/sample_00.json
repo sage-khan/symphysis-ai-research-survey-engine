@@ -1,0 +1,19 @@
+{
+  "best": "E_demand",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_market": 3,
+    "E_liquidity": 6,
+    "E_demand": 1
+  },
+  "others_to_worst": {
+    "E_market": 3,
+    "E_liquidity": 1,
+    "E_demand": 6
+  },
+  "reasoning": "Per the shared knowledge glossary (3.7), E_market is present marketplace demand, E_liquidity is ease of tokenisation/tradability, and E_demand is projected future demand tied to lifecycle, regulation, and analytics growth. For construction-project records considered for blockchain storage, the underlying economic thesis of TrustRouter is about long-term data trust value, not short-term resale markets. Construction data (BIM models, inspection certs, provenance logs) accrues value over the asset's lifecycle -- for facility management, warranty claims, regulatory audits (e.g., digital building logbook mandates emerging in EU contexts), and AI/digital-twin training pipelines. That trajectory of growing regulated and analytics-driven demand (E_demand) is what should most drive a data-trust investment decision today, since it captures durable, structural growth rather than a snapshot of current market appetite. E_market (current buyers) is real but narrower and more volatile -- it reflects today's niche demand (e.g., from specific compliance auditors or dispute-resolution parties) without indicating whether that demand persists or grows. E_liquidity (tokenisation ease) is the weakest driver: construction-project records are highly heterogeneous, often bound to specific projects/jurisdictions, and lack the fungibility or standardized valuation needed for efficient tokenised trading -- tokenisation is a mechanism for realizing value, not a source of value itself, and is largely irrelevant if there is no underlying demand to tokenise against. Hence E_demand > E_market > E_liquidity. Ratings: I rate E_demand vs E_market at 3 (future/regulatory demand growth is a meaningfully stronger driver of a data asset's economic value than current buyer count, but current demand isn't negligible), and E_demand vs E_liquidity at 6 (tokenisation mechanics are a distant third-order concern for construction records specifically). Symmetrically, E_market vs E_liquidity at 3 reflects that current demand still clearly outweighs tradability ease. This is a judgement call grounded in the construction-data-lifecycle reasoning above rather than an explicit ranking given in the reference material, which only defines the three sub-dimensions without prescribing their relative weights.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

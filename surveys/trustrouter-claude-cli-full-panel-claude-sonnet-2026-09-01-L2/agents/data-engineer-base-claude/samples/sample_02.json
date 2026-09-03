@@ -1,0 +1,25 @@
+{
+  "best": "C",
+  "worst": "Q",
+  "best_to_others": {
+    "Q": 6,
+    "PT": 3,
+    "V": 4,
+    "IC": 3,
+    "L": 2,
+    "C": 1
+  },
+  "others_to_worst": {
+    "Q": 1,
+    "PT": 4,
+    "V": 3,
+    "IC": 4,
+    "L": 5,
+    "C": 6
+  },
+  "reasoning": "Framing this as a routing decision for whether a construction record goes full on-chain, hybrid, or conventional storage, the deciding question is: what is the cost of being wrong? Criticality (C) captures exactly that -- the magnitude of impact if the data is erroneous or disputed (e.g., a structural load calculation vs. a routine site photo). A pipeline can tolerate mediocre quality or weak verification on a low-stakes record, but it cannot tolerate under-protecting a high-criticality one, and conversely it would be wasteful to over-invest expensive on-chain verification machinery on a trivial record. This makes C the primary lever that determines how much the other five dimensions even matter for a given record, which is why I rate it Best. Quality (Q) is the intrinsic/contextual fidelity of the record per shared knowledge (trustrouter_expert_questionnaire_v5_real_survey_instrument.md, section 3.2) -- it matters, but in a blockchain-routing context it is the most 'fixable downstream' dimension: a low-quality record can often be corrected, re-validated, or resubmitted, whereas a bad routing decision on a high-criticality record (e.g., under-verifying a safety-critical structural signoff) has consequences that are much harder to reverse. That relative fixability is why I place Q as Worst, not because quality is unimportant in absolute terms. Legal Compliance (L) sits close behind Criticality for me -- regulatory mandates on construction records (permits, safety signoffs) often directly encode criticality judgements made by an external authority, so L is a close second; I flagged this as a genuinely close call rather than a clear-cut one. Verification Strength (V) and Provenance Trust (PT) are the mechanisms by which trust is established for a given criticality/legal profile, so they sit in the middle, and Independent Confirmation (IC) is a slightly weaker signal than direct cryptographic verification since it relies on external parties' agreement rather than tamper-evidence. These middle rankings (PT, V, IC, L) reflect my own professional judgement about how these mechanisms interact in a polyglot-persistence routing pipeline, since the provided reference material defines the six dimensions but does not itself rank their relative importance.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

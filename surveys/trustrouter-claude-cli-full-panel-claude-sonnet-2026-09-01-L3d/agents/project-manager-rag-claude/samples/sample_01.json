@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_insider": 6,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "For construction-project records, most of the documentation that would be candidates for blockchain storage (change orders, inspection sign-offs, payment certifications, compliance attestations) is created and attested to by known, credentialed parties operating on a permissioned or consortium-style network -- owner, general contractor, architect/engineer of record, inspector, regulator. In that setting, fake-identity (Sybil) attacks are the least realistic threat, because participant identity is already established through contractual and licensing relationships (PE/CEng credentials, registered firms, regulatory bodies) rather than open, permissionless peer admission -- so A_sybil is Worst. Insider resistance (malicious legitimate access) is Best because the highest-frequency, highest-cost integrity failures I have actually seen on projects are not outsiders forging identities but legitimately-credentialed parties abusing real access -- an inspector backdating or fabricating a sign-off, a PM altering a change order, a subcontractor forging a certification. construction_project_management_and_mcdm.md's summary of Gartoumi 2024 explicitly ties blockchain's demonstrated value to dispute-resolution and document-management use cases, which are precisely the scenarios where an authorized-but-dishonest actor tampering with a record creates the highest downstream cost -- this is a direct grounding for ranking insider resistance highest. Oracle resistance (sensor/device tampering) sits in between: it matters increasingly as IoT-based structural health monitoring, environmental sensors, and delivery/material tracking feed data onto-chain, and a compromised oracle undermines everything downstream regardless of the ledger's own integrity -- but for the bulk of a construction project's actual attack surface, which remains manual/documentary rather than sensor-driven, it is a somewhat less pervasive concern than insider abuse of legitimate access, and clearly a larger practical concern than Sybil identity forgery in a permissioned network. I want to flag that the insider-vs-oracle gap is a closer call than the gap to Sybil -- both are genuine, growing risks, and as sensor-based monitoring becomes more central to construction data pipelines the oracle-resistance concern could rise further; my 3x is a moderate rather than extreme differential reflecting that closeness.",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "general_knowledge"
+  ]
+}

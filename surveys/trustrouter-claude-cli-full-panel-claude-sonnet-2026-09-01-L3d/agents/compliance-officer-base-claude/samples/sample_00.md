@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: A_insider
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+From a facility-management compliance officer's viewpoint (GDPR + construction-regulatory obligations), insider resistance (A_insider) is the most consequential of the three attack-resistance sub-parts because it addresses misuse by parties who already hold legitimate, authenticated access -- e.g. a site manager, subcontractor QA lead, or facility operator with valid credentials altering or exfiltrating records. This is precisely the scenario GDPR's accountability and integrity/confidentiality principles (Art. 5(1)(f), 32) and construction quality-assurance regimes are most exposed to, since standard access-control and authentication layers do nothing to stop an already-authorized actor, and detecting/attributing such tampering after the fact is the hardest audit problem a compliance officer faces across a building's operational lifecycle. Oracle resistance (A_oracle) is a real but narrower concern: it matters mainly to the extent the project relies on IoT sensors or automated device feeds for provenance (e.g. environmental monitoring, structural sensors), and while tampering there corrupts data at the source, it is a more classical technical-security problem with established mitigations (secure hardware, redundant sensing, attestation). Sybil resistance (A_sybil) I rank as least critical in this specific context because construction-project blockchain deployments described in the reference material are consortium/permissioned networks where participants (chartered engineers, licensed contractors, regulators) are vetted and onboarded through real-world credentialing before ever writing to the ledger -- this vetting step substantially pre-empts fake-identity attacks compared to open/permissionless settings, making it the least urgent of the three sub-parts even though it is not irrelevant. The ratings reflect a moderate rather than extreme spread (insider ~2x oracle, ~4x sybil) because all three are genuine, non-trivial attack-resistance dimensions in the source questionnaire's A pillar, and I do not have empirical incident-rate data to justify a more extreme separation -- this comparison is closer than a 9-scale spread would imply, and I want to flag that explicitly rather than overstate confidence.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

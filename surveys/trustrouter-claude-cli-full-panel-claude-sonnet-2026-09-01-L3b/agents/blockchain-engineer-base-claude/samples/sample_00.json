@@ -1,0 +1,19 @@
+{
+  "best": "T_source",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_source": 1,
+    "T_chain": 2,
+    "T_history": 4
+  },
+  "others_to_worst": {
+    "T_source": 4,
+    "T_chain": 3,
+    "T_history": 1
+  },
+  "reasoning": "Provenance Trust concerns whether a construction-data record's origin can be trusted before it is ever committed to a ledger. Of the three sub-parts, T_source (credentials/identity of the authoring person or organisation) is the most fundamental: it establishes whether the entity that produced the record (e.g., a certified surveyor, an accredited testing lab, a licensed engineer of record) had the standing to produce trustworthy data in the first place. If the source itself is not credentialed or identifiable, neither an intact custody chain nor a good historical track record can compensate, because both of those are properties layered on top of an already-identified actor. T_chain (custody-chain integrity from creation to submission) is a close second: it verifies that whatever the credentialed source produced was not altered, substituted, or mishandled en route to the ledger gateway, which is operationally critical for tamper-evidence but presupposes a known source to begin with. T_history (the source's historical reliability) is the weakest of the three for a single-record trust decision: it is a useful Bayesian prior for weighting future submissions, but it is backward-looking, slow to accumulate for new or infrequent contributors, and can be gamed by an actor with a long clean history who then submits a compromised record via a broken custody chain -- so it adds the least discriminating power at the moment a specific record needs to be trusted. Hence T_source is Best, T_history is Worst, with T_chain rated closer to T_source than to T_history because chain-of-custody failures are a direct, high-frequency vector for tampering in permissioned-ledger deployments in my operational experience, whereas historical reputation is more of a secondary heuristic. The T_source vs T_history gap (rated 4) and T_chain vs T_history gap (others-to-worst of 3) reflect that both source credentials and custody integrity are meaningfully more decisive than track record, but I acknowledge the T_source/T_chain distinction itself is a closer call than the numbers might suggest -- reasonable engineers could swap their relative weight depending on whether the deployment's primary threat model is impersonation (favors T_source) or interception/mutation in transit (favors T_chain).",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

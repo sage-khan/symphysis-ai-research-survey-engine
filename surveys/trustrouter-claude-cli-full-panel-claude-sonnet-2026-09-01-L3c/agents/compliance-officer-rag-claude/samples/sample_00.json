@@ -1,0 +1,21 @@
+{
+  "best": "V_audit",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_audit": 1,
+    "V_crypto": 2,
+    "V_diversity": 5
+  },
+  "others_to_worst": {
+    "V_audit": 5,
+    "V_crypto": 3,
+    "V_diversity": 1
+  },
+  "reasoning": "As a compliance officer, the question I actually need answered for a construction record is 'can we demonstrate, on inspection or dispute, exactly who did what and when' -- that is a direct match to GDPR's accountability principle and to construction regulatory chain-of-custody/inspection-log requirements. V_audit (who did what, when) is what a regulator, auditor, or court actually asks for; it is the substantive compliance narrative. V_crypto (signatures, hashes, PKI) is important as a tamper-evidence mechanism that makes the audit trail trustworthy, but a valid signature on its own, without a complete who/what/when record, does not establish regulatory compliance -- it proves a datum wasn't altered, not that the process behind it was sound. That is why I rate Best (V_audit) only about 2x V_crypto rather than far higher: crypto evidence is a strong, near-essential complement, not a weak criterion. V_diversity (multiple independent verification sources) is the criterion I rate lowest within this V-decomposition specifically because its substantive value -- corroboration by independent parties -- is already the dedicated purpose of the separate Independent Confirmation (IC) dimension at L2 (per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md and trustrouter_concept_paper_primer.md, which list IC as 'independent cross-checks... second independent audit' distinct from V). Within V itself, diversity of sources is the least load-bearing sub-factor for the compliance question I actually have to answer, hence Worst. The GDPR/data-governance material (gdpr_and_data_governance.md) reinforces this from a different angle: the recurring finding across the catalogued sources (Wilson et al. 2019; Vaziry et al. 2024) is that blockchain's tension with GDPR (e.g. right to erasure) is fundamentally a governance/audit-trail-and-accountability problem, not primarily a cryptographic-strength problem -- which supports weighting audit-trail completeness above raw cryptographic evidence. This is a judgement call rather than a settled fact: V_crypto vs V_audit was the closer comparison of the three, since strong cryptographic evidence is genuinely close to being co-primary with audit completeness in practice; I resolved it toward audit trail because that is what regulatory and contractual compliance reviews are actually built around.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "gdpr_and_data_governance.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "best": "T_chain",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_source": 2,
+    "T_chain": 1,
+    "T_history": 4
+  },
+  "others_to_worst": {
+    "T_source": 3,
+    "T_chain": 4,
+    "T_history": 1
+  },
+  "reasoning": "As a BIM coordinator, day-to-day trust decisions on federated models hinge on being able to reconstruct exactly what happened to a piece of data between creation and submission -- which task team touched it, what transformation or re-export occurred, whether it passed through the sequence of checks ISO 19650's information-delivery process requires before a federated model is accepted (reference: bim_and_digital_building_logbooks.md, citing UK BIM Framework/CIC/BSI/CDBB 2019 guidance on ISO 19650 Part 2). That custody-chain integrity is the actual mechanism practitioners rely on to catch a tampered or corrupted record even when the originating author is fully credentialed, which is also the specific tamper-evidence value proposition blockchain storage is meant to add per the survey's own framing of DLT (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md). I therefore rank T_chain as Best. T_source (who produced it) matters -- a certified structural engineer's stamped drawing carries more initial weight than an unverified subcontractor upload -- but credentials alone say nothing about what happened to the file afterward, so I place it second, roughly twice as important as T_history but clearly behind T_chain. T_history (has this source been reliable before) is the Worst of the three in my judgement: it is a slow-moving, indirect signal that is often thin or unavailable for newer subcontractors, sensor feeds, or one-off suppliers on a given project, and a generally reliable source can still submit a corrupted record if the custody chain for that specific artifact breaks down -- so it is the least actionable of the three for routing an individual record's trust decision, even though it is not irrelevant. This is a genuine judgement call rather than a settled fact from the literature; the provided sources establish that independent, process-based validation (chain-like) is the real-world mechanism ISO 19650 uses, but they do not directly rank track record against the other two, so that part of my ordering rests on my own BIM-coordination experience.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

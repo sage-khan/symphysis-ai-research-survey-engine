@@ -1,0 +1,19 @@
+{
+  "best": "E_market",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_market": 1,
+    "E_demand": 2,
+    "E_liquidity": 4
+  },
+  "others_to_worst": {
+    "E_market": 4,
+    "E_demand": 2,
+    "E_liquidity": 1
+  },
+  "reasoning": "None of the provided reference material (blockchain_trust_and_attack_resistance.md, SOURCES.md) specifically addresses tokenisation mechanics or demand forecasting for construction data assets -- it is focused on attack resistance, identity, and trust-scoring (A/V/PT territory), so this ranking is primarily my own engineering judgement, with the shared survey instrument material used only to confirm that Economic Value (E) enters the BSI composite as a (1+E) multiplier alongside DVS, F, and A. Within that frame, I treat E_market (verifiable, present-tense buyer demand) as Best because it is the only one of the three sub-criteria that is directly observable and auditable today -- an engineer sizing whether committing a record to costly, low-throughput permanent ledger storage is worthwhile can point to actual current buyers as hard evidence, whereas the other two sub-criteria are inherently more speculative. E_demand (future, regulated/AI/digital-twin-driven growth) is rated a consistent 2x below E_market: it is directionally important, since on-chain commitments are long-lived and a rational routing decision should weight where demand is heading, not just where it stands, but it remains a forecast, not a fact, and forecasts around AI-training-data and digital-twin markets in particular are prone to hype-driven overstatement, which an engineer evaluating technical/economic tradeoffs should discount relative to demonstrated demand. E_liquidity (tokenisation ease) is Worst because, from a systems-engineering standpoint, ease-of-tokenisation is an enabling/mechanical property of the asset representation layer, not a demand signal in itself -- a dataset that is trivially easy to fractionalise and trade into tokens still has zero economic value if nobody wants it, while a dataset with strong current or future demand retains real value even if tokenising it requires more custom engineering work (e.g., bespoke smart-contract logic, off-chain custody arrangements). I rated E_market 4x E_liquidity and E_demand 2x E_liquidity (with E_market 2x E_demand), which is an internally consistent set (2x2=4) reflecting that liquidity mechanics are a genuinely secondary consideration once demand -- current or projected -- is established, though I acknowledge the E_market vs E_demand call is the closer of the two comparisons and a reasonable case could be made for weighting future regulated/AI demand growth more heavily given the long-lived nature of on-chain commitments.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

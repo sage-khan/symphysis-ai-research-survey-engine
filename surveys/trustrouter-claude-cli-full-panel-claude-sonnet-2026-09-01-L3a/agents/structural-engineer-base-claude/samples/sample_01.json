@@ -1,0 +1,19 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "For a construction-project record (structural, energy, compliance documentation) intended for decades-long reliance by owners, insurers, and authorities, Intrinsic Quality (IQ: accuracy, validity, uniqueness) is the most fundamental cluster: if the underlying data is inaccurate, invalid, or duplicated/ambiguous, no amount of contextual fit or cross-copy consistency can make the record trustworthy for structural-capacity decisions. Accuracy of a load-test certificate or a structural survey result is a precondition for everything downstream. Contextual Quality (CQ: completeness, timeliness) matters a great deal in this domain too -- a structural dossier missing scope or referencing an outdated inspection cycle is a real liability -- but it is one tier below IQ because completeness/timeliness issues are typically detectable and correctable (a gap can be flagged and filled, a stale cert reissued) whereas an intrinsically inaccurate record can silently propagate error. Representational Quality (RQ: consistency across sources/copies) is important for reconciling ledger-distributed copies but is essentially a synchronization/integrity property built on top of already-existing content; if the source data itself (IQ) is sound and complete (CQ) but copies are briefly inconsistent, that is a more recoverable failure mode (resync, hash-check, latest-version pointer) than a fundamentally wrong or missing record. This ordering (IQ > CQ > RQ) reflects my professional judgement as a structural engineer about which failure mode most directly threatens capacity-assessment reliability, applied to the ISO 25012 cluster definitions given in the shared knowledge reference. The IQ-vs-CQ gap is a real judgement call and reasonably close -- both are central to engineering records -- so I rate it a moderate 3 rather than an extreme value, while RQ trails further behind as the most mechanical/recoverable of the three, hence 5.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

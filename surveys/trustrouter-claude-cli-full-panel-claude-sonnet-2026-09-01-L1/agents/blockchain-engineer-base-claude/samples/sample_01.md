@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: F
+- Worst: E
+
+## Stated reasoning (submitted with the answer)
+
+From a permissioned-ledger engineering standpoint, Technical Feasibility Fit (F) is the hardest gate in the routing decision. F = 1 - P captures whether the artefact's size, update cadence, and latency profile can even be accommodated by the ledger (block size/gas limits, write throughput, finality time). No matter how trustworthy (DVS), valuable (E), or attack-sensitive (A) a construction record is, if it structurally cannot fit ledger constraints (e.g., a full BIM/IFC coordination model versus a hash pointer), it must be routed hybrid or off-chain regardless of the other three scores -- this is an engineering reality I've seen block naive 'put everything on-chain' proposals in practice. That makes F the most influential factor for the routing decision itself, ahead of DVS (composite data trustworthiness) and A (tamper-resistance need), both of which matter greatly but presuppose the record is even a feasible candidate for the ledger. I ranked Attack Resistance (A) above Economic Value (E) because A speaks directly to blockchain's core value proposition -- tamper-evidence -- which is the technical reason to choose a ledger over a conventional database at all, whereas E is a downstream stakes multiplier. I placed Economic Value (E) as least influential for a structural reason grounded in the survey's own composite formula (TrustRouter = DVS x F x (1+E) x A, noted in this survey's grounding rules): DVS, F, and A all enter as direct multiplicative terms that can drive the whole score to zero if absent, but E enters as (1+E), so even at E=0 the product is undiminished by E specifically -- mathematically E can only scale the result upward, never gate it to zero the way a poor technical fit, low data trust, or weak attack resistance can. That asymmetry, combined with the fact that high-value records without adequate provenance/verification or without ledger fit still shouldn't go on-chain, made E the clear Worst choice for me. The comparison between DVS and A was the closest call in this set -- both are strong, substantive trust dimensions, and I only slightly favored DVS because the questionnaire's own DVS definition subsumes provenance and verification-strength constituents that overlap conceptually with attack resistance, making DVS the broader upstream gate.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

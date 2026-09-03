@@ -1,0 +1,20 @@
+{
+  "best": "T_source",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_source": 1,
+    "T_chain": 3,
+    "T_history": 4
+  },
+  "others_to_worst": {
+    "T_source": 4,
+    "T_chain": 2,
+    "T_history": 1
+  },
+  "reasoning": "In a BIM federation context, T_source (who authored the data -- which discipline lead, task team, or certified authority) is the foundational gate: ISO 19650's information-delivery process (bim_and_digital_building_logbooks.md, citing UK BIM Framework 2019) requires task-team and lead-appointed-party validation to establish accountable authorship before a model or record is even accepted into the federated environment. Without credentialed source identity, neither custody nor track record can be meaningfully evaluated -- you cannot verify a chain of custody or a reliability history for an unattributed record. T_chain (custody chain integrity from creation to submission) is the second most important: BUILDCHAIN DBL's use of W3C decentralized identifiers and verifiable credentials (bim_and_digital_building_logbooks.md, Kochovski et al. 2026) is explicitly built to make custody tamper-evident across the IFC/legacy-CAD/sensor-log chain, which matters greatly for a multi-decade logbook but is a downstream check that presumes source identity is already established. T_history (has this source been reliable historically) is real but, from a coordinator's daily practice, the least decisive of the three at the point of accepting a record into the model: track record is a slower-moving, reputational signal that supplements rather than substitutes for verifying who authored a given deliverable and how it moved custody-wise; a source with a good history can still submit a compromised or misattributed record on a given day, so I weight it lowest. This is a judgement call from professional practice (federation/clash-detection workflows) rather than a hard finding in the cited literature, which does not itself rank these three sub-parts against each other. The T_source-vs-T_chain gap is the closer call of the two -- both are clearly more load-bearing than T_history in my experience, so I did not push the ratio to extremes.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

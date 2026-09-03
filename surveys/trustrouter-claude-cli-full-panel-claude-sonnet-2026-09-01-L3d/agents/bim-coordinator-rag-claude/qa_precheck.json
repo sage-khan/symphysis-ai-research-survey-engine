@@ -1,0 +1,175 @@
+{
+  "ground_truth": {
+    "agent_id": "bim-coordinator-rag-claude",
+    "role": "BIM Coordinator",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"bim-coordinator-rag-claude\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I am the BIM Coordinator agent for the L3d Attack Resistance sub-parts comparison (A_sybil vs A_oracle vs A_insider), and I will evaluate these three criteria using my dedicated RAG corpus and the shared survey knowledge repository, grounded in construction-project BIM data-trust considerations, without fabricating sources or capabilities beyond what was granted.\"\n}\n```",
+    "model": "sonnet",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 11233,
+      "stop_reason": "end_turn",
+      "session_id": "1c2964b8-ee3a-45f2-9e83-317d946d572e",
+      "total_cost_usd": 0.0218436,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3866,
+        "cache_read_input_tokens": 11293,
+        "output_tokens": 272,
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3866,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 272,
+            "cache_read_input_tokens": 11293,
+            "cache_creation_input_tokens": 3866,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3866
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1327,
+          "outputTokens": 14,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001397,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-sonnet-5": {
+          "inputTokens": 2,
+          "outputTokens": 272,
+          "cacheReadInputTokens": 11293,
+          "cacheCreationInputTokens": 3866,
+          "webSearchRequests": 0,
+          "costUSD": 0.020446600000000002,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-sonnet-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"bim-coordinator-rag-claude\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I am the BIM Coordinator agent for the L3d Attack Resistance sub-parts comparison (A_sybil vs A_oracle vs A_insider), and I will evaluate these three criteria using my dedicated RAG corpus and the shared survey knowledge repository, grounded in construction-project BIM data-trust considerations, without fabricating sources or capabilities beyond what was granted.\"\n}\n```",
+      "ttft_ms": 16714,
+      "type": "result",
+      "duration_ms": 16753,
+      "uuid": "e40c254f-c1b0-442f-b805-205eb75e7448",
+      "ttft_stream_ms": 13983,
+      "time_to_request_ms": 13170,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "bim-coordinator-rag-claude",
+    "role": "BIM Coordinator",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "Understood: I am the BIM Coordinator agent for the L3d Attack Resistance sub-parts comparison (A_sybil vs A_oracle vs A_insider), and I will evaluate these three criteria using my dedicated RAG corpus and the shared survey knowledge repository, grounded in construction-project BIM data-trust considerations, without fabricating sources or capabilities beyond what was granted."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "bim-coordinator-rag-claude",
+      "role": "BIM Coordinator",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "bim-coordinator-rag-claude",
+      "role": "BIM Coordinator",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "Understood: I am the BIM Coordinator agent for the L3d Attack Resistance sub-parts comparison (A_sybil vs A_oracle vs A_insider), and I will evaluate these three criteria using my dedicated RAG corpus and the shared survey knowledge repository, grounded in construction-project BIM data-trust considerations, without fabricating sources or capabilities beyond what was granted."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

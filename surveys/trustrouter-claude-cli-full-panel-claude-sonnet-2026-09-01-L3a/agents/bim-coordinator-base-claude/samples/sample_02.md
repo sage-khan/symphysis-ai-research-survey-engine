@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+For a construction-project record considered for permanent, immutable blockchain storage, Intrinsic Quality (IQ: accuracy, validity, uniqueness) is the most fundamental cluster: if the underlying values themselves are wrong, duplicated, or invalid, no amount of contextual completeness or cross-copy consistency can compensate -- you would simply be anchoring an incorrect record permanently and authoritatively. From a BIM coordination standpoint, this mirrors clash-detection and handover practice: a federated model with wrong dimensions or invalid element data is worse than one that is merely incomplete, because errors propagate irreversibly downstream into structural, compliance, and insurance decisions over decades (per the Hospital Real scenario in shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md). Contextual Quality (CQ: completeness, timeliness) matters -- a record missing scope or out of date is a real risk -- but it is a lesser failure mode than intrinsic wrongness: an incomplete-but-accurate record can be supplemented, whereas an inaccurate one actively misleads. Representational Quality (RQ: consistency across copies/sources) I rate lowest of the three: in a well-governed multi-stakeholder BIM federation, version/consistency conflicts are typically caught and reconciled through federation and clash-detection workflows before data is committed to a trust ledger, and blockchain immutability itself is partly aimed at solving cross-copy consistency problems once data is IQ-sound. So RQ is more a downstream/structural safeguard than a primary quality driver. The IQ vs CQ gap is moderate (3x) -- both are clearly important, and this is a judgement call rather than a clear-cut fact; the CQ vs RQ gap is smaller in my own confidence, so the ratios reflect a genuine but not extreme ordering: IQ > CQ > RQ. I did not find explicit relative-weighting guidance among IQ/CQ/RQ in the primer document beyond the additive formula structure, so the numeric ratios themselves are my own professional judgement, not a value read from the reference material.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, shared knowledge: trustrouter_concept_paper_primer.md, general_knowledge (all claims verified genuine)

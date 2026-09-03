@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+For a construction record destined for blockchain storage, Intrinsic Quality (accuracy, validity, uniqueness) is the bedrock: a structural test certificate, inspection sign-off, or change order that is inaccurate or invalid is actively dangerous and legally exposed regardless of how complete, timely, or consistent its copies are — writing wrong data immutably to a ledger is worse than not writing it at all, so IQ has to come first. Contextual Quality (completeness, timeliness) matters a great deal in practice — an incomplete change-order record or a stale inspection date genuinely undermines trust for institutional owners, insurers, and authorities over a multi-decade asset lifecycle (per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md's framing of CQ as 'right scope and time') — but a record that is accurate yet partially incomplete is still usable and correctable, whereas an inaccurate one is not. Representational Quality (consistency across copies/sources) I rate lowest of the three specifically in the blockchain-storage context: the whole architectural premise of putting construction documentation on a distributed ledger (as surveyed in construction_project_management_and_mcdm.md's review of blockchain's demonstrated benefits in document management and dispute resolution) is that it structurally resolves the multi-copy-disagreement problem by design, so RQ contributes comparatively less marginal trust value once you've already chosen blockchain as the storage mechanism — and consistent-but-wrong copies don't help anyone anyway. This is a judgement call rather than a settled fact: CQ vs RQ was the closer comparison of the three, since both completeness and consistency are recognized ISO 25012 concerns for multi-stakeholder documentation, and a different construction PM weighing dispute-resolution scenarios more heavily could reasonably rate RQ above CQ.
+
+## Sources cited
+
+construction_project_management_and_mcdm.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

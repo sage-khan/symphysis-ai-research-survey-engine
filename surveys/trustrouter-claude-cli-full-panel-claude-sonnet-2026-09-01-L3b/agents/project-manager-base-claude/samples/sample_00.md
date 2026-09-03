@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: T_source
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+As a construction PM deciding how much provenance evidence a record needs before it can be trusted for institutional, insurance, or regulatory use, the identity and credentials of the author (T_source) are foundational: a stamped structural report from a licensed engineer or a certified test from an accredited lab carries legal and professional accountability that nothing downstream can substitute for. If the source's credentials are not verifiable, the rest of the provenance question becomes moot because there is no accountable party to stand behind the data. Custody chain integrity (T_chain) is the second-most important sub-part -- it addresses whether the specific record was altered between creation and submission, which matters a great deal for disputes and audits, but it presumes a credentialed source already exists to define what 'unaltered' means against. Historical track record (T_history) is the weakest of the three for a given record: it is a backward-looking, aggregate heuristic (has this source been reliable before?) that can inform risk scoring or spot-checking priorities, but it does not verify this particular document's authorship or its custody, and a source with a good track record can still submit a compromised or unauthorized record. That is why I placed T_source as Best, T_chain as a clear second, and T_history as Worst, with a moderate (not extreme) gap reflecting that all three sub-parts genuinely matter to provenance trust and the comparison between T_chain and T_history is closer than between T_source and either. The provided survey glossary (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) frames these exactly as 'quality of authoring source,' 'integrity of custody chain,' and 'historical track record of the source,' which is the basis for this comparison; the relative weighting itself is my own professional judgement as a project manager coordinating multi-stakeholder documentation, not something the glossary itself ranks.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

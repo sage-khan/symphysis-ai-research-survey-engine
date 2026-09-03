@@ -1,0 +1,19 @@
+{
+  "best": "A_oracle",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_oracle": 1,
+    "A_insider": 2,
+    "A_sybil": 5
+  },
+  "others_to_worst": {
+    "A_oracle": 5,
+    "A_insider": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "For construction-project records destined for blockchain storage, especially structural monitoring/digital-twin data of the kind discussed in structural_health_monitoring_and_digital_twins.md, the most fundamental attack-resistance concern is the 'garbage in, garbage out' problem: a blockchain's immutability and cryptographic guarantees do nothing to protect against a tampered or drifting sensor feeding it false readings in the first place. That material explicitly discusses multi-sensor and multi-party validation schemes 'to catch a single faulty or tampered sensor before its reading is trusted' -- this is precisely what A_oracle (oracle/device tampering resistance) scores, and for a structural digital twin a corrupted sensor reading can mean a missed failure precursor with direct life-safety consequences. I therefore ranked A_oracle as Best. A_insider (malicious legitimate access, e.g. a certifying engineer or inspector falsifying a report) is also a serious and well-known real-world integrity failure mode in construction, so I placed it second rather than last -- it is a judgement call drawn from general professional knowledge of construction fraud/falsification incidents rather than from the provided reference material, which does not specifically address insider threats. A_sybil (fake-identity attacks) I judged Worst because construction-project blockchain deployments described in this survey's context (institutional owners, insurers, authorities, chartered engineers with signed/credentialed submissions) are realistically permissioned/consortium networks with vetted, KYC'd participants, not open public chains -- so the practical attack surface for creating disposable fake identities to subvert consensus or voting is comparatively narrow and low-probability next to the near-certain, high-consequence risk of a tampered sensor or a malicious insider abusing legitimate credentials. This is a genuinely close call between A_insider and A_sybil for the bottom position since both fall short of A_oracle's direct link to physical-asset integrity, but the permissioned-network assumption tips it toward A_sybil being least critical. The ratings reflect that A_oracle is judged materially more important than A_insider (ratio 2), and substantially more important than A_sybil (ratio 5), with A_insider correspondingly rated as more important than A_sybil (ratio 3) for internal consistency across the two comparison vectors.",
+  "sources_used": [
+    "structural_health_monitoring_and_digital_twins.md",
+    "general_knowledge"
+  ]
+}

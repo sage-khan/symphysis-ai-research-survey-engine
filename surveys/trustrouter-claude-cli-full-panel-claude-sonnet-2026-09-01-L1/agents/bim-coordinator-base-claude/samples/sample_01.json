@@ -1,0 +1,21 @@
+{
+  "best": "DVS",
+  "worst": "F",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 7,
+    "E": 3,
+    "A": 2
+  },
+  "others_to_worst": {
+    "DVS": 7,
+    "F": 1,
+    "E": 5,
+    "A": 6
+  },
+  "reasoning": "From a BIM coordinator's perspective managing federated models and lifecycle documentation across owners, insurers, and authorities, the question TrustRouter is really answering is: does this record deserve durable, tamper-evident storage, and is it trustworthy enough to bear that weight? DVS is the composite that actually encodes trustworthiness -- per the shared knowledge glossary it bundles Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal compliance and Criticality, i.e. the substantive attributes a coordinator checks before treating a model or document as authoritative (e.g. a signed structural report vs. an unverified sketch). That makes it the anchor factor: without adequate DVS, nothing else in the pipeline matters, because you'd be immutably preserving low-trust data. F (Technical Feasibility Fit = 1-P, fit to ledger size/update-rate/latency constraints) is a real-world engineering gate I deal with constantly in model federation (large IFC exports, frequent clash-detection updates don't fit cheaply on-chain), but it reflects storage-system practicality, not the intrinsic trust or stakes of the record -- a highly trustworthy, high-value document doesn't become less important because it's hard to fit on a ledger; it just forces an off-chain-hash workaround. That is why I rank it worst for 'importance' in this comparison set, even though it is operationally necessary. A (Attack Resistance) is close behind DVS in importance because tamper-evidence is arguably blockchain's core value proposition for compliance and insurance disputes over decades -- I placed it second rather than tied with DVS because attack resistance is meaningless to invest in if the underlying data was never trustworthy to begin with (DVS is the precondition). E (Economic Value) sits between A and F: high stakes justify stronger protection and is a legitimate prioritization lever I use when deciding which records get the most scrutiny, but on its own it doesn't establish whether a record is trustworthy or securable, only how much it would hurt if compromised -- and the survey's own formula (1+E) treats it as an amplifier rather than a gating factor the way DVS, F and A are, which reinforced my judgement that it is not the top driver. I want to flag that the DVS-vs-A call and the E-vs-A call were the least clear-cut parts of this ranking -- a reasonable case could be made to swap A ahead of DVS given blockchain's core purpose is tamper detection, so I'm not claiming high confidence on the exact 2 vs 3 spacing, only on the overall ordering DVS > A > E > F.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

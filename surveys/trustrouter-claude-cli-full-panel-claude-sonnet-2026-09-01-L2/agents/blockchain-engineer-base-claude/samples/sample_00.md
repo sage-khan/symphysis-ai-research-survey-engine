@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: V
+- Worst: Q
+
+## Stated reasoning (submitted with the answer)
+
+As a blockchain/DLT engineer evaluating what actually justifies routing construction-project data onto a tamper-evident ledger, Verification Strength (V) is the criterion most directly tied to what DLT infrastructure technically provides: per the shared glossary, V is 'strength of cryptographic and procedural audit evidence' (e.g., a qualified electronic-signature dossier plus tamper-evidence). That is precisely the property a ledger adds that conventional storage cannot -- it is the engineering payload of the whole exercise, so I rank it Best. Criticality, Provenance Trust and Legal Compliance are all close seconds (rated 2x V) because in practice they co-determine how much verification rigor is warranted -- high-impact, regulated, or high-provenance-risk records are exactly the ones where strong cryptographic evidence earns its cost -- but none of them is itself the technical mechanism that delivers trust, so they sit below V. Independent Confirmation (rated 3x V) is valuable (multi-party attestation reduces single-point manipulation) but is a procedural supplement to, not a substitute for, cryptographic verification, so it ranks slightly lower still. Quality (Q) is Worst: 'intrinsic and contextual fidelity' (e.g., an IFC-valid model) is a necessary precondition for any data to be useful at all, but it is largely orthogonal to the blockchain-specific value proposition -- a technically clean file gains no additional trust from being on-chain, and a technically messy file is not made trustworthy by verification strength either. For the specific decision this survey frames (full on-chain vs hybrid vs conventional routing), Q is the dimension whose value is least changed by the presence or absence of DLT, which is why I rate the Best/Worst gap (V vs Q) at the high end of the scale. I want to flag that PT, L, IC and C are genuinely close to each other in importance from this role's perspective -- the ranking among them is a much closer call than the V-vs-Q extremes, and a different engineer weighting regulatory exposure more heavily could plausibly swap L or C ahead of PT.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

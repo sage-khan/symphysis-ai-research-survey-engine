@@ -1,0 +1,91 @@
+# Filled survey: compliance-officer-rag-claude
+
+- Agent ID: `compliance-officer-rag-claude`
+- Role / expertise: Compliance and Regulatory Officer
+- Model: claude_cli/sonnet
+- DID: `did:key:z6Mkiny4nghtEZgRh1GDTK1uVN3K6yiWKovHursQ4YEVJq2c`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/compliance-officer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | IQ | RQ |
+| 1 | IQ | RQ |
+| 2 | IQ | RQ |
+
+## Sample 0
+
+**Best:** IQ (Intrinsic Quality)  
+**Worst:** RQ (Representational Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 1 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 5 |
+| CQ (Contextual Quality) | 3 |
+| RQ (Representational Quality) | 1 |
+
+### Reasoning
+
+Framing this as a compliance officer deciding what construction-project data is safe and sound to commit to an immutable ledger, the decisive concern is whether the values are right in the first place. IQ (accuracy, validity, uniqueness) is foundational: per gdpr_and_data_governance.md, blockchain's immutability directly conflicts with GDPR's right to erasure/rectification, so an inaccurate or invalid record written to chain cannot later be corrected -- it becomes a standing compliance liability with no remedy, exactly the governance gap that same source says the construction sector has failed to develop rigorous criteria for. That makes 'are the values right in themselves' (per the IQ definition in trustrouter_expert_questionnaire_v5_real_survey_instrument.md) the highest-stakes cluster for an irreversible-storage decision. CQ (completeness, timeliness -- 'right scope and time') is a real but lesser concern: a record that is accurate but incomplete or late (e.g. a delayed energy-performance disclosure) is a compliance problem, but a correctable one going forward, unlike baked-in inaccuracy. RQ (consistency across sources) I rate worst here: cross-source consistency matters, but in the TrustRouter architecture (per trustrouter_concept_paper_primer.md) that role substantially overlaps with the separate Independent Confirmation (IC) dimension at L2, making it comparatively narrower and less load-bearing within this specific IQ/CQ/RQ triple than getting the datum itself right or complete-and-current. Ratings: IQ is moderately more important than CQ (2) since both concern the data's own adequacy, but IQ clearly dominates RQ (5) given the irreversibility argument; CQ over RQ (3) reflects that scope/timing defects are still more central to the record's own fitness than a cross-source consistency defect. This is a judgement call rather than a source-derived ranking -- the reference material defines the three clusters but does not itself rank them, so the ordering reflects my own compliance-risk reasoning applied to those definitions.
+
+## Sample 1
+
+**Best:** IQ (Intrinsic Quality)  
+**Worst:** RQ (Representational Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 1 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 4 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 4 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 1 |
+
+### Reasoning
+
+This level decomposes Q (Quality) into ISO 25012's three clusters per the concept-paper primer: IQ = accuracy+validity+uniqueness ('are the values right in themselves'), CQ = completeness+timeliness ('right scope and time'), RQ = consistency across sources. From a compliance-officer standpoint, IQ is best because it is the precondition for everything downstream: a record that is inaccurate, invalid, or duplicated is a liability the moment it is written, and because blockchain storage is immutable, an IQ failure becomes a permanent, unerasable compliance defect rather than a correctable one -- this is the same immutability tension that gdpr_and_data_governance.md raises regarding erasure rights, and by extension applies to correcting an inaccurate committed record. GDPR's data-quality/accuracy principle (an accuracy obligation on controllers) reinforces this from general regulatory knowledge, not from the provided corpus itself, which discusses erasure rather than accuracy specifically -- I flag that distinction explicitly. CQ ranks second: completeness and timeliness determine whether a record satisfies a specific regulatory purpose (e.g. a mandatory disclosure filed late, or a compliance record missing a required field, can fail a statutory obligation even when every value present is individually correct) -- a real but secondary concern relative to whether the underlying values are themselves right. RQ ranks worst: consistency across sources is a valuable comparative/fraud-detection signal (does this record agree with an independent copy?) but it presupposes that the records being compared already have some baseline accuracy and complete scope; it functions more as a corroboration check layered on top of IQ and CQ than as an independent determinant of the datum's own trustworthiness, and it is the cluster least directly anchored to a specific binding regulatory obligation in the material I was given. The ratings are kept moderate (max ratio 4, not extreme) and internally consistent (IQ:CQ=2, CQ:RQ=2, IQ:RQ=4) because all three clusters sit under a single L2 dimension (Q) and the differentiation between them, while real, is less stark than differentiation across L2's six top-level dimensions would be -- this is a judgement call on my part, not something the reference material quantifies.
+
+## Sample 2
+
+**Best:** IQ (Intrinsic Quality)  
+**Worst:** RQ (Representational Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 1 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 6 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 6 |
+| CQ (Contextual Quality) | 3 |
+| RQ (Representational Quality) | 1 |
+
+### Reasoning
+
+From a compliance-officer standpoint, IQ (accuracy, validity, uniqueness) is the most fundamental cluster: if the underlying values in a construction record are wrong, invalid, or duplicated, no amount of completeness, timeliness, or cross-source consistency can rescue the record's evidentiary or regulatory value. This mirrors GDPR Article 5(1)(d)'s accuracy principle and the general audit logic that a record's core factual correctness is a precondition for everything downstream -- once written to an immutable ledger, an inaccurate value becomes a permanent compliance liability (per gdpr_and_data_governance.md's discussion of the erasure/immutability tension, where the underlying quality of what gets committed matters precisely because it cannot later be corrected). CQ (completeness + timeliness) matters for meeting disclosure and reporting obligations (e.g. energy performance or building-code disclosure windows) but a complete, on-time record built on inaccurate values is still non-compliant, so I rank it below IQ. RQ, defined here narrowly as consistency across sources, is the least critical of the three for most construction records: many records originate from a single authoritative source (a single sensor, a single certifying engineer) where cross-source consistency is not even applicable, and where it is applicable it functions more as a secondary fraud/discrepancy check than as a primary quality determinant. The gap between IQ and RQ is real but not extreme -- consistency checks remain a legitimate red flag in disputes -- so I placed it at 6 rather than 9, reflecting a considered but not maximal separation. This is a judgement call grounded in the shared knowledge instrument's definitions (IQ = accuracy/validity/uniqueness, CQ = completeness/timeliness, RQ = consistency across sources) plus general regulatory-compliance reasoning about which failures are correctable versus terminal once data is committed on-chain; it is not drawn from a specific empirical ranking in the cited sources.

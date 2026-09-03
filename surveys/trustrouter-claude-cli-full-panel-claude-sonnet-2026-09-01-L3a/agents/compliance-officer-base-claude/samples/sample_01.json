@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 2,
+    "RQ": 6
+  },
+  "others_to_worst": {
+    "IQ": 6,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "Per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md (section 3.3), IQ covers accuracy, validity and uniqueness -- i.e., whether the values recorded for a construction datum are correct in themselves. From a compliance officer's standpoint this is the foundational layer: a record that is inaccurate, invalid (e.g. fails a schema/format/regulatory test) or duplicated cannot satisfy any downstream legal or contractual purpose, and because blockchain storage is append-only/immutable, committing an inaccurate value is far harder to remedy than a record that is merely incomplete or momentarily consistent across sources. CQ (completeness, timeliness) matters for meeting regulatory deadlines and full-scope disclosure (e.g. energy performance certificates, safety dossiers), so it is clearly important but is meaningful only once the underlying values are themselves correct -- an on-time, complete record built on wrong figures is still non-compliant. RQ (consistency across sources) is the least distinctive of the three for this comparison: at the parent level of the TrustRouter model (per shared knowledge: trustrouter_concept_paper_primer.md), cross-party agreement is already captured explicitly by Independent Confirmation (IC), so within the Q-cluster decomposition RQ's marginal compliance value is comparatively lower -- it addresses whether different copies of a record agree with each other, which is a narrower and partially redundant concern next to getting the value right (IQ) and getting the scope/timing right (CQ). Hence IQ = Best, RQ = Worst, with CQ positioned intermediate but closer to IQ than to RQ, reflecting that completeness/timeliness failures are a more serious compliance risk than mere cross-source representational inconsistency. I set best_to_others and others_to_worst so the implied IQ:CQ ratio is consistent across both tables (2 in each direction), acknowledging this specific 3-way ranking is a judgement call rather than something the reference material states outright -- the primer and instrument define the three clusters but do not themselves rank IQ above CQ above RQ.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

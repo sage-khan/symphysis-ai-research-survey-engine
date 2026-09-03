@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: T_source
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+Decomposing Provenance Trust into who produced the data (T_source), what happened to it in transit (T_chain), and whether the source has been reliable historically (T_history), I judge T_source as most important. For a structural-capacity dossier that insurers, regulators, and owners will rely on for decades, the fundamental gate is whether the originating person or organisation had the competence, licensure, and authority to produce that record in the first place (e.g., a licensed structural engineer of record vs. an unverified party) -- this is the credential check that determines whether the data is admissible as evidence at all, and it is verifiable at the moment of creation independent of what happens afterward. T_chain (custody integrity from creation to submission) is the second-most important: even data from a credentialed source is compromised if the chain of custody is broken or tamper-prone, so it matters a great deal but is secondary to establishing who created the data. T_history (the source's track record) is the weakest of the three for this specific decomposition: while a good track record is reassuring, it is an inferential, probabilistic signal rather than a direct check on this particular record's validity -- a normally reliable source can still produce a flawed record, and a newly onboarded but properly credentialed engineer or firm should not be penalized purely for lacking a long track record. This ranking is a professional judgement call based on how these sub-factors would function in practice for construction dossiers under long-term third-party reliance (insurers, regulators, owners), not a finding drawn directly from the reference material, which defines the three sub-parts but does not itself rank them. The T_chain vs T_history distinction is the closer call of the two gaps -- both are meaningfully secondary to T_source, but I still see chain-of-custody integrity as more load-bearing for legal/technical admissibility than historical reputation.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

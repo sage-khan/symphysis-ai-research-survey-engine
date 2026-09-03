@@ -1,0 +1,26 @@
+{
+  "best": "C",
+  "worst": "IC",
+  "best_to_others": {
+    "C": 1,
+    "L": 2,
+    "PT": 3,
+    "V": 4,
+    "Q": 5,
+    "IC": 8
+  },
+  "others_to_worst": {
+    "C": 8,
+    "L": 6,
+    "PT": 5,
+    "V": 4,
+    "Q": 3,
+    "IC": 1
+  },
+  "reasoning": "As a PM deciding how much verification/blockchain infrastructure a construction record deserves, the driving question is always 'what happens if this is wrong or disputed later' \u2014 that is Criticality (C). A structural sign-off or statutory certificate that turns out to be falsified or unverifiable causes the highest downstream cost (rework, safety exposure, litigation), which is exactly the dispute-resolution scenario documented in [construction_project_management_and_mcdm.md] (Gartoumi 2024): 'the review's dispute-resolution use cases are exactly the scenario where an under-documented or unverifiable data item ... creates the highest downstream cost if its trust cannot later be established.' Legal Compliance (L) is a close second \u2014 regulatory mandates (statutory inspection certs, GDPR-covered records per [shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md]) create hard, non-negotiable trust requirements \u2014 but L is often itself a proxy for anticipated criticality (regulations exist because the underlying risk is high), so I rank it just behind C rather than above it. Provenance Trust (PT) and Verification Strength (V) follow: PT (per the instrument's own DVS table, e.g. 'signed report from a chartered structural engineer') and V (cryptographic/procedural audit evidence) are the mechanisms by which trust is established, but they are instrumental to, not the ultimate driver of, why trust matters for a given record. Quality (Q) \u2014 intrinsic/contextual fidelity such as IFC validity \u2014 matters for usability but a technically clean record with low criticality and no legal weight (e.g. routine daily photos) still doesn't justify heavy on-chain investment, so I place it below PT/V. Independent Confirmation (IC) is Worst in my judgment: in real construction workflows, most records are produced and attested by a single authoritative party (one chartered engineer, one accredited lab, one inspector), and routinely obtaining multiple independent corroborating parties for every document is both atypical and cost/schedule-prohibitive on real projects. It is the trust dimension least often practically available or acted upon when a PM is deciding how to route a record, even though in principle it would strengthen trust. My best-to-others and others-to-worst values are set to preserve a consistent ranking (C > L > PT > V > Q > IC) across both vectors, with the C-vs-IC ratio (8) held equal in both directions for internal consistency. I want to flag this is a genuine judgement call, not a settled fact \u2014 L vs C in particular was close, since a strict regulatory reading could just as easily place L first.",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

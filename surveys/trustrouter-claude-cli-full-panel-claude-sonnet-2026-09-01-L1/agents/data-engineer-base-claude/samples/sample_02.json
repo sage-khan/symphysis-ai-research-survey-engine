@@ -1,0 +1,21 @@
+{
+  "best": "DVS",
+  "worst": "E",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 3,
+    "E": 6,
+    "A": 2
+  },
+  "others_to_worst": {
+    "DVS": 6,
+    "F": 2,
+    "E": 1,
+    "A": 3
+  },
+  "reasoning": "TrustRouter combines these multiplicatively as DVS x F x (1+E) x A. That structural detail matters for ranking: DVS, F, and A are direct multipliers that can collapse the whole score toward zero if low, while E enters as (1+E), meaning even at E=0 the factor is 1 and never zeroes out the result -- E is designed as an amplifier of consequence, not a gate on whether data belongs on a ledger at all. Given that, I put DVS as Best: it is the composite trustworthiness measure (quality, provenance, verification strength, independent confirmation, legal compliance, criticality per the shared knowledge glossary) and is the actual substance the whole TrustRouter concept exists to score -- a construction record with weak DVS shouldn't go on-chain no matter how valuable or well-protected it is. F (technical feasibility fit) is a hard practical gate too -- the instrument explicitly frames F as deciding routing to full on-chain, hybrid, or conventional storage (e.g., a 20MB drawing set literally cannot sit on many ledgers regardless of trust), so it ranks second, well above E but below DVS since feasibility is an engineering constraint rather than a trust judgement. A (attack resistance) is also a genuine gate on trust -- undetectable manipulation risk directly undermines the point of ledger storage -- so I placed it above E but below DVS and F, since in practice for construction records feasibility constraints (size/update-rate/latency) tend to bind routing decisions more concretely than incremental attack-resistance differences once basic tamper-evidence is present. E (economic value at stake) is Worst: it matters for prioritizing which records deserve extra scrutiny or investment, but structurally and practically it doesn't determine whether a record is trustworthy, whether it fits the ledger, or how hard it is to tamper with -- it scales consequences rather than gating suitability. This is a judgement call rather than a settled fact, and the DVS-vs-A comparison in particular was the closest call for me, since both are trust-related; I resolved it toward DVS being more foundational because DVS is explicitly the composite trust score into which several trust constituents (including verification strength, which overlaps conceptually with attack resistance) already feed.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

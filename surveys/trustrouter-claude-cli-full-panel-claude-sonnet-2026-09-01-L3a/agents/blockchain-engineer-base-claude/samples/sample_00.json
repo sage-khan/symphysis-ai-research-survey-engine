@@ -1,0 +1,19 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "From a blockchain engineering standpoint, the defining risk of committing a construction record to a tamper-evident ledger is that errors become effectively permanent once written and hashed/chained -- correction requires an explicit, auditable amendment event rather than a silent fix. That makes Intrinsic Quality (accuracy, validity, uniqueness) the gating concern: if a record is inaccurate, invalid against schema/business rules, or a duplicate, no amount of later completeness or cross-source agreement rescues it, and you've durably enshrined bad data. I therefore rank IQ as Best. Contextual Quality (completeness, timeliness) matters for whether a record is fit for the operational decision at hand (e.g., a completeness gap on a safety certificate, or staleness of an inspection date), which is real but secondary to whether the record's core content is even correct -- a complete, timely record that is factually wrong is arguably worse than an accurate but partial one, since the latter can be supplemented via a follow-up ledger entry while the former actively misleads. I placed CQ in the middle. Representational Quality here reduces to a single sub-facet (consistency across sources), which is a valuable reconciliation signal in multi-stakeholder BIM/IFC environments but is narrower in scope than the other two composite clusters, and in practice a permissioned DLT's append-only, single-shared-ledger design already mitigates much of the cross-source divergence problem by construction (once parties write to the same chain, divergence is visible and attributable) -- it doesn't need as much independent weighting as accuracy/validity or completeness/timeliness. That made RQ my Worst. The ratios reflect a moderate, not extreme, spread since all three clusters are genuine ISO 25012 quality facets and none is negligible; this is a judgement call on relative emphasis rather than a large, obvious gap, and I want to flag that the IQ-vs-CQ comparison in particular is closer than the ratios might suggest -- both matter substantially for whether a record deserves on-chain permanence.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

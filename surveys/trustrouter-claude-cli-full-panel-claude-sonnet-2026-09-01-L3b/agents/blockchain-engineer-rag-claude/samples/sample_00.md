@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: T_chain
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+In a permissioned-ledger deployment for construction-project data, T_chain (custody chain integrity from creation to submission) is the criterion that most directly maps onto what blockchain/DLT technology actually verifies and enforces: hash chains, signed hand-offs, timestamped submission events, and tamper-evidence of the path data took before it hit the ledger. This is the layer where the technology's core value proposition (immutability, cryptographic linkage of custody events) is realized, so from a technical-feasibility and tamper-evidence standpoint it is the most load-bearing sub-part of Provenance Trust. T_source (who produced it -- credentials of the person/organisation) matters but is largely an off-chain, identity/PKI-management question that DLT can record but not itself establish; it's a necessary input, not something the ledger verifies dynamically. T_history (track record) is the weakest of the three for a routing decision: it's a slow-moving, reputational aggregate that is useful as a prior but doesn't tell you anything about the specific record under consideration, and a bad-history source can still submit a well-custodied, verifiable record (and vice versa) -- so it has the least direct bearing on whether this particular piece of data deserves on-chain trust. This ranking reflects my own engineering judgement about where DLT mechanisms actually add verifiable value (custody/chain-of-hashes) versus where they merely store an externally-asserted attribute (source credentials, historical reputation); the reference material (Rouhani and Deters 2021, per blockchain_trust_and_attack_resistance.md) supports treating provenance and auditing/accountability as core O'Hara data-trust properties operationalized via ledger-recorded transaction history, which aligns with weighting the chain-of-custody component highly, but it does not itself rank T_source vs T_history against each other, so that part of the ordering is my own judgement call. The comparison between T_source and T_history is somewhat close -- both are 'off-ledger' inputs -- but I lean toward source credentials being marginally more decision-relevant per-record than a historical aggregate.
+
+## Sources cited
+
+blockchain_trust_and_attack_resistance.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

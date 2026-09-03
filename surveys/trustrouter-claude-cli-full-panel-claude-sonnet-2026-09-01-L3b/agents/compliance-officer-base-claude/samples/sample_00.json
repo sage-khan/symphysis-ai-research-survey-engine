@@ -1,0 +1,19 @@
+{
+  "best": "T_source",
+  "worst": "T_chain",
+  "best_to_others": {
+    "T_source": 1,
+    "T_chain": 3,
+    "T_history": 2
+  },
+  "others_to_worst": {
+    "T_source": 3,
+    "T_chain": 1,
+    "T_history": 2
+  },
+  "reasoning": "Per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, Provenance Trust (PT) decomposes into T_source (authoring credentials of the person/organisation), T_chain (integrity of custody from creation to submission), and T_history (historical reliability of the source). For construction-project records destined for blockchain storage, T_source is the foundational determinant: if the originating party lacks the professional standing to make the assertion (e.g., a signed report from a chartered structural engineer per the referenced example), no amount of intact custody or historical reliability can substitute -- an unqualified or unauthorized source undermines the record's evidentiary and regulatory value from the outset, including under GDPR data-controller accountability and construction regulatory sign-off requirements. T_history, while valuable, is essentially a derivative signal -- it is built up from repeated instances of source credentials proving reliable over time, so it is secondary to source credentials themselves but still meaningfully informative for calibrating trust (a track record helps distinguish nominally-credentialed sources that have proven unreliable from those that consistently deliver). T_chain (custody integrity) is important for tamper-evidence and audit purposes, but on a blockchain-storage use case, much of the custody-chain integrity concern is precisely what the ledger technology and accompanying hashing/timestamping infrastructure is designed to compensate for or evidence separately (this overlaps with the Verification Strength (V) factor's cryptographic/audit-trail role noted in the same instrument), making it comparatively least critical among the three PT sub-parts on a standalone basis. This is a judgement call: the three sub-parts are conceptually close and interdependent, and a reasonable case could be made for ranking T_history above T_source in specific repeat-vendor scenarios, but as a general compliance stance, an unverifiable or unqualified source is the more fundamental risk than an imperfect but traceable chain of custody.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

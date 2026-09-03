@@ -1,0 +1,19 @@
+{
+  "best": "V_crypto",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_crypto": 1,
+    "V_audit": 3,
+    "V_diversity": 5
+  },
+  "others_to_worst": {
+    "V_crypto": 5,
+    "V_audit": 3,
+    "V_diversity": 1
+  },
+  "reasoning": "From a permissioned-ledger engineering standpoint, V_crypto (signatures, hashes, PKI) is the foundational mechanism that actually delivers tamper-evidence: it is what makes an altered record mathematically detectable independent of anyone's trust in a party or process, and every other verification property (audit completeness, source diversity) ultimately rides on top of a cryptographic anchor (e.g., a hash chain or Merkle proof) to be non-repudiable. Without it, 'audit trail' entries are just mutable log lines and 'diverse sources' are just multiple unverifiable claims. V_audit (who-did-what-when completeness) is the middle criterion: it materially strengthens forensic reconstruction and non-repudiation, and in practice a well-formed audit trail is often built directly from cryptographic timestamps/signatures, so it is a close second, not a distant one -- I rate it 3x rather than pushing it toward the extreme, reflecting that this is a real but not enormous gap. V_diversity (multiple independent verifying parties) is valuable for collusion-resistance and Sybil-resistance, but a single rigorously implemented crypto+PKI scheme with a complete audit log can already deliver strong, court-defensible tamper-evidence on a permissioned chain with a small, vetted validator set -- diversity is a robustness multiplier on top of that base, not a substitute for it, which is why I place it as worst. This is a judgement call from production DLT experience rather than a settled consensus figure, and I note the V_crypto-vs-V_audit gap is the least clear-cut of the three comparisons.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

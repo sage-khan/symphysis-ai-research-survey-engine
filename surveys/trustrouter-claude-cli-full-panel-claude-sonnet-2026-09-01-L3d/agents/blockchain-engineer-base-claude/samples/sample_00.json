@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 2,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_insider": 6,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "Framing this for a permissioned/consortium DLT deployment (the typical architecture for construction-project data trust, per the shared instrument's Attack Resistance sub-parts A_sybil/A_oracle/A_insider): identity in permissioned ledgers is normally established via PKI/membership-service-style enrollment (each participant node/user is a known, certificated entity), not via open Sybil-vulnerable consensus like proof-of-work. That structural fact makes pure fake-identity (Sybil) attacks the weakest threat vector of the three in this deployment model -- an attacker would need to compromise the CA/enrollment process itself, which is a different (and separately governed) problem, not something A_sybil as defined here captures well. That is why A_sybil is Worst. Insider resistance (A_insider) is Best because it addresses the threat that most directly defeats the entire rationale for putting construction records on a ledger: a party with legitimately issued credentials (site engineer, inspector, admin) who abuses valid write/custody access to fabricate or alter a record. Multi-party endorsement, segregation-of-duties, and immutable audit trails -- the actual value proposition of DLT for dispute-prone construction data -- exist specifically to counter this insider case, so weakness here undermines the ledger's core guarantee more than the other two. Oracle resistance (A_oracle, sensor/device tampering) sits in between: it is a genuine and distinct risk for IoT-fed construction data (garbage-in/garbage-out at the sensor-to-chain boundary), but it is partially a pre-ledger data-quality problem that overlaps with the DVS pillar's Provenance Trust and Verification Strength constituents, so I weight it as clearly more important than Sybil resistance but below insider resistance. The ratings (Best-to-Others 1/2/6 and Others-to-Worst 6/3/1) were chosen to satisfy the standard BWM consistency condition (a_Best,j x a_j,Worst = a_Best,Worst for every j), so the judgement is internally coherent rather than ad hoc. This is a judgement call grounded in general DLT/permissioned-ledger engineering knowledge (PKI-based membership vs. Sybil resistance, the IoT oracle problem, insider-threat models in consortium chains) applied to the sub-criteria definitions given in the shared instrument; the instrument itself does not rank these three, so the ordering is my own domain assessment, not a value read directly off the source material.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: T_source
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+For a construction PM deciding how a record should be routed (full on-chain / hybrid / conventional), Provenance Trust ultimately rests on being able to hold someone accountable for the data. T_source (source credentials) is the gatekeeping factor: a change order or inspection sign-off is only as trustworthy as the licensed engineer, inspector, or organization that stamped it, and that credential is verifiable at the moment of submission, independent of anything that happens afterward. T_chain (custody chain) matters next: even a credentialed source's record can be altered or substituted between creation and submission, and this is exactly the failure mode blockchain-style immutability is meant to close off, so it retains real weight but is secondary to knowing whether the originator was even qualified in the first place. T_history (historical track record) I rank lowest for this specific decomposition: many project-critical submissions come from newly engaged consultants, subcontractors, or one-off specialist inspectors with no accumulated track record on this project, so relying heavily on history would either be unavailable or would penalize legitimate new-but-credentialed sources. It is a useful corroborating signal but a lagging one, not a gate. The shared knowledge instrument (trustrouter_expert_questionnaire_v5_real_survey_instrument.md) defines these three sub-parts exactly as 'quality of authoring source,' 'integrity of custody chain,' and 'historical track record,' which is the framing I applied; construction_project_management_and_mcdm.md's point about dispute-resolution scenarios (an under-documented change order or inspection sign-off creating the highest downstream cost if trust can't later be established) reinforced why the originating credential and the intactness of custody -- not accumulated history -- are what actually gets tested when a dispute arises. This is a judgement call rather than something the literature directly ranks, and I flag that the T_source vs T_chain gap is the closer call of the three; T_history trailing both was the clearer distinction.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, construction_project_management_and_mcdm.md, general_knowledge (all claims verified genuine)

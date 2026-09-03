@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "For a construction-project record being routed to blockchain (or off-chain) storage, Intrinsic Quality (accuracy, validity, uniqueness per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) is foundational: if the values themselves are wrong, duplicated, or invalid, no amount of completeness/timeliness or cross-copy consistency can make the record trustworthy -- an immutable ledger entry that is factually wrong or a duplicate is arguably worse than one that is merely incomplete, because it cannot be corrected after write, only appended-to and flagged. Contextual Quality (completeness, timeliness) matters next: a record that is accurate but missing required scope elements or is stale (e.g., an as-built submitted well past the inspection window) undermines its usefulness for time-sensitive compliance and payment-milestone decisions, but a partial, accurate record is still salvageable/completable, whereas an inaccurate one is not. Representational Quality (cross-source consistency) I rank as least critical of the three, not because it is unimportant, but because in a well-designed polyglot-persistence architecture, consistency-across-copies is substantially an engineering/reconciliation problem (hashing, canonical source-of-truth pointers, sync jobs) that can be enforced structurally at the routing/pipeline layer, whereas IQ and CQ defects originate at the point of data capture and are much harder to remediate after the fact. This is a judgement call from professional experience with data-quality pipelines and provenance tracking, not something the reference material itself ranks explicitly -- the questionnaire and primer define the three clusters and the multiplicative composite structure but do not state a relative importance ordering among IQ/CQ/RQ. The IQ-vs-CQ gap is moderate but real (rated 3), while IQ-vs-RQ is a clearer gap (rated 5) since consistency is more of a systems-design safeguard than a first-order data-trust attribute in this context. I want to flag this ordering as a considered judgement call rather than a settled fact -- a reviewer with more emphasis on multi-party disputes (where cross-source consistency is exactly what prevents conflicting claims) could reasonably rate RQ higher.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

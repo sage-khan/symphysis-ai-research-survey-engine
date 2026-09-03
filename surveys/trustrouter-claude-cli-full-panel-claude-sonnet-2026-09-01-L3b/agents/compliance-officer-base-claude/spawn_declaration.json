@@ -1,0 +1,20 @@
+{
+  "agent_id": "compliance-officer-base-claude",
+  "did": "did:key:z6MkwUN3K4YmG9arhbzyAxMLs314eLG46wmPnKoYLVUT8Rzm",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Compliance and Regulatory Officer",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "claude_cli",
+    "name": "sonnet",
+    "temperature": 0.3
+  },
+  "runtime_backend": "direct_completion",
+  "survey_id": "trustrouter-claude-cli-full-panel-claude-sonnet-2026-09-01-L3b"
+}

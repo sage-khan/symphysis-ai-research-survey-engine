@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: IQ
+- Worst: CQ
+
+## Stated reasoning (submitted with the answer)
+
+From a data-engineering standpoint on data destined for blockchain (an append-only, expensive-to-correct store), the intrinsic correctness of the value itself (IQ: accuracy, validity, uniqueness) has to be prioritized above contextual fit (CQ: completeness, timeliness) and cross-store agreement (RQ: consistency). Once a record is committed on-chain, an accuracy or validity defect is effectively permanent -- you can append a correction but you cannot erase the bad write -- so front-loading quality checks on IQ before routing to BLOCKCHAIN is the highest-leverage control point in the pipeline. Uniqueness is especially salient here because duplicate or conflicting records undermine the entire point of using an immutable ledger as a trust anchor. CQ (completeness/timeliness) is real but more forgiving in an engineering sense: a partial record can often be supplemented by a later append, and timeliness requirements are use-case dependent (e.g., a historical inspection record vs. a live sensor feed) rather than a universal precondition for trustworthy storage, which is why I rate it worst. RQ (consistency across sources) sits in between: given this role's explicit responsibility for polyglot-persistence routing, reconciling versions across blockchain/IPFS/offchain copies is directly load-bearing for the routing decision itself (data_quality_and_polyglot_persistence.md's discussion of polyglot persistence and per-artefact quality assessment applies directly here), so I weight it above CQ but still below the more fundamental IQ. The IQ-CQ gap (3x) is a moderate, not extreme, ratio -- completeness and timeliness are not negligible, they are simply more contextual and more recoverable than intrinsic correctness. This is a judgement call informed by how immutable storage changes the cost-of-error calculus for each ISO 25012 cluster, not a value stated explicitly in the reference material.
+
+## Sources cited
+
+shared knowledge: trustrouter_concept_paper_primer.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, data_quality_and_polyglot_persistence.md, general_knowledge (all claims verified genuine)

@@ -1,0 +1,175 @@
+{
+  "ground_truth": {
+    "agent_id": "structural-engineer-rag-claude",
+    "role": "Structural Engineer",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"structural-engineer-rag-claude\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I will evaluate the three Economic Value sub-parts (E_market, E_liquidity, E_demand) for construction-project records considered for blockchain storage, grounding my Best/Worst judgement and ratings in the shared knowledge_repo materials and my dedicated RAG corpus as a structural engineer would, without fabricating sources or assuming consensus with other panel members.\"\n}\n```",
+    "model": "sonnet",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 4488,
+      "stop_reason": "end_turn",
+      "session_id": "681bafce-db85-4041-a0ed-ed278aabc009",
+      "total_cost_usd": 0.0453532,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 9740,
+        "cache_read_input_tokens": 10936,
+        "output_tokens": 280,
+        "output_tokens_details": {
+          "thinking_tokens": 17
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 9740,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 280,
+            "cache_read_input_tokens": 10936,
+            "cache_creation_input_tokens": 9740,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 9740
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1327,
+          "outputTokens": 15,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001402,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-sonnet-5": {
+          "inputTokens": 2,
+          "outputTokens": 280,
+          "cacheReadInputTokens": 10936,
+          "cacheCreationInputTokens": 9740,
+          "webSearchRequests": 0,
+          "costUSD": 0.0439512,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 17,
+          "canonicalModel": "claude-sonnet-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"structural-engineer-rag-claude\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I will evaluate the three Economic Value sub-parts (E_market, E_liquidity, E_demand) for construction-project records considered for blockchain storage, grounding my Best/Worst judgement and ratings in the shared knowledge_repo materials and my dedicated RAG corpus as a structural engineer would, without fabricating sources or assuming consensus with other panel members.\"\n}\n```",
+      "ttft_ms": 1406,
+      "type": "result",
+      "duration_ms": 3624,
+      "uuid": "74a3a9ee-2950-46b4-bde7-900bdba7bfdd",
+      "ttft_stream_ms": 922,
+      "time_to_request_ms": 24,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "structural-engineer-rag-claude",
+    "role": "Structural Engineer",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "Understood: I will evaluate the three Economic Value sub-parts (E_market, E_liquidity, E_demand) for construction-project records considered for blockchain storage, grounding my Best/Worst judgement and ratings in the shared knowledge_repo materials and my dedicated RAG corpus as a structural engineer would, without fabricating sources or assuming consensus with other panel members."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "structural-engineer-rag-claude",
+      "role": "Structural Engineer",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "structural-engineer-rag-claude",
+      "role": "Structural Engineer",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "Understood: I will evaluate the three Economic Value sub-parts (E_market, E_liquidity, E_demand) for construction-project records considered for blockchain storage, grounding my Best/Worst judgement and ratings in the shared knowledge_repo materials and my dedicated RAG corpus as a structural engineer would, without fabricating sources or assuming consensus with other panel members."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

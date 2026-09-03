@@ -1,0 +1,109 @@
+# Filled survey: bim-coordinator-rag-claude
+
+- Agent ID: `bim-coordinator-rag-claude`
+- Role / expertise: BIM Coordinator
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkqSfDfSA3Y6V2HcU6A72f4t469gxYRVPTADrJ7HzYtu7a`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/bim-coordinator
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | C | V |
+| 1 | C | V |
+| 2 | C | Q |
+
+## Sample 0
+
+**Best:** C (Criticality)  
+**Worst:** V (Verification Strength)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 2 |
+| PT (Provenance Trust) | 3 |
+| V (Verification Strength) | 6 |
+| IC (Independent Confirmation) | 3 |
+| L (Legal Compliance) | 2 |
+| C (Criticality) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 5 |
+| PT (Provenance Trust) | 4 |
+| V (Verification Strength) | 1 |
+| IC (Independent Confirmation) | 4 |
+| L (Legal Compliance) | 5 |
+| C (Criticality) | 6 |
+
+### Reasoning
+
+As a BIM coordinator I judge Criticality (C, impact if wrong) as the master variable that determines how much of the other five dimensions a given construction record actually needs. A signed structural certification with life-safety implications warrants top-tier quality control, provenance chain, verification evidence, cross-discipline confirmation, and legal rigor; a minor finish-schedule note does not, even if it scores identically on those other five dimensions. This matches Gartoumi 2024's finding (SOURCES.md; bim_and_digital_building_logbooks.md) that the construction industry still lacks rigorous, calibrated decision criteria for when blockchain-backed storage is warranted -- in practice, criticality is the variable that should drive that triage decision, which is why I treat it as the dominant factor. Quality (Q) and Legal Compliance (L) come next and close together: clean, ISO-25012-type data and regulatory necessity are both near-mandatory gates in federation work, but neither tells you how much scrutiny is warranted the way criticality does. Provenance Trust (PT) and Independent Confirmation (IC) sit a step below: PT (who produced it, chain of custody) matters for accountability, and IC is already partly institutionalised in real BIM practice -- ISO 19650 Part 2 (bim_and_digital_building_logbooks.md) requires the lead appointed party and task teams to independently validate federated models before acceptance, so IC's real-world mechanism is already a standard checkpoint rather than a novel trust signal blockchain would need to add much to. I placed Verification Strength (V, cryptographic/procedural audit evidence) as worst because it is the most instrumental of the six: a qualified electronic signature or tamper-evidence dossier (as described in the survey instrument's own DVS definitions, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) is a technical means of attesting to trust that already exists in the data's quality, provenance, and confirmation status -- it adds assurance but does not itself establish whether the underlying construction fact is sound. A perfectly cryptographically signed record can still be technically dirty, wrongly attributed, or unconfirmed by peer disciplines, whereas the reverse (high quality/provenance/confirmation with weak verification tooling) is still fairly trustworthy in practice on most renovation projects I have coordinated. I set the Criticality-vs-Verification ratio at 6 in both tables since that is the same direct comparison (Best vs Worst) and I wanted internal consistency there; the middle criteria are spread between those anchors reflecting that this is a genuinely close, judgment-call ordering among Q, L, PT and IC rather than a sharp hierarchy -- a reviewer could reasonably swap Q and L, or PT and IC, without me strongly objecting.
+
+## Sample 1
+
+**Best:** C (Criticality)  
+**Worst:** V (Verification Strength)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 5 |
+| PT (Provenance Trust) | 3 |
+| V (Verification Strength) | 7 |
+| IC (Independent Confirmation) | 4 |
+| L (Legal Compliance) | 2 |
+| C (Criticality) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 3 |
+| PT (Provenance Trust) | 5 |
+| V (Verification Strength) | 1 |
+| IC (Independent Confirmation) | 4 |
+| L (Legal Compliance) | 6 |
+| C (Criticality) | 7 |
+
+### Reasoning
+
+As a BIM coordinator, I approach these six DVS constituents the way I approach a project risk register: the question that dominates my professional judgement is not 'is this record technically perfect' but 'what happens if this specific record is wrong.' Criticality (C) is Best because it is the multiplier that determines how much scrutiny every other dimension deserves in practice -- a structural load-bearing certification or fire-safety compliance record justifies far more provenance/verification effort than a finishes schedule, and BIM execution plans under ISO 19650 are organised around exactly this kind of risk-tiering (shared knowledge: bim_and_digital_building_logbooks.md, ISO 19650 Part 2 guidance). Legal Compliance (L) sits close behind C because regulated documentation (energy certificates, structural sign-offs) is often exactly the subset of records that is also high-criticality, so the two track each other closely in a renovation/handover context -- this is a genuinely close call, not a clear gap. Provenance Trust (PT) ranks next: knowing which chartered professional or task team authored and held custody of a model is the backbone of federation accountability, and is directly reinforced by the Kochovski et al. 2026 BUILDCHAIN DBL work on decentralized identifiers for construction records (bim_and_digital_building_logbooks.md). Independent Confirmation (IC) is meaningful but in my day-to-day practice it is already partly built into the federation process itself -- ISO 19650 requires the lead appointed party and task teams to independently validate federated models before acceptance (bim_and_digital_building_logbooks.md), so IC functions somewhat as a byproduct of good PT and Q rather than a fully independent lever. Quality (Q) is a necessary baseline (an IFC-invalid model is unusable regardless of who signed it or how it was verified) but it is a floor condition rather than a differentiator of trust once that floor is met, so it ranks below the risk- and accountability-oriented dimensions. Verification Strength (V) is Worst in my judgement: cryptographic/audit-trail mechanisms are an implementation layer that supports and evidences provenance and compliance, but a BIM coordinator's actual trust in a record rests far more on who produced it, whether it's the legally required document, and what's at stake if it's wrong, than on the specific strength of the cryptographic scheme wrapping it -- the Gartoumi 2024 scientometric review (SOURCES.md) also notes the construction industry still lacks calibrated criteria for when blockchain-grade verification is even warranted, reinforcing that V is the most narrowly technology-specific and least professionally central of the six.
+
+## Sample 2
+
+**Best:** C (Criticality)  
+**Worst:** Q (Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 8 |
+| PT (Provenance Trust) | 3 |
+| V (Verification Strength) | 4 |
+| IC (Independent Confirmation) | 6 |
+| L (Legal Compliance) | 2 |
+| C (Criticality) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 1 |
+| PT (Provenance Trust) | 6 |
+| V (Verification Strength) | 5 |
+| IC (Independent Confirmation) | 3 |
+| L (Legal Compliance) | 7 |
+| C (Criticality) | 8 |
+
+### Reasoning
+
+As a BIM coordinator, I treat Criticality (C) as the governing dimension because it sets the stakes that determine how much investment in the other five dimensions is warranted: a structural-safety certification or fire-compliance record on a decades-long public asset (per the 'Hospital Real' reference scenario in shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) demands maximal provenance, verification, and confirmation, while a low-consequence finish spec does not, regardless of how clean or well-signed it is. This was genuinely a close call against Legal Compliance (L), since regulatory mandate is often the concrete reason a construction record must be retained at all (structural certs, EPCs, permits) -- I rank C narrowly above L because criticality captures consequence even for records that aren't formally regulated but would still be catastrophic if wrong (e.g., an unregulated but load-bearing coordination clash), whereas legal mandate alone doesn't guarantee high real-world impact. Provenance Trust (PT) and Verification Strength (V) sit in the middle: they are the properties blockchain storage is specifically good at hardening (custody chain, cryptographic/audit evidence), which matters, but they answer 'can we trust the record' only after criticality and legal necessity have justified spending the effort. Independent Confirmation (IC) I rate lower-middle because, per bim_and_digital_building_logbooks.md's discussion of ISO 19650, multi-party validation of federated models before acceptance is already a baseline institutional mechanism in standard BIM delivery -- it's a real and useful signal, but it is partially redundant with processes already built into the information-delivery workflow rather than something blockchain storage newly provides. Quality (Q) is my Worst: 'technically clean' (IFC-valid, no clashes) is routinely enforced through standard model-checking tools (Solibri, Navisworks-style validation) as production hygiene, and clean data can still come from an unverified, unaccountable source -- whereas messy but highly critical, legally-mandated, well-provenanced data would still justify immutable storage. Quality is necessary hygiene but the least decisive factor in the specific question of whether a record deserves blockchain-grade trust infrastructure.

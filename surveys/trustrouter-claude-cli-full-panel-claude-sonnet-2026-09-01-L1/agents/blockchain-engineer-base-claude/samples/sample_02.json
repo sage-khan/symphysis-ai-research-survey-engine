@@ -1,0 +1,21 @@
+{
+  "best": "F",
+  "worst": "E",
+  "best_to_others": {
+    "F": 1,
+    "DVS": 2,
+    "E": 6,
+    "A": 3
+  },
+  "others_to_worst": {
+    "F": 6,
+    "DVS": 3,
+    "A": 2,
+    "E": 1
+  },
+  "reasoning": "From a production DLT-engineering standpoint, Technical Feasibility Fit (F) is the practical gate on the whole routing decision: per the shared instrument, F captures whether the artefact's size, update rate and latency profile can physically sit on a distributed ledger at all. Permissioned ledgers have hard, non-negotiable constraints (block/tx size ceilings, write-throughput limits, finality latency) that no amount of data trustworthiness or economic stakes can overcome -- a multi-GB BIM coordination model or a high-frequency sensor feed simply cannot go fully on-chain regardless of its DVS or E score, forcing a hybrid/off-chain routing outcome by construction-level necessity rather than by value judgement. That is why I rank F above even DVS, though this is a genuinely close call: DVS (quality, provenance trust, verification strength per the instrument's 3.2 breakdown) is the substantive reason one would want tamper-evident storage in the first place, so I only rate F as 2x DVS rather than something more lopsided, reflecting that both are near-necessary conditions rather than one clearly dominating. A (Attack Resistance) is also an engineering-relevant factor -- undetected tampering resistance is close to the core value proposition of DLT -- but as defined here it concerns pre-ledger security posture (identity fraud, device/insider compromise) rather than whether the record can be routed to a ledger at all, so I place it below F (3x) but above E. E (Economic Value) I rate weakest: it is a stakes/prioritization multiplier in the TrustRouter formula (the '1+E' term) that scales consequences of loss, but it says nothing about whether the data is technically routable or trustworthy, so from an engineer's perspective it is the least diagnostic of the four for the routing decision itself. The rating set is internally consistent (a_Bj x a_jW = a_BW = 6 for every j), which I verified explicitly rather than assigning numbers ad hoc.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

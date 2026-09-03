@@ -1,0 +1,20 @@
+{
+  "best": "E_market",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_market": 1,
+    "E_liquidity": 5,
+    "E_demand": 3
+  },
+  "others_to_worst": {
+    "E_market": 5,
+    "E_liquidity": 1,
+    "E_demand": 3
+  },
+  "reasoning": "From a compliance/facility-management standpoint, the three sub-parts differ sharply in how much concrete, verifiable evidence backs the economic-value claim. E_market (current marketplace demand) is the strongest signal: it reflects actual, present buyers for the data/record today, which is the closest thing to hard evidence a compliance officer can point to when justifying the cost and regulatory exposure of putting a construction record on an immutable ledger -- per the glossary in shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, E_market is defined precisely as 'present marketplace demand.' I rank it Best because it requires no forward-looking assumption. E_demand (future demand from regulation, AI, digital-twin growth) is also credible -- regulatory-driven demand for structured building data (e.g., energy-performance disclosure, digital product passport style obligations) is a real and growing compliance trend I would expect this role to recognise -- but it is inherently speculative relative to demand that already exists, so it sits in the middle. E_liquidity (ease of tokenisation) I rank Worst: tokenisation ease is a technical/mechanistic enabler, not evidence of actual demand -- a record can be trivially tokenisable and still have no buyers. Moreover, from a compliance lens, making a construction data asset easily tradeable/tokenisable can itself introduce additional regulatory exposure (securities-style regulation of tokenised assets, KYC/AML obligations on transfer), which is a liability question more than a value driver -- this framing of on-chain/tokenised assets carrying its own compliance burden echoes the general point in gdpr_and_data_governance.md that establishing compliant on-chain structures (there, identity) is itself subject to regulatory tension rather than being a straightforward value-add. I did not find liquidity/tokenisation-specific regulatory sources in the provided material, so that securities-regulation observation is my own domain judgement (general_knowledge), not a citation. The comparison between E_demand and E_market is reasonably close -- both reflect genuine value signals, just at different time horizons -- so I did not rate E_market as overwhelmingly dominant (3x) the way I did against E_liquidity (5x), which I view as a more clear-cut gap since ease-of-mechanism is qualitatively different from evidence-of-demand.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "gdpr_and_data_governance.md",
+    "general_knowledge"
+  ]
+}

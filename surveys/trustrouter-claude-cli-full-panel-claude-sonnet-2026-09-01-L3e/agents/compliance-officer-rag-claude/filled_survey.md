@@ -1,0 +1,91 @@
+# Filled survey: compliance-officer-rag-claude
+
+- Agent ID: `compliance-officer-rag-claude`
+- Role / expertise: Compliance and Regulatory Officer
+- Model: claude_cli/sonnet
+- DID: `did:key:z6Mkiny4nghtEZgRh1GDTK1uVN3K6yiWKovHursQ4YEVJq2c`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/compliance-officer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | E_market | E_liquidity |
+| 1 | E_market | E_liquidity |
+| 2 | E_demand | E_liquidity |
+
+## Sample 0
+
+**Best:** E_market (Current marketplace demand)  
+**Worst:** E_liquidity (Tokenisation ease)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 1 |
+| E_liquidity (Tokenisation ease) | 5 |
+| E_demand (Future demand) | 3 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 5 |
+| E_liquidity (Tokenisation ease) | 1 |
+| E_demand (Future demand) | 3 |
+
+### Reasoning
+
+From a compliance/facility-management standpoint, the three sub-parts differ sharply in how much concrete, verifiable evidence backs the economic-value claim. E_market (current marketplace demand) is the strongest signal: it reflects actual, present buyers for the data/record today, which is the closest thing to hard evidence a compliance officer can point to when justifying the cost and regulatory exposure of putting a construction record on an immutable ledger -- per the glossary in shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, E_market is defined precisely as 'present marketplace demand.' I rank it Best because it requires no forward-looking assumption. E_demand (future demand from regulation, AI, digital-twin growth) is also credible -- regulatory-driven demand for structured building data (e.g., energy-performance disclosure, digital product passport style obligations) is a real and growing compliance trend I would expect this role to recognise -- but it is inherently speculative relative to demand that already exists, so it sits in the middle. E_liquidity (ease of tokenisation) I rank Worst: tokenisation ease is a technical/mechanistic enabler, not evidence of actual demand -- a record can be trivially tokenisable and still have no buyers. Moreover, from a compliance lens, making a construction data asset easily tradeable/tokenisable can itself introduce additional regulatory exposure (securities-style regulation of tokenised assets, KYC/AML obligations on transfer), which is a liability question more than a value driver -- this framing of on-chain/tokenised assets carrying its own compliance burden echoes the general point in gdpr_and_data_governance.md that establishing compliant on-chain structures (there, identity) is itself subject to regulatory tension rather than being a straightforward value-add. I did not find liquidity/tokenisation-specific regulatory sources in the provided material, so that securities-regulation observation is my own domain judgement (general_knowledge), not a citation. The comparison between E_demand and E_market is reasonably close -- both reflect genuine value signals, just at different time horizons -- so I did not rate E_market as overwhelmingly dominant (3x) the way I did against E_liquidity (5x), which I view as a more clear-cut gap since ease-of-mechanism is qualitatively different from evidence-of-demand.
+
+## Sample 1
+
+**Best:** E_market (Current marketplace demand)  
+**Worst:** E_liquidity (Tokenisation ease)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 1 |
+| E_liquidity (Tokenisation ease) | 6 |
+| E_demand (Future demand) | 3 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 6 |
+| E_liquidity (Tokenisation ease) | 1 |
+| E_demand (Future demand) | 2 |
+
+### Reasoning
+
+From a compliance/facility-management standpoint, economic value has to be anchored in something verifiable, and current marketplace demand (E_market) is the only one of the three that is directly observable today -- actual buyers, actual willingness to pay for the dataset now. That makes it the strongest, least speculative driver of economic value and my Best. Future demand (E_demand), tied to regulatory growth, AI training-data markets, and digital-twin uptake, is a real and legitimate driver -- as gdpr_and_data_governance.md notes in its discussion of blockchain-in-construction adoption outpacing rigorous decision criteria, regulatory and lifecycle drivers for data retention are only strengthening -- but it remains a projection rather than a present fact, so it sits in the middle. Tokenisation ease (E_liquidity) I rate Worst: it is a mechanism for realising value (how easily a record could be packaged as a tradeable token), not a source of value itself, and in a construction-records context it is also the sub-dimension most exposed to unresolved legal friction -- the same GDPR right-to-erasure/immutability tension documented in gdpr_and_data_governance.md (Wilson et al. 2019) applies with extra force to tokenised instruments, which may additionally trigger securities-style regulatory scrutiny. A record can have strong current and future demand yet be poor at tokenisation (e.g., because it contains personal data that cannot be immutably tokenised under GDPR), so ease of tokenisation is the least reliable indicator of the record's actual economic worth. The E_market/E_liquidity/E_demand definitions themselves are drawn from the shared survey instrument's section 3.7 table. My best_to_others and others_to_worst values (1/6/3 and 6/1/2) are set to be internally consistent: market is roughly 3x as important as future demand and 6x as important as liquidity, and future demand is roughly 2x as important as liquidity, so 3x2=6 matches the best-worst ratio. I acknowledge the market-vs-demand call is a professional judgement rather than a fact drawn from the sources -- both are legitimate value drivers and a reviewer could reasonably weight future regulatory-driven demand higher given the compliance angle of this role.
+
+## Sample 2
+
+**Best:** E_demand (Future demand)  
+**Worst:** E_liquidity (Tokenisation ease)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 3 |
+| E_liquidity (Tokenisation ease) | 8 |
+| E_demand (Future demand) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 3 |
+| E_liquidity (Tokenisation ease) | 1 |
+| E_demand (Future demand) | 8 |
+
+### Reasoning
+
+From a facility-management compliance perspective, the value of a construction-project record for blockchain storage is driven most durably by structural, regulation-linked demand rather than by today's buyer pool or by how easily the record could be turned into a tradeable token. E_demand (regulated/AI/digital-twin growth) is Best: as construction and building-operations regulation increasingly mandates lifecycle disclosure, digital-twin interoperability, and machine-verifiable audit trails (the trend the gdpr_and_data_governance.md summaries describe as the 'governance gap' construction-sector blockchain adoption has grown into without matching decision criteria, and as the legal/regulatory obligation class referenced in the shared knowledge questionnaire's Legal compliance (L) field, e.g. 'mandatory building-code or energy performance disclosure'), demand for trustworthy immutable records is structurally increasing and is the kind of demand a compliance officer is professionally mandated to anticipate. E_market (present marketplace demand) is a real but narrower snapshot of the same underlying value -- it matters, but it is a subset/leading-indicator of where E_demand is heading, so I rate it moderately below Best (3x). E_liquidity (ease of tokenisation/tradability) is Worst: whether a record can be efficiently tokenised into a tradeable financial instrument is a fintech/market-mechanics question with only an indirect bearing on legal, privacy, or regulatory-compliance value, and per the Wilson et al. 2019 finding cited in gdpr_and_data_governance.md, forcing blockchain-native tradability onto records that don't need it can create compliance liability (e.g. GDPR erasure conflicts) with no offsetting benefit -- so from this role's vantage point it is the least important of the three sub-dimensions, rated 8x below Best. I want to flag that the E_market vs E_demand distinction is a genuinely close call in practice, since current demand is often a direct proxy for near-term regulatory rollout; I am reporting my rating as a judgement call rather than a settled fact, since neither of the provided sources directly ranks these three sub-dimensions against one another -- that ranking is my own professional inference from the sources' broader regulatory-compliance framing, not a stated conclusion of either source.

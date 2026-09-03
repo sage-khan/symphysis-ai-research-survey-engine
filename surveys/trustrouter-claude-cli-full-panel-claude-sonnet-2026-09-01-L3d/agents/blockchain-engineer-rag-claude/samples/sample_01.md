@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: A_insider
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+In the typical deployment model for construction-project ledgers -- a permissioned/consortium chain with an enrollment or membership-service layer gating who can even hold a signing identity -- classic Sybil attacks (flooding the network with fake identities to gain disproportionate influence over consensus or record submission) are already substantially mitigated by the permissioning architecture itself, not by anything the Attack Resistance score needs to differentiate strongly. That structural mitigation is why I rate A_sybil worst: it's a real property, but its marginal risk in a permissioned setting is the lowest of the three. Insider resistance (A_insider), by contrast, is precisely the residual threat model permissioned ledgers must still solve: a credentialed, legitimate participant (e.g., a site engineer or subcontractor with valid write access) falsifying, backdating, or colluding on records. This is the attack surface that blockchain's core value proposition -- multi-party BFT consensus, append-only audit trails, cryptographic non-repudiation -- is actually built to resist, so I rate it Best. Oracle resistance (A_oracle) sits between the two: sensor/device tampering is a serious and well-documented problem (the oracle problem -- e.g. Astraea, cited in blockchain_trust_and_attack_resistance.md, which frames it as smart contracts/ledgers only being able to act on data already on-chain, requiring a trusted attestation mechanism for real-world facts before ingestion). For construction data specifically (structural-health sensors, IoT curing/temperature monitors), this matters a great deal, but it is fundamentally a pre-ingestion data-quality problem external to the ledger's own access-control and consensus design -- the ledger can enforce multi-source attestation and provenance logging around it, but cannot itself fix a compromised physical sensor the way it can constrain a misbehaving credentialed insider via consensus. This is a genuinely close call between A_oracle and A_insider; I lean toward A_insider as most critical because it is the threat the ledger's own architecture is directly responsible for resisting, while A_oracle resistance depends more on external sensor/device security measures than on the ledger's internal design.
+
+## Sources cited
+
+blockchain_trust_and_attack_resistance.md, general_knowledge (all claims verified genuine)

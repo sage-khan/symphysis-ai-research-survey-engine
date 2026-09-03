@@ -1,0 +1,26 @@
+{
+  "best": "L",
+  "worst": "Q",
+  "best_to_others": {
+    "Q": 6,
+    "PT": 4,
+    "V": 3,
+    "IC": 5,
+    "L": 1,
+    "C": 2
+  },
+  "others_to_worst": {
+    "Q": 1,
+    "PT": 3,
+    "V": 4,
+    "IC": 2,
+    "L": 6,
+    "C": 5
+  },
+  "reasoning": "Answering as a facility-management compliance officer whose mandate is GDPR and construction-regulatory obligations across the building lifecycle: Legal Compliance (L) is Best because it maps directly onto my role's core duty -- a datum tied to a binding statutory or building-code obligation (per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, e.g. 'mandatory building-code or energy performance disclosure class') is the one dimension I am personally accountable for enforcing, and failure here creates direct legal exposure regardless of how technically clean the record is. Criticality (C) is a close second because impact-if-wrong (safety, financial, contractual, e.g. life-safety structural dependence) so often converts into legal liability that in my role it is hard to separate from L -- I rate it only one step below Best, reflecting that this was a genuinely close call. Verification Strength (V) and Provenance Trust (PT) follow because GDPR's accountability principle and construction audit practice both depend on tamper-evident audit trails and known, custody-tracked authorship to defend compliance decisions after the fact -- these are the evidentiary backbone of a defensible compliance file, so I rank them above Independent Confirmation (IC), which adds valuable but secondary cross-checking assurance. Quality (Q) is Worst not because it is unimportant in absolute terms, but because from a compliance-risk lens it is the most 'baseline' and least regulation-specific of the six: the questionnaire itself treats Q's intrinsic/contextual fidelity as a separate downstream decomposition (IQ/CQ clusters), and a technically clean record with no legal hook, no audit trail, and no accountable provenance still fails my compliance test, whereas a record with strong L/PT/V/C but middling Q is far more defensible. This ranking is my own professional judgement applied to the definitions given in the shared knowledge; I did not find a specific ranking of these six dimensions prescribed in the reference material itself, so I am the one supplying the ordering logic, not restating a given answer.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,91 @@
+# Filled survey: bim-coordinator-rag-claude
+
+- Agent ID: `bim-coordinator-rag-claude`
+- Role / expertise: BIM Coordinator
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkqSfDfSA3Y6V2HcU6A72f4t469gxYRVPTADrJ7HzYtu7a`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/bim-coordinator
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | E_demand | E_liquidity |
+| 1 | E_demand | E_liquidity |
+| 2 | E_demand | E_liquidity |
+
+## Sample 0
+
+**Best:** E_demand (Future demand)  
+**Worst:** E_liquidity (Tokenisation ease)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 3 |
+| E_liquidity (Tokenisation ease) | 8 |
+| E_demand (Future demand) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 4 |
+| E_liquidity (Tokenisation ease) | 1 |
+| E_demand (Future demand) | 8 |
+
+### Reasoning
+
+From a BIM coordinator's vantage point managing federated models and lifecycle documentation across ISO 19650-governed projects, the economic value of a construction record over its life is driven overwhelmingly by where regulatory and analytical demand is heading, not by whether anyone would buy or trade a token of it today. E_demand (future demand from regulation, AI, and digital-twin growth) is Best: the EU's digital building logbook trajectory and architectures like BUILDCHAIN DBL (shared knowledge: bim_and_digital_building_logbooks.md, Kochovski et al. 2026) show that identity/provenance-linked construction data is becoming a mandated, structurally-growing asset class as digital twins and AI-driven facility/compliance analytics scale up over a building's multi-decade lifecycle -- exactly the horizon described for the Hospital Real scenario (institutional owners, insurers, authorities needing decades of documentation; shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md). E_market (current marketplace demand) sits in the middle: there is real, present demand from owners, insurers, and authorities for validated records (ISO 19650's federation and independent-validation requirements presuppose exactly this kind of institutional 'buyer' community; bim_and_digital_building_logbooks.md, UK BIM Framework guidance), but this is a captive, contractually-bound demand, not an open marketplace, so it does not match the growth trajectory of E_demand. E_liquidity (tokenisation ease) is clearly Worst: construction-project records -- HVAC certificates, RFI logs, structural test data -- are heterogeneous, non-fungible, contractually and legally bound to a specific asset and jurisdiction (GDPR, conformity-assessment regimes), and Gartoumi's 2024 scientometric review of blockchain-in-construction literature (SOURCES.md; bim_and_digital_building_logbooks.md) itself notes the field still lacks calibrated criteria for when blockchain storage is even warranted, let alone tradeable tokenisation of the underlying records -- there is no real secondary market mechanism analogous to fungible tokens for this data type. The 3/8 and 4/1 ratios reflect that E_market and E_demand are both clearly more relevant than E_liquidity (large gap), while E_demand's edge over E_market is real but more moderate since both ultimately rest on the same institutional-buyer base, just at different time horizons. I want to flag this as a judgement call grounded in general BIM/construction-industry professional experience plus the cited sources, not a precise, independently-verified ranking -- the E_market vs E_demand distinction in particular is a closer call than the numbers might suggest, since present and future institutional demand overlap substantially in practice.
+
+## Sample 1
+
+**Best:** E_demand (Future demand)  
+**Worst:** E_liquidity (Tokenisation ease)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 3 |
+| E_liquidity (Tokenisation ease) | 6 |
+| E_demand (Future demand) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 3 |
+| E_liquidity (Tokenisation ease) | 1 |
+| E_demand (Future demand) | 6 |
+
+### Reasoning
+
+For a construction-project record being weighed for blockchain storage, the three E sub-parts don't carry equal weight in my experience running BIM federation on long-lifecycle assets like hospitals or deep renovations. E_demand (future/regulated/digital-twin growth) is Best: the concrete driver behind investing in verifiable, immutable construction records is the trajectory toward mandatory Digital Building Logbooks and structured lifecycle information management -- this is exactly the direction described in the Kochovski et al. 2026 BUILDCHAIN DBL work (bim_and_digital_building_logbooks.md), which pairs IFC semantics with W3C decentralized identifiers precisely because regulators, insurers, and facility managers will need this data long after handover, and ISO 19650 Part 2 (also in bim_and_digital_building_logbooks.md) already institutionalizes structured, federated information delivery as a growing professional norm, not a shrinking one. E_market (existing buyers today) is real but secondary: institutional stakeholders (owners, insurers, authorities, as in the Hospital Real reference scenario in the shared survey instrument) do want this data now, but that is closer to a captive, contractual demand than an open marketplace -- it exists, but it doesn't drive the case for blockchain-specific storage the way future regulatory pull does. E_liquidity (tokenisation ease/tradability) is Worst: BIM models, inspection certificates, and RFI logs are unique, non-fungible, provenance-bound documents tied to one physical asset -- they were never designed to be traded as liquid financial instruments, and in a decade of managing federated models I have not seen tokenised tradability figure into how owners or authorities actually value this documentation. Gartoumi's 2024 scientometric review (bim_and_digital_building_logbooks.md) also notes the field still lacks calibrated criteria for blockchain-backed storage decisions generally, which reinforces that a speculative dimension like tradable tokenisation should not be weighted heavily. The E_demand-vs-E_market gap (3x) is a real but moderate judgement call -- both reflect genuine stakeholder interest, just on different time horizons -- while the E_demand-vs-E_liquidity gap (6x) reflects that tokenisation ease is largely orthogonal to why construction records have economic value in the first place.
+
+## Sample 2
+
+**Best:** E_demand (Future demand)  
+**Worst:** E_liquidity (Tokenisation ease)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 3 |
+| E_liquidity (Tokenisation ease) | 7 |
+| E_demand (Future demand) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| E_market (Current marketplace demand) | 5 |
+| E_liquidity (Tokenisation ease) | 1 |
+| E_demand (Future demand) | 7 |
+
+### Reasoning
+
+For a construction-project record like the reference hospital renovation, the strongest driver of long-run economic value is E_demand: the trajectory of regulatory mandates (EU digital building logbook requirements, ISO 19650 lifecycle information obligations) and technology pull (AI-driven analytics, digital-twin platforms needing verified provenance data) is what will make trusted, federated BIM/compliance data increasingly valuable over the asset's multi-decade life. This is directly supported by the bim_and_digital_building_logbooks.md material on BUILDCHAIN DBL, which frames decentralized building logbooks combining IFC semantics and verifiable identifiers as an emerging regulatory/technical necessity, not a current commodity market. E_market (current marketplace demand) is real but narrower in scope today -- there are institutional buyers (insurers, owners, authorities per the reference scenario) but no broad active trading market for construction records, so it sits in the middle. E_liquidity (tokenisation ease) is the weakest driver of real value from a practitioner standpoint: BIM/compliance records carry complex, often unresolved IP and liability ownership among architect, contractor, and owner (a theme echoed in the ISO 19650 guidance on federated-model governance), which makes fractional/tradeable tokenisation technically and legally awkward regardless of the data's underlying importance. Tokenisation ease is a mechanism for realizing value, not a source of it, so I rate it lowest. The E_market vs E_liquidity gap (5) is smaller than E_demand vs E_liquidity (7) since both market and future demand at least reflect genuine buyer interest, whereas ease-of-tokenisation is largely orthogonal to whether the data is valuable at all. I note this is a judgement call informed by professional experience with multi-stakeholder BIM ownership disputes rather than a hard empirical finding from the cited sources, and the E_market-vs-E_demand gap in particular is a real but not overwhelming distinction -- both are plausible candidates depending on project context.

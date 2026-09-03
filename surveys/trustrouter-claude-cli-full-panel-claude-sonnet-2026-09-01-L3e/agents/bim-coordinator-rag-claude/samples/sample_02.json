@@ -1,0 +1,20 @@
+{
+  "best": "E_demand",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_market": 3,
+    "E_liquidity": 7
+  },
+  "others_to_worst": {
+    "E_demand": 7,
+    "E_market": 5,
+    "E_liquidity": 1
+  },
+  "reasoning": "For a construction-project record like the reference hospital renovation, the strongest driver of long-run economic value is E_demand: the trajectory of regulatory mandates (EU digital building logbook requirements, ISO 19650 lifecycle information obligations) and technology pull (AI-driven analytics, digital-twin platforms needing verified provenance data) is what will make trusted, federated BIM/compliance data increasingly valuable over the asset's multi-decade life. This is directly supported by the bim_and_digital_building_logbooks.md material on BUILDCHAIN DBL, which frames decentralized building logbooks combining IFC semantics and verifiable identifiers as an emerging regulatory/technical necessity, not a current commodity market. E_market (current marketplace demand) is real but narrower in scope today -- there are institutional buyers (insurers, owners, authorities per the reference scenario) but no broad active trading market for construction records, so it sits in the middle. E_liquidity (tokenisation ease) is the weakest driver of real value from a practitioner standpoint: BIM/compliance records carry complex, often unresolved IP and liability ownership among architect, contractor, and owner (a theme echoed in the ISO 19650 guidance on federated-model governance), which makes fractional/tradeable tokenisation technically and legally awkward regardless of the data's underlying importance. Tokenisation ease is a mechanism for realizing value, not a source of it, so I rate it lowest. The E_market vs E_liquidity gap (5) is smaller than E_demand vs E_liquidity (7) since both market and future demand at least reflect genuine buyer interest, whereas ease-of-tokenisation is largely orthogonal to whether the data is valuable at all. I note this is a judgement call informed by professional experience with multi-stakeholder BIM ownership disputes rather than a hard empirical finding from the cited sources, and the E_market-vs-E_demand gap in particular is a real but not overwhelming distinction -- both are plausible candidates depending on project context.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

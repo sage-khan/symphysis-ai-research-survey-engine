@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: L
+- Worst: IC
+
+## Stated reasoning (submitted with the answer)
+
+For a construction PM deciding whether a record deserves full on-chain treatment, Legal Compliance (L) is the most decisive of the six DVS constituents: statutory items like the HVAC inspection certificate or conformity-assessment records (per shared knowledge's item list) carry a hard external mandate -- if a regulator or authority requires it, the routing decision is effectively made regardless of how the other five dimensions score, because non-compliance creates direct legal/licensing exposure for the project. Criticality (C) is a very close second -- impact-if-wrong (e.g., structural certifications) drives similar urgency -- and I want to be explicit that L vs C was a close call, not a clean-cut gap; I favored L slightly because an explicit regulatory trigger is a firmer, more externally verifiable routing signal than a criticality judgement, which is somewhat more subjective/impact-based. Provenance Trust (PT) ranks third: knowing the record came from, e.g., a chartered structural engineer (the survey's own example) matters greatly for construction custody chains, but it's a trust foundation rather than the ultimate driver of the routing decision. Verification Strength (V) is fourth: cryptographic/procedural audit evidence (signatures, tamper-evidence) is valuable technical support for trust but is a means of evidencing PT/L, not a primary driver itself. Quality (Q) ranks fifth -- an IFC-valid, technically clean model matters for usability, but a low-quality yet legally-mandated record still must be routed for compliance, so quality is more about fitness-for-use than about the trust-routing decision. Independent Confirmation (IC) is worst: in construction practice, most authoritative documents (lab certificates, chartered-engineer sign-offs, statutory inspections) are accepted on the strength of a single credentialed source's provenance and verification evidence rather than requiring multiple independent parties to corroborate them -- multi-party confirmation is comparatively rare, costly to obtain, and least decisive in practice for whether a record should go on-chain. The L-to-IC ratio of 6 reflects that gap being the widest in the set, while the middle-tier gaps (PT, V, Q) are more incremental judgement calls on my part rather than sharp distinctions.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

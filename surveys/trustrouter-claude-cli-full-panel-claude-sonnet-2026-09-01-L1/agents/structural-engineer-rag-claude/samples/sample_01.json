@@ -1,0 +1,22 @@
+{
+  "best": "DVS",
+  "worst": "F",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 7,
+    "E": 4,
+    "A": 2
+  },
+  "others_to_worst": {
+    "DVS": 7,
+    "F": 1,
+    "E": 2,
+    "A": 4
+  },
+  "reasoning": "For a structural capacity dossier that insurers, regulators, and owners will rely on for decades, the question that matters most is whether the underlying data can be trusted at all -- that is exactly what DVS (composite trustworthiness: quality, provenance trust, verification strength per the shared survey instrument's DVS constituent table) measures, so I set it as Best. Attack Resistance (A) is the second most important: for immutable ledger storage the whole point is that a chartered engineer's sealed report cannot be silently altered after the fact, so difficulty of undetected manipulation is a close second to intrinsic data trustworthiness -- these two are the substantive 'is this data real and unaltered' factors. Economic Value (E) matters because it sets the stakes (what is lost if a masonry load assessment or foundation-health reading is wrong or tampered), echoing the structural-health-monitoring source's point that a corrupted structural reading 'could mean a missed failure precursor' -- but E is a consequence multiplier, not itself evidence the data deserves trust, so I rank it below DVS and A. Technical Feasibility Fit (F) -- whether the artefact's size, update rate, and latency suit the ledger -- is a purely logistical/engineering-implementation constraint about the storage medium, not a property of the data's trustworthiness or the stakes involved; a perfectly trustworthy, high-value, tamper-evident record does not become less worth trusting because it is large or updates slowly, so F is Worst. Ratings reflect this ordering (DVS > A > E > F) while keeping best-to-others and others-to-worst reasonably mutually consistent (products near the DVS-to-F anchor of 7). This is a judgement call grounded partly in the shared survey instrument's DVS constituent breakdown and the structural-health-monitoring source's framing of consequence-of-error, and partly in my own professional experience with how insurers and regulators actually rely on sealed structural dossiers -- I do not have a citable empirical source establishing the exact multiplicative weighting between these four top-level factors, so the numeric ratios are my professional judgement, not a derived or measured quantity.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "structural_health_monitoring_and_digital_twins.md",
+    "general_knowledge"
+  ]
+}

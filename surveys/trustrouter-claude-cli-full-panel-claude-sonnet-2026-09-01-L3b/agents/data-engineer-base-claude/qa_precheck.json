@@ -1,0 +1,175 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-base-claude",
+    "role": "Data Engineering Specialist",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-base-claude\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I will evaluate T_source, T_chain, and T_history as sub-parts of Provenance Trust for construction-project records considered for blockchain storage, drawing on the shared knowledge repository and my professional judgement as a data engineering specialist, without yet answering the substantive survey questions.\"\n}",
+    "model": "sonnet",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 3994,
+      "stop_reason": "end_turn",
+      "session_id": "f130f9ff-545f-4098-ad37-a26cb3cd919e",
+      "total_cost_usd": 0.0310064,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 6390,
+        "cache_read_input_tokens": 8742,
+        "output_tokens": 230,
+        "output_tokens_details": {
+          "thinking_tokens": 0
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 6390,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 230,
+            "cache_read_input_tokens": 8742,
+            "cache_creation_input_tokens": 6390,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 6390
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1324,
+          "outputTokens": 14,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001394,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-sonnet-5": {
+          "inputTokens": 2,
+          "outputTokens": 230,
+          "cacheReadInputTokens": 8742,
+          "cacheCreationInputTokens": 6390,
+          "webSearchRequests": 0,
+          "costUSD": 0.0296124,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-sonnet-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "{\n  \"agent_id\": \"data-engineer-base-claude\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I will evaluate T_source, T_chain, and T_history as sub-parts of Provenance Trust for construction-project records considered for blockchain storage, drawing on the shared knowledge repository and my professional judgement as a data engineering specialist, without yet answering the substantive survey questions.\"\n}",
+      "ttft_ms": 3561,
+      "type": "result",
+      "duration_ms": 3588,
+      "uuid": "481d48b6-5909-4cb7-90e2-ce6864d851a2",
+      "ttft_stream_ms": 1525,
+      "time_to_request_ms": 291,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-base-claude",
+    "role": "Data Engineering Specialist",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "Understood: I will evaluate T_source, T_chain, and T_history as sub-parts of Provenance Trust for construction-project records considered for blockchain storage, drawing on the shared knowledge repository and my professional judgement as a data engineering specialist, without yet answering the substantive survey questions."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-base-claude",
+      "role": "Data Engineering Specialist",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-base-claude",
+      "role": "Data Engineering Specialist",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "Understood: I will evaluate T_source, T_chain, and T_history as sub-parts of Provenance Trust for construction-project records considered for blockchain storage, drawing on the shared knowledge repository and my professional judgement as a data engineering specialist, without yet answering the substantive survey questions."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

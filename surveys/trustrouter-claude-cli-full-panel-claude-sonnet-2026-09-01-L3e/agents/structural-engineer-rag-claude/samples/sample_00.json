@@ -1,0 +1,20 @@
+{
+  "best": "E_market",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_market": 1,
+    "E_liquidity": 5,
+    "E_demand": 2
+  },
+  "others_to_worst": {
+    "E_market": 5,
+    "E_liquidity": 1,
+    "E_demand": 3
+  },
+  "reasoning": "For a structural capacity dossier, economic value is grounded first in who actually relies on and pays for the data today: insurers, regulators, and institutional owners who need the record to underwrite, certify, or maintain the asset over decades. That present, verifiable reliance (E_market) is the most concrete and least speculative driver of economic value, so I rate it Best. Future demand (E_demand) is also meaningful -- the structural-health-monitoring and digital-twin literature (structural_health_monitoring_and_digital_twins.md) documents a real trajectory toward blockchain-anchored sensor provenance and multi-party validation for structural digital twins, which plausibly increases institutional and regulatory reliance on this class of record over time -- but it is a projection with real uncertainty about timing and adoption, so I place it clearly behind current demand (best-to-other ratio 2) yet well ahead of liquidity (others-to-worst ratio 3). Tokenisation ease (E_liquidity) is Worst: it concerns the mechanics of turning a record into a tradeable token, not whether economic value exists in the first place. A structural dossier's value comes from institutional trust and regulatory/insurance reliance, not from functioning as a liquid, tradeable asset on a secondary market -- most such records (masonry load assessments, inspection certificates) have no natural buyer pool for token trading even when their informational value to insurers or authorities is high. That decoupling of 'has real economic value' from 'is easy to tokenise' is why I rank it lowest, though I acknowledge the comparison between E_market and E_demand is closer than the gap to E_liquidity, since both current and future demand ultimately stem from the same institutional-reliance logic.",
+  "sources_used": [
+    "structural_health_monitoring_and_digital_twins.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "ground_truth": {
+    "agent_id": "structural-engineer-rag-claude",
+    "role": "Structural Engineer",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"structural-engineer-rag-claude\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I am to evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for the L3d survey as a chartered structural engineer, grounding my Best/Worst comparison and ratings in the shared knowledge repository and dedicated RAG corpus rather than general assumptions, and I will attempt this task accordingly.\"\n}\n```",
+    "model": "sonnet",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 4504,
+      "stop_reason": "end_turn",
+      "session_id": "6337a7ad-41bb-4d04-8105-b18e03230b3d",
+      "total_cost_usd": 0.0453138,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 9736,
+        "cache_read_input_tokens": 10934,
+        "output_tokens": 279,
+        "output_tokens_details": {
+          "thinking_tokens": 21
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 9736,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 279,
+            "cache_read_input_tokens": 10934,
+            "cache_creation_input_tokens": 9736,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 9736
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1324,
+          "outputTokens": 13,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001389,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-sonnet-5": {
+          "inputTokens": 2,
+          "outputTokens": 279,
+          "cacheReadInputTokens": 10934,
+          "cacheCreationInputTokens": 9736,
+          "webSearchRequests": 0,
+          "costUSD": 0.0439248,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 21,
+          "canonicalModel": "claude-sonnet-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"structural-engineer-rag-claude\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I am to evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for the L3d survey as a chartered structural engineer, grounding my Best/Worst comparison and ratings in the shared knowledge repository and dedicated RAG corpus rather than general assumptions, and I will attempt this task accordingly.\"\n}\n```",
+      "ttft_ms": 1419,
+      "type": "result",
+      "duration_ms": 3538,
+      "uuid": "91ae2789-c3b0-4d32-970f-93ddf6d14cc2",
+      "ttft_stream_ms": 857,
+      "time_to_request_ms": 26,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "structural-engineer-rag-claude",
+    "role": "Structural Engineer",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "Understood: I am to evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for the L3d survey as a chartered structural engineer, grounding my Best/Worst comparison and ratings in the shared knowledge repository and dedicated RAG corpus rather than general assumptions, and I will attempt this task accordingly."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "structural-engineer-rag-claude",
+      "role": "Structural Engineer",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "structural-engineer-rag-claude",
+      "role": "Structural Engineer",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "Understood: I am to evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for the L3d survey as a chartered structural engineer, grounding my Best/Worst comparison and ratings in the shared knowledge repository and dedicated RAG corpus rather than general assumptions, and I will attempt this task accordingly."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+From a permissioned-ledger engineering standpoint, the decisive risk in writing a record to an append-only, tamper-evident store is that intrinsic defects (inaccuracy, invalidity, duplication) become effectively permanent: correcting them later requires compensating transactions or forks in the audit trail, not a simple update, so IQ governs whether the record is even safe to commit. Contextual Quality (completeness, timeliness) matters for the record's usefulness once committed, but an incomplete or slightly stale record can still be supplemented by a later transaction without undermining the ledger's integrity guarantee -- it's a fitness-for-purpose concern rather than a tamper-evidence/correctness concern, so I place it clearly below IQ but above RQ. Representational Quality (consistency across sources) is the least decisive of the three for the on-chain-or-not decision: cross-source inconsistency is primarily an interoperability/reconciliation problem (e.g., mismatched formats or units across systems feeding the ledger), which can often be resolved at the integration/oracle layer before commitment, and does not by itself threaten the immutable record's own correctness the way an intrinsic accuracy defect does. This is a judgement call grounded in general blockchain/DLT engineering reasoning about the cost asymmetry of correcting on-chain errors, informed by the shared knowledge: trustrouter_concept_paper_primer.md's decomposition of Q into IQ/CQ/RQ and by blockchain_trust_and_attack_resistance.md's discussion of how audit-trail completeness and verification strength interact with data going on an immutable ledger (Rouhani and Deters 2021's adaptive-validation model, where a lower-trust/lower-accuracy record should trigger stronger consensus before being committed, reinforcing why intrinsic correctness is the primary gate). I note the IQ-vs-CQ comparison is not overwhelming -- a reasonable case could be made that timeliness is nearly as critical in a construction handover context -- so I've rated that gap moderately (3x) rather than extremely, while the IQ-vs-RQ gap I rate as more pronounced (5x) since consistency-across-sources is the most peripheral of the three to the core immutability risk.
+
+## Sources cited
+
+shared knowledge: trustrouter_concept_paper_primer.md, blockchain_trust_and_attack_resistance.md, general_knowledge (all claims verified genuine)

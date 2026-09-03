@@ -1,0 +1,8 @@
+{
+  "agent_id": "bim-coordinator-rag-claude",
+  "did": "did:key:z6MkqSfDfSA3Y6V2HcU6A72f4t469gxYRVPTADrJ7HzYtu7a",
+  "method": "did:key",
+  "public_key_multibase": "z6MkqSfDfSA3Y6V2HcU6A72f4t469gxYRVPTADrJ7HzYtu7a",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-claude-cli-full-panel-claude-sonnet-2026-09-01:bim-coordinator-rag-claude')"
+}

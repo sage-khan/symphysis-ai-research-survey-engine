@@ -1,0 +1,19 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 2,
+    "RQ": 3
+  },
+  "others_to_worst": {
+    "IQ": 3,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "Per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md (section 3.3), IQ bundles accuracy, validity, and uniqueness -- i.e., whether the recorded values are themselves correct and not duplicated -- while CQ bundles completeness and timeliness, and RQ concerns consistency of the same record across independent sources. From a compliance-officer's vantage point covering GDPR and construction-regulatory obligations, IQ is the foundational cluster: GDPR Article 5(1)(d) makes accuracy a first-order data-protection principle, and construction regulators (building-code sign-off, structural certifications, energy-performance disclosures) act on the substantive correctness of the values themselves -- an inaccurate or invalid measurement is a compliance failure no matter how complete, timely, or cross-source-consistent its presentation is. CQ (completeness/timeliness) is a close second: GDPR's storage-limitation and accuracy principles also imply records must be current, and regulatory deadlines (e.g., mandatory disclosure windows referenced in the questionnaire's L row) depend on timeliness -- but a complete, on-time record built on wrong underlying values still fails compliance, so CQ is instrumentally subordinate to IQ. RQ (consistency across sources) I rate worst, not because it is unimportant, but because from a regulatory-obligation standpoint it is the most technical/operational of the three: it matters primarily for establishing confidence in a distributed-ledger context (which copy do we trust), whereas the actual regulatory exposure -- fines, code violations, GDPR breach findings -- attaches to whether the data was accurate, valid, and adequately complete/timely, not to whether multiple sources happened to agree. This is a genuine judgement call rather than a clear-cut hierarchy: CQ and RQ both plausibly compete for 'least critical' depending on whether one weighs GDPR's currency requirements or blockchain's cross-source trust value more heavily, and I want to flag that closeness explicitly rather than overstate confidence in the CQ-RQ ordering.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

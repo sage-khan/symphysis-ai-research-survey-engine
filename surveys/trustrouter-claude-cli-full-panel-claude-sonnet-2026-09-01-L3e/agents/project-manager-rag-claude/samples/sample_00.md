@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: E_market
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+As a PM weighing the economic-value sub-factors for a construction record being considered for blockchain storage, I treat E_market (current marketplace demand) as the most defensible measure of real economic value: it reflects actual buyers today -- insurers, authorities, and institutional owners who need the record now for claims, compliance, or asset management, consistent with the shared survey's reference scenario of a multi-decade public hospital renovation where data 'must serve institutional owners, insurers, and authorities for decades.' Realized, current demand is concrete and verifiable rather than speculative, so I rank it Best. E_demand (future demand tied to regulatory, AI, and digital-twin growth) is a genuine and directionally important driver -- construction data's value plausibly rises as digital-twin and automated-compliance ecosystems mature -- but it is inherently forward-looking and uncertain, so it sits in the middle: clearly more central to 'economic value' than a pure trading mechanism, but less certain than demand that already exists. E_liquidity (tokenisation ease) I rank Worst because it describes a technical/market-mechanism property -- how readily the record could be structured as a tradeable token -- rather than a source of value itself. A record can be highly valuable to real buyers (high E_market, high E_demand) while being awkward to tokenise (fragmented ownership, unclear IP, regulatory ambiguity around structural/compliance records), or conversely easy to tokenise while having little real buyer interest. Ease of tokenisation is an enabling/implementation factor, not intrinsic economic value, which is why it ranks lowest among the three. I flag that the E_market vs E_demand comparison is the closer call of the two judgments: both are genuine demand-side indicators and a reasonable case could be made for weighting future/regulated demand more heavily given construction records' long retention horizons; I resolved it in favor of E_market because realized demand is less speculative and more directly measurable today.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

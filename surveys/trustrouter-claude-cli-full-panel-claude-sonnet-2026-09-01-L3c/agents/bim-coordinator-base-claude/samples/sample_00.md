@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: V_audit
+- Worst: V_diversity
+
+## Stated reasoning (submitted with the answer)
+
+For construction-project records under multi-stakeholder BIM coordination, audit-trail completeness (V_audit) is what I rely on most directly: knowing precisely who created, modified, approved, or superseded a given model element or dossier, and when, is what actually resolves disputes over design changes, RFIs, clash-detection sign-offs, and change-order liability. It is also the substrate that gives cryptographic evidence its meaning -- per 'shared knowledge: trustrouter_concept_paper_primer.md', V decomposes into crypto, audit, and diversity weighted sub-terms, and in practice a hash/signature (V_crypto) proves a record wasn't altered after the fact, but without a complete audit trail you can't reconstruct the custody story the hash is supposed to protect. So I rate V_crypto a close second-best (ratio 2) -- it's genuinely important and the comparison between it and V_audit is not clear-cut, but in day-to-day coordination work the process record is what gets consulted and defended, while cryptographic binding is the enabling mechanism underneath it. V_diversity (multiple independent verifying parties) I rank worst: on real renovation/new-build projects, securing several truly independent confirmations for every record class (e.g., a structural engineer's signed report, a daily IoT vibration dossier) is often impractical or cost-prohibitive per the questionnaire's own gating language on 'technical feasibility' and 'file size vs ledger limits' (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md), and it functions as an added robustness layer against collusion rather than as the core evidentiary requirement that crypto and audit trail already satisfy. This is a judgement call grounded in my own BIM-coordination experience as much as the reference material, since neither document ranks the three sub-parts against each other explicitly.
+
+## Sources cited
+
+shared knowledge: trustrouter_concept_paper_primer.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

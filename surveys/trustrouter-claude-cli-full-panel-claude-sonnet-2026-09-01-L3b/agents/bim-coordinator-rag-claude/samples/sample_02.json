@@ -1,0 +1,20 @@
+{
+  "best": "T_source",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_source": 1,
+    "T_chain": 2,
+    "T_history": 4
+  },
+  "others_to_worst": {
+    "T_source": 4,
+    "T_chain": 3,
+    "T_history": 1
+  },
+  "reasoning": "In a BIM federation workflow under ISO 19650, the credentials of the authoring party (T_source) are the foundational gate: a model or record's trustworthiness starts with knowing whether it came from an accredited engineer of record, a certified inspector, or an unverified subcontractor upload, and this determines what downstream scrutiny is even warranted. This is consistent with 'shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md', which frames T_source as 'quality of authoring source (person/organisation)' as the first sub-part of Provenance Trust. Custody chain (T_chain) matters because in federated model environments, records pass through multiple task teams and coordination tools (federation, clash coordination, re-export) where integrity can degrade or be tampered with even if the original author was credible -- so it is a close second, capturing a genuinely distinct risk (in-transit integrity vs. origin credibility) rather than being redundant with source. I rated T_source only 2x T_chain because both are near-term, verifiable-at-submission-time properties that a BIM coordinator actively manages via ISO 19650 validation gates (per 'bim_and_digital_building_logbooks.md's discussion of independent-party validation of federated models). Historical track record (T_history) is the weakest for routing decisions in practice: it's a slower-moving, reputational signal that is useful as a prior but is often unavailable for new sources (new subcontractors, new sensor vendors) and, in my project experience, disputes about data integrity usually turn on 'who submitted this and was the chain of custody intact' rather than 'has this party historically been reliable' -- a reliable-seeming party can still submit a corrupted or unauthorized record, and an unproven party can submit an impeccable one. This is a judgement call from my own BIM-coordination experience rather than something spelled out numerically in the reference material, so I want to flag that the T_chain vs T_history gap, while directionally clear to me, is somewhat less decisively supported by the provided sources than the T_source-as-Best choice.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "bim_and_digital_building_logbooks.md",
+    "general_knowledge"
+  ]
+}

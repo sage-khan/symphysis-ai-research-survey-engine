@@ -1,0 +1,20 @@
+{
+  "best": "T_chain",
+  "worst": "T_source",
+  "best_to_others": {
+    "T_chain": 1,
+    "T_history": 2,
+    "T_source": 6
+  },
+  "others_to_worst": {
+    "T_source": 1,
+    "T_history": 3,
+    "T_chain": 6
+  },
+  "reasoning": "From a data-engineering standpoint, custody chain (T_chain) is the criterion I actually instrument and can verify programmatically: hash chains, timestamps, transformation logs, and lineage graphs are the concrete artefacts a pipeline produces at every hop from creation to submission. The shared knowledge note on data trust properties (discovery, provenance, access control, auditing, accountability) explicitly frames a pipeline's own audit logging and lineage tracking as 'the first-hand source of evidence a Verification Strength (V) or Provenance Trust (PT) score should actually be based on' (data_quality_and_polyglot_persistence.md) -- that is a direct description of T_chain, not of source credentials or historical reputation, so I weight it as Best. T_history (historical track record) is a useful but derived/statistical signal: it is essentially a rollup of past custody-chain and outcome data, valuable for prior confidence but a lagging indicator with a cold-start problem for new sources or new projects, so I place it second. T_source (credentials of the authoring person/organization) I rank Worst: it is largely static metadata (who they are, what license/accreditation they hold) that does not tell you what actually happened to a specific data item in transit, nor does it update as new evidence accrues -- a reputable source can still submit data whose custody chain was compromised, and an unfamiliar source with an impeccably logged chain is more verifiable than a famous one with no audit trail. The ratios (T_chain=1, T_history=2, T_source=6 on Best-to-Others; T_source=1, T_history=3, T_chain=6 on Others-to-Worst) are internally consistent (2x3=6 matches the Best-Worst gap of 6), reflecting a substantial but not extreme gap between chain-of-custody evidence and static credentials, with track record occupying a clear middle position. I want to flag this is a professional judgement call rather than a claim with a citable numeric basis -- the reference material supports the qualitative ranking (chain/audit evidence as primary) but not the specific integers, which come from my own domain reasoning.",
+  "sources_used": [
+    "data_quality_and_polyglot_persistence.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

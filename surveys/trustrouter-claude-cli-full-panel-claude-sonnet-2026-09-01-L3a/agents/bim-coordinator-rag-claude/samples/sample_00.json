@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "As BIM coordinator responsible for federating models from multiple stakeholders and signing off on data before it moves into long-term (potentially blockchain) storage, my first gate is always: are the values themselves correct? Intrinsic Quality (IQ) bundles accuracy, validity, and uniqueness -- if a room dimension, a material spec, or an inspection reading is simply wrong, duplicated, or invalid at the point of capture, nothing downstream (scope completeness, timeliness, or cross-copy consistency) can fix that; per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, IQ is explicitly framed as 'are the values right in themselves?', which is the precondition for everything else. Contextual Quality (CQ, completeness+timeliness) matters a great deal in practice -- a federated model missing a discipline's submission or built on stale MEP data causes real clash-detection failures -- so I rate it meaningfully behind IQ but well ahead of RQ, not negligible (best_to_others CQ=3). Representational Quality (RQ, consistency across copies/sources) is the one I rank lowest: in an ISO 19650-governed federation workflow, format/version alignment across federated copies is substantially a process-and-tooling problem (common data environment discipline, naming/versioning conventions) that is easier to detect and remediate mechanically once IQ and CQ are in order -- per bim_and_digital_building_logbooks.md's discussion of ISO 19650 requiring independent validation of federated models before acceptance, consistency issues surface at that federation checkpoint rather than being an intrinsic property of the record's truth-value. This is a judgement call from my own domain experience, not something the reference material states outright, and I acknowledge CQ vs RQ is a clearer gap than IQ vs CQ, which is the closer call of the three.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "bim_and_digital_building_logbooks.md",
+    "general_knowledge"
+  ]
+}

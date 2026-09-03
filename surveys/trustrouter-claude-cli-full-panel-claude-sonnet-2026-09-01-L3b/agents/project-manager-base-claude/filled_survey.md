@@ -1,0 +1,91 @@
+# Filled survey: project-manager-base-claude
+
+- Agent ID: `project-manager-base-claude`
+- Role / expertise: Construction Project Manager
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkhjmGWgmEiL7z769jedvsKQSpLNLi9GPVvnuNdV9HyUgS`
+- RAG: disabled
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | T_source | T_history |
+| 1 | T_source | T_chain |
+| 2 | T_chain | T_history |
+
+## Sample 0
+
+**Best:** T_source (Source credentials)  
+**Worst:** T_history (Historical track record)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 1 |
+| T_chain (Custody chain) | 2 |
+| T_history (Historical track record) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 5 |
+| T_chain (Custody chain) | 3 |
+| T_history (Historical track record) | 1 |
+
+### Reasoning
+
+As a construction PM deciding how much provenance evidence a record needs before it can be trusted for institutional, insurance, or regulatory use, the identity and credentials of the author (T_source) are foundational: a stamped structural report from a licensed engineer or a certified test from an accredited lab carries legal and professional accountability that nothing downstream can substitute for. If the source's credentials are not verifiable, the rest of the provenance question becomes moot because there is no accountable party to stand behind the data. Custody chain integrity (T_chain) is the second-most important sub-part -- it addresses whether the specific record was altered between creation and submission, which matters a great deal for disputes and audits, but it presumes a credentialed source already exists to define what 'unaltered' means against. Historical track record (T_history) is the weakest of the three for a given record: it is a backward-looking, aggregate heuristic (has this source been reliable before?) that can inform risk scoring or spot-checking priorities, but it does not verify this particular document's authorship or its custody, and a source with a good track record can still submit a compromised or unauthorized record. That is why I placed T_source as Best, T_chain as a clear second, and T_history as Worst, with a moderate (not extreme) gap reflecting that all three sub-parts genuinely matter to provenance trust and the comparison between T_chain and T_history is closer than between T_source and either. The provided survey glossary (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) frames these exactly as 'quality of authoring source,' 'integrity of custody chain,' and 'historical track record of the source,' which is the basis for this comparison; the relative weighting itself is my own professional judgement as a project manager coordinating multi-stakeholder documentation, not something the glossary itself ranks.
+
+## Sample 1
+
+**Best:** T_source (Source credentials)  
+**Worst:** T_chain (Custody chain)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 1 |
+| T_chain (Custody chain) | 4 |
+| T_history (Historical track record) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 4 |
+| T_chain (Custody chain) | 1 |
+| T_history (Historical track record) | 3 |
+
+### Reasoning
+
+Decomposing Provenance Trust for a construction record being routed to blockchain, on-chain, hybrid, or conventional storage, I weigh which sub-factor most determines whether a document's provenance can be trusted in the first place. T_source (credentials of the authoring person/organisation, per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md's PT decomposition table) is the foundational gate: if the originator lacks standing (e.g. an uncertified inspector, an unaccredited lab, a party with no contractual authority to issue the record) then nothing downstream, however well the custody chain was logged or however clean the source's past record, makes the data trustworthy. In practice, when deciding whether a structural inspection report or an energy-compliance certificate is fit to anchor on a shared ledger for decades of institutional/insurer/authority use, the first question is who issued it and whether they are qualified/authorized to do so. That is why T_source is Best. T_history (track record) I place second: a source's historical reliability is genuinely informative, a firm with a long clean record earns more confidence, but it is a secondary signal that refines trust in a credentialed source; a source with poor credentials but a long history is still not usable, and a new but properly credentialed source is still usable, just with more caution. So it modifies but does not gate. T_chain (custody chain) I rate Worst, not because it is unimportant, but because among these three it is the most procedural and recoverable factor. Chain-of-custody gaps, for example unclear hand-off between site engineer, BIM coordinator, and compliance officer, are a real risk, but they are typically addressable via process controls, timestamps, and audit logging, exactly the kind of thing blockchain/DLT is often introduced to reinforce, per the questionnaire's framing of routing decisions. It is more a control on the transport of trust than the origin or the demonstrated reliability of trust, so relative to source credentials and historical performance I judge it the least decisive of the three for a PM assessing data trustworthiness. My ratings reflect a real but not extreme gap: T_source is clearly ahead of T_chain (4x in both directions), with T_history sitting in between (2x from Best, 3x above Worst) as a meaningful but secondary factor. This is a closer call than a top-level comparison would be; all three are legitimate provenance concerns and reasonable PMs could rank T_chain and T_history differently, so I report the ratings as directional judgement rather than a sharp, uncontested ordering.
+
+## Sample 2
+
+**Best:** T_chain (Custody chain)  
+**Worst:** T_history (Historical track record)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 2 |
+| T_chain (Custody chain) | 1 |
+| T_history (Historical track record) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 4 |
+| T_chain (Custody chain) | 5 |
+| T_history (Historical track record) | 1 |
+
+### Reasoning
+
+Working from the questionnaire's own framing (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, section 3.5-adjacent PT table): T_source = quality of the authoring person/organisation, T_chain = integrity of custody from creation to submission, T_history = the source's historical reliability. I chose T_chain as Best because, in a multi-stakeholder documentation flow (subcontractors, BIM coordinators, inspectors, owners all handling the same record before it reaches permanent storage), the decisive question for whether a record deserves blockchain-grade immutability is not just who originally authored it but whether it arrived unaltered through however many hand-offs occurred afterward. A stamped structural report from a licensed engineer is worthless as evidence if it was edited or re-issued without a clear audit trail on the way to submission -- custody chain is effectively what 'provenance' means operationally on a live jobsite. T_source is a strong second: credentials (a licensed PE, an accredited lab) matter a great deal for compliance and liability, which is why it gets only a modest 2x gap from Best rather than a wide one -- this was a genuinely close call between T_chain and T_source, and a different PM emphasizing legal/regulatory weight of stamped documents could reasonably rank T_source first. T_history is Worst because a source's track record is a general reputational prior, not document-specific evidence -- a normally reliable source can still submit a corrupted or superseded file on a given day, and a newer, unproven source can submit an impeccably chained, well-credentialed record. Historical reliability is useful as a secondary risk-weighting signal but is the least direct indicator of whether *this particular record* deserves trust before it's locked on-chain, hence the larger gap (5x) from T_chain and why T_source still clearly outweighs it (4x) in the others-to-worst comparison.
