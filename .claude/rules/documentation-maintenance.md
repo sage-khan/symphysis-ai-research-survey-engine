@@ -47,6 +47,30 @@ manual-provider sample-index bug's two separate discovery entries in
   deferred items, remove it from that list (don't leave a "TODO" that's
   already done, which misdirects future work).
 
+## Session continuity, durable memory, and task tracking
+
+Alongside `docs/development/changelog.md` and `diagnostics.md`, this repo
+maintains three more files for working *with* an AI assistant across
+sessions, not for the reader of the finished project — the same pattern
+used in `coder-with-vibes-taylor-francis` and `ec-council`, and now in
+`creator-flow`. All three live under `.claude/`, not the repo root, to keep
+the root clean (this project may see an open-source release, per its own
+roadmap):
+
+- **`.claude/sessions.md`**: a dated, append-only session log, newest entry
+  first. Read it first when resuming work; write a short entry (what was
+  asked, what actually changed, what's left) before ending any work
+  session, and before any operation that could discard context.
+- **`.claude/memory.md`**: durable facts and decisions worth carrying
+  across every future session, settled once and not worth re-litigating.
+  Not a diary — that's `.claude/sessions.md`.
+- **`.claude/tasks.md`**: the live working list. Dan annotates an item
+  directly with a line beginning `DAN:` underneath it; treat that as an
+  instruction, not commentary to re-litigate. Once every item is done,
+  fold the whole list into `docs/development/changelog.md` under a dated
+  heading, compressed to milestone-level statements, moved across once,
+  whole, at the end of a pass. Leave `tasks.md` empty afterward.
+
 ## Why this is its own rule file, not folded into project-details.md
 
 `project-details.md` describes this project's own identity and roadmap

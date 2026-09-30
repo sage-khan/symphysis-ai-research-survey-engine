@@ -93,6 +93,21 @@ See the root `README.md` for the full picture; in short:
 - [ ] `did:web` option alongside `did:key` for agents that need a
       resolvable identity document.
 
+## Publications
+
+A paper documenting and evaluating this system, `paper/symphysis-ai-panel-elicitation.tex`
+("Symphysis: A Trust-First, Reproducible Multi-Agent Engine for AI-Panel Expert Elicitation"),
+is in progress, targeting Open Research Europe (OREJ). Authors: Muhammad Danyal Khan
+(corresponding), Juan Chiachío Ruano, Rahim Ali (in memoriam). The paper's own working
+directory follows the project family's standard LaTeX-paper layout: `paper/<file>.tex` for
+live source, `paper/figures/` for diagram sources and exports, `paper/extra/` for build
+artifacts. Compile with `pdflatex -output-directory=extra symphysis-ai-panel-elicitation.tex`
+run from `paper/`. The Evaluation section is a design only until the human-vs-AI-panel
+comparison experiment (against the TrustRouter trust-dimension survey) has actually been run;
+do not fill in results before that experiment exists. Tracked alongside the rest of the
+programme's papers in `project-veritas`'s `docs/research/Work-in-progress/potential-papers/
+PAPER-TRACKER.md` (entry `P-SYM`).
+
 ## Contact
 
 Primary: Muhammad Danyal Khan, `dan@go.ugr.es`.

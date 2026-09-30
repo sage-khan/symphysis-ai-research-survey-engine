@@ -1,0 +1,74 @@
+[
+  {
+    "child_did": "did:key:z6MkpdDYZMTQmag1fKJbU2MEn3T4E4cM6CYi7z6WAGPxFToz",
+    "child_agent_id": "bim-coordinator-base-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:00.512381+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkrRnMFuNWTeLhtVLWqS83kcmqMqtPLQTf8cUKsfTs99fg",
+    "child_agent_id": "bim-coordinator-rag-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:04.204317+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkkg6UULoAGbXz2EAnY1hrsvfYZx7EdaAqpRkEej4ZRpVh",
+    "child_agent_id": "blockchain-engineer-base-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:09.287538+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkho46H5JdLmqDbkFfYroAhjgvVuDWtz57eLNERck683Yi",
+    "child_agent_id": "blockchain-engineer-rag-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:12.152627+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkviXu5EQpKjbeLbZaR9kyjS9K2ebqgxBkYCXkuZibMi67",
+    "child_agent_id": "compliance-officer-base-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:17.312069+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkjzfMfwt9CHEP5qSgU3qkRjFqNoxDUMUQuD2QNoJzcXpg",
+    "child_agent_id": "compliance-officer-rag-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:20.150097+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkgtXMdKxsqEpyNUcgiDzoX6yrCtpzSf5TKNYLJ59P4ga8",
+    "child_agent_id": "data-engineer-base-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:25.277315+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkjvAhW8hXXgo5KJbh2EfKJSCczRXx3zc7uNntaXooidgm",
+    "child_agent_id": "data-engineer-rag-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:27.834384+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkr9aEZNUTfqNZ1KGZiwBvjYwmZv2oc4bekQEsS9oy8U8H",
+    "child_agent_id": "project-manager-base-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:33.010671+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkr7oFhM6YB3BrYu27Cn1qg5WEdRvV9GQc9y8AkeQC5X2B",
+    "child_agent_id": "project-manager-rag-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:35.745009+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mko9MmCBwSnqU8aKXjN1WGxKGn7syjWFGezEP1ANA4sQcY",
+    "child_agent_id": "structural-engineer-base-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:41.124979+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkvVqt3MW3jeNhfjyZtjo1RJxZGdLSpg4r9757qpuW8hui",
+    "child_agent_id": "structural-engineer-rag-manual-chatgpt",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:45:43.722385+00:00"
+  }
+]

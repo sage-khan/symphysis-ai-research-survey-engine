@@ -39,16 +39,23 @@ class OpenAICompatibleProvider:
         seed: int | None = None,
         **extra: Any,
     ) -> ProviderResponse:
+        request_kwargs: Dict[str, Any] = dict(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+            top_p=top_p,
+            **extra,
+        )
+        if seed is not None:
+            # Omit entirely rather than send seed=null: OpenAI/Groq/
+            # OpenRouter treat an absent seed the same as a null one, but
+            # Google's Gemini OpenAI-compat endpoint schema-validates the
+            # body and 400s on an explicit null ("Unknown name \"seed\":
+            # Cannot find field"), confirmed live 2026-09-03.
+            request_kwargs["seed"] = seed
         try:
-            resp = self.client.chat.completions.create(
-                model=model,
-                messages=messages,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                top_p=top_p,
-                seed=seed,
-                **extra,
-            )
+            resp = self.client.chat.completions.create(**request_kwargs)
         except Exception as exc:
             raise ProviderError(f"{self.__class__.__name__} request failed: {exc}") from exc
 
@@ -103,7 +110,21 @@ class GroqProvider(OpenAICompatibleProvider):
 class GeminiProvider(OpenAICompatibleProvider):
     """Google's OpenAI-compatibility endpoint for Gemini models, so this
     provider needs no separate SDK/request format from the other
-    OpenAI-compatible ones."""
+    OpenAI-compatible ones.
+
+    Every current Gemini model (gemini-flash-latest etc.) defaults to an
+    internal "thinking" pass that is billed and capped against the same
+    max_tokens budget as the visible answer -- the exact same problem
+    documented in claude_cli_provider.py for Haiku's extended thinking.
+    Confirmed live (2026-09-03): a plain "reply with exactly: OK" call at
+    max_tokens=20 came back with completion_tokens=0 (finish_reason
+    "length", all 20 tokens spent on invisible thinking); max_tokens=500
+    returned the answer but at total_tokens=95 for a 1-token reply.
+    Passing reasoning_effort="low" (an OpenAI-compat field Google's
+    endpoint accepts directly) dropped that same call to total_tokens=7
+    with the answer intact. Set here as the class default so every survey
+    agent gets it without a new per-card field, and left overridable via
+    `extra` for a caller that wants a different budget."""
 
     def __init__(self, api_key: str | None = None) -> None:
         super().__init__(
@@ -111,6 +132,10 @@ class GeminiProvider(OpenAICompatibleProvider):
             base_url=_configured_base_url("gemini", "https://generativelanguage.googleapis.com/v1beta/openai/"),
             api_key=api_key,
         )
+
+    def complete(self, messages: List[Dict[str, str]], **kwargs: Any) -> ProviderResponse:
+        kwargs.setdefault("reasoning_effort", "low")
+        return super().complete(messages, **kwargs)
 
 
 class XaiProvider(OpenAICompatibleProvider):

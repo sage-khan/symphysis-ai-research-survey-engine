@@ -428,3 +428,13 @@ Tool failure is expected. Silent failure is forbidden.
 Every extraction attempt must either:
 - Produce validated text
 - Or terminate with an explicit, logged failure state.
+
+---
+
+## Uncatalogued External Materials (Web Pages, PDFs, Papers)
+
+Whenever a webpage, PDF, paper, or other external document is fetched, downloaded, or read for use in any way, as a citation, a fact-check, background context, or anything else, save a durable copy of it (or the extracted text, where the format doesn't allow a direct copy) into `references/uncatalogued/` before moving on (create `references/` if it doesn't exist yet).
+
+- Include basic provenance with each saved item: source URL, retrieval date, and a one-line note on what it was used for.
+- This applies regardless of tool or format: WebFetch output, downloaded PDFs, extracted paper text, screenshots.
+- Purpose: a later citation check, fact audit, or dispute over what a source actually said should never require re-fetching it from the live web and hoping it hasn't moved, changed, or vanished since.

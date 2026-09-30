@@ -1,0 +1,74 @@
+[
+  {
+    "child_did": "did:key:z6Mkn2gkVyXBkq9iPzn139bN8HJNyAMwqP7jh3dzdt12k4pz",
+    "child_agent_id": "bim-coordinator-base-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:40:34.346014+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkutiddCmFm3aboQYeXVhWKaV4tYbx54bFu7KawNdLt585",
+    "child_agent_id": "bim-coordinator-rag-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:40:37.814127+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkrGSKBeU6jW1XMN651V3PGphCYgEwdRJuWm8Uzxa8Bq7Y",
+    "child_agent_id": "blockchain-engineer-base-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:40:42.752634+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkm1ghAgTHQ7JdgsymRGHvJLkcGSPdR4DG48X4V5i6c9NM",
+    "child_agent_id": "blockchain-engineer-rag-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:40:45.306016+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkf92XSC4ameL6RAFJDcBMJeppZk2pPRLDbY7EYMRYMzbc",
+    "child_agent_id": "compliance-officer-base-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:40:50.209586+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkexePKGW3t6VfBHtjbpkprajrEzS9VLYCxxff65MsVo4U",
+    "child_agent_id": "compliance-officer-rag-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:40:52.791154+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkqMJyfVZsJ8j9k1gR7jDkhyipocwSn1uCbxrU8zfVZDuW",
+    "child_agent_id": "data-engineer-base-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:40:57.796167+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkmPhuVvZuMz6GFjx6SR1QP2r5u618s69PA26aMeFn4j8L",
+    "child_agent_id": "data-engineer-rag-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:41:00.273147+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkvKczHpxdBx8XEiZvbTmdbjke419S6nN8eJqZ9gHvFydc",
+    "child_agent_id": "project-manager-base-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:41:05.077229+00:00"
+  },
+  {
+    "child_did": "did:key:z6MktSJtFQgRsTZedhGE1e7BAc5uHNPrTcLd421fvMzJCE1h",
+    "child_agent_id": "project-manager-rag-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:41:07.526936+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkqWK9mLRt9fravhjEMuGTrotFyM1YJhwVWNg9VfH9d6Ka",
+    "child_agent_id": "structural-engineer-base-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:41:12.489771+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkwBF7XcZB7ngx6ohqHk8HFR6NDDhjMq736WLK9LB3WDAt",
+    "child_agent_id": "structural-engineer-rag-manual-gemini-pro",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:41:15.006955+00:00"
+  }
+]

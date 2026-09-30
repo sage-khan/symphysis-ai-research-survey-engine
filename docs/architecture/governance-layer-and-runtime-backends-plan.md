@@ -23,8 +23,17 @@ subprocess) — see that phase's own task list for exactly which of its three
 tasks landed and which (agent proposal/reuse inside the flow) did not.
 Phase 4 (model-tiering escalation) and Phase 6 (UI: Lineage tab,
 `model_escalated` surfaced in the Conversation log) are both fully
-implemented and tested. Not yet done: Phase 3 task 19, Phase 5 (deliberately
-deferred, not merely unstarted — see its own section). Companion to
+implemented and tested. Phase 3 task 19 ("agent proposal/reuse inside the
+flow") landed generalized, not in its originally-scoped form: rather than
+the panel flow itself choosing which agent answers which instrument level,
+`spawning/pipeline.py` adds survey-meta pipeline stages (`setup_review`,
+`response_review`) as real child spawns of a deterministic per-survey
+`pipeline-orchestrator` identity, each running its own Agent Card through a
+new meta-`Instrument`: this is the first real caller of `spawn.py`'s
+`mint_child`/`declare_child`, built as native Symphysis Python rather than
+inside OpenManus's own `PlanningFlow` (see design note below). Not yet
+done: Phase 5 (deliberately deferred, not merely unstarted — see its own
+section). Companion to
 `target-pipeline-vision.drawio`/`.png` (see `architecture-overview.md`)
 rather than a replacement for it: that diagram's Orchestration/AI-panel
 layers are the vision this plan makes concrete at the module level. Read
@@ -431,13 +440,27 @@ inside the flow) is not — see its own note below.**
     and confirmed to fall back to its last attempt, both then re-verified
     by feeding the flow's final assembled JSON back through the same
     `instrument.parse()` the outer guardrails loop uses in production.
-19. **Not implemented.** `SurveyPanelFlow`'s plan-authoring step covering
-    agent proposal/reuse (wrapping `agent_proposer.py`'s existing logic) is
-    still open: today's panel flow operates on one already-spawned agent's
-    own per-level answers; it does not itself decide which agent answers
-    which level. Revisit if/when a survey design actually needs
-    per-level agent selection inside the flow rather than at the existing
-    survey-config level.
+19. **Implemented, generalized past its original scope.** `SurveyPanelFlow`
+    itself still does not decide which agent answers which instrument
+    level (that per-level agent-selection question, as originally scoped,
+    remains open; revisit if a survey design actually needs it). What
+    landed instead, addressing the same underlying gap ("no agent-spawns-
+    agent flow exists yet") at the survey-meta level: `spawning/pipeline.py`,
+    config-driven pipeline stages (`setup_review`, `response_review`)
+    declared via `survey.yaml`'s optional `pipeline:` key, each a genuine
+    capability-attenuated child spawn of a deterministic per-survey
+    `pipeline-orchestrator` identity via `spawn.py::mint_child`/
+    `declare_child`, the first real caller of those primitives outside
+    their own test file. Deliberately built as native Symphysis Python
+    (new `instruments/setup_review.py`/`response_review.py` meta-
+    instruments, reusing `Agent.run()`'s existing guardrails/storage/trace
+    machinery) rather than inside OpenManus's own `PlanningFlow`/
+    `FlowFactory` (`vendor/openmanus/app/flow/planning.py`), which remains
+    entirely unused in this codebase: this plan's own design principle
+    ("domain logic never leaves Symphysis's own code") and Phase 3's own
+    precedent (task 18's bespoke `SurveyPanelFlow` over the generic
+    planner) both rule out letting an external planner own survey-specific
+    decomposition logic.
 
 ### Phase 4: model-tiering — implemented and tested
 
@@ -553,3 +576,197 @@ inside the flow) is not — see its own note below.**
   and cloud escalation (Phase 4) defaults off.
 - It does not build sandboxing or coding-tool exposure (Phase 5) speculatively;
   that phase is gated on an actual downstream need.
+
+## 8. External design references (added 2026-09-26, not yet scheduled work)
+
+Two findings from `project-veritas`'s external-repo review campaign bear directly on this
+plan's already-implemented citation/guardrail machinery (§6 tasks 15-16, `CitationVerify`/
+`qa_checks.verify_sources_used`, and the outer `guardrails.py` reject-and-repair loop). Neither
+is scheduled against a phase above; both are recorded here as concrete references for whoever
+next touches this machinery.
+
+- **T2D-Bench's Evidence Gate as a stronger model for the existing citation check.** Today,
+  `citation_verify` is an *ungated* tool (per §6 task 16: "the always-present ungated
+  `citation_verify`"), meaning `SurveyElicitationAgent` may call it or not, and correctness is
+  backstopped only by the outer `guardrails.py` reject-and-repair loop catching whatever the
+  agent failed to self-check. T2D-Bench (`Saba-Farahani/t2d-bench-`, reviewed as
+  `product-review-t2d-bench-sep2026.md`) implements the same underlying idea, gate an LLM
+  output on whether it cites required evidence, as a mandatory, deterministic rule engine that
+  runs on every output regardless of whether the model chose to self-check, and when a required
+  citation is missing, sends a constrained rewrite prompt naming exactly which identifier is
+  absent rather than a generic rejection, iterating until the output passes or a revision
+  budget is exhausted. Evaluated on T2D-Bench's own 100-vignette benchmark, this brought
+  evidence-gated compliance from 65% to 100%. Worth evaluating whether `guardrails.py`'s
+  existing reject-and-repair loop for `fabricated_source_citation` (§6 task 20's logged
+  category) could adopt the same "name exactly what is missing" repair-prompt discipline
+  instead of a generic rejection, and whether `citation_verify` should become mandatory
+  (invoked automatically by the outer loop after every level, not only when the agent chooses
+  to call it) rather than remaining ungated. Full review:
+  `project-veritas/docs/research/Work-in-progress/reviews/product-review-t2d-bench-sep2026.md`
+  §9.1.
+- **AutoHarness's reflector/promoter separation as a candidate self-tuning loop for the Agent
+  Library.** `AutoHarness` (`tigerless-labs/autoharness`, reviewed as
+  `product-review-autoharness-sep2026.md`) splits a reflection process (observes sessions,
+  drafts candidate rule/skill changes) from a promoter process (validates and applies them),
+  kept structurally apart so a bad reflection cannot self-apply. Over many elicitation panels,
+  some agent definitions in Symphysis's own Agent Library will likely prove systematically
+  over-confident, under-informative, or poorly calibrated against real BWM/Delphi outcomes;
+  this reflect-then-promote separation is a directly transferable structural pattern for a
+  future feature that observes panel outcomes and proposes, but does not silently auto-apply,
+  agent-definition refinements. Full review:
+  `project-veritas/docs/research/Work-in-progress/reviews/product-review-autoharness-sep2026.md`
+  §9.
+
+Both findings are also logged in this repo's own cross-project tracking file:
+`docs/planning/enhancement-opportunities-symphysis-ai-research-survey-engine-aug2026.md`,
+"Update, 2026-09-26 (second 10-link batch, 9 source reviews)" section.
+
+## 9. Reasoning traces and experiment test bench (added 2026-09-30, not yet scheduled work)
+
+Goal (Dan, 2026-09-30): Symphysis should become a general test bench, not only a survey engine.
+The same task should run under several conditions (baseline model, model plus harness, model plus
+RAG, knowledge graph, ontology or other grounding), across models, datasets and seeds, with every
+step, tool call and reasoning trace recorded and the results scored and compared statistically.
+Surveys stay the first use case.
+
+### 9.1 Recording reasoning: what can actually be captured
+
+Two model classes need different treatment, but both write into one event format (§9.3).
+
+**Reasoning models.** The hidden reasoning is exposed differently by each provider, so the record
+must say which kind of text it holds:
+
+| Provider / runtime | What the API returns | Capture in Symphysis today |
+|---|---|---|
+| Ollama | `think` request field (true/false or a model-defined level such as low/medium/high, listed by `/api/show`); reasoning returned in a separate `message.thinking` field | `_extract_thinking()` in `audit/logger.py` reads `message.thinking`, but `ollama_provider.py` never sets `think`, so capture depends on each model's default |
+| Anthropic (Claude) | thinking content blocks, summarized in the documented example; a display parameter; thinking encryption; blocks must be preserved across tool calls | `claude_cli_provider.py` maps thinking blocks into the same field, with the thinking budget passed as `MAX_THINKING_TOKENS` (default 2000, overridable) |
+| OpenAI reasoning models | raw reasoning tokens are not exposed; an opt-in reasoning summary; encrypted reasoning items for stateless use; reasoning tokens are billed as output tokens | not captured |
+| Gemini | final output only by default; thought summaries on request | `GeminiProvider` only lowers `reasoning_effort` to `"low"`; nothing captured |
+| vLLM / SGLang (self-hosted open models) | a `reasoning` field on the message (renamed from `reasoning_content`; old clients silently read an empty field) | not captured |
+
+So the record needs a `thinking_kind` of `raw`, `summary`, `encrypted` or `none`, plus the
+reasoning-token count, because for OpenAI and Gemini the count is often the only trace of how much
+reasoning happened.
+
+**Non-reasoning models.** There is no hidden channel to read. What can be recorded:
+1. an elicited rationale field in the output schema, always labelled as stated, post-hoc reasoning
+   (Symphysis already keeps this separate from native thinking);
+2. explicit ReAct steps (thought, action, observation), which the OpenManus runtime already emits
+   as `thought` and `tool_call` events;
+3. every tool call, retrieval hit, knowledge-graph or ontology lookup and intermediate prompt as its
+   own step, which is usually the most informative trace for a grounded condition;
+4. token log-probabilities where the provider returns them, as a confidence signal.
+
+**Caveat for both classes.** Visible reasoning is evidence about the model, not a faithful account
+of how it reached the answer. Models rationalise answers induced by biased prompts without
+mentioning the bias (Language Models Don't Always Say What They Think, Turpin et al., 2023,
+arXiv:2305.04388); how much the answer depends on the stated reasoning varies by task, and larger
+models were less faithful on most tasks studied (Measuring Faithfulness in Chain-of-Thought
+Reasoning, Lanham et al., 2023, arXiv:2307.13702); reasoning models verbalised their use of a
+planted hint in often under 20% of the cases where they used it (Reasoning Models Don't Always Say
+What They Think, Chen et al., 2025, arXiv:2505.05410); monitoring chains of thought is useful but
+imperfect and fragile (Chain of Thought Monitorability, Korbak et al., 2025, arXiv:2507.11473).
+The test bench therefore stores reasoning as data and, where it matters, tests faithfulness with
+interventions (§9.4 step 6) instead of assuming it.
+
+### 9.2 What Symphysis already has, measured against the test-bench goal
+
+Present and reusable:
+- identity and governance: Agent Cards with `did:key` identities, enforced permissions,
+  spawn declarations and lineage (`agent_card.py`, `identity/did.py`, `spawn.py`, Lineage UI);
+- audit trail per agent: `prompt.md`, `conversation.jsonl` (raw completions, rejections, tool
+  calls), `thoughts.md`, samples and `result.json` (`audit/logger.py`), with native thinking kept
+  apart from stated reasoning;
+- runtimes behind one protocol (`runtime/base.py`): single-call Ollama and the multi-turn OpenManus
+  ReAct driver; model tiering; guardrails with reject-and-resample; repeated sampling; QA prechecks
+  including the fabricated-citation check;
+- grounding tools: per-agent RAG, shared survey knowledge, role packs, SearXNG web search, each
+  logged as a tool call.
+
+Missing for the test-bench goal:
+- provider-level reasoning and usage capture (the table in §9.1), and an environment manifest per
+  run (model digest, runtime and driver versions, git commit, prompt hashes, seeds);
+- a generic task instrument (dataset item, gold answer, scorer) beside the survey instruments
+  (BWM, AHP, hierarchical);
+- an experiment matrix runner (conditions x models x datasets x seeds), resumable, and a statistics
+  layer (confidence intervals, paired tests);
+- conditions as first-class, swappable configurations rather than properties of a survey;
+- a standard trace export; today the trace is custom JSONL only.
+
+### 9.3 One event record per step
+
+Every LLM call, tool call, retrieval and agent step writes one JSONL event. Field names follow the
+OpenTelemetry GenAI semantic conventions (status: Development) so the same record can later be
+exported as spans without renaming:
+
+- identity: `run_id`, `step_id`, `parent_step_id`, `gen_ai.agent.id` (the Agent Card `did:key`),
+  `gen_ai.agent.name`, `gen_ai.agent.version`, condition name;
+- operation: one of the convention's operations (invoke agent, invoke workflow, plan, chat,
+  execute tool, load skill), so Symphysis skills map onto the convention's skill spans;
+- request: provider, model, model digest, temperature, `gen_ai.request.seed`,
+  `gen_ai.request.reasoning.level`, SHA-256 of the full prompt;
+- response: raw output, parsed output, finish reason, reasoning content with `thinking_kind`
+  (the convention's output-message schema has a `ReasoningPart` of type `reasoning` for this);
+- usage: input, output and `gen_ai.usage.reasoning.output_tokens`; latency;
+- outcome: guardrail verdicts, scorer result, errors.
+
+The convention marks full message content as opt-in because it can hold sensitive data. Symphysis
+keeps full content in its local JSONL (the source of truth) and would export only metadata by
+default to any external viewer.
+
+### 9.4 Roadmap, in order
+
+1. **Reasoning and usage capture plus environment manifest** (small, providers and
+   `audit/logger.py`). Set `think` explicitly per Agent Card in the Ollama provider; read vLLM's
+   `reasoning` field (and the legacy `reasoning_content`) and Gemini/OpenAI summaries in the
+   OpenAI-compatible provider; record token usage from every provider; write a per-run manifest.
+2. **Generic task instrument** (small to medium, `instruments/`). A task instrument takes a dataset
+   item, runs the agent and hands the output to a scorer (exact match, execution match, numeric
+   tolerance, rubric or model grader). Survey instruments remain as they are.
+3. **Experiment matrix runner and statistics** (medium). A resumable runner over
+   conditions x models x datasets x seeds writing one results row per item, and a report with
+   bootstrap confidence intervals and exact McNemar tests for paired comparisons. The CogTwins
+   `veritas/svc-vkg/experiment/` code (prompt dump with SHA-256, run manifests, `report.py`,
+   `cross_site.py`, `ontology_compare.py`) already implements this for the VKG evaluation and can
+   be lifted almost unchanged.
+4. **Conditions as plugins** (medium). Baseline (no tools), harness (ReAct via OpenManus), RAG, and
+   knowledge-graph / ontology / virtual knowledge graph access, each exposed as tools under the
+   existing permission model, so a condition is a named set of tools plus a runtime plus a prompt
+   template.
+5. **OpenTelemetry export** (small once §9.3 exists). Export the JSONL events as GenAI spans to a
+   self-hosted viewer. OpenInference and OpenLLMetry are Apache-2.0 instrumentation libraries;
+   Langfuse and Arize Phoenix are viewers, but both report a non-plain licence on GitHub
+   (Langfuse is MIT outside its `ee/` directories), so the viewer stays optional and the JSONL
+   stays authoritative.
+6. **Faithfulness probes** (optional instrument). Following Lanham et al. (2023) and Turpin et al.
+   (2023): rerun an item with the reasoning truncated, corrupted or paraphrased, or with a planted
+   biasing hint, and record whether the answer changes and whether the reasoning mentions the hint.
+
+Design reference rather than dependency: Inspect AI (developed by the UK AI Security Institute and
+Meridian Labs, MIT licence) already
+has this shape (tasks, datasets, solvers, scorers, a structured `.eval` log format and a log viewer)
+and normalises provider reasoning into `ContentReasoning` blocks from a `reasoning` /
+`reasoning_content` field, `<think>` tags or provider APIs. Symphysis keeps its own runner because
+its value is the governance layer (identities, permissions, lineage, guardrails) that Inspect does
+not have; Inspect's log and reasoning normalisation are the pattern to copy. EleutherAI's
+lm-evaluation-harness (MIT) and Stanford HELM (Apache-2.0) do not fit the multi-step conditions.
+lm-evaluation-harness sends each item as a single `generate_until`, `loglikelihood` or
+`loglikelihood_rolling` request, and its `think_end_token` option strips reasoning traces from the
+output rather than recording them. HELM's adapters are generation, chat, multiple-choice (including
+a chain-of-thought variant), in-context-learning and language-modelling, with no tool-use or agent
+adapter, and HELM entered maintenance mode on 1 June 2026. Both remain useful for single-call
+baselines of the same models.
+
+### 9.5 Sources
+
+Provider documentation retrieved 2026-09-30: Ollama "Thinking" capability docs; Anthropic
+"Extended thinking" docs; OpenAI "Reasoning models" guide; Google Gemini API "Thinking" docs; vLLM
+"Reasoning Outputs" docs; OpenTelemetry GenAI semantic conventions
+(github.com/open-telemetry/semantic-conventions-genai: attribute registry, agent spans, output
+message schema); Inspect AI documentation (inspect.aisi.org.uk: eval logs, reasoning);
+lm-evaluation-harness README and repository tree (github.com/EleutherAI/lm-evaluation-harness);
+HELM README and repository tree (github.com/stanford-crfm/helm). Papers:
+Turpin et al., 2023, arXiv:2305.04388; Lanham et al., 2023, arXiv:2307.13702; Chen et al., 2025,
+arXiv:2505.05410; Korbak et al., 2025, arXiv:2507.11473. Saved copies and provenance:
+`project-veritas/misc/` (see `misc/SOURCES.md` and
+`misc/provenance-reasoning-trace-testbench-2026-09-30.md`).

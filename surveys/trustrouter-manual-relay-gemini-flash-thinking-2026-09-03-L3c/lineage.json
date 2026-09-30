@@ -1,0 +1,74 @@
+[
+  {
+    "child_did": "did:key:z6MkhVtYcgNofkMQCDpj2nRgMvsUzv8iagUkMRkPcxTFJtL5",
+    "child_agent_id": "bim-coordinator-base-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:33:27.762889+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkwHAtQzokkpKBZf6z2kwnQcb1qnSYXysJe7hTSMi31L75",
+    "child_agent_id": "bim-coordinator-rag-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:33:31.288964+00:00"
+  },
+  {
+    "child_did": "did:key:z6MktLcXzUu7ACxYcefGM1owLrPPj7Z8cBnYASLpDPMHhd4q",
+    "child_agent_id": "blockchain-engineer-base-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:33:36.262415+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkvJv3wo8Vj4tRL9pegGiJb2XEKQZPcerwAD8MLHwwd9kq",
+    "child_agent_id": "blockchain-engineer-rag-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:33:38.805557+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkrmJ2aJMuE1i7qFHCbAy1R82oRMiDFiX51kPiJVrsEW3S",
+    "child_agent_id": "compliance-officer-base-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:33:43.779796+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkrvQTph6taoQdmYydbnefD39E55oHJUaC9nTbqDqACEhk",
+    "child_agent_id": "compliance-officer-rag-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:33:46.439771+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mknh21uDXSgpPbmyARAMXG14CZ34dDh5Yjybv981uFEfU9",
+    "child_agent_id": "data-engineer-base-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:33:51.404347+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkmoyMwHAYYca8uCbeaPWHWevZkEj2tr5C2gcxm9ELxrtc",
+    "child_agent_id": "data-engineer-rag-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:33:54.028736+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkgSLZ1f9afLiq2wgQhF8PsNDhS6hC1XHNz4mggJeqNBtv",
+    "child_agent_id": "project-manager-base-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:33:58.956917+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkiiQy3fgNpavMDPVXh2chXB14ah9QmwHwJHf7txCUVjgr",
+    "child_agent_id": "project-manager-rag-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:34:01.420585+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkvF8WytTmDR7UgV3839z4miv4SX69jVJaQos79K3UaL8e",
+    "child_agent_id": "structural-engineer-base-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:34:06.759230+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkuod7shnDBRSzgHuX4wVxdp6jK5EqkDdifTYq9DsyeHFk",
+    "child_agent_id": "structural-engineer-rag-manual-gemini-flash-thinking",
+    "parent_did": null,
+    "declared_at": "2026-09-04T09:34:09.317524+00:00"
+  }
+]

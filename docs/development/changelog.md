@@ -4,6 +4,90 @@ All notable changes to Symphysis (formerly SAGE, formerly agentic-survey-tool). 
 are tracked separately in `diagnostics.md`.
 
 
+## 2026-09-30 (release v0.1.1)
+
+- Version 0.1.0 to 0.1.1 (`pyproject.toml`, `src/symphysis/__init__.py`, `web/backend/main.py`).
+  Bundles the previously uncommitted work of 2026-09-03 to 2026-09-06 (pipeline stages
+  `setup_review`/`response_review` as child spawns, Gemini seed and reasoning-effort fixes,
+  reporting and orchestrator changes, the result-provenance and watermarking plan, the TrustRouter
+  full-panel survey configs and relay-chain scripts) with the §9 plan below. Full test suite:
+  342 passed.
+- §9 of the governance-layer plan: the lm-evaluation-harness / HELM statement is now backed by
+  their READMEs and repository trees (single-request task types; no tool-use or agent adapter;
+  HELM in maintenance mode since 2026-06-01); the Claude thinking cap is described as a default
+  of 2000, not a fixed value.
+
+## 2026-09-30 (plan only: reasoning traces and experiment test bench)
+
+- Added §9 "Reasoning traces and experiment test bench" to
+  `docs/architecture/governance-layer-and-runtime-backends-plan.md` (no code). It records what each
+  provider actually exposes of model reasoning (Ollama `think`/`thinking`, Claude thinking blocks,
+  OpenAI and Gemini summaries only, vLLM `reasoning`), how to trace non-reasoning models (stated
+  rationale, ReAct steps, tool and retrieval steps, log-probabilities), the faithfulness caveat from
+  four papers, one JSONL event record per step named after the OpenTelemetry GenAI semantic
+  conventions, the gap between Symphysis today and a general condition x model x dataset x seed
+  test bench, and a six-step roadmap (reasoning/usage capture and run manifest, generic task
+  instrument, matrix runner with statistics lifted from CogTwins `svc-vkg/experiment/`, conditions
+  as tool plugins, OTel export, faithfulness probes).
+- Code gaps confirmed while writing it: `ollama_provider.py` never sets `think`; the
+  OpenAI-compatible provider captures no reasoning; no provider records token usage; no
+  OpenTelemetry export exists.
+- Pointer added to `docs/planning/enhancement-opportunities-symphysis-ai-research-survey-engine-aug2026.md`.
+
+## 2026-09-06 (plan only: result provenance and LLM watermarking)
+
+- Added `docs/architecture/provenance-and-watermarking-plan.md`: a plan (no code yet) for two
+  related goals Dan asked for: LLM output watermarking, so a claimed AI-panel response cannot be
+  faked, and a verification mechanism so anyone can check that a survey's results genuinely came
+  from this tool and were not altered afterward. Split into two layers with very different
+  feasibility: Layer 1 (generation-time attestation signing, reusing the existing
+  `identity/credentials.py` Verifiable Credential machinery unchanged) is buildable now and
+  extends `integrity.py`'s existing tamper-evidence guarantee down to the moment of generation,
+  not just the moment a run finishes; Layer 2 (real statistical text watermarking, e.g. a
+  green-list/red-list token-biasing scheme) is a genuine, provider-dependent research and
+  engineering investment (for local models it requires bypassing Ollama for direct logit-level
+  control; for hosted providers it depends entirely on whether that provider itself exposes a
+  public watermark/detector API), explicitly not started until a scoping research spike reports
+  back. States its own threat model plainly, including what neither layer can defend against
+  (an operator who controls the entire pipeline and its signing keys at generation time).
+- README's "Status / what's deferred" and "Documentation" sections updated to point at the new
+  plan doc; also corrected a stale README line describing the governance-layer plan as "not yet
+  implemented" when Phases 0-4 and 6 have in fact landed and Phase 5 is deliberately deferred
+  (see that plan doc's own Status line).
+
+## 2026-09-06 (pipeline stages: setup-review and response-review as real child spawns)
+
+- Added `spawning/pipeline.py`: config-driven pipeline stages that run alongside a survey's
+  panel, distinct from the agents that answer the instrument. `survey.yaml`'s new optional
+  `pipeline:` key names which stages are enabled and which Agent Card drives each; an absent key
+  (every survey.yaml written before this feature existed) is an exact behavior match to today.
+  First two stages: `setup_review` (judgment-level review of the survey's own configuration,
+  layered on top of `survey_checks.py::fix_survey()`'s existing deterministic checks, before the
+  panel runs) and `response_review` (second-pass critique of the panel's own already-accepted
+  responses, after it runs). Both propose findings as text; neither edits a survey's files or an
+  accepted sample, matching this repo's "AI has no authority to decide intent" rule.
+- Each stage is a genuine, capability-attenuated child spawn
+  (`spawning/spawn.py::mint_child`/`declare_child`) of a deterministic per-survey
+  `pipeline-orchestrator` identity, not a special-cased root spawn: this is the first real
+  exerciser of the child-spawn primitives the governance-layer plan (Phase 1) built and tested
+  but never called outside its own test file, and produces a genuine two-level lineage tree
+  visible in the existing Lineage UI tab.
+- New meta-instruments `instruments/setup_review.py` and `instruments/response_review.py`
+  (satisfying the same `Instrument` protocol as `bwm`/`ahp`/`hierarchical_bwm`, so they reuse
+  `Agent.run()`'s guardrails/storage/trace machinery for free rather than needing a parallel
+  execution path); a new report section (`reporting.py::render_pipeline_findings_section`).
+  `orchestrator.py::run_survey()` runs `setup_review` before the panel loop and
+  `response_review` after it; a stage's own failure (bad card, uncredentialed provider, no
+  schema-valid response) is reported, never fatal to the survey it was meant to review.
+- Design note, not a code change: OpenManus's own generic `PlanningFlow`/`FlowFactory`
+  (`vendor/openmanus/app/flow/planning.py`) was deliberately NOT used for this: the governance
+  plan's own binding principle ("domain logic never leaves Symphysis's own code") already ruled
+  that out, and Phase 3's own implementation note documents why a bespoke flow
+  (`SurveyPanelFlow`) was built instead of the generic one for the same reason. This work is
+  Phase 3 task 19 ("agent proposal/reuse inside the flow"), generalized from one instrument's
+  levels to survey-meta stages, built as native Symphysis Python rather than inside OpenManus's
+  subprocess.
+
 ## 2026-08-03 (architecture diagram refresh: preflight lane, SearXNG/Crawl4AI, palette fix)
 
 - `current-system-architecture.drawio` regenerated (via a small Python generator script,

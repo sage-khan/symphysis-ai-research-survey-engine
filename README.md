@@ -233,7 +233,7 @@ symphysis-ai-research-survey-engine/
 | File | Purpose |
 |---|---|
 | `cli.py` | The `symphysis` Typer CLI: `new`/`add-agent`/`run`/`report`/`fix-survey`, a first-class alternative to the web UI. |
-| `config.py` | Loads and validates `survey.yaml` into a `SurveyConfig` (instrument, dimensions, weighting, discovered agent cards). |
+| `config.py` | Loads and validates `survey.yaml` into a `SurveyConfig` (instrument, dimensions, weighting, discovered agent cards, optional escalation/pipeline settings). |
 | `survey_checks.py` | `fix_survey()`: static validation of a survey's configuration (schema, hierarchical_bwm level-graph integrity, dangling RAG/role-pack/prompt-template references) without running anything. Backs the CLI's `fix-survey` subcommand. |
 | `preflight.py` | `check_survey_providers()`: whether every provider a survey's agents actually use is reachable right now (Ollama with models pulled, hosted-provider API keys set). Single source of truth reused by `cli.py`'s `run` (checked first, before any agent runs) and `web/backend/routers/surveys.py`'s `GET /{id}/preflight`. |
 | `agent_card.py` | The portable Agent Card: one JSON file that fully defines a spawnable agent (model, RAG, sampling, permissions, guardrails, did, role_pack, rulefile). `new_card()` / `load_card()`. |
@@ -242,12 +242,13 @@ symphysis-ai-research-survey-engine/
 | `qa_checks.py` | Deterministic genuineness checks: verifies a QA precheck restatement against ground truth, and a response's self-reported `sources_used` against what was actually available in that prompt. Never a further model call. |
 | `permissions.py` | Enforces (not just documents) an Agent Card's `data_scopes` and `allowed_providers` before any file is read or provider called. |
 | `guardrails.py` | Schema validation + reject-and-resample, denylist regex scan (prompt-injection / secret-shaped strings), repeated sampling, applied to every provider call. |
-| `orchestrator.py` | Drives one full survey run: spawn every agent, run the instrument, solve the agent-panel posterior, optionally combine with a human panel (HAWC-BWM), write the report. `INSTRUMENTS` registry lives here. |
+| `orchestrator.py` | Drives one full survey run: spawn every agent, run the instrument, solve the agent-panel posterior, optionally combine with a human panel (HAWC-BWM), write the report. `INSTRUMENTS` registry lives here. Also runs any pipeline stages `survey.yaml`'s `pipeline:` key declares (see `spawning/pipeline.py`), before and after the main panel loop. |
 | `storage.py` | The per-survey / per-agent runtime folder layout (see "Repository structure" above): every `write_*` call the rest of the package makes. |
 | `reporting.py` | Renders `report.md` and the matplotlib PNG charts (`render_report`, `render_charts`) from a survey's combined result dict. |
 | `app_config.py` | The one place `config/defaults.yaml` and its runtime override are read from: provider base URLs, model/sampling/RAG defaults, the guardrail denylist starting point, and the global rulefile. |
 | `providers/` | One `LLMProvider` implementation per backend: `ollama_provider.py` (local/remote Ollama HTTP API, reads `OLLAMA_BASE_URL`), `anthropic_provider.py`, `openai_compatible.py` (OpenAI, OpenRouter, Groq, Gemini, xAI), `manual_provider.py` (paste-in models with no API), `base.py` (the `LLMProvider` protocol). `__init__.py` is the provider registry (`get_provider`, `reset_provider`). |
-| `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument; `ahp.py` is the Analytic Hierarchy Process instrument (pairwise comparison prompt, response schema, `build_full_matrix`); `hierarchical_bwm.py` runs several BWM comparisons in one agent response, one per named level, for a survey where one level's criterion is itself broken down by another level (see "Hierarchical BWM" below). All include the `sources_used` citation instruction. |
+| `instruments/` | `base.py` is the `Instrument` protocol (`build_messages` + `parse`); `bwm.py` is the Best-Worst Method instrument; `ahp.py` is the Analytic Hierarchy Process instrument (pairwise comparison prompt, response schema, `build_full_matrix`); `hierarchical_bwm.py` runs several BWM comparisons in one agent response, one per named level, for a survey where one level's criterion is itself broken down by another level (see "Hierarchical BWM" below). All include the `sources_used` citation instruction. `setup_review.py`/`response_review.py` are meta-instruments used only by `spawning/pipeline.py`'s pipeline stages, not selectable as a survey's own `instrument:`. |
+| `spawning/` | `spawn.py`: mint a child agent identity, attenuate its capabilities against its parent's own granted set (never a union), and declare every spawn (root or child) before the agent does anything else. `lineage.py`: the resulting parent-to-child spawn tree, written to `lineage.json`. `pipeline.py`: config-driven pipeline stages (`setup_review`, `response_review`), each a real child spawn of a deterministic per-survey `pipeline-orchestrator` identity, running a stage's own Agent Card through the normal `Agent.run()` path with a meta-instrument, its findings appended to the report. See "Pipeline stages" below. |
 | `solvers/` | `bwm_classical.py` (Rezaei 2015 linear program + consistency ratio), `bwm_bayesian.py` (Mohammadi & Rezaei 2020 hierarchical Bayesian model, PyMC/NUTS with a numpy-bootstrap fallback, plus `combine_panels` for HAWC-BWM), `ahp.py` (Saaty 1980 principal-eigenvector priority weights + consistency ratio, plus `aggregate_individual_priorities` for the agent panel), `hierarchical_bwm.py` (solves every level with the two BWM solvers above, then multiplies each leaf's weight through its ancestor levels, excluding the root, to get its global weight; see "Hierarchical BWM" below for why the root is excluded). |
 | `rag/retriever.py` | Minimal pluggable RAG: chunks every `.txt`/`.md` file under a corpus directory, retrieves top-k via sentence-transformers cosine similarity or falls back to dependency-free TF-IDF. |
 | `role_packs/` | Standard professional-domain knowledge packs (`packs/*.md`: AI Scientist, Data Engineer, LLMOps Engineer, Knowledge Graph Engineer, Construction Engineer, Wind Energy Engineer, Blockchain Trust Specialist, Cybersecurity Specialist) an agent can attach via its card's `role_pack` field. |
@@ -594,6 +595,48 @@ Implement `symphysis.instruments.base.Instrument` (`build_messages` +
 `parse`) and register it in `symphysis/orchestrator.py`'s `INSTRUMENTS`
 dict. The agent, provider, guardrail, and storage layers do not change.
 
+## Pipeline stages
+
+A survey's own panel run can be bracketed by pipeline stages: named,
+config-driven meta-agents that review the survey's setup or its panel's own
+responses, distinct from the agents that actually answer the instrument.
+Enable a stage via `survey.yaml`'s optional `pipeline:` key:
+
+```yaml
+pipeline:
+  setup_review:
+    agent_card: pipeline_agents/setup-fixer.json
+  response_review:
+    agent_card: pipeline_agents/response-reviewer.json
+```
+
+An absent `pipeline:` key (every survey.yaml written before this feature
+existed) means no stage runs: zero change in observed behavior. Each
+stage's Agent Card is authored exactly like a panel agent's own card (its
+own model, prompt, permissions); nothing about a stage's behavior is
+hardcoded in Python.
+
+- **`setup_review`** runs before the panel, reviewing the survey's own
+  configuration for judgment-level problems the deterministic
+  `survey_checks.py::fix_survey()`/`preflight.py` checks can't catch (does
+  the dimension set actually cover the construct being measured, does an
+  agent's role fit its assigned RAG corpus). It proposes fixes as text; it
+  never edits a survey's files itself.
+- **`response_review`** runs after the panel, re-checking each already
+  schema-valid, accepted response's reasoning against its own numeric
+  answer for the kind of inconsistency a schema check cannot catch. It
+  flags findings; it never alters an accepted sample.
+
+Both stages are real, capability-attenuated child spawns
+(`spawning/spawn.py::mint_child`/`declare_child`) of a deterministic
+per-survey `pipeline-orchestrator` identity, not a special-cased path;
+their spawn declarations and lineage edges show up in the same
+`lineage.json`/Lineage UI tab a future agent-spawns-agent flow will use. A
+stage that fails (a missing card, an uncredentialed provider, a review
+agent that never produces a valid response) is reported in the "Pipeline
+review findings" report section, never fatal to the survey it was meant to
+review.
+
 ## Hierarchical BWM
 
 Some criteria hierarchies are too deep for a single flat BWM comparison:
@@ -635,7 +678,10 @@ that can author a `hierarchical_bwm` level tree (not just a flat
 guardrail's agreement-threshold gate, drawio-based architecture diagrams
 in the generated report, structural (not text-pattern) PDF/DOCX parsing,
 and UI polish (dark-themed chart rendering, agent-selection for partial
-survey runs, an "add agent from template" flow).
+survey runs, an "add agent from template" flow). Also deferred: result
+provenance/watermarking (see
+`docs/architecture/provenance-and-watermarking-plan.md`, plan only,
+nothing built yet as of 2026-09-06).
 
 ## Documentation
 
@@ -647,9 +693,13 @@ survey runs, an "add agent from template" flow).
   current pipeline, Agent Card anatomy, and the target pipeline vision
   with implemented-vs-planned status on every stage.
 - `docs/architecture/governance-layer-and-runtime-backends-plan.md` for the
-  planned agent-spawning/DID-declaration/policy-attenuation redesign and its
-  OpenManus/OpenCode pluggable-runtime-backend architecture (not yet
-  implemented; setup-task checklist included).
+  agent-spawning/DID-declaration/policy-attenuation architecture and its
+  OpenManus/OpenCode pluggable-runtime-backend design (Phases 0-4 and 6
+  implemented and tested; Phase 5 deliberately deferred; setup-task
+  checklist included).
+- `docs/architecture/provenance-and-watermarking-plan.md` for the planned
+  LLM-output watermarking and result-verification architecture (plan
+  only, nothing implemented yet).
 - `docs/development/changelog.md` for what changed and when.
 - `docs/development/diagnostics.md` for bugs found, root cause, and fix.
 - `.claude/rules/documentation-maintenance.md` for the rule (binding on any
