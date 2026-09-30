@@ -14,6 +14,7 @@ def _lazy_registry() -> Dict[str, type]:
         return _REGISTRY
     from .ollama_provider import OllamaProvider
     from .anthropic_provider import AnthropicProvider
+    from .claude_cli_provider import ClaudeCliProvider
     from .openai_compatible import GeminiProvider, GroqProvider, OpenAIProvider, OpenRouterProvider, XaiProvider
     from .manual_provider import ManualProvider
 
@@ -21,6 +22,7 @@ def _lazy_registry() -> Dict[str, type]:
         {
             "ollama": OllamaProvider,
             "anthropic": AnthropicProvider,
+            "claude_cli": ClaudeCliProvider,
             "openai": OpenAIProvider,
             "openrouter": OpenRouterProvider,
             "groq": GroqProvider,

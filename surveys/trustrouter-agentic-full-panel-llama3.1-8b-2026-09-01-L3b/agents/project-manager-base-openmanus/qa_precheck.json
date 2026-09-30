@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-base-openmanus",
+    "role": "Construction Project Manager",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"project-manager-base-openmanus\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am acting as a Construction Project Manager, and I will attempt to answer the survey questions based on my professional judgment and the provided reference material. I confirm that I have reviewed my configuration and will not add any capabilities or knowledge sources beyond what was stated.\"\n}",
+    "model": "llama3.1:8b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "llama3.1:8b",
+      "created_at": "2026-09-01T19:12:32.348614166Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"project-manager-base-openmanus\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am acting as a Construction Project Manager, and I will attempt to answer the survey questions based on my professional judgment and the provided reference material. I confirm that I have reviewed my configuration and will not add any capabilities or knowledge sources beyond what was stated.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1313068880,
+      "load_duration": 71359122,
+      "prompt_eval_count": 2098,
+      "prompt_eval_duration": 262667225,
+      "eval_count": 143,
+      "eval_duration": 923371890
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-base-openmanus",
+    "role": "Construction Project Manager",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand that I am acting as a Construction Project Manager, and I will attempt to answer the survey questions based on my professional judgment and the provided reference material. I confirm that I have reviewed my configuration and will not add any capabilities or knowledge sources beyond what was stated."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-base-openmanus",
+      "role": "Construction Project Manager",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-base-openmanus",
+      "role": "Construction Project Manager",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand that I am acting as a Construction Project Manager, and I will attempt to answer the survey questions based on my professional judgment and the provided reference material. I confirm that I have reviewed my configuration and will not add any capabilities or knowledge sources beyond what was stated."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

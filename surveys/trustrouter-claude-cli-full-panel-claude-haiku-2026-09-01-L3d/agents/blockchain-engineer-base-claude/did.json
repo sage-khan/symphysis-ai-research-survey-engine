@@ -1,0 +1,8 @@
+{
+  "agent_id": "blockchain-engineer-base-claude",
+  "did": "did:key:z6MkjavCfxYpe2BkYMXfrJDvcH43kkcZRgoJAFJLDqtqyLmk",
+  "method": "did:key",
+  "public_key_multibase": "z6MkjavCfxYpe2BkYMXfrJDvcH43kkcZRgoJAFJLDqtqyLmk",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01:blockchain-engineer-base-claude')"
+}

@@ -1,0 +1,97 @@
+# Filled survey: bim-coordinator-base-claude
+
+- Agent ID: `bim-coordinator-base-claude`
+- Role / expertise: BIM Coordinator
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkwaD5PfneZEDso4t2zzYoPEj2qoTJMvwL6gsjm7sm4KYw`
+- RAG: disabled
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | DVS | E |
+| 1 | DVS | F |
+| 2 | DVS | F |
+
+## Sample 0
+
+**Best:** DVS (Data Value Score)  
+**Worst:** E (Economic Value)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 3 |
+| E (Economic Value) | 5 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 5 |
+| F (Technical Feasibility Fit) | 3 |
+| E (Economic Value) | 1 |
+| A (Attack Resistance) | 4 |
+
+### Reasoning
+
+As a BIM coordinator deciding whether construction-project records deserve permanent, immutable ledger storage, the composite trustworthiness of the record itself (DVS) is the foundational gate. DVS aggregates quality, provenance trust, verification strength, independent confirmation, legal compliance and criticality (per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, section 3.2) -- if the underlying data is not trustworthy, writing it to a tamper-evident, permanent ledger does not create trust, it just permanently enshrines a bad or unverifiable record, which is actively worse for downstream owners, insurers and authorities than not recording it at all. Attack Resistance (A) is second in importance because it is the other half of what makes a ledger meaningfully different from a normal document register: tamper-evidence for structural, compliance and MEP records that must survive decades and multiple custodians is central to the whole DLT proposition, so I placed it fairly close behind DVS (ratio 2). Technical Feasibility Fit (F) is a real, sometimes hard constraint (large IFC/BIM models, frequent updates, latency needs can simply not fit ledger limits), but it is an engineering/implementation hurdle rather than a judgement about whether the data is worth trusting or protecting, so I placed it behind A. Economic Value (E) I judged the least important of the four for this comparison: in the stated composite formula TrustRouter = DVS x F x (1+E) x A, E enters as (1+E) and therefore can only scale the score up, never drive it to zero the way DVS, F or A structurally can -- a low-value asset with excellent DVS/F/A can still merit ledger storage (e.g. a life-safety compliance certificate that is not economically large but is critical), whereas a high-value asset with poor DVS or A should not be trusted onto a ledger regardless of stakes. E is genuinely useful for prioritization/urgency but is the weakest determinant of whether the record itself deserves trust, which is why I rate it worst. I want to be explicit that DVS vs A is a closer call than DVS vs E -- both DVS and A are core, non-negotiable trust gates in practice, and reasonable BIM/blockchain practitioners could rank them the other way round; my ratio of 2 reflects that closeness rather than a confident large gap.
+
+## Sample 1
+
+**Best:** DVS (Data Value Score)  
+**Worst:** F (Technical Feasibility Fit)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 7 |
+| E (Economic Value) | 3 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 7 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 5 |
+| A (Attack Resistance) | 6 |
+
+### Reasoning
+
+From a BIM coordinator's perspective managing federated models and lifecycle documentation across owners, insurers, and authorities, the question TrustRouter is really answering is: does this record deserve durable, tamper-evident storage, and is it trustworthy enough to bear that weight? DVS is the composite that actually encodes trustworthiness -- per the shared knowledge glossary it bundles Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal compliance and Criticality, i.e. the substantive attributes a coordinator checks before treating a model or document as authoritative (e.g. a signed structural report vs. an unverified sketch). That makes it the anchor factor: without adequate DVS, nothing else in the pipeline matters, because you'd be immutably preserving low-trust data. F (Technical Feasibility Fit = 1-P, fit to ledger size/update-rate/latency constraints) is a real-world engineering gate I deal with constantly in model federation (large IFC exports, frequent clash-detection updates don't fit cheaply on-chain), but it reflects storage-system practicality, not the intrinsic trust or stakes of the record -- a highly trustworthy, high-value document doesn't become less important because it's hard to fit on a ledger; it just forces an off-chain-hash workaround. That is why I rank it worst for 'importance' in this comparison set, even though it is operationally necessary. A (Attack Resistance) is close behind DVS in importance because tamper-evidence is arguably blockchain's core value proposition for compliance and insurance disputes over decades -- I placed it second rather than tied with DVS because attack resistance is meaningless to invest in if the underlying data was never trustworthy to begin with (DVS is the precondition). E (Economic Value) sits between A and F: high stakes justify stronger protection and is a legitimate prioritization lever I use when deciding which records get the most scrutiny, but on its own it doesn't establish whether a record is trustworthy or securable, only how much it would hurt if compromised -- and the survey's own formula (1+E) treats it as an amplifier rather than a gating factor the way DVS, F and A are, which reinforced my judgement that it is not the top driver. I want to flag that the DVS-vs-A call and the E-vs-A call were the least clear-cut parts of this ranking -- a reasonable case could be made to swap A ahead of DVS given blockchain's core purpose is tamper detection, so I'm not claiming high confidence on the exact 2 vs 3 spacing, only on the overall ordering DVS > A > E > F.
+
+## Sample 2
+
+**Best:** DVS (Data Value Score)  
+**Worst:** F (Technical Feasibility Fit)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 6 |
+| E (Economic Value) | 3 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 6 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 2 |
+| A (Attack Resistance) | 3 |
+
+### Reasoning
+
+From a BIM coordination standpoint, the whole point of putting a construction-project record on a ledger is to certify that the record itself is trustworthy over a multi-decade lifecycle spanning owners, insurers, and authorities. DVS (quality, provenance, verification of the BIM/IFC data) is the foundation: an immutably-stored but low-quality or unverifiable model (e.g., a clash-detection federated model with unclear authorship or unvalidated geometry) gives false assurance -- you've just made garbage permanent and harder to correct. That 'garbage in, garbage out' concern is the single biggest practical risk I see in multi-stakeholder BIM federation, so I rank DVS as Best. Attack Resistance (A) is a close second: tamper-evidence is the specific value proposition of DLT for lifecycle documentation (structural inspection reports, compliance certificates) that must survive disputes and audits decades later, so it stays near the top but is secondary to the antecedent question of whether the data was ever trustworthy to begin with. Economic Value (E) matters for prioritizing which records are worth the ledger overhead (a load-bearing structural certificate vs. a minor finish spec), but it's a resource-allocation input rather than a property of the data's trustworthiness, so it sits below DVS and A. Technical Feasibility Fit (F) is the Worst for this comparison: it's an engineering/implementation constraint (can the artefact's size, update cadence, and latency needs actually be accommodated by the ledger, e.g., anchoring a large IFC file via hash rather than storing it directly) rather than a judgement about how much the data deserves to be trusted or protected. In practice a BIM record with poor technical fit is usually solved by hashing/off-chain storage patterns rather than by declining to trust the data, which is why I judge it least decisive among these four for the trust question itself. The multiplicative structure (DVS x F x (1+E) x A) means every factor can gate the composite to near zero, but this ranking reflects professional judgement about which factor most directly answers 'should this construction record be trusted on a ledger,' not the mathematical sensitivity of the formula. This was a genuinely closer call between A and E than between DVS and F -- both A and DVS are intrinsic to trust, while E and F are more about justification and practicality, so the middle ranks carry more uncertainty than the endpoints.

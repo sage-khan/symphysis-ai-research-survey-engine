@@ -1,0 +1,8 @@
+{
+  "agent_id": "data-engineer-base-claude",
+  "did": "did:key:z6Mkgetd4SzJJVFgp33Mr15qYrPY1rWLsTBk9egDkh4y3VV5",
+  "method": "did:key",
+  "public_key_multibase": "z6Mkgetd4SzJJVFgp33Mr15qYrPY1rWLsTBk9egDkh4y3VV5",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-claude-cli-full-panel-claude-sonnet-2026-09-01:data-engineer-base-claude')"
+}

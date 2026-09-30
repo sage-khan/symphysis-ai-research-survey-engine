@@ -1,0 +1,22 @@
+{
+  "best": "DVS",
+  "worst": "F",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 5,
+    "E": 3,
+    "A": 2
+  },
+  "others_to_worst": {
+    "DVS": 5,
+    "F": 1,
+    "E": 2,
+    "A": 3
+  },
+  "reasoning": "As a PM coordinating multi-stakeholder documentation over a project's life, the question I actually ask before routing any record (inspection cert, change order, test certificate) to a trust ledger is: is this data itself trustworthy to begin with? That is exactly what DVS captures as a composite (quality, provenance, verification strength per the shared questionnaire's Q/PT/V constituents) - if the underlying record is low-quality or unprovenanced, putting it on an immutable ledger just permanently fossilizes bad data; it doesn't create trust. That's why I rank DVS best. Attack Resistance (A) is a close second: construction_project_management_and_mcdm.md (Gartoumi 2024) flags dispute resolution over change orders and inspection sign-offs as the scenario with the highest downstream cost when a record's trust can't later be established - and that is precisely the scenario where undetected retroactive tampering (low A) does the damage, which is blockchain's core unique value-add over ordinary document management. Economic Value (E) I rate moderate: it tells you how much is at stake and therefore how much protection effort is justified, but structurally in the TrustRouter formula it only scales the composite via (1+E) rather than being able to zero it out the way DVS, F, or A can - so a PM would treat it as a prioritization multiplier rather than a gating trust factor. Technical Feasibility Fit (F) I rank worst, not because ledger constraints don't matter operationally, but because whether a 20MB drawing set or a 5MB/day photo stream technically 'fits' the ledger (size, update rate, latency) is an engineering/workaround question (off-chain storage with on-chain hashing, batching, etc.), not a reflection of how much the record's trustworthiness actually matters to the project. A highly valuable, highly attack-prone, highly trustworthy record doesn't become less deserving of trust infrastructure just because it's awkward to store - the storage problem is solvable independently of the trust question. This is a judgement call rather than a fact drawn from the literature; the sources didn't directly rank these four top-level factors against each other, so I'm reasoning from the PM's practical dispute-resolution and audit-trail priorities.",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

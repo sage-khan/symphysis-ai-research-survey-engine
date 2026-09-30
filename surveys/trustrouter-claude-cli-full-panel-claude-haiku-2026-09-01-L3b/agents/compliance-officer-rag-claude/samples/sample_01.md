@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: T_source
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+From a compliance officer's perspective responsible for GDPR and construction regulations, source credentials (T_source) are the foundational trust component. Construction records require proper authorship credentials (licensed engineers, qualified contractors) both as a regulatory requirement and as the basis for legal accountability. GDPR imposes accountability obligations on data controllers and processors—you must be able to demonstrate who is responsible for the record and whether they had proper authority to create it. Without established source credentials, the regulatory chain of responsibility breaks down. Custody chain (T_chain) is the second priority—it ensures data integrity during transit, which is essential for GDPR compliance and critical for immutable storage where modification is impossible post-submission. However, if the source lacks proper credentials, integrity of chain alone cannot remedy the underlying accountability gap. Historical track record (T_history) ranks lowest because while past reliability is useful predictive context, it does not establish current accountability or current integrity. A previously reliable source can produce flawed data in any given instance, and for a specific construction record being submitted for blockchain storage, what matters is the present credentials and chain integrity, not statistical past performance. The reference material on blockchain and GDPR emphasizes that immutability creates regulatory tension—T_source establishes the initial trusted authority whose data is being immutably recorded, making it the critical starting point.
+
+## Sources cited
+
+gdpr_and_data_governance.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: T_source
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+As the compliance officer accountable for tying a construction record back to a legally responsible party, T_source (credentials of the authoring person/organisation, per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md's definition of PT decomposition) is the criterion that most directly satisfies regulatory and liability requirements: a signed dossier from a chartered structural engineer is meaningful precisely because the credential establishes who is legally answerable if the record is wrong, which is the same logic gdpr_and_data_governance.md applies when it frames on-chain identity as fundamentally an AML/KYC-style regulatory-compliance problem rather than a purely technical one. Without a credentialed source, an impeccable custody chain or a strong historical track record cannot manufacture legal accountability that isn't there. T_chain (custody-chain integrity from creation to submission) sits in the middle: it matters for tamper-evidence and audit admissibility, and complements T_source, but it presupposes a source worth tracking in the first place, so I rate it clearly below T_source but well above T_history. T_history (the source's past reliability) is the weakest for compliance purposes: it is a probabilistic, reputational signal that a new but properly credentialed and well-audited source may simply not have yet, and unlike credentials or a documented custody chain, a track record carries no binding legal weight on its own -- it is corroborative context, not a compliance requirement. I set best-to-others as T_source=1, T_chain=2, T_history=4, and others-to-worst as T_source=4, T_chain=2, T_history=1, which keeps the two tables consistent (2x2=4 matches the direct T_source-vs-T_history ratio of 4). This is a moderately close call between T_source and T_chain -- both are load-bearing for a compliance sign-off -- but T_history is clearly the weakest of the three on regulatory grounds.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, gdpr_and_data_governance.md, general_knowledge (all claims verified genuine)

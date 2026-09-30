@@ -1,0 +1,20 @@
+{
+  "agent_id": "data-engineer-base-openmanus",
+  "did": "did:key:z6MkoHX584uNGsUNkT4wu6bvscjg7jXYsKj13JDFkz2TH799",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Data Engineering Specialist",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "qwen3:14b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-qwen3-14b-2026-09-01-L3a"
+}

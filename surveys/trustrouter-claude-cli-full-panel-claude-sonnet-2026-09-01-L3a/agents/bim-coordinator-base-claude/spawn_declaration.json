@@ -1,0 +1,20 @@
+{
+  "agent_id": "bim-coordinator-base-claude",
+  "did": "did:key:z6MkwaD5PfneZEDso4t2zzYoPEj2qoTJMvwL6gsjm7sm4KYw",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "BIM Coordinator",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "claude_cli",
+    "name": "sonnet",
+    "temperature": 0.3
+  },
+  "runtime_backend": "direct_completion",
+  "survey_id": "trustrouter-claude-cli-full-panel-claude-sonnet-2026-09-01-L3a"
+}

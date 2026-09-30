@@ -1,0 +1,19 @@
+{
+  "best": "IQ",
+  "worst": "CQ",
+  "best_to_others": {
+    "IQ": 1,
+    "RQ": 2,
+    "CQ": 6
+  },
+  "others_to_worst": {
+    "IQ": 6,
+    "RQ": 3,
+    "CQ": 1
+  },
+  "reasoning": "Grounding in the survey glossary (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md), IQ covers accuracy, validity and uniqueness -- whether the values are right in themselves -- while CQ covers completeness/timeliness and RQ covers consistency across copies. For a record being considered for blockchain storage, IQ is foundational: once a record is committed to an immutable ledger, an inaccurate or invalid value cannot be cheaply corrected the way an incomplete or stale field can be patched with a later append-only update. From a data-engineering standpoint, garbage-in-immutable-forever is the worst failure mode a write-once store can have, so correctness of the values themselves has to dominate the routing decision -- this makes IQ the clear Best. RQ (cross-source consistency) sits close behind IQ in my judgement because it is directly load-bearing for my own polyglot-persistence and provenance-tracking responsibilities: before committing a record to a chain I need to know whether the copies in the source systems actually agree, since disagreement is often the first signal of tampering, sync failure, or bad provenance -- so RQ is rated only 2x below IQ. CQ, by contrast, is the criterion I judge Worst: completeness and timeliness are real quality dimensions, but a record that is accurate and consistent yet momentarily incomplete or slightly late is a far more recoverable, lower-stakes problem in a ledger context than one that is inaccurate or inconsistent, since later updates/appends can fill gaps or refresh timing without undermining trust in what was already written. This is a comparison where IQ vs RQ is genuinely close (both are about the correctness/agreement of the values, just single-source vs cross-source), so I want to flag that distinction honestly rather than overstate confidence -- the IQ-vs-CQ and RQ-vs-CQ gaps are much clearer to me than the IQ-vs-RQ gap.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

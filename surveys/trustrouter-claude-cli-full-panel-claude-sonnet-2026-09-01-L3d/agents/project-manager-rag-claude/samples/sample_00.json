@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 2,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_insider": 6,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "In a construction-project data-trust context, the most damaging attack vector is a legitimate, credentialed actor (inspector, engineer, subcontractor PM) deliberately falsifying or backdating a record they have every right to touch -- a falsified inspection sign-off, a manipulated change order, or collusive approval. This maps directly to construction_project_management_and_mcdm.md's note (from Gartoumi 2024) that dispute-resolution use cases -- exactly change orders and inspection sign-offs -- are where an unverifiable data item creates the highest downstream cost; those disputes are overwhelmingly insider-actor scenarios, not outsider intrusion, which is why I rate A_insider as Best. Oracle resistance (sensor/device tampering feeding data onto the chain) is the second-most serious concern -- it is the classic 'garbage in, immutable garbage out' problem for any blockchain that ingests IoT sensor streams (structural monitoring, curing sensors, environmental compliance data) -- but it requires physical or technical access to tamper with a device before ingestion, a higher barrier than an insider simply choosing to misreport, so I place it clearly behind insider resistance but well ahead of Sybil resistance. Sybil resistance (fake-identity attacks via mass-created accounts) is the least relevant of the three for a typical construction-project deployment: these networks are realistically permissioned/consortium chains among known, onboarded stakeholders (owner, GC, subs, insurer, AHJ) rather than open permissionless networks, so the cheap-fake-identity threat model that Sybil resistance defends against is largely designed out at the network-membership layer already, making it the least load-bearing of the three sub-criteria. My best-to-others and others-to-worst ratios (1/2/6 and 6/3/1) are set to be mutually consistent (a_Bj x a_jW = a_BW = 6 for every j), reflecting a fairly confident but not extreme spread -- I would call the Insider-vs-Oracle gap a real but moderate one, and the Insider-vs-Sybil and Oracle-vs-Sybil gaps considerably larger, given how differently applicable the Sybil threat model is to a permissioned construction consortium.",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "general_knowledge"
+  ]
+}

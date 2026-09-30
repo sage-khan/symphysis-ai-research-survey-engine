@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-rag-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-rag-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will execute the survey task as a Data Engineering Specialist with the specified capabilities.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T12:01:51.430947826Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"data-engineer-rag-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will execute the survey task as a Data Engineering Specialist with the specified capabilities.\"\n}",
+        "thinking": "Okay, let me make sure I understand what the user is asking for. They want me to confirm my configuration as per the given rules. The user provided a detailed setup, including agent ID, role, model, and capabilities. I need to respond with a JSON object that exactly mirrors this information without adding anything extra.\n\nFirst, I'll check the agent ID: \"data-engineer-rag-ollama\". The role is \"Data Engineering Specialist\", and the model is \"ollama/qwen3:14b\". The capabilities include dedicated RAG corpus and shared knowledge repo as true, role pack as none, and web search as false. The acknowledgement should be a short confirmation that I understand the task and will proceed as instructed. I need to ensure that the JSON is correctly formatted and that all fields are accurately copied. No extra information or capabilities should be included. Let me structure the JSON accordingly and verify each field matches the user's input.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4388508376,
+      "load_duration": 59852932,
+      "prompt_eval_count": 2420,
+      "prompt_eval_duration": 542517798,
+      "eval_count": 307,
+      "eval_duration": 3713451153
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-rag-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will execute the survey task as a Data Engineering Specialist with the specified capabilities."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-rag-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-rag-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will execute the survey task as a Data Engineering Specialist with the specified capabilities."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

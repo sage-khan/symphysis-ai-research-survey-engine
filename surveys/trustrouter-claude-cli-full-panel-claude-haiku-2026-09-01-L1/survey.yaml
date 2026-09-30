@@ -1,0 +1,25 @@
+id: trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01-L1
+title: 'TrustRouter Claude CLI Panel (haiku) -- Level L1: Top-level TrustRouter factors'
+description: 'One of 7 sibling per-level surveys (parent run: trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01).
+  The four expert-weighted factors of TrustRouter = DVS x F x (1+E) x A. Uses the
+  flat bwm instrument answered via a single structured-JSON completion (provider=claude_cli,
+  runtime_backend=direct_completion).'
+instrument: bwm
+instrument_params:
+  dimensions:
+  - DVS
+  - F
+  - E
+  - A
+  dimension_labels:
+    DVS: Data Value Score
+    F: Technical Feasibility Fit
+    E: Economic Value
+    A: Attack Resistance
+  dimension_descriptions:
+    DVS: Composite trustworthiness of the data.
+    F: How well the artefact fits ledger constraints (size, update rate, latency).
+      F = 1 - P.
+    E: Financial or asset value at stake if the data is corrupted or lost.
+    A: Difficulty of undetected manipulation.
+created_at: '2026-09-01T00:00:00+00:00'

@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-base-ollama",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"project-manager-base-ollama\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will act as a Construction Project Manager expert in the TrustRouter SLM Panel Run 1 survey.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T10:21:16.294654304Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"project-manager-base-ollama\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will act as a Construction Project Manager expert in the TrustRouter SLM Panel Run 1 survey.\"\n}",
+        "thinking": "Okay, I need to confirm my configuration as per the user's instructions. Let me start by recalling the details provided. The agent ID is \"project-manager-base-ollama\", role is \"Construction Project Manager\", and the model is \"ollama/qwen3:14b\". The current date is 2026-09-01. The project is part of TrustRouter SLM Panel Run 1, specifically Level L3a dealing with ISO 25012 quality clusters.\n\nThe capabilities mentioned are: dedicated RAG corpus is False, shared knowledge repo is True, no role pack, and web search is False. I need to make sure I don't add any extra capabilities. The acknowledgement should be a brief confirmation that I understand the task and will act as the Construction Project Manager expert.\n\nI should structure the JSON exactly as specified, without any additional text. Let me double-check each field to ensure they match the given configuration. No mistakes there. Alright, time to put it all into the correct JSON format.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4737707182,
+      "load_duration": 59327740,
+      "prompt_eval_count": 2427,
+      "prompt_eval_duration": 544683346,
+      "eval_count": 331,
+      "eval_duration": 4044606286
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-base-ollama",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will act as a Construction Project Manager expert in the TrustRouter SLM Panel Run 1 survey."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-base-ollama",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-base-ollama",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will act as a Construction Project Manager expert in the TrustRouter SLM Panel Run 1 survey."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

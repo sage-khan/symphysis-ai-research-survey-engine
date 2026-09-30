@@ -1,0 +1,91 @@
+# Filled survey: blockchain-engineer-base-claude
+
+- Agent ID: `blockchain-engineer-base-claude`
+- Role / expertise: Blockchain / DLT Engineer
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkiXdPHgRKLgsWGCi5P19sNTrHqFjySf3d9JD1BYLAirtk`
+- RAG: disabled
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | T_source | T_history |
+| 1 | T_chain | T_history |
+| 2 | T_source | T_history |
+
+## Sample 0
+
+**Best:** T_source (Source credentials)  
+**Worst:** T_history (Historical track record)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 1 |
+| T_chain (Custody chain) | 2 |
+| T_history (Historical track record) | 4 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 4 |
+| T_chain (Custody chain) | 3 |
+| T_history (Historical track record) | 1 |
+
+### Reasoning
+
+Provenance Trust concerns whether a construction-data record's origin can be trusted before it is ever committed to a ledger. Of the three sub-parts, T_source (credentials/identity of the authoring person or organisation) is the most fundamental: it establishes whether the entity that produced the record (e.g., a certified surveyor, an accredited testing lab, a licensed engineer of record) had the standing to produce trustworthy data in the first place. If the source itself is not credentialed or identifiable, neither an intact custody chain nor a good historical track record can compensate, because both of those are properties layered on top of an already-identified actor. T_chain (custody-chain integrity from creation to submission) is a close second: it verifies that whatever the credentialed source produced was not altered, substituted, or mishandled en route to the ledger gateway, which is operationally critical for tamper-evidence but presupposes a known source to begin with. T_history (the source's historical reliability) is the weakest of the three for a single-record trust decision: it is a useful Bayesian prior for weighting future submissions, but it is backward-looking, slow to accumulate for new or infrequent contributors, and can be gamed by an actor with a long clean history who then submits a compromised record via a broken custody chain -- so it adds the least discriminating power at the moment a specific record needs to be trusted. Hence T_source is Best, T_history is Worst, with T_chain rated closer to T_source than to T_history because chain-of-custody failures are a direct, high-frequency vector for tampering in permissioned-ledger deployments in my operational experience, whereas historical reputation is more of a secondary heuristic. The T_source vs T_history gap (rated 4) and T_chain vs T_history gap (others-to-worst of 3) reflect that both source credentials and custody integrity are meaningfully more decisive than track record, but I acknowledge the T_source/T_chain distinction itself is a closer call than the numbers might suggest -- reasonable engineers could swap their relative weight depending on whether the deployment's primary threat model is impersonation (favors T_source) or interception/mutation in transit (favors T_chain).
+
+## Sample 1
+
+**Best:** T_chain (Custody chain)  
+**Worst:** T_history (Historical track record)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 3 |
+| T_chain (Custody chain) | 1 |
+| T_history (Historical track record) | 4 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 2 |
+| T_chain (Custody chain) | 4 |
+| T_history (Historical track record) | 1 |
+
+### Reasoning
+
+For construction-project records being considered for blockchain storage, the decisive question is whether the record can be trusted as an accurate, untampered representation of what actually happened between creation and submission -- that is exactly what T_chain (custody-chain integrity) captures. A blockchain/DLT's core value proposition is tamper-evidence over a chain of custody: hashing, timestamping, and append-only logging are designed precisely to detect gaps or alterations in custody, so custody-chain integrity is the criterion most directly addressed by, and most decision-relevant to, the on-chain/hybrid/conventional routing choice. T_source (who produced it) matters because credentialed authors are less likely to originate bad data, but it is a prior/static property of the actor, not of the specific record's journey, so it's a real but secondary signal -- I rate it 3 (Best-to-Source) reflecting that it's clearly less central than custody chain but still substantially more important than historical track record. T_history (has the source been reliable before) is the weakest of the three for a routing decision because it is backward-looking and statistical -- useful for risk scoring an actor over time, but it says little about whether *this particular record* was preserved intact, and a source with a good track record can still submit a corrupted or late record, while a newer/unproven source could submit a perfectly custody-verified one. This is a genuine judgement call rather than a clear-cut case: T_source vs T_history could plausibly be argued closer than I've rated them, since both are properties of the actor rather than the record's journey, but I judged source credentials as more actionable/verifiable (credentials, licensure, organizational identity) than an accumulated reliability score, which is noisier and slower to establish for new but legitimate sources. Ratios: Best_to_Others gives T_chain=1 (itself), T_source=3, T_history=4; Others_to_Worst gives T_history=1 (itself), T_source=2, T_chain=4, consistent with T_chain > T_source > T_history.
+
+## Sample 2
+
+**Best:** T_source (Source credentials)  
+**Worst:** T_history (Historical track record)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 1 |
+| T_chain (Custody chain) | 2 |
+| T_history (Historical track record) | 4 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| T_source (Source credentials) | 4 |
+| T_chain (Custody chain) | 3 |
+| T_history (Historical track record) | 1 |
+
+### Reasoning
+
+Decomposing Provenance Trust (PT) per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md into T_source (who authored the data), T_chain (custody integrity from creation to submission), and T_history (the source's track record). In a permissioned-ledger deployment for construction data, T_source is the root of trust: if the authoring party's identity/credentials cannot be established and cryptographically bound (e.g., via PKI-issued credentials tied to a licensed engineer, inspector, or authorized organization), nothing downstream is meaningful -- a perfectly preserved custody chain or a spotless track record attached to an unverified or unauthorized actor is worthless, since you'd just be faithfully transmitting or crediting an untrustworthy origin. T_chain is the second most important: even with a credentialed source, data can be altered, substituted, or mis-attributed between creation and on-chain submission (e.g., off-chain edits before hashing, compromised oracle/gateway ingestion), so custody-chain integrity is what a DLT's hash-linking and timestamping most directly protects against and is core engineering territory for tamper-evidence. T_history is real but secondary and comparatively low-stakes for a per-record trust decision: a track record is a probabilistic, reputational signal aggregated over past behavior -- useful for risk scoring and for deciding how much scrutiny to apply, but it does not itself establish or break the validity of a specific record the way source identity and chain-of-custody do, and a source with a poor history but airtight credentials and custody controls on a specific submission can still produce a trustworthy record. I rated T_source vs T_chain as 2 (both are close to foundational, but source identity is a strict logical prerequisite for custody-chain verification meaning anything -- you need to know whose custody chain you're verifying), T_source vs T_history as 4 (a clear gap: identity/credentials are a hard gate, historical reliability is a soft, aggregate signal), and T_chain vs T_history as 3 in the OTW table (custody integrity is an active, per-record technical control; history is passive and retrospective). This is a judgement call based on how permissioned-DLT trust architectures are typically layered (identity/authentication as the base layer, then data-integrity controls, then reputation/risk scoring as a modulating layer) rather than a citation to a specific empirical study in the provided material, which does not quantify relative weights between these three sub-parts.

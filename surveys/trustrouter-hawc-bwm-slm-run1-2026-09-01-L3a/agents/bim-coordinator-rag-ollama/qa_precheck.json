@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "bim-coordinator-rag-ollama",
+    "role": "BIM Coordinator",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"bim-coordinator-rag-ollama\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will perform the survey task as a BIM Coordinator with the specified capabilities.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T10:05:34.98067148Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"bim-coordinator-rag-ollama\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will perform the survey task as a BIM Coordinator with the specified capabilities.\"\n}",
+        "thinking": "Okay, I need to confirm my configuration as per the user's instructions. Let me start by recalling the details provided. The agent ID is \"bim-coordinator-rag-ollama\", role is \"BIM Coordinator\", and the model is \"ollama/qwen3:14b\". The capabilities include a dedicated RAG corpus and a shared knowledge repository, with no role pack and no web search access. The acknowledgment should be a short confirmation.\n\nI need to make sure I copy each part exactly as given. The JSON structure must be correct, with the right keys and values. Let me check each field:\n\n- agent_id: Correct, as provided.\n- role: \"BIM Coordinator\" exactly.\n- model: \"ollama/qwen3:14b\" exactly.\n- capabilities: dedicated_rag_corpus is True, shared_knowledge_repo is True, role_pack is null, web_search is False.\n- acknowledgment: A brief statement confirming understanding and commitment to the task.\n\nI need to avoid any extra information or capabilities not mentioned. Also, ensure that the JSON is properly formatted without any syntax errors. Let me double-check the boolean values and the null for role_pack. Yes, all correct. The acknowledgment is straightforward. Alright, ready to output the JSON.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 5364997242,
+      "load_duration": 63835678,
+      "prompt_eval_count": 2443,
+      "prompt_eval_duration": 557982155,
+      "eval_count": 376,
+      "eval_duration": 4638742076
+    }
+  },
+  "claimed": {
+    "agent_id": "bim-coordinator-rag-ollama",
+    "role": "BIM Coordinator",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will perform the survey task as a BIM Coordinator with the specified capabilities."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "bim-coordinator-rag-ollama",
+      "role": "BIM Coordinator",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "bim-coordinator-rag-ollama",
+      "role": "BIM Coordinator",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will perform the survey task as a BIM Coordinator with the specified capabilities."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

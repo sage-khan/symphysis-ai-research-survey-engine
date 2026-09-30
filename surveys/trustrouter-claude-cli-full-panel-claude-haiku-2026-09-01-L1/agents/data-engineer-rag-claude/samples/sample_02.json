@@ -1,0 +1,22 @@
+{
+  "best": "DVS",
+  "worst": "F",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 5,
+    "E": 4,
+    "A": 4
+  },
+  "others_to_worst": {
+    "DVS": 5,
+    "E": 2,
+    "A": 3,
+    "F": 1
+  },
+  "reasoning": "From a data-engineering perspective evaluating construction-project records for ledger routing, Data Value Score (DVS) is the foundational criterion. The reference material emphasizes that construction records require ISO 25012 intrinsic and contextual quality (IFC-valid models, signed engineer reports, qualified electronic signatures, provenance evidence, and audit logging). No amount of technical feasibility, economic justification, or attack resistance matters if the underlying data is untrustworthy or unverified\u2014you would only succeed in immortalizing defective records on-chain. DVS subsumes the prerequisites that justify ledger deployment in the first place: if a record lacks quality, provenance trust, verification strength, independent confirmation, legal compliance, or criticality, the routing decision should not depend on the other factors.\n\nTechnical Feasibility Fit (F) ranks as least important because it is the most readily mitigated through architectural flexibility. The polyglot-persistence reference material (Kosmerl et al. 2018, Prasad & S B 2014) demonstrates that data-routing problems are solved by selecting appropriate storage modalities\u2014IPFS hashing for large files (e.g., construction drawings ~20 MB), time-series stores for high-frequency updates, relational stores for transactional ACID data. The question \"does this belong on-chain?\" is answered first by trustworthiness (DVS), then justified by stake (E) and threat model (A); technical fit is a constraint that almost always has a solution (hybrid architectures, compression, hashing).\n\nEconomic Value (E) and Attack Resistance (A) are roughly comparable in importance but both slightly less critical than DVS. E provides the business case\u2014projects worth millions justify blockchain investment more than minor sketches do. A reflects the threat model\u2014if undetected manipulation is trivial or attacks are implausible, on-chain storage adds cost without benefit. Both are necessary but secondary to confirming the data itself is trustworthy. E is rated slightly more important than A because economic justification is often the gating factor in deployment decisions, while attack resistance is more often an output of the infrastructure choice than an independent driver.",
+  "sources_used": [
+    "data_quality_and_polyglot_persistence.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

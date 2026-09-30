@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 2,
+    "RQ": 3
+  },
+  "others_to_worst": {
+    "IQ": 3,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "IQ (Intrinsic Quality: accuracy, validity, uniqueness) is the most influential criterion for routing construction data to blockchain. From a blockchain engineer's perspective: immutability is the ledger's defining property, which means inaccurate or invalid data becomes a permanent liability rather than an asset. Once recorded on-chain, an accuracy or validity failure cannot be corrected\u2014only worked around. This asymmetry makes IQ foundational; no amount of completeness, timeliness, or consistency can remedy data that is fundamentally wrong. Rouhani and Deters (2021) emphasize that blockchain-based data trust frameworks depend on the initial credibility of the recorded data itself, with adaptive transaction validation based on trust scores, but that model assumes input data is valid to begin with (shared knowledge: blockchain_trust_and_attack_resistance.md).\n\nRQ (Representational Quality: consistency across sources) is least influential, though still necessary, because blockchain's consensus and cryptographic mechanisms naturally enforce consistency across distributed copies. If data is accurate and entered once on-chain via proper access controls, consistency across replicas is largely a solved problem\u2014it is what blockchain does by design. Conversely, CQ (Completeness and Timeliness) sits between the two: construction projects depend on complete, current information for coordination and decision-making, and blockchain's consensus latency can actually hinder timeliness. However, CQ is more addressable through schema validation and application-layer logic than IQ is, and it depends less directly on blockchain's specific strengths.\n\nFor construction-project records considered for on-chain routing, the ranking reflects: IQ as prerequisite (3x more important than RQ), CQ as practical necessity (2x more important than RQ), and RQ as what the ledger inherently provides. This is consistent with the ISO 25012 quality model as applied to permissioned ledger deployments (shared knowledge: trustrouter_concept_paper_primer.md).",
+  "sources_used": [
+    "shared knowledge: blockchain_trust_and_attack_resistance.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

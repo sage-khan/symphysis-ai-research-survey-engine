@@ -1,0 +1,105 @@
+# Filled survey: structural-engineer-rag-claude
+
+- Agent ID: `structural-engineer-rag-claude`
+- Role / expertise: Structural Engineer
+- Model: claude_cli/haiku
+- DID: `did:key:z6MkkkSr7eLXockuCDowP5tCv9MLkuxWwbxeWDZKDF1MzpSM`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/structural-engineer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | DVS | E |
+| 1 | DVS | F |
+| 2 | DVS | F |
+
+## Sample 0
+
+**Best:** DVS (Data Value Score)  
+**Worst:** E (Economic Value)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 3 |
+| E (Economic Value) | 5 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 5 |
+| F (Technical Feasibility Fit) | 2 |
+| E (Economic Value) | 1 |
+| A (Attack Resistance) | 3 |
+
+### Reasoning
+
+As a chartered structural engineer responsible for capacity dossiers relied upon by insurers and regulators for decades, I prioritize **DVS** as best because trustworthiness of the underlying data is foundational. A structurally sound blockchain implementation of untrustworthy data is pointless; if the capacity assessment has quality issues, poor provenance, or weak verification, the entire archive fails its purpose regardless of technical elegance. The reference material on digital twins emphasizes that sensor/report trustworthiness is the prerequisite for any downstream system—cryptographic anchoring and multi-party validation exist to protect genuinely trustworthy data, not to rehabilitate compromised data. For structural records with decades-long retention horizons (reference scenario: Hospital Real serving insurers and authorities), DVS encompasses the intrinsic fidelity and custody chain that determines if the dossier can be relied upon for structural decisions affecting safety.
+
+**F** (Technical Feasibility Fit) is second: the 2 MB structural report must physically fit on the ledger and be retrievable, but this is a necessary-but-secondary condition. Modern blockchains generally accommodate document storage at this scale; the constraint is technical, not principled.
+
+**A** (Attack Resistance) is third: preventing undetected tampering is critical for a decades-long institutional archive, yet it operates in service of protecting trustworthy data. Attack resistance without strong DVS protects compromised data. Both are essential, but A depends on DVS being solid first.
+
+**E** (Economic Value) is worst because it determines *prioritization* of which projects justify blockchain overhead, not *trustworthiness* of a given record. A structural engineer's duty to assess capacity correctly is independent of whether the asset is worth €5M or €50M. Economic value affects resource allocation across projects, not the trustworthiness criteria for any single dossier. The formula's (1+E) modifier correctly reflects E as the smallest-impact factor relative to the multiplicative contributions of DVS, F, and A.
+
+Ratings reflect that DVS dominates (1x itself, 3–5x the others), A and F are closer together but both essential, and E is secondary to the core trust problem.
+
+## Sample 1
+
+**Best:** DVS (Data Value Score)  
+**Worst:** F (Technical Feasibility Fit)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 7 |
+| E (Economic Value) | 4 |
+| A (Attack Resistance) | 3 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 7 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 5 |
+| A (Attack Resistance) | 4 |
+
+### Reasoning
+
+As a structural engineer responsible for capacity dossiers used by insurers and authorities over decades, trustworthiness of data is foundational. DVS—the composite of data quality, provenance trust, and verification strength—directly determines whether a structural assessment can be relied upon for consequential decisions (insurance underwriting, regulatory compliance, continued asset use). A corrupted or untrusted capacity reading represents professional liability and potential physical harm risk; these stakes cannot be mitigated by technical infrastructure alone. DVS is therefore best. Technical Feasibility Fit (F) is worst for construction project records. The reference scenario involves static/quasi-static documents: a digitally sealed 2 MB PDF report and certificate files (50 kB to 20 MB). Modern ledgers handle these sizes and update frequencies trivially—constraints like on-chain latency or storage limits, discussed in the SHM literature for high-frequency sensor streams, are not binding for construction dossiers. A trustworthy dataset that strains infrastructure is preferable to infrastructure perfectly fitted to untrustworthy data. Economic Value (E) matters and sets real stakes for insurer decisions, but is secondary to whether data is trustworthy: financial value alone does not repair compromised provenance. Attack Resistance (A) is critical, but is substantially captured within DVS's 'Verification Strength' pillar (cryptographic audit, qualified signatures), making it somewhat redundant at the top level, whereas DVS encompasses broader data fidelity concerns beyond attack scenarios. The reference material on trustworthy digital twins (Suhail et al., 2020, 2021) emphasizes that trust in sensor/document data is the prerequisite for any downstream use; this precedence grounds the DVS-first ranking.
+
+## Sample 2
+
+**Best:** DVS (Data Value Score)  
+**Worst:** F (Technical Feasibility Fit)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 5 |
+| E (Economic Value) | 3 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 5 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 2 |
+| A (Attack Resistance) | 3 |
+
+### Reasoning
+
+As a chartered structural engineer responsible for dossiers relied upon by insurers and regulators over decades, I rank trustworthiness of the data itself (DVS) as the single most critical factor. A structural capacity assessment is fundamental to assessing building safety and regulatory compliance. Per the reference material on digital twins (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md), 'a digital twin's usefulness depends entirely on whether its underlying sensor data can be trusted to represent the physical asset's real state.' For structural data, this principle is critical: a corrupted or untrustworthy structural assessment could result in missed failure precursors with catastrophic consequences (building failure, loss of life, regulatory breach). DVS subsumes the intrinsic quality of the assessment, provenance trust (chartered engineer authorship), and verification strength (cryptographic sealing), all of which are non-negotiable. Attack Resistance (A) is the second-most important: it protects the trustworthiness that DVS represents. Without robust defense against undetected manipulation, DVS becomes unverifiable. Economic Value (E) matters substantially—a major building's structural dossier has high financial and asset value at stake—but varies by building context and is secondary to having trustworthy data. Technical Feasibility Fit (F) is least important: a ~2 MB sealed PDF document fits comfortably within blockchain constraints; it is not frequently updated, and latency is not critical for a structural dossier. While technical fit must be adequate, it does not prevent storage or trust establishment; workarounds exist if constraints are slightly tight. The multiplicative TrustRouter formula makes each factor's absolute importance clear: a zero or very low DVS compromises the entire result regardless of other factors being high. Conversely, imperfect technical fit (say, needing to shard a document or use a sidechain) does not invalidate trustworthy data or robust cryptographic protection.

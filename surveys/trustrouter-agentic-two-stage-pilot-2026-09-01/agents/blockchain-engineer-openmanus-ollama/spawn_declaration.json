@@ -1,0 +1,20 @@
+{
+  "agent_id": "blockchain-engineer-openmanus-ollama",
+  "did": "did:key:z6MksfJdDd2LbuMjAB5Eg4UqNeuNpnyKqrL4YmtmeShxHwdx",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Blockchain / DLT Engineer",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "mistral:7b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-two-stage-pilot-2026-09-01"
+}

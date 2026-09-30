@@ -295,3 +295,18 @@ def get_trace(survey_id: str, agent_id: str) -> Dict[str, Any]:
         "conversation": conversation,
         "manual_pending": sorted(p.name for p in (runtime_dir / "manual_input").glob("prompt_*.md")) if (runtime_dir / "manual_input").exists() else [],
     }
+
+
+@router.get("/surveys/{survey_id}/lineage")
+def get_lineage(survey_id: str) -> Dict[str, Any]:
+    """Phase 6 task 25 (docs/architecture/governance-layer-and-runtime-backends-plan.md):
+    the full parent-to-child spawn tree for this survey run
+    (`spawning/lineage.py`'s `lineage.json`), for TraceViewer.jsx's Lineage
+    tab. A survey with no child spawns yet (today's only real flow: every
+    agent is a flat root spawn) returns an empty edge list, not a 404 —
+    lineage.json is written lazily on first spawn declaration, and "no
+    spawns yet" is a normal, valid state, not an error."""
+    d = _survey_or_404(survey_id)
+    lineage_path = d / "lineage.json"
+    edges = json.loads(lineage_path.read_text(encoding="utf-8")) if lineage_path.exists() else []
+    return {"edges": edges}

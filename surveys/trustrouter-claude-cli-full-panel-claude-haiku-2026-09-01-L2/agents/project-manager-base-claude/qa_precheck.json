@@ -1,0 +1,163 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-base-claude",
+    "role": "Construction Project Manager",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"project-manager-base-claude\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand I am completing an expert-elicitation survey (TrustRouter L2) comparing six trust dimensions for construction-project records considered for blockchain storage, using the best-worst methodology (bwm). I will answer as a construction project manager would, grounding my judgements in the shared knowledge repository provided to me, citing sources by their exact tags, and being explicit about assumptions and reasoning.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 6082,
+      "stop_reason": "end_turn",
+      "session_id": "0d5a5f3f-5172-40ef-88cd-2247fef0ea47",
+      "total_cost_usd": 0.0107236,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3184,
+        "cache_read_input_tokens": 8316,
+        "output_tokens": 425,
+        "output_tokens_details": {
+          "thinking_tokens": 232
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3184,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 425,
+            "cache_read_input_tokens": 8316,
+            "cache_creation_input_tokens": 3184,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3184
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1334,
+          "outputTokens": 438,
+          "cacheReadInputTokens": 8316,
+          "cacheCreationInputTokens": 3184,
+          "webSearchRequests": 0,
+          "costUSD": 0.0107236,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 232,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"project-manager-base-claude\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand I am completing an expert-elicitation survey (TrustRouter L2) comparing six trust dimensions for construction-project records considered for blockchain storage, using the best-worst methodology (bwm). I will answer as a construction project manager would, grounding my judgements in the shared knowledge repository provided to me, citing sources by their exact tags, and being explicit about assumptions and reasoning.\"\n}\n```",
+      "ttft_ms": 3437,
+      "type": "result",
+      "duration_ms": 5268,
+      "uuid": "7f83016b-203e-4bb1-95b8-6e5d47ea8d94",
+      "ttft_stream_ms": 870,
+      "time_to_request_ms": 191,
+      "queued_turn_count": 0,
+      "message": {
+        "thinking": "The user is asking me to confirm my configuration before starting the survey task. This is part of the expert-elicitation survey process, and Rule 3.1 of the global rules states I must restate exactly what I was told and not add capabilities I wasn't explicitly told I have.\n\nLet me extract the exact information from the system prompt:\n\n- agent_id: \"project-manager-base-claude\"\n- role: \"Construction Project Manager\"\n- model: \"claude_cli/haiku\"\n- dedicated RAG corpus: False\n- shared survey knowledge repository: True\n- role pack: none (so null)\n- web_search: False\n\nThe project is \"TrustRouter Claude CLI Panel (haiku) -- Level L2: Six trust dimensions inside DVS\"\n\nI need to confirm I understand this is an expert-elicitation survey where I'll be answering questions about construction project data-trust factors using the Best-Worst Methodology (bwm), and that I'll draw on the shared knowledge repository provided to me."
+      }
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-base-claude",
+    "role": "Construction Project Manager",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand I am completing an expert-elicitation survey (TrustRouter L2) comparing six trust dimensions for construction-project records considered for blockchain storage, using the best-worst methodology (bwm). I will answer as a construction project manager would, grounding my judgements in the shared knowledge repository provided to me, citing sources by their exact tags, and being explicit about assumptions and reasoning."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-base-claude",
+      "role": "Construction Project Manager",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-base-claude",
+      "role": "Construction Project Manager",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand I am completing an expert-elicitation survey (TrustRouter L2) comparing six trust dimensions for construction-project records considered for blockchain storage, using the best-worst methodology (bwm). I will answer as a construction project manager would, grounding my judgements in the shared knowledge repository provided to me, citing sources by their exact tags, and being explicit about assumptions and reasoning."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "best": "C",
+  "worst": "IC",
+  "best_to_others": {
+    "Q": 4,
+    "PT": 3,
+    "V": 6,
+    "IC": 7,
+    "L": 2,
+    "C": 1
+  },
+  "others_to_worst": {
+    "Q": 3,
+    "PT": 4,
+    "V": 2,
+    "IC": 1,
+    "L": 6,
+    "C": 7
+  },
+  "reasoning": "As a construction PM deciding how much trust-verification effort (and blockchain overhead) a record deserves, I ultimately weight consequence of error above everything else: Criticality (C) asks 'how bad is it if this is wrong,' which is the underlying reason we care about the other five dimensions at all -- a structural defect report or life-safety compliance record demands the highest scrutiny regardless of how it scores on quality metrics or signature strength, whereas a low-impact record doesn't need heavy trust infrastructure even if it is perfectly clean or well-signed. Legal Compliance (L) is a very close second -- per the shared knowledge glossary's framing of records like HVAC statutory inspection certificates and chartered-engineer signed reports, regulatory obligation is a hard, non-negotiable driver of what must be preserved and audited for institutional owners, insurers, and authorities over decades -- but I judge it as slightly narrower than Criticality because some critical items (e.g., an internal structural anomaly report) matter enormously even without a specific external mandate, so criticality is the more fundamental risk logic. Provenance Trust (PT) follows next: chain of custody and who signed the record (e.g., a chartered structural engineer per the glossary example) underpins admissibility in disputes. Quality (Q) is a necessary technical baseline -- an IFC-valid, clean record -- but by itself doesn't establish trust in the source or consequences. Verification Strength (V), the cryptographic/procedural audit trail, is the mechanism blockchain technology itself supplies, but in my professional experience it certifies that a record hasn't been altered after entry -- it doesn't confirm the underlying content was ever correct, so I place it below the substantive-trust dimensions. Independent Confirmation (IC) I rank lowest: in day-to-day multi-stakeholder documentation flows, the great majority of authoritative construction records (signed inspection certificates, chartered-engineer reports) are accepted as trustworthy on the strength of a single qualified, legally accountable source plus custody controls, not because multiple independent parties re-confirmed the same fact -- requiring that universally would be operationally impractical for routine records like daily photos or RFI logs. I want to flag that this was a genuinely close call in two places: Criticality vs. Legal Compliance for Best, and Verification Strength vs. Independent Confirmation for Worst -- both pairs are plausible alternates and a different construction PM could reasonably reverse either ranking.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

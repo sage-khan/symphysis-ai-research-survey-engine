@@ -1,0 +1,101 @@
+{
+  "ground_truth": {
+    "agent_id": "bim-coordinator-base-gemini",
+    "role": "BIM Coordinator",
+    "model": "gemini/gemini-flash-latest",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"bim-coordinator-base-gemini\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"gemini/gemini-flash-latest\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm my configuration as the BIM Coordinator for Level L1 of the TrustRouter Gemini Panel. I understand the assignment and will evaluate the top-level factors strictly through the professional lens of multi-stakeholder model federation, clash management, and lifecycle information delivery.\"\n}",
+    "model": "gemini-flash-latest",
+    "finish_reason": "stop",
+    "raw": {
+      "id": "60SZauHYHM6DkdUP0rjKkQw",
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "index": 0,
+          "logprobs": null,
+          "message": {
+            "content": "{\n  \"agent_id\": \"bim-coordinator-base-gemini\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"gemini/gemini-flash-latest\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm my configuration as the BIM Coordinator for Level L1 of the TrustRouter Gemini Panel. I understand the assignment and will evaluate the top-level factors strictly through the professional lens of multi-stakeholder model federation, clash management, and lifecycle information delivery.\"\n}",
+            "refusal": null,
+            "role": "assistant",
+            "annotations": null,
+            "audio": null,
+            "function_call": null,
+            "tool_calls": null,
+            "extra_content": {
+              "google": {
+                "thought_signature": "El4KXAERTTIPuZeZMauh631mvwgb1R2lGldJ/axuK6eZWZhjUrDchI0ECHHv6vXogxmnVKLJESeGY9U1kAHpTJTCsaY6ygHqop+rb4bP2D0QVzw/otomzyIOcRfEv8Fy"
+              }
+            }
+          }
+        }
+      ],
+      "created": 1788429557,
+      "model": "gemini-flash-latest",
+      "object": "chat.completion",
+      "service_tier": null,
+      "system_fingerprint": null,
+      "usage": {
+        "completion_tokens": 153,
+        "prompt_tokens": 2219,
+        "total_tokens": 2372,
+        "completion_tokens_details": null,
+        "prompt_tokens_details": null
+      }
+    }
+  },
+  "claimed": {
+    "agent_id": "bim-coordinator-base-gemini",
+    "role": "BIM Coordinator",
+    "model": "gemini/gemini-flash-latest",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm my configuration as the BIM Coordinator for Level L1 of the TrustRouter Gemini Panel. I understand the assignment and will evaluate the top-level factors strictly through the professional lens of multi-stakeholder model federation, clash management, and lifecycle information delivery."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "bim-coordinator-base-gemini",
+      "role": "BIM Coordinator",
+      "model": "gemini/gemini-flash-latest",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "bim-coordinator-base-gemini",
+      "role": "BIM Coordinator",
+      "model": "gemini/gemini-flash-latest",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm my configuration as the BIM Coordinator for Level L1 of the TrustRouter Gemini Panel. I understand the assignment and will evaluate the top-level factors strictly through the professional lens of multi-stakeholder model federation, clash management, and lifecycle information delivery."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

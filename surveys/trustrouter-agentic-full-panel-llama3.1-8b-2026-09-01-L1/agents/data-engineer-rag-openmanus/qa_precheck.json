@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-rag-openmanus",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-rag-openmanus\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm that I understand the assignment as a Data Engineering Specialist, and I will attempt to answer the survey questions based on my professional expertise in data engineering, using only the provided knowledge sources and capabilities.\"\n}",
+    "model": "llama3.1:8b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "llama3.1:8b",
+      "created_at": "2026-09-01T19:06:34.219287262Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"data-engineer-rag-openmanus\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm that I understand the assignment as a Data Engineering Specialist, and I will attempt to answer the survey questions based on my professional expertise in data engineering, using only the provided knowledge sources and capabilities.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1031145187,
+      "load_duration": 80876245,
+      "prompt_eval_count": 2169,
+      "prompt_eval_duration": 59709120,
+      "eval_count": 131,
+      "eval_duration": 844350723
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-rag-openmanus",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm that I understand the assignment as a Data Engineering Specialist, and I will attempt to answer the survey questions based on my professional expertise in data engineering, using only the provided knowledge sources and capabilities."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-rag-openmanus",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-rag-openmanus",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm that I understand the assignment as a Data Engineering Specialist, and I will attempt to answer the survey questions based on my professional expertise in data engineering, using only the provided knowledge sources and capabilities."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

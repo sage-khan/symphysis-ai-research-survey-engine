@@ -1,0 +1,19 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 2,
+    "RQ": 4
+  },
+  "others_to_worst": {
+    "IQ": 4,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "For deciding whether a construction record deserves permanent, tamper-evident storage on a ledger, Intrinsic Quality (accuracy, validity, uniqueness) is the foundational gate: blockchain immutability only adds value if the underlying fact being sealed is correct and non-duplicated at the point of write. If a record is inaccurate or invalid, committing it to an append-only ledger doesn't fix that problem, it permanently enshrines it and makes correction procedurally expensive (requiring compensating transactions rather than simple edits), which is a distinctly blockchain-specific downside of low IQ data. Uniqueness also matters operationally to avoid duplicate hashes/entries competing for the same physical artifact (e.g., two conflicting 'as-built' records). Contextual Quality (completeness, timeliness) is important but secondary from an engineering-feasibility standpoint: an incomplete or slightly stale record can still be validly anchored on-chain and later supplemented by additional linked transactions (the ledger's append-only, chained structure actually accommodates incremental completeness reasonably well), so CQ deficiencies are more remediable post-hoc than IQ deficiencies. Representational Quality (consistency across sources) I rank lowest for this specific decision because it is largely a reconciliation/interoperability concern that a shared ledger is often used to *solve* going forward (by establishing one canonical, cross-party record) rather than a precondition that must be satisfied before data is deemed ledger-worthy; inconsistency across off-chain sources doesn't by itself compromise the tamper-evidence guarantee of the specific record being written. My best-to-others (IQ:1, CQ:2, RQ:4) and others-to-worst (IQ:4, CQ:2, RQ:1) ratings are set to be internally consistent (a_IQ,CQ x a_CQ,RQ = 2x2 = 4 = a_IQ,RQ), reflecting a graduated rather than extreme preference \u2014 this is a real but not overwhelming difference in importance, and I want to flag honestly that CQ vs RQ is a closer call than IQ's clear primacy.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "agent_id": "bim-coordinator-base-openmanus",
+  "did": "did:key:z6MkfgXoko5fk2HGb2Dg55FYiiR6QE6wDmBBMDZ2ZVrDpTXM",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "BIM Coordinator",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "mistral:7b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-mistral-2026-09-01-L3d"
+}

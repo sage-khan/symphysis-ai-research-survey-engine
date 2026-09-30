@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: T_chain
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+Working from the questionnaire's own framing (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, section 3.5-adjacent PT table): T_source = quality of the authoring person/organisation, T_chain = integrity of custody from creation to submission, T_history = the source's historical reliability. I chose T_chain as Best because, in a multi-stakeholder documentation flow (subcontractors, BIM coordinators, inspectors, owners all handling the same record before it reaches permanent storage), the decisive question for whether a record deserves blockchain-grade immutability is not just who originally authored it but whether it arrived unaltered through however many hand-offs occurred afterward. A stamped structural report from a licensed engineer is worthless as evidence if it was edited or re-issued without a clear audit trail on the way to submission -- custody chain is effectively what 'provenance' means operationally on a live jobsite. T_source is a strong second: credentials (a licensed PE, an accredited lab) matter a great deal for compliance and liability, which is why it gets only a modest 2x gap from Best rather than a wide one -- this was a genuinely close call between T_chain and T_source, and a different PM emphasizing legal/regulatory weight of stamped documents could reasonably rank T_source first. T_history is Worst because a source's track record is a general reputational prior, not document-specific evidence -- a normally reliable source can still submit a corrupted or superseded file on a given day, and a newer, unproven source can submit an impeccably chained, well-credentialed record. Historical reliability is useful as a secondary risk-weighting signal but is the least direct indicator of whether *this particular record* deserves trust before it's locked on-chain, hence the larger gap (5x) from T_chain and why T_source still clearly outweighs it (4x) in the others-to-worst comparison.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

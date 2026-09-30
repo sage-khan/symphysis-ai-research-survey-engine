@@ -1,0 +1,15 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 7,
+    "RQ": 9
+  },
+  "others_to_worst": {
+    "RQ": 1,
+    "CQ": 8,
+    "IQ": 9
+  },
+  "reasoning": " Best factor: IQ\nWorst factor: RQ\n\nReasoning: The Intrinsic Quality (IQ) criterion is considered the best as it pertains to the accuracy, validity, and uniqueness of the data, which are essential for maintaining trust in the construction-project record. On the other hand, Representational Quality (RQ), which focuses on consistency across sources, is less critical because inconsistencies may still be acceptable if the underlying data is accurate, valid, and unique. However, it's important to note that all three criteria are crucial for ensuring high-quality blockchain storage of construction-project records.\n\n IQ vs CQ: 7\nIQ vs RQ: 9\nCQ vs RQ: 8"
+}

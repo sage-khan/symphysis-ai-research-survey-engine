@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: T_chain
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+In multi-stakeholder BIM federation, a single record (e.g., a structural model element, an as-built drawing, a compliance certificate) passes through many hands before it lands in the common data environment: originating designer, subcontractor, site team, QA reviewer, facility manager. Each handoff is a point where the file could be altered, re-exported, or misattributed without anyone noticing unless the custody chain is documented. That is also precisely the problem blockchain-style tamper-evidence is meant to solve, so T_chain is the criterion most directly relevant to the routing decision this instrument is built around. I rate it Best. T_source (credentials of the author) is a real and necessary trust signal -- knowing a structural note came from a licensed engineer versus an unverified contractor matters for liability and compliance -- but it is a static, one-time check about who made the record, not about whether what reaches the ledger is what was actually produced; it's a genuinely close second to T_chain, not a distant one. T_history (the source's past reliability) I rate Worst because it is an actuarial, reputation-based inference: it tells you the source has usually been reliable, but says nothing evidentiary about this specific record, and a normally reliable source can still submit a corrupted or altered file on a given occasion. It's a useful prior for risk-scoring but the weakest of the three as a direct provenance check. My best-to-others and others-to-worst values reflect T_chain > T_source > T_history, with the T_chain-vs-T_history gap treated as the largest since custody-chain integrity is both directly verifiable within BIM workflows and central to blockchain's value proposition, while historical track record is the most indirect of the three.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

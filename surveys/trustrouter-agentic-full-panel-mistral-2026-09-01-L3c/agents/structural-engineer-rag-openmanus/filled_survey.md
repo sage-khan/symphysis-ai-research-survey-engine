@@ -1,0 +1,118 @@
+# Filled survey: structural-engineer-rag-openmanus
+
+- Agent ID: `structural-engineer-rag-openmanus`
+- Role / expertise: Structural Engineer
+- Model: ollama/mistral:7b
+- DID: `did:key:z6Mkq9sxQdnLDNKYHKSbcFf6ApWb78WMj6E8VgRRcmWNpJib`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/structural-engineer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | V_crypto | V_diversity |
+| 1 | V_crypto | V_diversity |
+| 2 | V_crypto | V_diversity |
+
+## Sample 0
+
+**Best:** V_crypto (Cryptographic evidence)  
+**Worst:** V_diversity (Diversity of verification sources)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 1 |
+| V_audit (Audit trail completeness) | 5 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 1 |
+| V_audit (Audit trail completeness) | 3 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Reasoning
+
+ Best factor: V_crypto
+Worst factor: V_diversity
+
+ V_crypto vs V_audit: 5
+V_crypto vs V_diversity: 1
+V_audit vs V_diversity: 3
+
+Reasoning:
+
+* Cryptographic evidence (V_crypto) is essential for the security and integrity of a construction-project record. It provides a means to verify the authenticity, non-repudiation, and data integrity of the record through the use of signatures, hashes, and PKI. In contrast, audit trail completeness (V_audit) while important, does not offer the same level of security as cryptographic evidence.
+* Diversity of verification sources (V_diversity) is less important than cryptographic evidence (V_crypto). While multiple independent parties can help to verify and validate a record, it does not provide the same level of security as cryptographic evidence. In contrast, cryptographic evidence offers a more robust and reliable means of ensuring the integrity of a construction-project record.
+* Audit trail completeness (V_audit) is less important than diversity of verification sources (V_diversity). While audit trails provide valuable information about who did what and when, they do not offer the same level of security as cryptographic evidence or the ability to verify and validate a record from multiple independent parties. In contrast, diversity of verification sources can help to ensure that a record is accurate and reliable by providing multiple perspectives on its contents.
+
+## Sample 1
+
+**Best:** V_crypto (Cryptographic evidence)  
+**Worst:** V_diversity (Diversity of verification sources)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 1 |
+| V_audit (Audit trail completeness) | 5 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 1 |
+| V_audit (Audit trail completeness) | 7 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Reasoning
+
+ Best factor: V_crypto
+Worst factor: V_diversity
+
+ V_crypto vs V_audit: 5
+V_crypto vs V_diversity: 1
+V_audit vs V_diversity: 7
+
+## Sample 2
+
+**Best:** V_crypto (Cryptographic evidence)  
+**Worst:** V_diversity (Diversity of verification sources)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 1 |
+| V_audit (Audit trail completeness) | 5 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 1 |
+| V_audit (Audit trail completeness) | 7 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Reasoning
+
+ Best factor: V_crypto
+Worst factor: V_diversity
+
+ V_crypto vs V_audit: 5
+V_crypto vs V_diversity: 1
+V_audit vs V_diversity: 7
+
+Reasoning:
+
+* Cryptographic evidence (V_crypto) is crucial for ensuring the integrity and authenticity of construction-project records. It provides a secure means to verify that the data has not been tampered with or altered, which is essential for maintaining trust in the system. The use of signatures, hashes, and PKI helps establish a clear chain of custody and ensures that only authorized parties can access and modify the records.
+* Audit trail completeness (V_audit) is also important for ensuring trust in the system, as it provides a record of who did what, when. This information is useful for tracking changes to the data, identifying errors or inconsistencies, and holding parties accountable for their actions. However, while V_crypto ensures the integrity of the data itself, V_audit only provides evidence of the actions taken on that data.
+* Diversity of verification sources (V_diversity) is less important than either V_crypto or V_audit in terms of ensuring trust in construction-project records. While having multiple independent parties involved in verifying the data can help increase its reliability, it does not provide the same level of security as cryptographic evidence. Additionally, relying on a large number of parties can make the system more complex and difficult to manage, potentially leading to errors or inconsistencies. In contrast, V_crypto provides a clear and secure means to verify the data, without requiring the involvement of multiple parties.

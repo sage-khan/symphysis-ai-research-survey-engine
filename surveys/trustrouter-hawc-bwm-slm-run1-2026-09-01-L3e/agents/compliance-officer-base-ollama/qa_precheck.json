@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-base-ollama",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"compliance-officer-base-ollama\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration check requirements and will proceed as a Compliance and Regulatory Officer expert with the specified capabilities.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T11:56:34.728031957Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"compliance-officer-base-ollama\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration check requirements and will proceed as a Compliance and Regulatory Officer expert with the specified capabilities.\"\n}",
+        "thinking": "Okay, let me make sure I understand what's being asked here. The user wants me to confirm my configuration as per the given rules. They provided a specific JSON structure that I need to fill out accurately. Let me check each part step by step.\n\nFirst, the agent ID is \"compliance-officer-base-ollama\". I need to copy that exactly. The role is \"Compliance and Regulatory Officer\", and the model is \"ollama/qwen3:14b\". Got that. \n\nNext, the capabilities section. The user mentioned that dedicated RAG corpus is False, shared knowledge repo is True, role pack is none, and web search is False. I need to represent these as boolean values correctly. \n\nFor the acknowledgment, I should write a brief confirmation that I understand the task and will proceed as an expert in my role. Let me make sure not to add any extra information or capabilities beyond what's specified. Also, ensure that the JSON is properly formatted without any syntax errors. \n\nWait, the role_pack is \"none\" as per the instructions, so in the JSON it should be null? Let me check the original input again. The user says \"Standard role knowledge pack: none.\" So in the capabilities, \"role_pack\" should be null. Yes, that's correct. \n\nAlright, putting it all together now. Double-checking each field to ensure they match exactly what was provided. No typos, correct boolean values, and the acknowledgment is concise. I think that's all. Time to output the JSON.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 5954622151,
+      "load_duration": 60003564,
+      "prompt_eval_count": 2418,
+      "prompt_eval_duration": 545655294,
+      "eval_count": 433,
+      "eval_duration": 5244988371
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-base-ollama",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration check requirements and will proceed as a Compliance and Regulatory Officer expert with the specified capabilities."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-base-ollama",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-base-ollama",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration check requirements and will proceed as a Compliance and Regulatory Officer expert with the specified capabilities."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

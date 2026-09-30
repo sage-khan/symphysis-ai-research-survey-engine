@@ -1,0 +1,8 @@
+{
+  "agent_id": "blockchain-engineer-base-openmanus",
+  "did": "did:key:z6MkvKSFkcT6DEpWEsxp95m1wb9T1hSVzyS5BFz4rn1dkQX2",
+  "method": "did:key",
+  "public_key_multibase": "z6MkvKSFkcT6DEpWEsxp95m1wb9T1hSVzyS5BFz4rn1dkQX2",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-qwen3-14b-2026-09-01:blockchain-engineer-base-openmanus')"
+}

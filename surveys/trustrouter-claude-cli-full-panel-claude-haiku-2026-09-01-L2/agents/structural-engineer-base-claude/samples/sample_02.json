@@ -1,0 +1,25 @@
+{
+  "best": "Q",
+  "worst": "IC",
+  "best_to_others": {
+    "Q": 1,
+    "PT": 2,
+    "V": 2,
+    "IC": 4,
+    "L": 2,
+    "C": 2
+  },
+  "others_to_worst": {
+    "Q": 4,
+    "PT": 2,
+    "V": 2,
+    "IC": 1,
+    "L": 2,
+    "C": 2
+  },
+  "reasoning": "Quality is BEST because a structural-capacity dossier must be technically sound first. Without accurate dimensional, material property, and engineering data, no verification mechanism, legal framework, or external confirmation can remedy fundamental errors. For a structural engineer managing records serving insurers, regulators, and building owners over decades, technical fidelity of the record is foundational\u2014if the data is wrong, the building itself is at risk regardless of provenance pedigree or cryptographic proof. Every other trust factor ultimately depends on the underlying data being correct.\n\nIndependent Confirmation is WORST because it is the most contingent and least foundational. While verification by multiple parties increases confidence, it requires availability of qualified independent assessors, which is often impractical in construction contexts. Critically, if Quality is high, Provenance Trust is established, and Verification Strength is robust (cryptographic/audit-trail evidence), independent confirmation becomes a nice-to-have rather than essential. A structural engineer can responsibly rely on a single trusted source (e.g., a chartered engineer's signed report per the reference material's provenance example) if that source is credible and verified\u2014but cannot operate safely on data of poor quality regardless of confirmation.\n\nThe intermediate factors (Provenance Trust, Verification Strength, Legal Compliance, Criticality) are all roughly 2\u20134\u00d7 less critical than Quality but more critical than Independent Confirmation. Provenance Trust ranks near Verification and Criticality because knowing the data originated from qualified professionals is essential to credibility, but it is secondary to the fact of technical accuracy. Legal Compliance is similarly important but somewhat derivative\u2014compliance status flows from having correct, verified, and trustworthy data. Criticality (stakes if wrong) reflects consequence rather than trustworthiness itself; it motivates why the other factors matter, but is not a trust criterion in isolation.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+Framing this as a compliance officer deciding what construction-project data is safe and sound to commit to an immutable ledger, the decisive concern is whether the values are right in the first place. IQ (accuracy, validity, uniqueness) is foundational: per gdpr_and_data_governance.md, blockchain's immutability directly conflicts with GDPR's right to erasure/rectification, so an inaccurate or invalid record written to chain cannot later be corrected -- it becomes a standing compliance liability with no remedy, exactly the governance gap that same source says the construction sector has failed to develop rigorous criteria for. That makes 'are the values right in themselves' (per the IQ definition in trustrouter_expert_questionnaire_v5_real_survey_instrument.md) the highest-stakes cluster for an irreversible-storage decision. CQ (completeness, timeliness -- 'right scope and time') is a real but lesser concern: a record that is accurate but incomplete or late (e.g. a delayed energy-performance disclosure) is a compliance problem, but a correctable one going forward, unlike baked-in inaccuracy. RQ (consistency across sources) I rate worst here: cross-source consistency matters, but in the TrustRouter architecture (per trustrouter_concept_paper_primer.md) that role substantially overlaps with the separate Independent Confirmation (IC) dimension at L2, making it comparatively narrower and less load-bearing within this specific IQ/CQ/RQ triple than getting the datum itself right or complete-and-current. Ratings: IQ is moderately more important than CQ (2) since both concern the data's own adequacy, but IQ clearly dominates RQ (5) given the irreversibility argument; CQ over RQ (3) reflects that scope/timing defects are still more central to the record's own fitness than a cross-source consistency defect. This is a judgement call rather than a source-derived ranking -- the reference material defines the three clusters but does not itself rank them, so the ordering reflects my own compliance-risk reasoning applied to those definitions.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, shared knowledge: trustrouter_concept_paper_primer.md, gdpr_and_data_governance.md, general_knowledge (all claims verified genuine)

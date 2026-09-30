@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: A_oracle
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+From a data engineering perspective focused on quality pipelines and provenance tracking for construction projects, oracle resistance (sensor and device tampering) is the most critical attack vector. The fundamental principle is that corrupted data at the source—whether from tampered GPS receivers, RFID readers, surveying equipment, or IoT sensors collecting site measurements—propagates corrupted records immutably into blockchain storage. Once malicious data enters the provenance chain from a compromised device, cryptographic audit trails and downstream verification cannot retroactively recover ground truth. This is especially acute in construction, where sensitive measurements (coordinates, tolerances, load-bearing capacities) drive downstream safety and regulatory decisions. In contrast, sybil attacks (fake identities) are the least critical for blockchain-backed construction systems. The survey instrument references 'qualified electronic signatures' and cryptographic identity binding—construction projects already operate within legal and contractual frameworks that anchor real-world entities (licensed engineers, certified contractors) to blockchain identities through professional credentials. Once an identity is registered on-chain with a qualified signature, creating spurious replicas is technically harder and legally more traceable than in permissionless systems. Insider resistance (malicious legitimate access) ranks between these two. Insider threats are serious—a project manager could falsify completed work, a surveyor could skew measurements, a procurement officer could authorize fake invoices—but they are detectable through audit trails and role-based access controls that my provenance-tracking responsibility encompasses. Proper logging of who created what data and when provides accountability and forensic evidence. The 3:1 ratio between oracle and insider reflects that oracle attacks bypass detection (data corruption at source is hard to audit after the fact), while insider actions are inherently logged. The 7:1 ratio between oracle and sybil reflects that sybil attacks are substantially easier to prevent through identity verification than source-data tampering.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

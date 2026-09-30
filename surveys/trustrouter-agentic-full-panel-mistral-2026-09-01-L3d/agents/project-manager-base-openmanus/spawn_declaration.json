@@ -1,0 +1,20 @@
+{
+  "agent_id": "project-manager-base-openmanus",
+  "did": "did:key:z6MkmfTBzM8STi6eZQjBtyYUdmW4ALLgFT4436ojkBi1QXnf",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Construction Project Manager",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "mistral:7b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-mistral-2026-09-01-L3d"
+}

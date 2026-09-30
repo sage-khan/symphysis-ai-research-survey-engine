@@ -1,0 +1,21 @@
+{
+  "best": "V_audit",
+  "worst": "V_crypto",
+  "best_to_others": {
+    "V_audit": 1,
+    "V_diversity": 2,
+    "V_crypto": 5
+  },
+  "others_to_worst": {
+    "V_crypto": 1,
+    "V_diversity": 3,
+    "V_audit": 5
+  },
+  "reasoning": "From day-to-day BIM coordination practice (model federation, clash detection, lifecycle documentation), the record of who created/modified/approved a model element and when (V_audit) is the operational backbone: ISO 19650 information-delivery workflows (BS EN ISO 19650 Guidance Part 2, cited in bim_and_digital_building_logbooks.md) are built entirely around container-level metadata, revision status, and approval sign-off logs, and I rely on this daily to resolve clash-detection disputes, track design changes, and hand over a defensible record at project closeout. That same reference material notes that ISO 19650 already mandates multiple parties (lead appointed party, task teams) independently validating federated models before acceptance -- this is the real mechanism V_diversity is trying to score, so I rate it clearly important but secondary to audit-trail completeness, since diversity of confirming parties is only meaningful if there is a complete, timestamped audit trail to check their inputs against. V_crypto (signatures, hashes, PKI) I rate lowest within this specific three-way split: it is the enabling technology for tamper-evidence (as demonstrated empirically in the Kochovski et al. 2026 BUILDCHAIN DBL work on DIDs/verifiable credentials over Ethereum, also in bim_and_digital_building_logbooks.md), but in current multi-stakeholder BIM practice this layer is typically implemented and owned by IT/platform specialists rather than being something a BIM coordinator directly manages or checks day to day -- most federated-model trust decisions I make are still based on permissions, version logs, and sign-off records rather than cryptographic proofs. This is a judgement call from my own domain experience (general_knowledge) about relative practical weight within the V decomposition, not a claim that V_crypto is unimportant to the overall TrustRouter composite -- the concept-paper primer's V = w_crypto*V_crypto + w_audit*V_audit + w_diversity*V_diversity formulation makes clear all three matter, and the crypto-vs-audit gap here is not enormous, so this comparison is closer than the crypto-vs-diversity one.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

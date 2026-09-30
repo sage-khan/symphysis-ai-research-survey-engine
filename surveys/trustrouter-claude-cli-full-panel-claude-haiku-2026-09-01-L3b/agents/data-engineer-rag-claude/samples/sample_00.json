@@ -1,0 +1,20 @@
+{
+  "best": "T_chain",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_chain": 1,
+    "T_source": 5,
+    "T_history": 7
+  },
+  "others_to_worst": {
+    "T_chain": 7,
+    "T_source": 4,
+    "T_history": 1
+  },
+  "reasoning": "For routing construction data to blockchain or hybrid storage, the integrity of the custody chain is the most critical factor. This follows from the data-engineering principle that audit logging and lineage tracking constitute the first-hand evidence for provenance trust; without a documented, unbroken custody chain, a data item's current state cannot be verified, regardless of source credentials or historical reliability. A known source (T_source) remains important but secondary\u2014source credentials are necessary context, but they do not guarantee that a specific instance of data has not been altered, corrupted, or tampered with in transit. Historical track record (T_history) ranks worst because it is backward-looking and probabilistic; a historically reliable source can fail on any given submission, and conversely, past failures do not prevent a specific data item from being trustworthy if its chain is intact and its source is credible. From a data-pipeline perspective, the custody chain is the only contemporaneous evidence that the data matches its claimed provenance. Therefore T_chain is rated 7\u00d7 more important than T_history (a large gap) and 5\u00d7 more important than T_source (a moderate gap reflecting that source credentials matter but are overshadowed by chain integrity).",
+  "sources_used": [
+    "data_quality_and_polyglot_persistence.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

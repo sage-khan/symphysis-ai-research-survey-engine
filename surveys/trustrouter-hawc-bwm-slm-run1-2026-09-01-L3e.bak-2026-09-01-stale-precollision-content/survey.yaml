@@ -1,0 +1,139 @@
+id: trustrouter-hawc-bwm
+title: 'TrustRouter Full Hierarchy Weight Elicitation: Live Agent Panel (TrustRouter
+  concept paper, all seven levels)'
+instrument: hierarchical_bwm
+instrument_params:
+  composite_formula: TrustRouter = DVS x F x (1 + E) x A
+  levels:
+  - id: L1
+    name: Top-level TrustRouter factors
+    description: The four expert-weighted factors of TrustRouter = DVS x F x (1+E)
+      x A.
+    dimensions:
+    - DVS
+    - F
+    - E
+    - A
+    dimension_labels:
+      DVS: Data Value Score
+      F: Technical Feasibility Fit
+      E: Economic Value
+      A: Attack Resistance
+    dimension_descriptions:
+      DVS: Composite trustworthiness of the data.
+      F: How well the artefact fits ledger constraints (size, update rate, latency).
+        F = 1 - P.
+      E: Financial or asset value at stake if the data is corrupted or lost.
+      A: Difficulty of undetected manipulation.
+  - id: L2
+    name: Six trust dimensions inside DVS
+    description: The six trust lenses that make up the Data Value Score.
+    dimensions:
+    - Q
+    - PT
+    - V
+    - IC
+    - L
+    - C
+    dimension_labels:
+      Q: Quality
+      PT: Provenance Trust
+      V: Verification Strength
+      IC: Independent Confirmation
+      L: Legal Compliance
+      C: Criticality
+    dimension_descriptions:
+      Q: Is the data technically clean?
+      PT: Can we trust who produced it?
+      V: Cryptographic or audit-trail evidence?
+      IC: Do multiple independent parties agree?
+      L: Is this data required or regulated?
+      C: How big is the impact if it is wrong?
+    parent_level: L1
+    parent_criterion: DVS
+  - id: L3a
+    name: Quality clusters (ISO 25012)
+    description: ISO 25012 groups data quality into three clusters.
+    dimensions:
+    - IQ
+    - CQ
+    - RQ
+    dimension_labels:
+      IQ: Intrinsic Quality
+      CQ: Contextual Quality
+      RQ: Representational Quality
+    dimension_descriptions:
+      IQ: Accuracy + Validity + Uniqueness.
+      CQ: Completeness + Timeliness.
+      RQ: Consistency across sources.
+    parent_level: L2
+    parent_criterion: Q
+  - id: L3b
+    name: Provenance Trust sub-parts
+    description: Can we trust where the data came from?
+    dimensions:
+    - T_source
+    - T_chain
+    - T_history
+    dimension_labels:
+      T_source: Source credentials
+      T_chain: Custody chain
+      T_history: Historical track record
+    dimension_descriptions:
+      T_source: Who produced the data?
+      T_chain: What happened on the way here?
+      T_history: Has the source been reliable?
+    parent_level: L2
+    parent_criterion: PT
+  - id: L3c
+    name: Verification Strength sub-parts
+    description: What kind of evidence backs up the data?
+    dimensions:
+    - V_crypto
+    - V_audit
+    - V_diversity
+    dimension_labels:
+      V_crypto: Cryptographic evidence
+      V_audit: Audit trail completeness
+      V_diversity: Diversity of verification sources
+    dimension_descriptions:
+      V_crypto: Signatures, hashes, PKI.
+      V_audit: Who did what, when.
+      V_diversity: Multiple independent parties.
+    parent_level: L2
+    parent_criterion: V
+  - id: L3d
+    name: Attack Resistance sub-parts
+    description: How hard is it to cheat with this data?
+    dimensions:
+    - A_sybil
+    - A_oracle
+    - A_insider
+    dimension_labels:
+      A_sybil: Sybil resistance
+      A_oracle: Oracle resistance
+      A_insider: Insider resistance
+    dimension_descriptions:
+      A_sybil: Fake-identity attacks.
+      A_oracle: Sensor and device tampering.
+      A_insider: Malicious legitimate access.
+    parent_level: L1
+    parent_criterion: A
+  - id: L3e
+    name: Economic Value sub-parts
+    description: Could somebody, now or in the future, pay to access this data?
+    dimensions:
+    - E_market
+    - E_liquidity
+    - E_demand
+    dimension_labels:
+      E_market: Current marketplace demand
+      E_liquidity: Tokenisation ease
+      E_demand: Future demand
+    dimension_descriptions:
+      E_market: Existing buyers right now.
+      E_liquidity: How easy is tradeable tokenisation?
+      E_demand: Regulated / AI / digital-twin growth.
+    parent_level: L1
+    parent_criterion: E
+created_at: '2026-08-01T17:54:24+00:00'

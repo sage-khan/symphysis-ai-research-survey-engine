@@ -1,0 +1,109 @@
+# Filled survey: data-engineer-rag-claude
+
+- Agent ID: `data-engineer-rag-claude`
+- Role / expertise: Data Engineering Specialist
+- Model: claude_cli/sonnet
+- DID: `did:key:z6Mkta5fLioPz9PQkLBgPZfd9wUysHgeeeJvCSKX8fKiEjHp`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/data-engineer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | Q | L |
+| 1 | C | IC |
+| 2 | Q | L |
+
+## Sample 0
+
+**Best:** Q (Quality)  
+**Worst:** L (Legal Compliance)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 1 |
+| PT (Provenance Trust) | 2 |
+| V (Verification Strength) | 3 |
+| IC (Independent Confirmation) | 4 |
+| L (Legal Compliance) | 6 |
+| C (Criticality) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 6 |
+| PT (Provenance Trust) | 4 |
+| V (Verification Strength) | 2 |
+| IC (Independent Confirmation) | 2 |
+| L (Legal Compliance) | 1 |
+| C (Criticality) | 3 |
+
+### Reasoning
+
+I chose Quality (Q) as Best because blockchain storage is immutable by design: writing a technically flawed record (bad coordinates, inconsistent versions, incomplete fields) on-chain doesn't just leave an error in place, it permanently calcifies it in a way conventional storage does not. As a data engineer whose core job is quality pipelines and provenance tracking, the technical-cleanliness gate has to come before any trust-elevation decision, because no amount of provenance, cryptographic evidence, or legal mandate compensates for garbage data once it is immutably enshrined. This is consistent with the ISO 25012 intrinsic/contextual/representational framing given in the shared survey instrument's own Q definition ('Intrinsic and contextual fidelity of the record') and with data_quality_and_polyglot_persistence.md's point that quality must be assessed per-artefact before routing decisions are made across heterogeneous storage systems. I placed Provenance Trust (PT) second: data_quality_and_polyglot_persistence.md notes that a pipeline's own audit logging and lineage tracking is 'often the first-hand source of evidence' underlying PT and V scores, which in my experience makes PT the next most load-bearing signal after raw quality -- knowing who produced data and whether custody was intact is close to a precondition for trusting anything downstream. Criticality (C) sits in the middle: it tells you how much verification effort a record deserves, but by itself is a stakes/impact measure, not evidence of trustworthiness, so I rank it below Q and PT but above the more narrowly evidentiary V and the more supplementary IC. Verification Strength (V) and Independent Confirmation (IC) are technical/evidentiary layers that build on top of an already-established quality and provenance baseline -- valuable, but secondary reinforcement rather than foundational. I rated Legal Compliance (L) Worst because, from a data-engineering routing perspective, 'is this data regulated' functions as a binary compliance trigger rather than a graded technical trust signal about the data itself -- it doesn't tell you whether the record is clean, well-sourced, or verifiable, which is what actually drives a polyglot-persistence routing decision. I want to flag this as a genuine judgement call: the middle three (C, V, IC) are reasonably close in importance and a different data engineer could plausibly reorder them; my ranking of Q and PT at the top and L at the bottom is the part I hold with more confidence.
+
+## Sample 1
+
+**Best:** C (Criticality)  
+**Worst:** IC (Independent Confirmation)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 5 |
+| PT (Provenance Trust) | 3 |
+| V (Verification Strength) | 4 |
+| IC (Independent Confirmation) | 8 |
+| L (Legal Compliance) | 2 |
+| C (Criticality) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 3 |
+| PT (Provenance Trust) | 5 |
+| V (Verification Strength) | 4 |
+| IC (Independent Confirmation) | 1 |
+| L (Legal Compliance) | 6 |
+| C (Criticality) | 8 |
+
+### Reasoning
+
+I chose Criticality (C) as Best because, from a data-engineering risk-management standpoint, the impact of a record being wrong is what determines how much investment in the other five trust dimensions is even warranted -- it is the factor that governs resource allocation across a data-quality/provenance pipeline (a low-criticality record doesn't merit heavy verification spend; a high-criticality one, e.g. structural certification data, demands it regardless of cost). This mirrors the risk-based control-selection logic common in data-governance practice, though I note this is my own professional judgement rather than something drawn directly from the provided reference material, which does not rank the six dimensions against each other. I ranked Legal Compliance (L) second because regulatory mandates are close to non-negotiable gating conditions in construction data handling, but slightly below C since legality doesn't always scale with actual impact severity. Provenance Trust (PT) ranked above Verification Strength (V) and Quality (Q): per data_quality_and_polyglot_persistence.md's discussion of the Rouhani and Deters (2021) data-trust taxonomy (discovery, provenance, access control, auditing, accountability), a pipeline's own lineage/custody tracking is typically the first-hand evidentiary basis that V and PT scores get built on, which in my experience as a provenance-tracking specialist makes 'who produced it and who held custody' a more load-bearing question than downstream cryptographic verification or raw technical cleanliness -- a technically clean record from an untrusted, unclear-custody source is still risky, whereas a well-provenanced record with minor quality issues is often correctable. Quality (Q) sits below PT and V in this ranking because Q is typically assessed and remediated per-artefact within the pipeline (per data_quality_and_polyglot_persistence.md's point that ISO 25012 IQ/CQ/RQ clusters must be evaluated per data item), making it more of a downstream, correctable property rather than a gating trust factor. I chose Independent Confirmation (IC) as Worst because, in construction-project practice, most authoritative records (e.g. a single chartered engineer's signed report) originate from one credentialed source rather than requiring multi-party consensus, making IC the hardest of the six to obtain uniformly and the least universally applicable as a trust criterion, despite being genuinely valuable when available. The comparison between PT/V and Q was reasonably close and is more a judgement call than a clear-cut ranking; I want to flag that explicitly rather than overstate confidence.
+
+## Sample 2
+
+**Best:** Q (Quality)  
+**Worst:** L (Legal Compliance)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 1 |
+| PT (Provenance Trust) | 2 |
+| V (Verification Strength) | 3 |
+| IC (Independent Confirmation) | 5 |
+| L (Legal Compliance) | 7 |
+| C (Criticality) | 4 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 7 |
+| PT (Provenance Trust) | 6 |
+| V (Verification Strength) | 5 |
+| IC (Independent Confirmation) | 3 |
+| L (Legal Compliance) | 1 |
+| C (Criticality) | 4 |
+
+### Reasoning
+
+I picked Quality (Q) as Best because, from a data-engineering standpoint, it is the foundation everything else is built on: if the record itself is not intrinsically/contextually/representationally sound (per ISO 25012's IQ/CQ/RQ clusters, as cited in 'data_quality_and_polyglot_persistence.md' and echoed in the shared questionnaire's Q definition), then provenance signing, cryptographic verification, cross-party confirmation, and legal flags are all being applied to a potentially unreliable payload -- garbage-in-garbage-out applies before any trust layer can add value. This also matches the routing logic in 'data_quality_and_polyglot_persistence.md' (the Siemens/Prasad case study and the Kosmerl et al. polyglot-persistence comparison), where per-artefact quality profiling is what actually drives storage-engine selection, which is the concrete task this role performs. Provenance Trust (PT) and Verification Strength (V) come next because they are the pipeline-observable trust signals a data engineer actually instruments -- audit logging and lineage tracking are, per 'data_quality_and_polyglot_persistence.md's discussion of the Rouhani and Deters (2021) data-trust taxonomy, literally the first-hand evidence base PT and V scores should be built from. Criticality (C) and Independent Confirmation (IC) matter but are more consequence/consensus measures layered on top of the pipeline's own technical trust signals rather than something the pipeline directly measures. I placed Legal Compliance (L) as Worst not because regulatory status is unimportant in an absolute sense, but because, relative to the other five, it functions as a binary external gate (a record either falls under a regulatory regime or it does not) rather than a graded, pipeline-derived trust signal a data engineer computes the way they would for quality, provenance, verification, or confirmation strength -- it constrains routing options but doesn't itself tell you how much to trust the record's content. I want to flag that the Q-vs-PT and C-vs-IC comparisons in particular were close calls: both PT and Q are core to this role's explicit remit (quality pipelines and provenance tracking), and I did not find material in the provided sources that decisively orders C above or below IC, so that portion of the ranking is closer to a judgement call than a citation-backed conclusion.

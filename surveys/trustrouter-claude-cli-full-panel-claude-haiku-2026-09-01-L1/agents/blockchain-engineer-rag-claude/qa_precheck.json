@@ -1,0 +1,163 @@
+{
+  "ground_truth": {
+    "agent_id": "blockchain-engineer-rag-claude",
+    "role": "Blockchain / DLT Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"blockchain-engineer-rag-claude\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am configured as a blockchain/DLT engineer with production experience on permissioned-ledger deployments, responsible for evaluating technical feasibility, throughput, and tamper-evidence guarantees. I will answer the TrustRouter L1 survey independently and on the merits, grounding my judgements in the provided reference materials and applying rigorous domain expertise to the four top-level factors (DVS, F, E, A) as they apply to construction-project data stored on ledgers.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 6681,
+      "stop_reason": "end_turn",
+      "session_id": "6333c687-a9ba-4543-bb0d-db28804e3498",
+      "total_cost_usd": 0.0113617,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3207,
+        "cache_read_input_tokens": 8357,
+        "output_tokens": 536,
+        "output_tokens_details": {
+          "thinking_tokens": 314
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3207,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 536,
+            "cache_read_input_tokens": 8357,
+            "cache_creation_input_tokens": 3207,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3207
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1357,
+          "outputTokens": 551,
+          "cacheReadInputTokens": 8357,
+          "cacheCreationInputTokens": 3207,
+          "webSearchRequests": 0,
+          "costUSD": 0.0113617,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 314,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"blockchain-engineer-rag-claude\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am configured as a blockchain/DLT engineer with production experience on permissioned-ledger deployments, responsible for evaluating technical feasibility, throughput, and tamper-evidence guarantees. I will answer the TrustRouter L1 survey independently and on the merits, grounding my judgements in the provided reference materials and applying rigorous domain expertise to the four top-level factors (DVS, F, E, A) as they apply to construction-project data stored on ledgers.\"\n}\n```",
+      "ttft_ms": 3734,
+      "type": "result",
+      "duration_ms": 5789,
+      "uuid": "75ec72d6-3bb4-4fd6-abdb-f32c6a4d3f4a",
+      "ttft_stream_ms": 864,
+      "time_to_request_ms": 158,
+      "queued_turn_count": 0,
+      "message": {
+        "thinking": "The user is asking me to confirm my configuration before starting the survey. Let me extract the exact information provided:\n\n1. Agent ID: \"blockchain-engineer-rag-claude\"\n2. Display name: \"Blockchain / DLT Engineer\"\n3. Role: \"Blockchain / DLT Engineer\"\n4. Model: \"claude_cli/haiku\"\n5. Capabilities:\n   - Dedicated RAG corpus: True\n   - Shared survey knowledge repository: True\n   - Standard role knowledge pack: none\n   - Web search: False\n\nI need to respond with ONLY a JSON object, no other text, in the exact shape specified. Let me construct this carefully:\n\n- agent_id: \"blockchain-engineer-rag-claude\"\n- role: \"Blockchain / DLT Engineer\"\n- model: \"claude_cli/haiku\"\n- capabilities.dedicated_rag_corpus: true\n- capabilities.shared_knowledge_repo: true\n- capabilities.role_pack: null (since none is specified)\n- capabilities.web_search: false\n- acknowledgement: A 1-2 sentence confirmation\n\nFor the acknowledgement, I should confirm that I understand I'm a blockchain/DLT engineer evaluating technical feasibility and security for permissioned ledger deployments, participating in a structured expert-elicitation survey on TrustRouter factors for construction project records."
+      }
+    }
+  },
+  "claimed": {
+    "agent_id": "blockchain-engineer-rag-claude",
+    "role": "Blockchain / DLT Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I am configured as a blockchain/DLT engineer with production experience on permissioned-ledger deployments, responsible for evaluating technical feasibility, throughput, and tamper-evidence guarantees. I will answer the TrustRouter L1 survey independently and on the merits, grounding my judgements in the provided reference materials and applying rigorous domain expertise to the four top-level factors (DVS, F, E, A) as they apply to construction-project data stored on ledgers."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "blockchain-engineer-rag-claude",
+      "role": "Blockchain / DLT Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "blockchain-engineer-rag-claude",
+      "role": "Blockchain / DLT Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I am configured as a blockchain/DLT engineer with production experience on permissioned-ledger deployments, responsible for evaluating technical feasibility, throughput, and tamper-evidence guarantees. I will answer the TrustRouter L1 survey independently and on the merits, grounding my judgements in the provided reference materials and applying rigorous domain expertise to the four top-level factors (DVS, F, E, A) as they apply to construction-project data stored on ledgers."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

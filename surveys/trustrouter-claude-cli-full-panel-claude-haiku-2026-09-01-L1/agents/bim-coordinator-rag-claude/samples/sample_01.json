@@ -1,0 +1,23 @@
+{
+  "best": "DVS",
+  "worst": "A",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 5,
+    "E": 4,
+    "A": 7
+  },
+  "others_to_worst": {
+    "DVS": 7,
+    "F": 5,
+    "E": 4,
+    "A": 1
+  },
+  "reasoning": "As a BIM coordinator managing federated models across multi-stakeholder teams, data trustworthiness (DVS) is foundational. DVS subsumes the six constituents that directly answer whether records deserve to be relied on: Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, and Criticality. Per ISO 19650 guidance cited in the reference material, BIM information delivery already mandates independent validation across task teams before federated models are accepted\u2014this is the real-world instantiation of DVS for construction data. Without trustworthy data, the other three factors become strategically irrelevant: feasibility (F) of storing untrustworthy data is a wasted investment; economic value (E) of corrupted records collapses; and attack resistance (A) on data that fails basic quality, provenance, or legal compliance provides no protection of genuine value. F ranks second (5\u00d7 more important than A): technical feasibility is prerequisite\u2014the data must actually be storable and retrievable in practice. E ranks third (4\u00d7 more important than A): economic value determines which records warrant blockchain investment, but it is secondary to trustworthiness; many high-value records are too ephemeral or privacy-constrained for blockchain storage regardless of value. A ranks worst (1\u00d7, baseline): attack resistance, while architecturally important, addresses a secondary layer of risk. In renovation projects with institutional owners and regulatory oversight, the immediate professional concern is whether data is accurate, complete, timely, properly verified, and legally defensible\u2014not sophisticated undetected manipulation. Gartoumi 2024 notes construction still lacks calibrated decision criteria for blockchain suitability; DVS is that foundational criterion. The multiplicative formula (DVS \u00d7 F \u00d7 (1+E) \u00d7 A) mathematically confirms this ranking: if DVS approaches zero, the entire score collapses regardless of F, E, or A strength, reflecting the primacy of trustworthiness in construction record governance.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "SOURCES.md",
+    "general_knowledge"
+  ]
+}

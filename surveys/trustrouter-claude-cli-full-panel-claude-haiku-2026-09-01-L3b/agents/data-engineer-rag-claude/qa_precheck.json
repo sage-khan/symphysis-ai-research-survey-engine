@@ -1,0 +1,161 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-rag-claude",
+    "role": "Data Engineering Specialist",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"data-engineer-rag-claude\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am configured as a Data Engineering Specialist with access to a dedicated RAG corpus and shared survey knowledge repository. I understand this is Level L3b of the TrustRouter Claude CLI Panel, comparing three provenance-trust sub-parts (T_source, T_chain, T_history) for construction-project blockchain-storage trust assessment. I will answer independently on the merits, ground my reasoning in provided reference material, cite sources accurately, and explicitly state assumptions and comparisons that are genuinely close rather than fabricate certainty.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 5516,
+      "stop_reason": "end_turn",
+      "session_id": "5bb8b02c-90aa-4fda-95b1-839dd8360170",
+      "total_cost_usd": 0.0169191,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 6392,
+        "cache_read_input_tokens": 8001,
+        "output_tokens": 386,
+        "output_tokens_details": {
+          "thinking_tokens": 162
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 6392,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 386,
+            "cache_read_input_tokens": 8001,
+            "cache_creation_input_tokens": 6392,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 6392
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1335,
+          "outputTokens": 400,
+          "cacheReadInputTokens": 8001,
+          "cacheCreationInputTokens": 6392,
+          "webSearchRequests": 0,
+          "costUSD": 0.0169191,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 162,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"data-engineer-rag-claude\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am configured as a Data Engineering Specialist with access to a dedicated RAG corpus and shared survey knowledge repository. I understand this is Level L3b of the TrustRouter Claude CLI Panel, comparing three provenance-trust sub-parts (T_source, T_chain, T_history) for construction-project blockchain-storage trust assessment. I will answer independently on the merits, ground my reasoning in provided reference material, cite sources accurately, and explicitly state assumptions and comparisons that are genuinely close rather than fabricate certainty.\"\n}\n```",
+      "ttft_ms": 2551,
+      "type": "result",
+      "duration_ms": 4571,
+      "uuid": "b7be2cb9-5905-4785-8ce6-dd2ed7e354ca",
+      "ttft_stream_ms": 863,
+      "time_to_request_ms": 32,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-rag-claude",
+    "role": "Data Engineering Specialist",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I am configured as a Data Engineering Specialist with access to a dedicated RAG corpus and shared survey knowledge repository. I understand this is Level L3b of the TrustRouter Claude CLI Panel, comparing three provenance-trust sub-parts (T_source, T_chain, T_history) for construction-project blockchain-storage trust assessment. I will answer independently on the merits, ground my reasoning in provided reference material, cite sources accurately, and explicitly state assumptions and comparisons that are genuinely close rather than fabricate certainty."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-rag-claude",
+      "role": "Data Engineering Specialist",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-rag-claude",
+      "role": "Data Engineering Specialist",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I am configured as a Data Engineering Specialist with access to a dedicated RAG corpus and shared survey knowledge repository. I understand this is Level L3b of the TrustRouter Claude CLI Panel, comparing three provenance-trust sub-parts (T_source, T_chain, T_history) for construction-project blockchain-storage trust assessment. I will answer independently on the merits, ground my reasoning in provided reference material, cite sources accurately, and explicitly state assumptions and comparisons that are genuinely close rather than fabricate certainty."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

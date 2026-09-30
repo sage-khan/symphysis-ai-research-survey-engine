@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: A_oracle
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+As a data engineer responsible for construction-project data quality and pipeline integrity, I rank oracle resistance (sensor/device tampering) as most critical because sensor data is the foundational input to any quality assessment pipeline. Once source data is corrupted at the device level—whether GPS coordinates from equipment, structural sensor readings, or inspection photographs with metadata—no downstream audit logging, access control, or cryptographic verification can retroactively recover ground truth. This aligns with the reference material's emphasis on data provenance and audit logging (data_quality_and_polyglot_persistence.md): pipeline lineage tracking assumes the source measurements themselves are honest. Insider threats (A_insider) rank second: while statistically more common in construction projects (PMs, engineers, inspectors with legitimate database access), insider attacks are more containable through access controls, role-based permissions, and audit trails that a data pipeline can implement and monitor. Sybil attacks rank worst: construction data systems are typically permissioned (projects have enrollment, credentialing, and background checks before granting participant status). Unlike open consensus networks, construction workflows do not generally rely on pseudonymous participation where Sybil identities proliferate. Multiple fake contractors or inspectors are caught at identity-verification time, not downstream in data routing decisions. The multiplicative risk structure of TrustRouter compounds these differences: corrupted sensor data (A_oracle = 1) becomes a constant multiplier on downstream trust, while insider and Sybil risks are more localized to specific transactions or claims.
+
+## Sources cited
+
+data_quality_and_polyglot_persistence.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

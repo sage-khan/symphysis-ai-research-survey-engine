@@ -1,0 +1,15 @@
+{
+  "best": "E_demand",
+  "worst": "E_market",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_liquidity": 5,
+    "E_market": 1
+  },
+  "others_to_worst": {
+    "E_market": 1,
+    "E_liquidity": 9,
+    "E_demand": 1
+  },
+  "reasoning": " Best factor: E_demand\nWorst factor: E_market\n\nReasoning: As a BIM coordinator, the most important criterion for economic value (E) is future demand (E_demand). This is because digital twin growth, regulation, and AI will significantly impact the long-term utility and adaptability of Building Information Models. Current marketplace demand (E_market) is less important as it only represents existing buyers right now, while tokenization ease (E_liquidity) is least important in this context as it does not directly affect the value or usability of BIM models for construction projects.\n\n E_demand vs E_liquidity: 5\nE_demand vs E_market: 1\nE_liquidity vs E_market: 9"
+}

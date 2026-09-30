@@ -1,0 +1,20 @@
+{
+  "best": "V_audit",
+  "worst": "V_crypto",
+  "best_to_others": {
+    "V_audit": 1,
+    "V_diversity": 2,
+    "V_crypto": 5
+  },
+  "others_to_worst": {
+    "V_audit": 5,
+    "V_diversity": 3,
+    "V_crypto": 1
+  },
+  "reasoning": "For a structural-capacity dossier relied on by insurers, regulators, and owners over decades, what actually establishes trust in the record's content is knowing who did what and when -- who inspected, who signed off, under what qualifications and conditions, and whether the chain of custody is unbroken. That is the traditional backbone of forensic and legal reliance on engineering records, and it is what the questionnaire's own definition of V_audit ('who did what, when') captures directly. Diversity of verification sources (V_diversity) is also genuinely valuable -- independent second checks are standard practice for catching a single faulty sensor or a single verifier's error, as the digital-twin literature I was given describes for multi-sensor/multi-party validation schemes -- but it is a complement to, not a substitute for, a complete audit trail; you need the audit trail to even know how many independent parties were involved and whether their checks were genuinely separate. I rated it a modest 2x behind audit trail because the gap here is real but not enormous -- this was a closer call than the audit-vs-crypto comparison. Cryptographic evidence (V_crypto) I placed last: a hash or signature proves a record has not been altered since it was made and can bind an identity to it, which is a necessary technical safeguard, but it says nothing about whether the underlying inspection or measurement was competent, complete, or independently corroborated. A cryptographically pristine record of a wrong or unverified reading is still untrustworthy in the way that matters for structural reliance -- crypto anchors integrity, not accuracy or completeness of verification. This tracks the literature source's own framing that cryptographic anchoring is 'the mechanism that makes a digital twin's data trustworthy,' i.e. an enabling mechanism, not the substance of verification itself. I rated audit trail 5x more important than crypto and diversity 3x more important than crypto, reflecting that both audit completeness and independent corroboration speak to the actual epistemic strength of the verification, while crypto speaks only to tamper-evidence of whatever was recorded.",
+  "sources_used": [
+    "structural_health_monitoring_and_digital_twins.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

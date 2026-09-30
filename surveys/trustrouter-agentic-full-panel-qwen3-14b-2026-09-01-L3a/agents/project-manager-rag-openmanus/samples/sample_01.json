@@ -1,0 +1,15 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 8,
+    "RQ": 9
+  },
+  "others_to_worst": {
+    "RQ": 1,
+    "CQ": 7,
+    "IQ": 9
+  },
+  "reasoning": "Best factor: IQ  \nWorst factor: RQ\n\nIQ vs CQ: 8  \nIQ vs RQ: 9  \nCQ vs RQ: 7  \n\n**Reasoning:**  \n- **IQ vs CQ (8):** Intrinsic Quality (accuracy, validity, uniqueness) is foundational for trust in construction data\u2014errors here directly compromise project integrity. Contextual Quality (completeness, timeliness) is critical but secondary; even complete data is useless if it\u2019s inaccurate.  \n- **IQ vs RQ (9):** Intrinsic Quality is non-negotiable for data trust. Representational Quality (consistency across sources) is important but can often be addressed through reconciliation processes, whereas intrinsic flaws (e.g., invalid measurements) are irreparable without rework.  \n- **CQ vs RQ (7):** Completeness and timeliness are vital for workflow coordination, but consistency issues (RQ) can be mitigated through cross-checking, while incomplete or delayed data (CQ) causes systemic delays. However, CQ\u2019s impact on real-time decision-making gives it a slight edge over RQ.  \n\n(Citations: role knowledge: construction_project_manager; shared knowledge: ISO 25012 quality clusters.)"
+}

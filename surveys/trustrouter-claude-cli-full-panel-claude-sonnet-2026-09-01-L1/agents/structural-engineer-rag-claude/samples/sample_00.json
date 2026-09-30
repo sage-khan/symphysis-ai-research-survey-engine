@@ -1,0 +1,22 @@
+{
+  "best": "DVS",
+  "worst": "F",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 6,
+    "E": 3,
+    "A": 2
+  },
+  "others_to_worst": {
+    "DVS": 6,
+    "F": 1,
+    "E": 2,
+    "A": 4
+  },
+  "reasoning": "For a structural-capacity dossier that insurers, regulators, and owners will rely on for decades, the composite trustworthiness of the record itself (DVS -- quality, provenance, verification strength, per the constituents table in 'shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md') is the bedrock: if the underlying engineering data is not fundamentally sound and traceable to a chartered engineer's sealed judgement, no amount of ledger fit, attack resistance, or asset value at stake redeems it -- you would simply be immutably preserving an untrustworthy record. This is consistent with the SHM/digital-twin literature's framing that a structural reading's value depends entirely on whether it can be trusted to represent the real physical state ('structural_health_monitoring_and_digital_twins.md', Suhail et al. 2020), which is exactly what DVS's Quality/Provenance/Verification constituents are built to capture. Attack Resistance (A) is the next most important because it protects that trust once established -- an undetectably tamperable record defeats the point of immutable storage -- so I rank it second, ahead of Economic Value. Economic Value (E) matters as a stakes-amplifier, but the multiplicative formula already treats it specially (entering as 1+E rather than a pure multiplier), so even at E=0 the score isn't zeroed; this structural choice in the formula itself signals E is meant to scale importance rather than gate it, so I judge it less fundamental than DVS or A. Technical Feasibility Fit (F) I rank lowest: it concerns whether an artefact's size/update-rate/latency profile suits the ledger, which is an implementation/engineering-logistics question, not a judgement about whether the data deserves trust in the first place -- a professionally sound, well-verified, tamper-evident record that happens to be a large PDF is still more valuable to route sensibly than a small, easily-fitting but poorly-provenanced one. The comparison between A and E was the closest call for me; I could see an argument for weighting E higher given how consequential a masonry load-assessment error could be for insurers, but I judged the tamper-evidence question (A) as more directly tied to the trust question this framework exists to answer.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "structural_health_monitoring_and_digital_twins.md",
+    "general_knowledge"
+  ]
+}

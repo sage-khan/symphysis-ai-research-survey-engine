@@ -1,0 +1,20 @@
+{
+  "best": "V_crypto",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_crypto": 1,
+    "V_audit": 3,
+    "V_diversity": 6
+  },
+  "others_to_worst": {
+    "V_crypto": 6,
+    "V_audit": 4,
+    "V_diversity": 1
+  },
+  "reasoning": "For a construction-project record being considered for blockchain anchoring, V_crypto (signatures/hashes/PKI) is the element that actually makes 'verification strength' meaningful in a distributed-ledger sense: it is the irreducible, machine-checkable proof that a given dossier (e.g., a signed structural report or an SHA-256 commitment binding a raw sensor stream, per the contrast vignette in the shared questionnaire) has not been altered since custody. Everything else in V is built on top of that anchor. V_audit (who did what, when) is a close second in importance -- it is essential for legal defensibility and dispute resolution on a renovation project with many trades and RFIs -- but a complete log is still only as trustworthy as the cryptographic controls (timestamps, signed entries) protecting it from post-hoc edits by someone with legitimate system access; audit completeness is procedural discipline layered on the crypto foundation, not an independent guarantee. V_diversity (multiple independent verifying parties) is the weakest of the three in day-to-day BIM practice: most project records originate from a single authoritative source (one chartered engineer's stamp, one IoT sensor array), and requiring genuinely independent multi-party corroboration for routine model elements is often impractical and costly to operationalize, even though it would meaningfully reduce collusion/single-point-of-failure risk when it is achievable. That practical rarity, plus its dependence on the other two (diverse sources are only useful if each one is itself cryptographically and procedurally sound), is why I rank it worst. The comparison between V_crypto and V_audit is the closer call of the two judgments -- both are genuinely important operational controls in a federated BIM/blockchain workflow -- whereas V_crypto vs. V_diversity is a clearer gap given the practicality gulf.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

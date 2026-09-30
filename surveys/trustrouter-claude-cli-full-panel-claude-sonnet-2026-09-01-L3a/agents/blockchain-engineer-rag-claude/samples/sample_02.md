@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+As shared knowledge: trustrouter_concept_paper_primer.md defines it, Q decomposes into IQ (accuracy, validity, uniqueness), CQ (completeness, timeliness), and RQ (consistency across sources). From a blockchain/DLT engineering standpoint focused on what belongs in an immutable, tamper-evident ledger, IQ is the most fundamental: if a construction record is inaccurate, invalid, or a duplicate at the point of intake, no amount of ledger infrastructure (hashing, consensus, cryptographic attestation per blockchain_trust_and_attack_resistance.md's discussion of verification strength) can fix it after the fact -- immutability locks in bad data permanently, which is arguably worse than not writing it at all. CQ (completeness/timeliness) matters for whether the record is fit for the decision at hand, but a late or partially-completed accurate record is still recoverable/supplementable via later transactions on the ledger. RQ (consistency across sources) is the least critical of the three for the on-chain storage decision itself: cross-source consistency is a reconciliation/provenance concern (closer to PT in the DVS breakdown) rather than a property intrinsic to whether a single record's content is trustworthy enough to commit. In a permissioned construction-data context, single-source records (e.g., a signed inspection report) are common and can be high-trust without needing multi-source consistency checks, so RQ has the narrowest applicability and is my Worst. This is a judgement call reflecting engineering priority (garbage-in-immutable-forever risk) rather than something the reference material states explicitly as a ranking -- the primer only supplies the decomposition, not a relative importance ordering, so the comparison here is genuinely a professional inference, not a directly cited conclusion. The IQ vs CQ gap is real but not enormous (2x), since both are clearly more load-bearing for the ledger-worthiness decision than RQ.
+
+## Sources cited
+
+shared knowledge: trustrouter_concept_paper_primer.md, blockchain_trust_and_attack_resistance.md, general_knowledge (all claims verified genuine)

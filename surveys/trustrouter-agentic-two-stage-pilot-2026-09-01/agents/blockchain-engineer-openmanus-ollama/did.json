@@ -1,0 +1,8 @@
+{
+  "agent_id": "blockchain-engineer-openmanus-ollama",
+  "did": "did:key:z6MksfJdDd2LbuMjAB5Eg4UqNeuNpnyKqrL4YmtmeShxHwdx",
+  "method": "did:key",
+  "public_key_multibase": "z6MksfJdDd2LbuMjAB5Eg4UqNeuNpnyKqrL4YmtmeShxHwdx",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-two-stage-pilot-2026-09-01:blockchain-engineer-openmanus-ollama')"
+}

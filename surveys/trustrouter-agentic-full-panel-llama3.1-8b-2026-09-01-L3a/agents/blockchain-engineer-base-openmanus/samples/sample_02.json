@@ -1,0 +1,15 @@
+{
+  "best": "RQ",
+  "worst": "CQ",
+  "best_to_others": {
+    "RQ": 1,
+    "IQ": 7,
+    "CQ": 5
+  },
+  "others_to_worst": {
+    "CQ": 1,
+    "IQ": 4,
+    "RQ": 5
+  },
+  "reasoning": "Best factor: RQ\nWorst factor: CQ\n\nRQ vs IQ: 7\nRQ vs CQ: 5\nIQ vs CQ: 4"
+}

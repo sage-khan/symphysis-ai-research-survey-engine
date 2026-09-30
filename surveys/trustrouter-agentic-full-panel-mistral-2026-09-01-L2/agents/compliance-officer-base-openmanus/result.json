@@ -1,0 +1,106 @@
+{
+  "agent_id": "compliance-officer-base-openmanus",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "C",
+      "worst": "PT",
+      "best_to_others": {
+        "C": 1,
+        "Q": 7,
+        "V": 8,
+        "IC": 9,
+        "L": 6,
+        "PT": 1
+      },
+      "others_to_worst": {
+        "PT": 1,
+        "Q": 2,
+        "V": 3,
+        "IC": 4,
+        "L": 5,
+        "C": 1
+      },
+      "reasoning": " Best factor: C\nWorst factor: PT\n\n C vs Q: 7\nC vs V: 8\nC vs IC: 9\nC vs L: 6\nC vs PT: 1\nQ vs PT: 2\nV vs PT: 3\nIC vs PT: 4\nL vs PT: 5"
+    },
+    {
+      "best": "C",
+      "worst": "PT",
+      "best_to_others": {
+        "C": 1,
+        "Q": 2,
+        "V": 1,
+        "IC": 3,
+        "L": 4,
+        "PT": 9
+      },
+      "others_to_worst": {
+        "PT": 1,
+        "Q": 8,
+        "V": 7,
+        "IC": 6,
+        "L": 5,
+        "C": 9
+      },
+      "reasoning": " Best factor: C\nWorst factor: PT\n\n C vs Q: 2\nC vs V: 1\nC vs IC: 3\nC vs L: 4\nC vs PT: 9\nQ vs PT: 8\nV vs PT: 7\nIC vs PT: 6\nL vs PT: 5"
+    },
+    {
+      "best": "C",
+      "worst": "PT",
+      "best_to_others": {
+        "C": 1,
+        "Q": 5,
+        "V": 7,
+        "IC": 6,
+        "L": 8,
+        "PT": 1
+      },
+      "others_to_worst": {
+        "PT": 1,
+        "Q": 9,
+        "V": 8,
+        "IC": 9,
+        "L": 9,
+        "C": 1
+      },
+      "reasoning": " Best factor: C\nWorst factor: PT\n\n C vs Q: 5\nC vs V: 7\nC vs IC: 6\nC vs L: 8\nC vs PT: 1\nQ vs PT: 9\nV vs PT: 8\nIC vs PT: 9\nL vs PT: 9"
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "best": "DVS",
+  "worst": "F",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 6,
+    "E": 3,
+    "A": 2
+  },
+  "others_to_worst": {
+    "DVS": 6,
+    "F": 1,
+    "E": 2,
+    "A": 3
+  },
+  "reasoning": "As a chartered structural engineer, the factor that most determines whether a construction record deserves decades-long institutional reliance is the intrinsic trustworthiness of the data itself -- DVS, which per the shared knowledge instrument aggregates Quality, Provenance Trust and Verification Strength (e.g. a signed report from a chartered engineer with a qualified electronic signature, as in the structural capacity dossier scenario). Blockchain immutability only preserves whatever is written to it; if the underlying record is poor-quality or of unverified provenance, permanence just locks in an unreliable record for insurers, authorities and owners to rely on for decades -- so DVS is the gating, foundational factor and I rate it Best. Technical Feasibility Fit (F) is, by contrast, essentially an implementation/logistics constraint about ledger size, update rate and latency (F = 1-P). It says nothing about whether the data is trustworthy or valuable, and in practice feasibility problems (e.g. a 20MB drawing set) are commonly solved by storing a hash on-chain with the artefact off-chain, so this constraint is more circumventable than the substantive trust factors. That makes it the least important of the four for judging trust-worthiness, hence Worst. Attack Resistance (A) sits close behind DVS in importance: for a masonry load assessment or structural dossier relied on in insurance and regulatory disputes decades later, resistance to undetected manipulation is central to why one would bother with a tamper-evident ledger at all, so I rate DVS only marginally ahead of A (ratio 2). Economic Value (E) matters for prioritising which records deserve ledger resources, but in the TrustRouter formula it is deliberately dampened as (1+E) rather than a hard multiplier, reflecting that financial stakes alone don't establish trustworthiness -- a high-value but poorly-provenanced record is not thereby more trustworthy. I placed E between A and F (ratio 3 from DVS, so E/F = 2), acknowledging this is a closer call than the DVS-vs-F extremes and a genuine judgement about relative weighting rather than a clean-cut distinction. The two rating vectors were set to be internally consistent (a_Bj x a_jW = a_BW = 6 for every j), which is a modelling choice for coherence, not itself drawn from the reference material.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

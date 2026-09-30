@@ -1,0 +1,20 @@
+{
+  "best": "V_audit",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_crypto": 2,
+    "V_audit": 1,
+    "V_diversity": 3
+  },
+  "others_to_worst": {
+    "V_crypto": 2,
+    "V_audit": 3,
+    "V_diversity": 1
+  },
+  "reasoning": "Per the concept-paper primer, V (Verification Strength) is glossed specifically as 'cryptographic or audit-trail evidence,' and the survey instrument's own field guidance for V says 'Signatures / logs' -- both signal that the core of verification strength, as this construct is operationalized in TrustRouter, is the direct technical/procedural evidence trail (crypto signatures plus audit logs), not the breadth of who independently confirms it (that breadth is instead captured by the separate IC -- Independent Confirmation -- top-level factor at L2, avoiding double-counting). Given that, I rank V_audit as Best: a complete audit trail (who did what, when) is the backbone that lets a regulator or insurer reconstruct custody and actions on a construction record even where cryptographic tooling is partial or where multiple verifying parties aren't available; it is also the most jurisdiction-agnostic and enforceable in practice for aging renewal-project records that may predate PKI adoption on-site. V_crypto is a close second -- strong cryptographic evidence (signed hashes, PKI-backed attestations) is what makes tamper-evidence machine-verifiable and is foundational to blockchain-storage suitability, but it depends on infrastructure (key management, qualified signature schemes) that isn't always present for legacy or manually-inspected construction records, whereas an audit trail can exist even in simpler systems. V_diversity (diversity of independent verification sources) I rate Worst within this specific sub-decomposition: its substance overlaps conceptually with the separate IC factor at L2 ('do multiple independent parties agree'), so within the V-only decomposition it is the thinnest and most redundant sub-component -- a record can have very strong verification strength (rigorous audit log, solid crypto proof) from a single custodial chain without multiple independent sources, and that is still meaningfully 'verified' for construction-compliance purposes even if not independently corroborated by several parties. The ratings reflect this: V_audit vs itself =1, vs V_crypto=2 (a real but moderate gap, since both are core evidentiary mechanisms), vs V_diversity=3 (a larger gap given the overlap-with-IC concern). Symmetrically, V_crypto vs V_diversity=2 and V_audit vs V_diversity=3, with V_diversity vs itself=1. I want to flag this is a genuinely close call between V_crypto and V_audit -- both are central technical/procedural verification mechanisms and a reasonable compliance officer could rank them the other way round; my judgement rests on the primer's own dual gloss (crypto OR audit-trail) treating them as near-equal pillars, with audit-trail edging ahead only because of its more universal applicability across records regardless of digital-signature infrastructure maturity.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

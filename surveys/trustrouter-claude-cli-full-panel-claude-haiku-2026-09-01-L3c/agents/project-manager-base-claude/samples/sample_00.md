@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: V_audit
+- Worst: V_crypto
+
+## Stated reasoning (submitted with the answer)
+
+As a construction project manager, audit-trail completeness (who did what, when) is the foundational requirement for project governance. In renovation projects like the Hospital Real scenario (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md), institutional owners, insurers, and authorities require clear accountability for every decision, inspection, change order, and defect remediation over decades of operation. Without audit trails, we cannot: (1) assign liability and warranty responsibility, (2) satisfy regulatory compliance audits, (3) resolve disputes between stakeholders, or (4) trace the origin of defects or non-conformities. Cryptographic evidence alone—signatures, hashes, PKI—provides integrity verification but does not answer the fundamental construction question: who performed this action, who authorized it, and when? Cryptography is a *mechanism* that supports audit trails; it is not a substitute for them. Diversity of verification sources ranks second: multiple independent parties (structural engineers, inspectors, quality assurance teams) verifying data adds resilience against collusion and single points of failure, and in a multi-stakeholder project this is operationally valuable. However, diversity only amplifies what is already being audited; without knowing *who* verified *what* and *when*, diversity of sources becomes untrackable. Cryptographic evidence ranks third because it serves the audit function rather than replacing it. A tamper-proof hash or signature proves integrity, but on a renovation project, we need the audit trail first—the record of who authorized the structural inspection, when it occurred, and what was found. The ratio of 6:1 between audit and crypto reflects that audit is fundamental to construction practice, while crypto is instrumental. The 3:1 ratio between audit and diversity reflects that accountability requires knowing the specific parties and timing, whereas distributed verification adds robustness to an already-auditable system.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

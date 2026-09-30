@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: V_audit
+- Worst: V_diversity
+
+## Stated reasoning (submitted with the answer)
+
+As a BIM coordinator running CDE workflows under BS EN ISO 19650, audit-trail completeness (V_audit -- who did what, when) is the mechanism I rely on constantly and can directly govern: revision status metadata, transmittal records, approval logs, and container state history are the day-to-day evidence base for accountability and dispute resolution on a federated model, and they are already mandatory practice, not aspirational. Cryptographic evidence (V_crypto -- signatures/hashes/PKI) is technically the strongest tamper-evidence mechanism and is exactly what blockchain anchoring is meant to add on top of an audit log, but per 'bim_and_digital_building_logbooks.md' (Kochovski et al. 2026, BUILDCHAIN DBL with W3C DIDs/verifiable credentials on Ethereum) this is still an emerging capability layer in construction practice rather than the default state of most current BIM data, so I place it second, roughly half as decisive as the audit trail itself. Diversity of independent verification sources (V_diversity) I rate worst within this specific triad: it is genuinely valuable, but 'bim_and_digital_building_logbooks.md' notes that ISO 19650's information-delivery process already requires multiple parties (lead appointed party, task teams) to independently validate federated models -- meaning this dimension substantially overlaps with the separate Independent Confirmation (IC) factor that sits at the same L2 level as V in TrustRouter's own hierarchy ('shared knowledge: trustrouter_concept_paper_primer.md'). Within V's own internal decomposition, a coordinator judges diversity of sources as the least distinctive contributor to 'verification strength' specifically (as opposed to confirmation depth generally), and it is also the hardest of the three for a coordinator to unilaterally improve, since it depends on external parties' willingness to independently verify rather than on internal logging or signing discipline. The ratings (audit=1, crypto=2, diversity=4, with crypto-to-diversity implied at 2) reflect a real but not extreme gap: this is a case where audit trail's practical primacy is fairly clear to me, but crypto vs. diversity is more of a judgement call given the acknowledged overlap with IC.
+
+## Sources cited
+
+bim_and_digital_building_logbooks.md, shared knowledge: trustrouter_concept_paper_primer.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md (all claims verified genuine)

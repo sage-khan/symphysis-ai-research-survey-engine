@@ -1,0 +1,15 @@
+{
+  "best": "E_demand",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_market": 7,
+    "E_liquidity": 9
+  },
+  "others_to_worst": {
+    "E_liquidity": 1,
+    "E_market": 6,
+    "E_demand": 9
+  },
+  "reasoning": "Best factor: E_demand  \nWorst factor: E_liquidity\n\nE_demand vs E_market: 7  \nE_demand vs E_liquidity: 9  \nE_market vs E_liquidity: 6  \n\n**Reasoning**:  \n- **E_demand vs E_market (7)**: Future demand (E_demand) is more strategically critical for long-term value, especially with AI/digital twin growth, but current market demand (E_market) still provides immediate validation. The gap is significant but not \"extreme.\"  \n- **E_demand vs E_liquidity (9)**: Future demand dwarfs tokenisation ease (E_liquidity) in importance. Liquidity is a technical enabler, but without future demand, the economic value proposition collapses.  \n- **E_market vs E_liquidity (6)**: Current market demand is more important than tokenisation ease, but the gap is smaller than E_demand\u2019s dominance. Liquidity barriers can hinder adoption, but existing demand is a more tangible driver today.  \n\nCitations: Role knowledge (BIM coordinator\u2019s focus on long-term project lifecycle and stakeholder value alignment)."
+}

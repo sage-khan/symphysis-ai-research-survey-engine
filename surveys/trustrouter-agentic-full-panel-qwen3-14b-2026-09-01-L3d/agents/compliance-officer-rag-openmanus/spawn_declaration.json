@@ -1,0 +1,22 @@
+{
+  "agent_id": "compliance-officer-rag-openmanus",
+  "did": "did:key:z6MkhGj5AAyBKcqGQ794QBjrs7aqk5ChKYRr2bnej5XYT3L2",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Compliance and Regulatory Officer",
+  "capabilities_requested": [
+    "knowledge_repo",
+    "rag_retrieval"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo",
+    "rag_retrieval"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "qwen3:14b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-qwen3-14b-2026-09-01-L3d"
+}

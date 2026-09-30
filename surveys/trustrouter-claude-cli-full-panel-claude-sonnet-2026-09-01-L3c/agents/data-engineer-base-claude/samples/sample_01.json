@@ -1,0 +1,19 @@
+{
+  "best": "V_crypto",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_crypto": 1,
+    "V_audit": 3,
+    "V_diversity": 5
+  },
+  "others_to_worst": {
+    "V_crypto": 5,
+    "V_audit": 3,
+    "V_diversity": 1
+  },
+  "reasoning": "Per shared knowledge: trustrouter_concept_paper_primer.md, V decomposes into V_crypto (signatures/hashes/PKI), V_audit (audit-trail completeness), and V_diversity (diversity of independent verification sources). For a construction-project record being considered for blockchain storage, cryptographic evidence is the most foundational element of Verification Strength: it is the mechanism that makes a record's integrity mathematically checkable and tamper-evident at the point of anchoring, independent of any human process. Without a cryptographic binding (hash commitment, signature, PKI-backed identity), audit logs and multiple attestations can still be altered or forged upstream, so I rate V_crypto as Best. Audit-trail completeness (V_audit) is the second most important: it supplies the 'who did what, when' narrative that lets a downstream reviewer reconstruct custody and reconcile discrepancies, but a complete log is still only as trustworthy as the cryptographic guarantees underpinning each entry -- an audit trail without crypto anchoring can be edited after the fact. Diversity of verification sources (V_diversity) is Worst in this specific three-way comparison, not because independent corroboration is unimportant in the wider DVS/IC picture, but because in construction-project practice it is frequently the hardest and most resource-intensive property to achieve (multiple independent parties attesting to the same fact), and it functions more as a strengthening/redundancy layer on top of crypto and audit evidence rather than as a baseline requirement -- a single well-signed, fully-audited record can still be trusted for many purposes even with only one verifying party, whereas the reverse (many parties attesting to a record with no crypto/audit backing) is much weaker. This ranking reflects a judgement call about relative baseline necessity versus redundancy value, not a claim that diversity is unimportant in absolute terms -- the gap between V_audit and V_diversity is narrower and more debatable than the gap between V_crypto and the other two, so I flag that comparison as the closer call.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

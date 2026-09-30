@@ -1,0 +1,8 @@
+{
+  "agent_id": "project-manager-rag-openmanus",
+  "did": "did:key:z6MkjmPehzSvYSXaD46cBeezotxqypj5QXmmqiC8HGXfCiqN",
+  "method": "did:key",
+  "public_key_multibase": "z6MkjmPehzSvYSXaD46cBeezotxqypj5QXmmqiC8HGXfCiqN",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-phi4-14b-2026-09-01:project-manager-rag-openmanus')"
+}

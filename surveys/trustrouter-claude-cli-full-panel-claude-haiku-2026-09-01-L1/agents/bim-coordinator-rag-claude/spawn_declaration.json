@@ -1,0 +1,22 @@
+{
+  "agent_id": "bim-coordinator-rag-claude",
+  "did": "did:key:z6MkgKPXYGDwJ56epiD68PaM63oukrBdhu5ziYGo84AZKm9n",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "BIM Coordinator",
+  "capabilities_requested": [
+    "knowledge_repo",
+    "rag_retrieval"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo",
+    "rag_retrieval"
+  ],
+  "model": {
+    "provider": "claude_cli",
+    "name": "haiku",
+    "temperature": 0.3
+  },
+  "runtime_backend": "direct_completion",
+  "survey_id": "trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01-L1"
+}

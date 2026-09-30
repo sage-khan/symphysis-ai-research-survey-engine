@@ -1,0 +1,20 @@
+{
+  "agent_id": "project-manager-base-claude",
+  "did": "did:key:z6MkmbMHfpwQi6Y7FbdLU12dMCxJZnxzRBXEPi1iKygbQ1AP",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Construction Project Manager",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "claude_cli",
+    "name": "haiku",
+    "temperature": 0.3
+  },
+  "runtime_backend": "direct_completion",
+  "survey_id": "trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01-L3a"
+}

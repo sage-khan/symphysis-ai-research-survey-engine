@@ -1,0 +1,22 @@
+{
+  "best": "F",
+  "worst": "E",
+  "best_to_others": {
+    "F": 1,
+    "A": 2,
+    "DVS": 3,
+    "E": 5
+  },
+  "others_to_worst": {
+    "F": 5,
+    "A": 3,
+    "DVS": 2,
+    "E": 1
+  },
+  "reasoning": "As a blockchain/DLT engineer evaluating permissioned-ledger deployments, I rank F (Technical Feasibility Fit) as Best because it is the foundational gating constraint: if construction data exceeds ledger throughput, size, or latency constraints, no amount of other desirable properties makes blockchain viable. Feasibility is non-negotiable and precedes all other considerations. E (Economic Value) is Worst because while E justifies the cost-benefit of blockchain deployment, it is extrinsic and does not determine whether blockchain is technically appropriate for a dataset. Low economic value does not render blockchain infeasible; it may simply make it uneconomic, but the decision to use blockchain is driven by intrinsic technical fit and the data's trust characteristics, not by the financial value at stake. A (Attack Resistance) is rated second-most important (2x less important than F) because it is the core value proposition of blockchain: permissioned ledgers like Hyperledger Fabric (referenced in Rouhani and Deters 2021) derive their utility from Byzantine fault tolerance and Sybil/Insider resistance. If construction data faces no tampering threats, blockchain is unjustified, even if technically feasible. However, A is subordinate to F because attack resistance is irrelevant if the ledger cannot physically accommodate the data. DVS (Data Value Score) is third because while it aggregates quality, provenance, and verification strength\u2014all critical attributes\u2014these are important for any data system, not uniquely for blockchain. High-quality provenance and verification can exist off-chain through other means (signed reports, qualified signatures). Blockchain specifically mitigates tampering and ensures immutable audit trails for data that is already trustworthy; it cannot recover compromised data quality. The multiplicative formula (TrustRouter = DVS \u00d7 F \u00d7 (1+E) \u00d7 A) reinforces this logic: F acts as a hard constraint (if F \u2248 0, the score collapses), while E enters additively as (1+E), dampening its individual impact relative to the multiplicative factors.",
+  "sources_used": [
+    "blockchain_trust_and_attack_resistance.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

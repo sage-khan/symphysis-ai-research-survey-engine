@@ -1,0 +1,20 @@
+{
+  "best": "V_audit",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_audit": 1,
+    "V_crypto": 2,
+    "V_diversity": 4
+  },
+  "others_to_worst": {
+    "V_diversity": 1,
+    "V_crypto": 2,
+    "V_audit": 4
+  },
+  "reasoning": "The survey instrument itself defines V as merging 'cryptographic and procedural audit evidence,' with the worked example 'Qualified electronic signature dossier + tamper-evident log' (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) -- i.e. crypto and audit are the two pillars the concept treats as constitutive of Verification Strength, while diversity of sources is defined separately as corroboration by multiple independent parties, which substantially overlaps with the distinct Independent Confirmation (IC) dimension at L2. From a compliance-officer standpoint specifically, audit trail completeness ('who did what, when') is the more directly actionable evidence for regulatory purposes: GDPR's accountability principle and record-keeping/processing-activity obligations, and construction-regulatory chain-of-custody requirements for defect liability and building-code enforcement, are satisfied by a demonstrable, time-stamped process narrative, not by a single point-in-time cryptographic artefact. A qualified signature proves a document was not altered after signing and by whom it was signed, but it does not by itself reconstruct the full custody chain a regulator or court would require. Cryptographic evidence is still very important -- it underwrites non-repudiation and tamper-evidence and is often a precondition for the audit log itself to be trustworthy -- so I rate it a moderate 2x below audit trail completeness, not a large gap. Diversity of verification sources, while a genuine robustness property, is the weakest of the three here because (a) it is largely redundant with the separately-scored IC dimension in this instrument's hierarchy, and (b) the instrument's own definition of V does not foreground source diversity the way it foregrounds crypto+audit evidence. I kept the ratios internally consistent (audit:crypto=2, crypto:diversity=2, audit:diversity=4) rather than picking an inconsistent set, though I acknowledge this is a judgement call about relative magnitudes, not a measured quantity -- the crypto vs. audit comparison in particular is a reasonably close call since both are explicitly bundled in the instrument's own definition of V.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "gdpr_and_data_governance.md",
+    "general_knowledge"
+  ]
+}

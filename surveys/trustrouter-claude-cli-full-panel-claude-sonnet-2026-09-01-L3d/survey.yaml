@@ -1,0 +1,20 @@
+id: trustrouter-claude-cli-full-panel-claude-sonnet-2026-09-01-L3d
+title: 'TrustRouter Claude CLI Panel (sonnet) -- Level L3d: Attack Resistance sub-parts'
+description: 'One of 7 sibling per-level surveys (parent run: trustrouter-claude-cli-full-panel-claude-sonnet-2026-09-01).
+  How hard is it to cheat with this data? Uses the flat bwm instrument answered via
+  a single structured-JSON completion (provider=claude_cli, runtime_backend=direct_completion).'
+instrument: bwm
+instrument_params:
+  dimensions:
+  - A_sybil
+  - A_oracle
+  - A_insider
+  dimension_labels:
+    A_sybil: Sybil resistance
+    A_oracle: Oracle resistance
+    A_insider: Insider resistance
+  dimension_descriptions:
+    A_sybil: Fake-identity attacks.
+    A_oracle: Sensor and device tampering.
+    A_insider: Malicious legitimate access.
+created_at: '2026-09-01T00:00:00+00:00'

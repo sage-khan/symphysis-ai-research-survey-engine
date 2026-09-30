@@ -1,0 +1,25 @@
+{
+  "best": "C",
+  "worst": "L",
+  "best_to_others": {
+    "C": 1,
+    "PT": 2,
+    "V": 2,
+    "Q": 2,
+    "IC": 3,
+    "L": 3
+  },
+  "others_to_worst": {
+    "C": 3,
+    "PT": 2,
+    "V": 2,
+    "Q": 2,
+    "IC": 2,
+    "L": 1
+  },
+  "reasoning": "As a data engineer managing polyglot-persistence routing for construction projects, I rank Criticality (C) as best and Legal Compliance (L) as worst for these reasons:\n\n**Criticality (C) as Best:** Criticality is the primary driver of routing decisions. Blockchain's value\u2014immutability, tamper-evident audit trails, and distributed consensus\u2014matters most when data loss or corruption carries high stakes (safety hazards, financial exposure, project failure). For non-critical data, the overhead of blockchain is unjustified even with perfect provenance. Criticality determines whether we need blockchain at all; it is the gating factor for routing decisions.\n\n**Legal Compliance (L) as Worst:** While legally required, L is a constraint that operates at a different level than routing drivers. Many storage architectures (conventional, hybrid, blockchain) can satisfy regulatory requirements. L rarely differentiates which technology to choose\u2014it defines boundaries the solution must respect. Compliance is an enabler of trust, not a driver of routing architecture itself.\n\n**Middle-tier ratios:** Provenance Trust, Verification Strength, and Quality are all fundamental but less decisive than Criticality. PT and V work together to establish trustworthiness; Q is a prerequisite for any system. However, they are all somewhat secondary to the question \"how much assurance does this data actually need?\" (C). Independent Confirmation sits lower because while valuable, it requires either multiple trustworthy sources or consensus mechanisms\u2014both more dependent on other factors than critical to routing itself. A single trusted source (PT) is sufficient if quality is assured; blockchain's consensus doesn't replace bad source trust.\n\n**Consistency note:** The 2:3 ratio between C and secondary factors (PT, V, Q) reflects that these four are roughly in the same importance tier for data trust but C edges ahead as the routing differentiator. The 2:1 ratio between C and L reflects that criticality drives technology choice while compliance sets constraints on all choices.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

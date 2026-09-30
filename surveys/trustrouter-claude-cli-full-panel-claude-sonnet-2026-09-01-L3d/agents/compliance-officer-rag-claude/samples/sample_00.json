@@ -1,0 +1,20 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 5
+  },
+  "others_to_worst": {
+    "A_insider": 5,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "From a compliance/regulatory standpoint, insider resistance (A_insider) is the most consequential of the three because it targets the exact failure mode that data-protection and audit regimes (GDPR Art. 5/24/32 accountability and access-control principles) are built to prevent: a party with *legitimate, authenticated* access abusing that trust to insert or alter records. Because the actor holds valid credentials, the tampering is cryptographically and procedurally indistinguishable from a legitimate entry -- it defeats provenance and verification safeguards from the inside rather than being caught by them, which is the worst-case scenario for the legal defensibility of a construction record chain. Oracle resistance (A_oracle) matters -- tampered sensor/IoT feeds (e.g., falsified curing-temperature or structural-monitoring data) corrupt the underlying data quality before it ever reaches the ledger -- but this is closer to a data-integrity/engineering-verification problem than a governance-of-access problem, and it is at least partially caught by independent confirmation (IC) and verification-strength (V) mechanisms downstream. I rate it in the middle. Sybil resistance (A_sybil) I rate lowest in this specific context: construction consortium ledgers of the kind TrustRouter targets are realistically permissioned, not open/public, meaning participants (chartered engineers, licensed contractors, certifying bodies) are already subject to identity vetting and professional licensure gates before they are admitted to write access at all. [gdpr_and_data_governance.md]'s summary of Vaziry et al. 2024 frames on-chain identity itself as an AML/KYC-style regulatory compliance problem that is meant to be resolved *before* a record ever reaches trust scoring -- which is exactly the admission-control layer that neutralizes most fake-identity/Sybil risk in a permissioned setting, unlike in open/public blockchain contexts where Sybil attacks on validator sets are a first-order concern. This is a judgement call about the permissioned-ledger deployment context described in the survey instrument's own gate structure, not a claim that Sybil attacks are irrelevant in general. The comparison between A_oracle and A_insider was closer than between either and A_sybil, since both involve compromised data provenance -- I did not treat this as a clear-cut gap.",
+  "sources_used": [
+    "gdpr_and_data_governance.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 4,
+    "RQ": 6
+  },
+  "others_to_worst": {
+    "IQ": 6,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "From a BIM coordinator's perspective managing multi-stakeholder model federation and clash detection, **Intrinsic Quality (IQ) is the foundational criterion** for data trust in long-lived construction records. A model's accuracy, validity, and uniqueness are non-negotiable because structural dimensions, material properties, and system specifications cascade into every downstream decision\u2014safety, cost, scheduling, and compliance verification. An inaccurate structural dimension stored in blockchain creates permanent, federated liability across all stakeholders; no amount of completeness or consistency can recover from this fundamental flaw. This judgment reflects 10+ years of experience observing that geometric and specification errors drive the costliest project failures. **Contextual Quality (CQ) ranks second**: completeness and timeliness are essential for actionable decision-making, especially for a building serving institutional owners, insurers, and authorities for decades. However, a single accurate, timely attribute is more useful than all attributes present but some incorrect. **Representational Quality (RQ) is least important**: while consistency across federated models prevents confusion among disciplines, it is derivative of the data's inherent trustworthiness. You can manage partial inconsistency between architectural and structural models if both are individually accurate; you cannot manage propagating inaccuracy across consistent copies. The ratings reflect: IQ is 4\u00d7 more important than CQ (accuracy beats completeness in priority), IQ is 6\u00d7 more important than RQ (accuracy far outweighs consistency as a trust factor), and CQ is 2\u00d7 more important than RQ (scope/timing beats representation format).",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

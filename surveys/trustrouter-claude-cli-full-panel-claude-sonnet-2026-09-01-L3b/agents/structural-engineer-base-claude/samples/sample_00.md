@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: T_source
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+For a structural-capacity dossier relied on by insurers, regulators, and owners over decades, T_source (credentials of the authoring person/organisation) is the most load-bearing sub-factor: structural assessments carry legal and technical weight specifically because a licensed/chartered engineer (PE/CEng) or an accredited testing body stands behind them. Without that authorship credential, no amount of downstream tamper-evidence tells you the content itself is technically sound -- a perfectly preserved record from an unqualified or unidentified source is still not something I could stamp or rely on. T_chain (custody chain) I rank second: it is genuinely important, since blockchain's whole value proposition is proving nothing was altered between creation and submission, and for long-lived structural records that matters a great deal -- but chain integrity presupposes there was a competent, credentialed origin worth protecting in the first place; it's necessary but not sufficient on its own. T_history (the source's track record) I rank as weakest of the three because it is an aggregate, probabilistic signal about the source's past behaviour rather than direct evidence about this specific document -- a source with a strong historical record can still submit a flawed or altered record, and a new but properly credentialed source with an intact custody chain can still be fully trustworthy on a given submission. The gaps are moderate rather than extreme (2 and 4, not 8-9), because all three genuinely matter to provenance trust and none is negligible -- this is a closer call among legitimate contributing factors than a case of one criterion dominating outright.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

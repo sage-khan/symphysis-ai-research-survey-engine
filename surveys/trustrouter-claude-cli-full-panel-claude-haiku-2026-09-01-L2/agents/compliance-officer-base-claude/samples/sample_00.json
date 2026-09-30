@@ -1,0 +1,26 @@
+{
+  "best": "C",
+  "worst": "IC",
+  "best_to_others": {
+    "Q": 3,
+    "PT": 4,
+    "V": 4,
+    "IC": 7,
+    "L": 2,
+    "C": 1
+  },
+  "others_to_worst": {
+    "Q": 4,
+    "PT": 3,
+    "V": 3,
+    "IC": 1,
+    "L": 5,
+    "C": 7
+  },
+  "reasoning": "As a facility-management compliance officer, my judgement prioritises safety and operational impact above all other factors when assessing construction records for blockchain storage. Criticality (C) is the best criterion because it directly addresses the consequences that drive both regulatory obligation and operational necessity: if a structural record (load-bearing capacity, fire rating, occupancy class) is wrong, the impact spans life-safety, financial liability, and contractual breach. This dominates the compliance officer's risk calculus. Legal Compliance (L) is nearly as important (rated 2x less critical than C) because regulatory mandates are non-negotiable, but critically, safety/operational impact typically drives regulatory requirements rather than the reverse. Quality (Q) is foundational (3x less important than C) but is a prerequisite rather than a differentiator\u2014garbage data of low criticality is still garbage data, but excellent data on trivial facts adds little value. Provenance Trust (PT) and Verification Strength (V) are both moderately important (4x less than C) for accountability and blockchain integrity, but a single record from a qualified source with strong audit evidence can suffice. Independent Confirmation (IC) is least important (7x less critical than C) because a single verified, high-criticality record from a trusted, compliant source is operationally superior to weak confirmations across multiple parties; blockchain's cryptographic strength substitutes partly for consensus, and in construction, authoritative single records (from a chartered engineer, licensed contractor, or regulatory body) often carry more weight than committee agreement. This ranking reflects the compliance officer's duty to prevent high-impact failures first, then ensure legal defensibility, then layer in the technical trust machinery (verification, provenance) that makes blockchain an appropriate storage mechanism.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

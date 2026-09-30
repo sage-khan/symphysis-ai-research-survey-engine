@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: A_insider
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+From a BIM coordinator's perspective on multi-stakeholder renovation projects, insider threats present the most significant risk to data trust. Construction data breaches almost always involve legitimate stakeholders — project managers, engineers, inspectors, contractors — misusing access to hide defects, falsify progress records, alter compliance documentation, or manipulate as-built models. This is both the most common and most difficult threat to detect, because insiders understand the system and have valid credentials. Blockchain cannot mitigate legitimate-access abuse once credentials are issued. In the Hospital Real scenario (public asset serving authorities and insurers for decades), insider manipulation poses systemic liability across safety, compliance, and performance claims. Oracle resistance (sensor/device tampering) ranks second: while sensor integrity is critical for structural safety and energy validation, real projects employ redundant measurements and multiple independent inspections as cross-checks. More importantly, oracle resistance is a data-integrity problem with partial solutions through cryptographic timestamping and sensor network architecture. Sybil resistance ranks lowest. In federated BIM environments, stakeholder identity is controlled by business process, not distributed ledger consensus. ISO 19650 governance already requires a lead appointed party to verify and federate contributors; unknown parties cannot simply 'create fake identities' and gain federation access the way they could in an open blockchain system. The threat model assumes uncontrolled party entry, which is inconsistent with real BIM federation practice. The multiplier gap between A_insider and A_sybil (7x) reflects that insider risk is pervasive across construction whereas Sybil attacks are not a credible threat in controlled, business-relationship-based project federation. The 2x gap between A_insider and A_oracle reflects that both are real threats, but insider threats are more difficult to prevent and more prevalent in construction practice.
+
+## Sources cited
+
+bim_and_digital_building_logbooks.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, shared knowledge: trustrouter_concept_paper_primer.md, general_knowledge (all claims verified genuine)

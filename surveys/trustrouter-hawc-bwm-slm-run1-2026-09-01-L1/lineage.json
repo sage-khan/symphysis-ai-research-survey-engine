@@ -1,0 +1,116 @@
+[
+  {
+    "child_did": "did:key:z6MkspuJKbzMeGtPYz8gtwtQ2SkJyqSfJBjyBkNPoXmbScPr",
+    "child_agent_id": "bim-coordinator-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T08:38:00.132530+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkpQkoUSqMzrf1kH3JrKuZWtNmZrno8ztzn4B3ip4hcDwR",
+    "child_agent_id": "bim-coordinator-rag-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T08:39:42.967196+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkspuJKbzMeGtPYz8gtwtQ2SkJyqSfJBjyBkNPoXmbScPr",
+    "child_agent_id": "bim-coordinator-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T08:46:22.224143+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkpQkoUSqMzrf1kH3JrKuZWtNmZrno8ztzn4B3ip4hcDwR",
+    "child_agent_id": "bim-coordinator-rag-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T08:48:05.041528+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkpg6o3xoC3WLaJtLCKeqhe7Ym3SKWpYdUzVsrRKC3ZFz4",
+    "child_agent_id": "blockchain-engineer-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T08:53:08.084009+00:00"
+  },
+  {
+    "child_did": "did:key:z6MksgafLZMBGoVfGkiGwaLPAjhN13v5Jig5XRoeTWxxDdTw",
+    "child_agent_id": "blockchain-engineer-rag-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T08:55:29.466878+00:00"
+  },
+  {
+    "child_did": "did:key:z6MksLGicsQNyzRAknnHj4RrtgvU9648MtX1CD5cWmxiucNf",
+    "child_agent_id": "compliance-officer-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:00:17.422327+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkspuJKbzMeGtPYz8gtwtQ2SkJyqSfJBjyBkNPoXmbScPr",
+    "child_agent_id": "bim-coordinator-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:07:32.944668+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkpQkoUSqMzrf1kH3JrKuZWtNmZrno8ztzn4B3ip4hcDwR",
+    "child_agent_id": "bim-coordinator-rag-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:09:55.127648+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkpg6o3xoC3WLaJtLCKeqhe7Ym3SKWpYdUzVsrRKC3ZFz4",
+    "child_agent_id": "blockchain-engineer-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:13:26.007942+00:00"
+  },
+  {
+    "child_did": "did:key:z6MksgafLZMBGoVfGkiGwaLPAjhN13v5Jig5XRoeTWxxDdTw",
+    "child_agent_id": "blockchain-engineer-rag-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:15:28.081056+00:00"
+  },
+  {
+    "child_did": "did:key:z6MksLGicsQNyzRAknnHj4RrtgvU9648MtX1CD5cWmxiucNf",
+    "child_agent_id": "compliance-officer-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:18:04.354774+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkiYX56ZTGhRe8bfZ8C8KCRdd5WcgH5vapjrRSQbB6wj2c",
+    "child_agent_id": "compliance-officer-rag-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:20:22.990410+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mktr6j6uD7oNbpdvpbNoTD3B1XRmVEw84L5UwHyzcJc2tE",
+    "child_agent_id": "data-engineer-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:23:00.566999+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mku2fjDEqyKX3HJ2hCFRWBuTwKRfbRkBc8RZqBvuCrt9aW",
+    "child_agent_id": "data-engineer-rag-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:24:57.154966+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkn7fp1tsdSqXeHZkVwVHsAMbBK8L5P6XhPSQvd2FebcqF",
+    "child_agent_id": "project-manager-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:26:58.283040+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mko2mZ4TytzFzWnMt7vDBh9mgJQSWR5gYCR9LtpYnqS22N",
+    "child_agent_id": "project-manager-rag-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:29:15.010819+00:00"
+  },
+  {
+    "child_did": "did:key:z6MknhPkrXrMxyFJCYKZ4h2rWpmrLxgk4fa1phTbjWcGXQTZ",
+    "child_agent_id": "structural-engineer-base-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:33:42.794119+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkvE2enbfGzaR7XvzpxtovXwToFs4Ri3oGtVxvdh8riR3d",
+    "child_agent_id": "structural-engineer-rag-ollama",
+    "parent_did": null,
+    "declared_at": "2026-09-01T09:35:52.298943+00:00"
+  }
+]

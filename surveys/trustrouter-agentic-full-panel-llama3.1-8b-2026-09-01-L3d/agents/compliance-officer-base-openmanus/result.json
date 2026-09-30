@@ -1,0 +1,88 @@
+{
+  "agent_id": "compliance-officer-base-openmanus",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "A_insider",
+      "worst": "A_sybil",
+      "best_to_others": {
+        "A_insider": 1,
+        "A_oracle": 7,
+        "A_sybil": 9
+      },
+      "others_to_worst": {
+        "A_sybil": 1,
+        "A_oracle": 5,
+        "A_insider": 9
+      },
+      "reasoning": "Best factor: A_insider\nWorst factor: A_sybil\n\nA_insider vs A_oracle: 7\nA_insider vs A_sybil: 9\nA_oracle vs A_sybil: 5"
+    },
+    {
+      "best": "A_insider",
+      "worst": "A_sybil",
+      "best_to_others": {
+        "A_insider": 1,
+        "A_oracle": 8,
+        "A_sybil": 9
+      },
+      "others_to_worst": {
+        "A_sybil": 1,
+        "A_oracle": 6,
+        "A_insider": 9
+      },
+      "reasoning": "Best factor: A_insider\nWorst factor: A_sybil\n\nA_insider vs A_oracle: 8\nA_insider vs A_sybil: 9\nA_oracle vs A_sybil: 6"
+    },
+    {
+      "best": "A_insider",
+      "worst": "A_sybil",
+      "best_to_others": {
+        "A_insider": 1,
+        "A_oracle": 8,
+        "A_sybil": 9
+      },
+      "others_to_worst": {
+        "A_sybil": 1,
+        "A_oracle": 5,
+        "A_insider": 9
+      },
+      "reasoning": "Best factor: A_insider\nWorst factor: A_sybil\n\nA_insider vs A_oracle: 8\nA_insider vs A_sybil: 9\nA_oracle vs A_sybil: 5"
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    },
+    {
+      "claimed": null,
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "shared knowledge: trustrouter_concept_paper_primer.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": false,
+      "genuine": null
+    }
+  ]
+}

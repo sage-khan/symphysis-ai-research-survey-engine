@@ -35,6 +35,31 @@ def test_parse_rejects_missing_dimension():
     assert any("missing ratings" in e for e in result.errors)
 
 
+def test_parse_rejects_best_to_others_that_is_not_an_object_instead_of_crashing():
+    # Regression: a live qwen3:14b response on the veritas server (TrustRouter
+    # SLM Panel Run 1, level L1, 2026-09-01) returned best_to_others as a bare
+    # string instead of a JSON object. The pre-fix code called `.items()` on
+    # whatever `best_to_others` decoded to without checking its type first,
+    # crashing the whole `symphysis run` process with an uncaught
+    # AttributeError instead of rejecting just this one malformed sample.
+    instrument = BWMInstrument()
+    payload = _valid_payload()
+    payload["best_to_others"] = "PT:1,Q:2"
+    result = instrument.parse(json.dumps(payload), PARAMS)
+    assert not result.valid
+    assert any("best_to_others" in e and "object" in e for e in result.errors)
+
+
+def test_parse_rejects_a_boolean_rating_value():
+    # `isinstance(True, int)` is True in Python, so a bare `isinstance(value,
+    # int)` check would silently accept True as if it were the rating 1.
+    instrument = BWMInstrument()
+    payload = _valid_payload()
+    payload["best_to_others"]["V"] = True
+    result = instrument.parse(json.dumps(payload), PARAMS)
+    assert not result.valid
+
+
 def test_parse_rejects_out_of_range_rating():
     instrument = BWMInstrument()
     payload = _valid_payload()
@@ -66,6 +91,26 @@ def test_build_messages_includes_all_dimensions_and_context():
     for code in PARAMS["dimensions"]:
         assert code in user_content
     assert "grounding text" in user_content
+
+
+def test_build_messages_restates_bare_codes_after_context_so_it_is_read_last():
+    # Regression: qwen3:14b given RAG context reliably answered with full
+    # labels ("DVS (Data Value Score)") instead of the bare code the JSON
+    # schema requires, because the reference material (which can include a
+    # verbatim human-facing survey instrument telling a HUMAN to write full
+    # labels) was the last thing in the prompt, overriding the earlier
+    # short-code instruction by recency. See diagnostics.md.
+    instrument = BWMInstrument()
+    messages = instrument.build_messages(
+        "You are a BIM coordinator.",
+        ["[shared knowledge: glossary.md] Use these exact full labels: Data Value Score (DVS)"],
+        PARAMS,
+    )
+    user_content = messages[1]["content"]
+    reminder_idx = user_content.rfind("bare codes")
+    context_idx = user_content.rfind("Use these exact full labels")
+    assert reminder_idx != -1
+    assert reminder_idx > context_idx
 
 
 def test_build_messages_lists_real_source_tags_when_context_is_present():

@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: E_demand
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+For a structural capacity dossier (e.g. a masonry load assessment sealed by a chartered engineer, held for decades for insurers/authorities), I judged E_demand the most important sub-part of Economic Value. Structural records of this kind derive their long-run economic value less from who wants to buy them today than from the trajectory of institutional need: tightening structural-safety regulation, growth of digital-twin practice, and AI-driven analytics that increasingly consume historical structural data as training/verification inputs. The reference material on trustworthy digital twins (structural_health_monitoring_and_digital_twins.md) supports this: it frames blockchain-anchored structural sensor/report data as valuable precisely because digital twins depend on trusted provenance over the asset's operating life, a demand driver that grows rather than a static current market. E_market (current buyers) is real -- insurers, owners, and authorities do have present institutional demand for a sealed structural report -- but it is narrower and more static than the future growth trajectory, so I placed it second. E_liquidity (ease of tokenising the record into a tradeable asset) is the worst/least important: a masonry load assessment for one specific building is a non-fungible, single-purpose compliance artifact with essentially no secondary market; tokenisation for tradability is a technical possibility with little practical bearing on why this record has value to the parties who actually rely on it (insurers, regulators, owners) over decades. I rated E_demand a full 7x more important than E_liquidity, and moderately (2x) more important than E_market, since the market-vs-demand distinction is a matter of degree (both reflect genuine institutional value) whereas liquidity/tokenisation is a largely orthogonal, low-relevance dimension for this asset class. This is a professional judgement call rather than a finding drawn directly from a source, since none of the provided material scores E_market/E_liquidity/E_demand against each other explicitly; the digital-twin material grounds the E_demand argument specifically, the rest reflects my own domain reasoning about how structural dossiers are actually used and valued in practice.
+
+## Sources cited
+
+structural_health_monitoring_and_digital_twins.md, general_knowledge (all claims verified genuine)

@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: E_demand
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+Viewing these three Economic Value sub-parts through a compliance/facility-management lens rather than a pure investor lens: E_demand (projected future demand driven by regulation, AI/analytics, and digital-twin mandates, per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) is the most durable and most relevant driver of value in my role. Regulatory-driven demand -- e.g. mandatory energy-performance disclosure, EU digital-building-log and digital-twin requirements, and growing use of verified construction data in AI-assisted compliance/audit workflows -- creates demand that is structural and largely independent of any single buyer's current willingness to pay, which is exactly the kind of trajectory a compliance officer has to plan retention and audit-readiness around over a building's full lifecycle. E_market (current marketplace demand / existing buyers) is real and measurable but reflects only today's snapshot, which can be thin or absent for a given record type even where the record is compliance-critical; I rate it clearly behind E_demand but well ahead of E_liquidity. E_liquidity (ease of tokenising the record into a tradeable asset) is the weakest of the three from this role's vantage point: even where tokenisation is technically easy, construction-project records frequently embed personal data (contractor/occupant details, site personnel records) or commercially sensitive material, and GDPR's purpose-limitation and data-minimisation principles, together with typical contractual confidentiality clauses, constrain how freely such tokens could actually be transferred or traded on a market. Technical tokenisability therefore does not translate reliably into realisable economic value once legal and privacy constraints are applied, so I placed it as Worst. This is a judgement call built on the shared-knowledge definitions of the three sub-criteria combined with general regulatory-compliance reasoning about GDPR's effect on data tradability; it was not a large-margin call for E_market vs E_demand, but the gap to E_liquidity is, in my judgement, substantial and consistent with the compliance perspective this role brings.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

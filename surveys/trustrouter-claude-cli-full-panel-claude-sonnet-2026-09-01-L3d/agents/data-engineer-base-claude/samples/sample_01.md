@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: A_insider
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+Construction-project blockchain deployments are almost always permissioned/consortium chains (project owner, GC, subcontractors, inspectors enrolled via KYC-style onboarding), not open permissionless networks. In that architecture, Sybil resistance (fake-identity attacks) is the weakest concern of the three because consortium membership is already gated by an admin/certificate authority -- creating many fake nodes is structurally hard regardless of the routing decision, so I rate it Worst. Insider resistance is Best because the dominant real-world failure mode for construction data integrity is a credentialed, legitimate actor (an inspector, engineer, or site manager with valid signing keys) submitting falsified or self-serving records -- e.g., backdating an inspection or signing off on non-conforming work. This maps directly to the 'Provenance Trust (PT)' definition in the shared instrument ('trust in who created the data and custody until handover'), and blockchain's immutability does nothing to stop a legitimate signer from committing bad data in the first place -- it only preserves the bad record forever, which if anything raises the stakes of insider compromise for chain-routing decisions. Oracle resistance (sensor/device tampering) sits in between: it's a serious and well-known problem for IoT-fed construction records (the 'garbage-in, immutable-forever' critique of blockchain-IoT integration), but it is more amenable to mitigation through sensor redundancy, cross-validation against multiple independent devices, and physical tamper-evidence than insider fraud is, which is why I place it closer to Best than to Worst but still clearly below Insider. The 3/7 and 2/1 ratios reflect that Insider clearly dominates Oracle (moderate gap) and dominates Sybil heavily (large gap), while Oracle still meaningfully dominates Sybil, consistent with best_to_worst ~7 in both tables.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

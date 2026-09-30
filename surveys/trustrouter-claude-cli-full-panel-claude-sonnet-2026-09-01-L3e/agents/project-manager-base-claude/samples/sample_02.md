@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: E_market
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+As a construction PM, I judge economic value primarily by who is actually paying for or relying on this data today. E_market (current marketplace demand) is the most concrete and verifiable driver: institutional owners, insurers, and authorities (per the Hospital Real reference scenario) already need structural, energy, and compliance records for underwriting, regulatory sign-off, and asset management -- that demand exists independent of any blockchain mechanism. E_demand (future demand tied to regulated reporting, AI training sets, digital-twin integration) is a real and growing driver of value, but it is inherently forward-looking and less certain than demand that exists right now, so it ranks second, moderately behind E_market (rated 3). E_liquidity (ease of tokenising the record into a tradeable asset) is the weakest driver of practical economic value for the vast majority of construction documentation -- structural reports, HVAC certificates, RFI logs, and progress photos are not naturally suited to being fractionalised or traded as financial instruments, and most institutional stakeholders in this space (insurers, code authorities, facility managers) have no interest in a secondary trading market for this data. Tokenisation ease is a technical/financial-engineering property that is largely orthogonal to whether the underlying record has genuine economic value to the parties who actually use construction data, so it is Worst, rated far behind both E_market (7) and E_demand (5). The gap between E_market and E_demand is a closer call than the gap to E_liquidity -- both reflect genuine buyer interest, just on different time horizons -- so I want to be explicit that this second-tier ranking is less clear-cut than the choice of Best and Worst.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

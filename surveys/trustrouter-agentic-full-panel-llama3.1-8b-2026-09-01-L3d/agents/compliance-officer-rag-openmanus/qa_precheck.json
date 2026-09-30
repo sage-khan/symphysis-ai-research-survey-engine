@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-rag-openmanus",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"compliance-officer-rag-openmanus\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am configured as a Compliance and Regulatory Officer, running on the ollama/llama3.1:8b model, with access to a dedicated RAG corpus and shared survey knowledge repository, but without web search capabilities. I will attempt this task as an expert in my role, adhering to the provided rules and instructions.\"\n}",
+    "model": "llama3.1:8b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "llama3.1:8b",
+      "created_at": "2026-09-01T19:19:17.380599979Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"compliance-officer-rag-openmanus\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am configured as a Compliance and Regulatory Officer, running on the ollama/llama3.1:8b model, with access to a dedicated RAG corpus and shared survey knowledge repository, but without web search capabilities. I will attempt this task as an expert in my role, adhering to the provided rules and instructions.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1262346540,
+      "load_duration": 72153113,
+      "prompt_eval_count": 2094,
+      "prompt_eval_duration": 59900317,
+      "eval_count": 165,
+      "eval_duration": 1066937356
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-rag-openmanus",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand that I am configured as a Compliance and Regulatory Officer, running on the ollama/llama3.1:8b model, with access to a dedicated RAG corpus and shared survey knowledge repository, but without web search capabilities. I will attempt this task as an expert in my role, adhering to the provided rules and instructions."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-rag-openmanus",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-rag-openmanus",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand that I am configured as a Compliance and Regulatory Officer, running on the ollama/llama3.1:8b model, with access to a dedicated RAG corpus and shared survey knowledge repository, but without web search capabilities. I will attempt this task as an expert in my role, adhering to the provided rules and instructions."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

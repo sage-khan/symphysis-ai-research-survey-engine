@@ -1,0 +1,21 @@
+{
+  "best": "A",
+  "worst": "F",
+  "best_to_others": {
+    "A": 1,
+    "DVS": 2,
+    "E": 2,
+    "F": 4
+  },
+  "others_to_worst": {
+    "A": 4,
+    "DVS": 2,
+    "E": 2,
+    "F": 1
+  },
+  "reasoning": "From a production permissioned-ledger engineer's perspective, Attack Resistance (A) is the deciding factor for whether construction data warrants blockchain deployment at all. Blockchain's core value proposition is providing tamper-evidence and immutability against undetected manipulation\u2014if there is no significant risk of tampering or data corruption (low A), then blockchain introduces cost and complexity without corresponding benefit, regardless of other factors. Conversely, high A directly justifies blockchain's deployment cost. Technical Feasibility Fit (F) is ranked worst not because it is unimportant, but because modern ledger architectures and hybrid approaches (IPFS + on-chain hash, sidechains, state channels, sharding) can often work around size, throughput, and latency constraints that would have been hard blockers in earlier systems. F is thus more a choice of implementation tier (full on-chain vs. hybrid vs. conventional) than a gating factor for whether blockchain is viable in principle. Data Value Score (DVS) and Economic Value (E) are rated equally in importance relative to A. DVS\u2014encompassing Quality, Provenance Trust, and Verification Strength (per reference material)\u2014reflects whether the data is trustworthy to begin with; blockchain cannot cure poor underlying data quality or weak provenance, it only preserves whatever state is recorded. E reflects whether the financial or asset value at risk justifies the cost premium of blockchain; without sufficient economic stakes, deployment is economically irrational. Both constrain the decision but are subordinate to A as the fundamental justification for blockchain involvement. The multiplicative TrustRouter model (DVS \u00d7 F \u00d7 (1+E) \u00d7 A) itself shows that if A approaches zero, the entire product approaches zero, confirming A's gating role.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

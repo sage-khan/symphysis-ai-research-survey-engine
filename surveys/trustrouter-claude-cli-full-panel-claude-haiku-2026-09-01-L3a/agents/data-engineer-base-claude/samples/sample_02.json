@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 7
+  },
+  "others_to_worst": {
+    "IQ": 7,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "IQ (Intrinsic Quality\u2014accuracy, validity, uniqueness) is the most critical dimension for construction-project records destined for blockchain storage. The fundamental property of blockchain is immutability: once data is committed to the ledger, it cannot be corrected or deleted. This makes accuracy and validity non-negotiable at the point of entry. An inaccurate record is permanently inaccurate; there is no recovery path through downstream governance. For construction data, this is catastrophic\u2014e.g., structural loads recorded incorrectly, material specifications wrong, or safety-critical measurements invalid\u2014these errors persist forever in the distributed ledger. Uniqueness within IQ is also important to prevent duplicate records that could cause ambiguity in the chain of custody or project timeline. CQ (Contextual Quality\u2014completeness, timeliness) is important but secondary. Incomplete data hampers decision-making during active construction and complicates audits; timeliness affects operational responsiveness. However, these issues are addressable through data-entry governance, validation gates before blockchain commit, and backward-filling of late-arriving records with proper timestamping. Blockchain's append-only design actually supports complete historical records even if data arrives later than collection. RQ (Representational Quality\u2014consistency across sources) is the least critical of the three. Construction projects inherently involve multiple independent parties (contractors, engineers, inspectors, facility managers) producing different versions of the truth at different times and from different vantage points. Blockchain systems are designed to track and reconcile such versions through transparent audit trails and timestamps. Consistency can be managed through reconciliation logic, version selection policies, and ledger-based adjudication, whereas IQ issues cannot be repaired post-commit. The multiplicative nature of TrustRouter's design (referenced in the concept paper) means that defects in foundational dimensions (IQ) cascade; a unit defect in accuracy is more damaging than a unit defect in consistency.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

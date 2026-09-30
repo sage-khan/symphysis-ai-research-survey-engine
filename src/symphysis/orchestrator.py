@@ -16,8 +16,9 @@ from .config import SurveyConfig
 from .instruments.ahp import AHPInstrument, build_full_matrix
 from .instruments.bwm import BWMInstrument
 from .instruments.hierarchical_bwm import HierarchicalBWMInstrument
-from .permissions import PermissionError_
+from .policy.authorization import PermissionError_
 from .providers.base import ProviderError
+from .runtime.openmanus import OpenManusProviderError
 from .reporting import (
     render_ahp_charts,
     render_ahp_report,
@@ -26,12 +27,15 @@ from .reporting import (
     render_hierarchical_bwm_report,
     render_methodology_section,
     render_per_agent_detail_section,
+    render_pipeline_findings_section,
     render_report,
 )
 from .solvers import ahp as ahp_solver
 from .solvers import bwm_bayesian, bwm_classical
 from .solvers import hierarchical_bwm as hbwm_solver
-from .storage import SurveyStorage
+from .audit.logger import SurveyStorage
+from .spawning import spawn as agent_spawn
+from .spawning import pipeline as agent_pipeline
 
 # Every instrument this app can run a survey with. Adding a new method
 # (Delphi, TOPSIS, and the rest of the candidates in README's Future
@@ -100,6 +104,7 @@ def _solve_and_write_report(
     agent_payloads: List[Dict[str, Any]],
     per_agent_meta: List[Dict[str, Any]],
     per_agent_detail: List[Dict[str, Any]],
+    pipeline_findings: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """Solve the configured instrument over already-collected agent
     payloads and write the report/charts/combined_results/integrity
@@ -123,6 +128,8 @@ def _solve_and_write_report(
 
     report_md += "\n\n" + render_methodology_section(survey.instrument, len(agent_payloads), chart_paths)
     report_md += "\n\n" + render_per_agent_detail_section(per_agent_detail)
+    if pipeline_findings:
+        report_md += "\n\n" + render_pipeline_findings_section(pipeline_findings)
     storage.write_report(report_md)
 
     storage.write_combined_results(result)
@@ -146,6 +153,13 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
     # _solve_hierarchical_bwm instead.
     codes: List[str] = survey.instrument_params.get("dimensions", [])
 
+    pipeline_findings: Dict[str, Any] = {}
+    setup_review_result = agent_pipeline.run_setup_review(survey, storage)
+    if setup_review_result is not None:
+        pipeline_findings["setup_review"] = setup_review_result
+        if "error" in setup_review_result:
+            print(f"Pipeline stage 'setup_review' did not complete: {setup_review_result['error']}")
+
     agent_payloads: List[Dict[str, Any]] = []
     per_agent_meta: List[Dict[str, Any]] = []
     per_agent_detail: List[Dict[str, Any]] = []
@@ -154,18 +168,35 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
     for card_path in survey.agent_cards:
         card = load_card(card_path)
         try:
+            # Declared before the agent does anything else, per
+            # docs/architecture/governance-layer-and-runtime-backends-plan.md
+            # §5: every agent's first trail entry is now the fact of its own
+            # spawn (DID, granted capabilities, model), not just its QA
+            # precheck. Today's flat panel is entirely root spawns
+            # (parent_did=None); runtime_backend reflects the card's own
+            # opt-in choice (default "direct_completion", the single-call
+            # path every existing card still uses; "openmanus" routes
+            # through Agent.run()'s OpenManusProvider branch instead, see
+            # agent.py::run()).
+            agent_spawn.declare_root(storage, card, survey_id=survey.id, runtime_backend=card.runtime_backend)
             agent = Agent(card, card_path, storage)
             run = agent.run(
                 instrument,
                 survey.instrument_params,
                 survey_title=survey.title,
                 survey_description=survey.description,
+                escalation=survey.escalation,
             )
-        except (ProviderError, PermissionError_, AgentCardError) as exc:
+        except (ProviderError, PermissionError_, AgentCardError, OpenManusProviderError, FileNotFoundError) as exc:
             # A misconfigured or uncredentialed agent (missing API key,
             # permission violation, bad card) must not take down the whole
             # panel: skip it, log why, keep going. Distinct from a pending
             # manual response, which is expected and resolves on its own.
+            # OpenManusProviderError/FileNotFoundError cover a card with
+            # runtime_backend="openmanus" whose isolated venv isn't set up,
+            # or whose OpenManus run itself failed (see agent.py's
+            # _resolve_provider/runtime/openmanus.py::OpenManusProvider) —
+            # the same "skip and keep going" behavior applies identically.
             skipped_notices.append(f"[{card.agent_id}] {type(exc).__name__}: {exc}")
             continue
 
@@ -204,7 +235,15 @@ def run_survey(survey: SurveyConfig) -> Dict[str, Any]:
             + (" Some agents were skipped; see notices above." if skipped_notices else "")
         )
 
-    return _solve_and_write_report(survey, codes, storage, agent_payloads, per_agent_meta, per_agent_detail)
+    response_review_result = agent_pipeline.run_response_review(survey, storage, per_agent_detail, codes)
+    if response_review_result is not None:
+        pipeline_findings["response_review"] = response_review_result
+        if "error" in response_review_result:
+            print(f"Pipeline stage 'response_review' did not complete: {response_review_result['error']}")
+
+    return _solve_and_write_report(
+        survey, codes, storage, agent_payloads, per_agent_meta, per_agent_detail, pipeline_findings
+    )
 
 
 def regenerate_report(survey: SurveyConfig) -> Dict[str, Any]:

@@ -10,13 +10,14 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 from . import app_config, qa_checks, role_packs
-from .agent_card import AgentCard
+from .agent_card import AgentCard, AgentCardError, ModelSpec
 from .guardrails import GuardedRun, run_with_guardrails
 from .instruments.base import Instrument
-from .permissions import check_data_scope, check_provider_allowed
+from .policy.authorization import check_data_scope, check_provider_allowed
+from .policy.engine import escalated_level_ids
 from .providers import get_provider
 from .rag.retriever import build_retriever
-from .storage import SurveyStorage
+from .audit.logger import SurveyStorage
 from .tools.web_search import WebSearchError, search_as_dicts
 
 KNOWLEDGE_REPO_DIRNAME = "knowledge_repo"
@@ -153,13 +154,24 @@ class Agent:
         )
 
     def run_qa_precheck(self, survey_title: str, survey_description: str = "") -> None:
-        """A single, un-repeated preliminary turn logged as the first entry in
-        this agent's conversation trace: the agent is told its real, actual
-        configuration and asked to restate it, and that restatement is
-        verified against ground truth deterministically (see qa_checks.py),
-        not merely trusted. A mismatch (a hallucinated capability, or a
-        comprehension failure) is logged plainly, not hidden, so a human
-        reviewer can see it before trusting this agent's actual answers."""
+        """A single, un-repeated preliminary turn: the agent is told its
+        real, actual configuration and asked to restate it, and that
+        restatement is verified against ground truth deterministically (see
+        qa_checks.py), not merely trusted. A mismatch (a hallucinated
+        capability, or a comprehension failure) is logged plainly, not
+        hidden, so a human reviewer can see it before trusting this agent's
+        actual answers. Logged as this agent's second conversation-trace
+        entry: `orchestrator.py` already logs a `spawn_declared` entry (see
+        `spawning/spawn.py::declare_root`) before this agent is even
+        constructed, so the precheck is the first entry the agent itself is
+        responsible for, not the trace's absolute first entry.
+
+        Always goes through the direct provider (get_provider), never
+        `_resolve_provider()`'s OpenManus branch, even for a card with
+        runtime_backend="openmanus": this is a single fixed-format
+        self-report call with no need for multi-turn tool use, so routing
+        it through a whole isolated-subprocess ReAct loop would only add
+        latency for no benefit."""
         ground_truth = self._qa_precheck_ground_truth()
         provider = get_provider(self.card.model.provider)
         messages = [
@@ -258,12 +270,59 @@ class Agent:
         )
         return [f"[web: {r['title']} ({r['url']})] {r['content']}" for r in results]
 
+    def _resolve_provider(
+        self,
+        instrument: Any = None,
+        instrument_params: Optional[Dict[str, Any]] = None,
+        model_provider: Optional[str] = None,
+    ) -> Any:
+        """The single seam Phase 2 (docs/architecture/governance-layer-and-runtime-backends-plan.md
+        tasks 13-14) needed into Agent.run(): the default path is unchanged
+        (get_provider(...) -> a direct single-completion call, exactly as
+        before this method existed), and a card that opts into
+        runtime_backend="openmanus" gets an OpenManusProvider instead, which
+        satisfies the exact same LLMProvider.complete(...) interface. Every
+        caller downstream of this point (run_with_guardrails, parsing,
+        retries, storage.write_guarded_run) is unaware which one it got.
+
+        `instrument`/`instrument_params` are optional and only used to build
+        Phase 3's `instrument_submit` tool via `tools/registry.py`'s own
+        matching optional parameters — omitting them here (the default for
+        every existing caller/test) simply means that tool is absent from
+        the resulting registry, exactly as before this parameter existed.
+
+        `model_provider` overrides which provider name is used, defaulting
+        to `self.card.model.provider` when omitted — Phase 4's escalation
+        check in run() passes the escalation target's provider here when a
+        hierarchical level triggers it, so an OpenManus-backed run can
+        genuinely switch providers (e.g. local ollama -> cloud openai) for
+        just that run, without mutating the card itself."""
+        provider_name = model_provider or self.card.model.provider
+        if self.card.runtime_backend == "direct_completion":
+            return get_provider(provider_name)
+        if self.card.runtime_backend == "openmanus":
+            from .runtime.openmanus import OpenManusProvider
+            from .tools.registry import build_registry
+
+            return OpenManusProvider(
+                model_provider=provider_name,
+                agent_id=self.card.agent_id,
+                did=self.card.did.id,
+                tools=build_registry(self, instrument=instrument, instrument_params=instrument_params),
+                storage=self.storage,
+            )
+        raise AgentCardError(
+            f"Agent card {self.card.agent_id!r} has unknown runtime_backend={self.card.runtime_backend!r}; "
+            "expected 'direct_completion' or 'openmanus'."
+        )
+
     def run(
         self,
         instrument: Instrument,
         instrument_params: Dict[str, Any],
         survey_title: str = "",
         survey_description: str = "",
+        escalation: Optional[Dict[str, Any]] = None,
     ) -> GuardedRun:
         # Manual-provider agents skip the automated QA precheck: a human is
         # already pasting every one of that agent's responses by hand, so an
@@ -281,22 +340,84 @@ class Agent:
 
         messages = instrument.build_messages(role_description, context_chunks, instrument_params)
         self.storage.write_prompt(self.card.agent_id, messages)
-        provider = get_provider(self.card.model.provider)
+
+        # Phase 4 model-tiering escalation (docs/architecture/governance-layer-and-runtime-backends-plan.md
+        # §4/Phase 4): the survey may declare {"threshold": N, "model": {...}}
+        # meaning "any hierarchical level with more than N criteria escalates
+        # this run to the configured model instead of the card's own." Every
+        # existing caller/card/survey (escalation omitted or {}, or a card
+        # with escalation_exempt=True) is completely unaffected: effective_model
+        # stays self.card.model and this whole block is a no-op.
+        effective_model = self.card.model
+        if (
+            escalation
+            and not self.card.escalation_exempt
+            and self.card.model.provider != "manual"
+            and hasattr(instrument, "levels_for_panel")
+            and escalation.get("threshold") is not None
+            and escalation.get("model")
+        ):
+            levels_for_escalation = instrument.levels_for_panel(instrument_params)
+            triggered = escalated_level_ids(levels_for_escalation, escalation["threshold"])
+            if triggered:
+                effective_model = ModelSpec(**escalation["model"])
+                self.storage.write_model_escalation(
+                    self.card.agent_id,
+                    reason=f"level(s) {', '.join(triggered)} exceed {escalation['threshold']} criteria",
+                    levels=triggered,
+                    from_model=f"{self.card.model.provider}/{self.card.model.name}",
+                    to_model=f"{effective_model.provider}/{effective_model.name}",
+                )
+
+        provider = self._resolve_provider(
+            instrument=instrument, instrument_params=instrument_params, model_provider=effective_model.provider
+        )
 
         extra_call_kwargs = None
         if self.card.model.provider == "manual":
             extra_call_kwargs = {"manual_dir": str(self.storage.agent_dir(self.card.agent_id) / "manual_input")}
+        elif self.card.runtime_backend == "openmanus" and hasattr(instrument, "levels_for_panel"):
+            # Phase 3: a hierarchical instrument run through OpenManus gets
+            # decomposed into one InstrumentSubmit-gated step per level
+            # (runtime/openmanus.py's "survey_panel" flow) instead of one
+            # whole-response ReAct loop, so a model's per-level convention
+            # mistake costs one tool-call retry instead of a whole-response
+            # reject-and-repair round. messages (the whole-response prompt
+            # built above) is still sent to run_with_guardrails/storage as
+            # the logged prompt/fallback, but the panel flow drives its own
+            # per-level prompts built here, not that one.
+            levels = instrument.levels_for_panel(instrument_params)
+            level_messages = {
+                lvl["id"]: instrument.build_level_messages(lvl["id"], role_description, context_chunks, instrument_params)
+                for lvl in levels
+            }
+            extra_call_kwargs = {"flow": "survey_panel", "levels": levels, "level_messages": level_messages}
+        elif self.card.runtime_backend == "openmanus" and instrument.name == "bwm":
+            # 2026-09-01: a flat (non-hierarchical) bwm instrument on an
+            # openmanus-backend card gets the two-turn deterministic flow
+            # (_openmanus_driver.py::_run_bwm_two_stage) instead of the
+            # plain whole-response ToolCallAgent loop above's tool-calling
+            # elicitation, which combining free-text reasoning with a
+            # structured tool-call submission proved fragile for small
+            # local models. See agentic-experiment-design-decisions.md
+            # (project-veritas) for the full experimental log.
+            extra_call_kwargs = {
+                "flow": "bwm_two_stage",
+                "codes": instrument_params["dimensions"],
+                "labels": instrument_params.get("dimension_labels", {}),
+                "context_chunks": context_chunks,
+            }
 
         run = run_with_guardrails(
             provider,
             instrument,
             messages,
             instrument_params,
-            model=self.card.model.name,
-            temperature=self.card.model.temperature,
-            max_tokens=self.card.model.max_tokens,
-            top_p=self.card.model.top_p,
-            seed=self.card.model.seed,
+            model=effective_model.name,
+            temperature=effective_model.temperature,
+            max_tokens=effective_model.max_tokens,
+            top_p=effective_model.top_p,
+            seed=effective_model.seed,
             repeats=self.card.sampling.repeats,
             max_retries_on_malformed=self.card.sampling.max_retries_on_malformed,
             agreement_threshold=self.card.sampling.agreement_threshold,

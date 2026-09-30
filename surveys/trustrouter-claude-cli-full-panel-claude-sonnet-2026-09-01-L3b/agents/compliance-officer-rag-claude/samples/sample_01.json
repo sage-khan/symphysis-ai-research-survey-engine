@@ -1,0 +1,20 @@
+{
+  "best": "T_source",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_source": 1,
+    "T_chain": 3,
+    "T_history": 6
+  },
+  "others_to_worst": {
+    "T_source": 6,
+    "T_chain": 3,
+    "T_history": 1
+  },
+  "reasoning": "From a compliance officer's standpoint, Provenance Trust exists in the TrustRouter framework to answer 'who is accountable for this data and can that accountability be legally relied upon' -- and that question is answered first and most decisively by T_source. Source credentials (e.g., a signed report from a chartered structural engineer, per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md's own worked example) establish the legal identity and authority of the data controller/author, which is the anchor point for GDPR accountability obligations and for construction-regulatory attribution of liability (who certified what, under what license). Without a credentialed, identifiable source, neither custody-chain evidence nor a track record has anyone to attach to -- an impeccable chain of custody for an anonymous or unlicensed source doesn't satisfy the regulatory need to know who is answerable for the record. T_chain (custody-chain integrity) is the second-most important: it is the evidentiary backbone for admissibility and tamper-evidence once a credentialed source is established, so I place it meaningfully but not overwhelmingly below T_source. T_history (historical track record) is the weakest of the three from a pure compliance lens: it is a reputational/probabilistic signal about past reliability, not a hard legal or regulatory requirement -- a first-time but properly licensed and credentialed source with an intact custody chain can be fully compliant even with no track record at all, whereas the reverse (a source with a long track record but no verifiable credentials or licensing) would still fail a legal/privacy suitability gate. This ordering reflects gdpr_and_data_governance.md's framing of establishing a privacy-compliant, accountable identity as the threshold regulatory concern that precedes any downstream trust scoring. I note this is a genuine judgement call rather than a source-documented ranking -- the reference material describes what T_source, T_chain, and T_history mean but does not itself rank them against each other, so the relative-importance ordering here is my own professional reasoning applied to those definitions.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "gdpr_and_data_governance.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "child_did": "did:key:z6MkjBimqskXZkR9Zx6uMHqsjZopoCEJaQ9tb7XoVSAZiujx",
+    "child_agent_id": "bim-coordinator-base-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:27:23.924885+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkgKPXYGDwJ56epiD68PaM63oukrBdhu5ziYGo84AZKm9n",
+    "child_agent_id": "bim-coordinator-rag-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:28:50.546010+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkjavCfxYpe2BkYMXfrJDvcH43kkcZRgoJAFJLDqtqyLmk",
+    "child_agent_id": "blockchain-engineer-base-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:30:53.592061+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkooUJEyuLt3VzrACQLf8YLETe6fkJK66UWcp4jm9g2LzP",
+    "child_agent_id": "blockchain-engineer-rag-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:32:14.536056+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkgGS4Yb7TwydcexnZQyhuB5HMp1ig3wLJaXRe6WiEC8hb",
+    "child_agent_id": "compliance-officer-base-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:34:10.555865+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkvsMfbM7uWXaYfBeyMot693DSNk3VXfm2U8UeY54UDj2D",
+    "child_agent_id": "compliance-officer-rag-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:35:43.277094+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkwWLFsHqByat9fpS7uQaUXhG2ERBVxYgB8hVuvtEatajg",
+    "child_agent_id": "data-engineer-base-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:36:59.850569+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mknx9SDBfJkpRBgat4tMwAWaw5EZtoMF8kY6JBeuWvWSen",
+    "child_agent_id": "data-engineer-rag-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:38:13.055241+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkmbMHfpwQi6Y7FbdLU12dMCxJZnxzRBXEPi1iKygbQ1AP",
+    "child_agent_id": "project-manager-base-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:39:37.032979+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkgcpBWMRETjwEN39T1S93W7uzSnGEo6oioFMta7r3bPMs",
+    "child_agent_id": "project-manager-rag-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:40:44.452940+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkwHPjNHbEfDhha3TFbbzwGmk6cFQ7di85Qq6pNXn25w2M",
+    "child_agent_id": "structural-engineer-base-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:43:05.817561+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkkkSr7eLXockuCDowP5tCv9MLkuxWwbxeWDZKDF1MzpSM",
+    "child_agent_id": "structural-engineer-rag-claude",
+    "parent_did": null,
+    "declared_at": "2026-09-02T19:44:43.400766+00:00"
+  }
+]

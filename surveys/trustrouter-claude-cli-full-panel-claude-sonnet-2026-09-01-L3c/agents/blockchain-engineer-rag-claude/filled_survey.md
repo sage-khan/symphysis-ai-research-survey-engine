@@ -1,0 +1,91 @@
+# Filled survey: blockchain-engineer-rag-claude
+
+- Agent ID: `blockchain-engineer-rag-claude`
+- Role / expertise: Blockchain / DLT Engineer
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkopvxUWWWCS4idsrstN99GZf9TsfLRkdw69bu1hJ8anGq`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/blockchain-engineer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | V_crypto | V_diversity |
+| 1 | V_crypto | V_diversity |
+| 2 | V_crypto | V_diversity |
+
+## Sample 0
+
+**Best:** V_crypto (Cryptographic evidence)  
+**Worst:** V_diversity (Diversity of verification sources)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 1 |
+| V_audit (Audit trail completeness) | 3 |
+| V_diversity (Diversity of verification sources) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 5 |
+| V_audit (Audit trail completeness) | 2 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Reasoning
+
+Verification Strength is defined in the questionnaire as 'strength of cryptographic and procedural audit evidence' (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, section 3.2 definition of V), and V_crypto, V_audit, V_diversity are its decomposition. From a permissioned-ledger engineering standpoint, cryptographic evidence (hashes, digital signatures, PKI) is the load-bearing mechanism that gives tamper-evidence its mathematical, non-repudiable strength -- it is what actually makes an alteration detectable and an author's claim unforgeable, which is the core value proposition of putting a record on a ledger at all rather than a conventional database. Audit trail completeness (who did what, when) is important for accountability and dispute reconstruction, but as a log it is only as trustworthy as the cryptographic anchoring underneath it (e.g. hash-chained log entries); an audit trail without crypto backing is just an assertion that could itself be edited, so I rank it as secondary and dependent on V_crypto rather than an independent equal. Diversity of verification sources (multiple independent parties) strengthens resistance to collusion and single-point failure -- this is real and relates to the kind of insider/Sybil resistance concerns raised in blockchain_trust_and_attack_resistance.md regarding on-chain identity trust gaps -- but it is a layered, reinforcing defense rather than the primary source of verification strength for a single record: a well-implemented PKI-rooted signature from one qualified party (e.g., the questionnaire's example of a chartered structural engineer's qualified electronic signature) can already constitute strong verification even without multiple independent submitters. I rated V_crypto as best and V_diversity as worst; the gap between V_crypto and V_audit (3x) is deliberately smaller than the gap between V_crypto and V_diversity (5x) because audit-trail completeness is closer in practical importance to cryptographic evidence than diversity of sources is -- this specific magnitude is a judgement call on my part, not read directly off any source, since none of the provided material ranks these three sub-parts against each other.
+
+## Sample 1
+
+**Best:** V_crypto (Cryptographic evidence)  
+**Worst:** V_diversity (Diversity of verification sources)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 1 |
+| V_audit (Audit trail completeness) | 3 |
+| V_diversity (Diversity of verification sources) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 5 |
+| V_audit (Audit trail completeness) | 3 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Reasoning
+
+From an engineering standpoint, cryptographic evidence (signatures, hashes, PKI) is the load-bearing mechanism that makes any ledger-based system tamper-evident at all: without a signed hash chain, there is no cryptographic proof that a construction record was not altered post-hoc, and the other two sub-parts become unverifiable claims layered on an untrusted substrate. This makes V_crypto the clear Best. Audit trail completeness (who did what, when) is genuinely valuable for construction dispute resolution and regulatory accountability, and is one of O'Hara's eight data-trust properties operationalised on a permissioned ledger in the Rouhani and Deters (2021) framework (per blockchain_trust_and_attack_resistance.md), but on a blockchain it is largely a structural consequence of combining PKI-based identity with an append-only ledger -- once you have V_crypto and a logging discipline, a reasonably complete audit trail follows almost automatically from the architecture, so I rate it a clear second (3x behind Best) rather than near-Best. Diversity of independent verification sources is a real and separate concern (guarding against a single compromised or colluding attestor), but in the TrustRouter hierarchy this concern substantially overlaps with the Attack Resistance factor's own Sybil/Insider decomposition (A_sybil, A_insider, per the shared survey instrument's Section 3.6), meaning its marginal contribution specifically within Verification Strength is the smallest of the three -- it addresses a risk that is already partly captured elsewhere in the composite. That makes it Worst, though I note the V_audit vs V_diversity comparison is not overwhelmingly one-sided; both are plausibly mid-tier, and reasonable engineers could rank them closer together than I have.
+
+## Sample 2
+
+**Best:** V_crypto (Cryptographic evidence)  
+**Worst:** V_diversity (Diversity of verification sources)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 1 |
+| V_audit (Audit trail completeness) | 3 |
+| V_diversity (Diversity of verification sources) | 6 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 6 |
+| V_audit (Audit trail completeness) | 4 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Reasoning
+
+On a permissioned ledger, cryptographic evidence (signatures/hashes/PKI) is the load-bearing layer: it is what makes any subsequent claim about 'who did what when' non-repudiable and tamper-evident in the first place. An audit trail without cryptographic anchoring (e.g., a plain append-only log without signed/hashed entries chained together) can be edited or backfilled by anyone with write access to the log store, which defeats the point of routing the record to a blockchain at all -- this matches the Rouhani and Deters (2021) framework's use of endorsement/signature strength as the parameter that gates how much validation a record needs (blockchain_trust_and_attack_resistance.md), i.e., crypto evidence is the primitive the trust score is actually built from. Audit trail completeness is the second most important sub-part: it operationalizes accountability (who/when) and dispute resolution, which construction projects need constantly, but its integrity is itself downstream of whether the entries are cryptographically bound -- so I rate V_crypto only moderately (3x) above V_audit, not overwhelmingly, since a complete-but-unsigned trail still has real evidentiary value for day-to-day project governance even if it is not tamper-proof. Diversity of independent verification sources is the weakest of the three within Verification Strength specifically (not within Attack Resistance, which is a separate L3d block in this instrument covering Sybil/Oracle/Insider resistance and is a more natural home for the 'multiple independent parties' concern). In a permissioned-ledger deployment, multi-party endorsement is already substantially achieved through the consensus/endorsement policy itself once crypto and audit are in place (e.g., Fabric endorsement policies), so treating source diversity as a separate, per-record verification-strength lever is the most marginal and hardest-to-operationalize of the three -- it adds robustness against collusion but is not, by itself, evidence of anything without the crypto and audit layers underneath it. This closeness between V_audit and V_diversity (both are secondary to crypto, but audit is clearly more central to Verification Strength than diversity) is a judgement call rather than a bright line, and I want to flag that explicitly rather than overstate confidence.

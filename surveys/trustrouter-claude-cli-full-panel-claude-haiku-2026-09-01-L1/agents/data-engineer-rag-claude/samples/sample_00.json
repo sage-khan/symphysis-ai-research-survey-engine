@@ -1,0 +1,22 @@
+{
+  "best": "DVS",
+  "worst": "A",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 5,
+    "E": 4,
+    "A": 7
+  },
+  "others_to_worst": {
+    "DVS": 7,
+    "F": 6,
+    "E": 5,
+    "A": 1
+  },
+  "reasoning": "From a data engineering perspective on construction-project routing decisions, Data Value Score (DVS) is the most fundamental criterion. DVS\u2014encompassing Quality, Provenance Trust, Verification Strength, Independent Confirmation, Legal Compliance, and Criticality\u2014addresses whether the data's trustworthiness justifies any routing decision at all. For construction records (certified inspection reports, signed drawings, structural engineer approvals), the integrity and provenance of the data itself are prerequisite to deciding whether blockchain protection is needed. Poor-quality data or unclear provenance cannot be fixed by moving it on-chain; this is fundamentally a data-integrity problem, not a routing problem. Reference material on polyglot persistence emphasizes that routing decisions must match data characteristics to storage systems; trustworthiness is the primary characteristic determining whether a data artefact warrants the overhead of ledger storage. Technical Feasibility (F) is a necessary condition but rarely the binding constraint for construction data\u2014most certificatesand reports are small enough and static enough (designs ~20 MB, certificates ~50\u2013500 kB, progress photos manageable daily) that feasibility is not the primary limiter. Economic Value (E) ranks below DVS because while high-value assets justify protection investments, the quality and trustworthiness of the data itself is a prerequisite; economic value without data trustworthiness is not actionable. Attack Resistance (A) ranks as least influential for construction data. Construction project disputes are common, but systematic adversarial falsification of in-process records by external attackers is less prevalent than version-control chaos, document loss, or custody ambiguity. Construction domains face moderate rather than high-severity active-threat models compared to financial or supply-chain sectors. Trustworthiness and economic value are the primary drivers; attack resistance becomes relevant only after those are established. This ranking reflects that polyglot-persistence decisions for construction data are primarily driven by whether the data itself can be trusted (DVS), not by external threat actors (A).",
+  "sources_used": [
+    "data_quality_and_polyglot_persistence.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

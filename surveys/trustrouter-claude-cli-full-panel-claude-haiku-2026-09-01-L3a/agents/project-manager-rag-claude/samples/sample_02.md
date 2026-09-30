@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+As a construction project manager coordinating multi-stakeholder documentation, my core responsibility is ensuring that records can be relied upon for their intended purpose: institutional compliance, dispute resolution, and regulatory accountability across decades. Intrinsic Quality (IQ—accuracy, validity, uniqueness) is foundational because a record that is inaccurate or invalid is actively harmful, regardless of how complete or consistent it is. Per Gartoumi 2024's analysis of blockchain in construction, the critical use case is dispute resolution, which hinges entirely on being able to verify that a record accurately reflects what actually happened—an IQ concern. A material test certificate with wrong lab results, a structural inspection with incorrect measurements, or a compliance statement that does not reflect actual conditions creates immediate liability and safety risk. Completeness (part of CQ) is the second-order concern: I need all required inspections and certificates, and I need them in time to meet regulatory deadlines or handover schedules. However, a late or incomplete but accurate record can be worked around; an accurate but missing inspection can trigger a field re-inspection. A complete but inaccurate record cannot be fixed without recreating the work or investigation it documents. Representational Quality (RQ—consistency across copies) is least critical in this context. Once a source record is established as accurate and complete on an immutable ledger, consistency across copies follows automatically; blockchain's immutability ensures all parties reference the same version. Consistency becomes a concern only if source accuracy is already compromised. I rate IQ 3× more important than CQ because the foundational trust problem—'Is this data what it claims to be?'—must be solved before completeness questions matter. I rate IQ 5× more important than RQ because accuracy is a prerequisite to trust; consistency without accuracy is worthless. I rate CQ 2× more important than RQ because completeness of accurate records is a real business constraint (regulatory, insurance, handover), whereas consistency is a property that flows from immutable source records.
+
+## Sources cited
+
+construction_project_management_and_mcdm.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

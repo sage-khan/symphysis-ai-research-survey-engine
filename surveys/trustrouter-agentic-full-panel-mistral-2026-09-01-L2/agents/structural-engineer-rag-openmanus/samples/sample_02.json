@@ -1,0 +1,21 @@
+{
+  "best": "C",
+  "worst": "PT",
+  "best_to_others": {
+    "C": 1,
+    "Q": 1,
+    "V": 1,
+    "IC": 1,
+    "L": 1,
+    "PT": 2
+  },
+  "others_to_worst": {
+    "PT": 1,
+    "Q": 3,
+    "V": 4,
+    "IC": 5,
+    "L": 6,
+    "C": 2
+  },
+  "reasoning": " Based on the provided reference material, the question asks for the best and worst criteria among Quality (Q), Provenance Trust (PT), Verification Strength (V), Independent Confirmation (IC), Legal Compliance (L), and Criticality (C).\n\nBest factor: C (Criticality)\nWorst factor: PT (Provenance Trust)\n\n C vs Q: 1\nC vs V: 1\nC vs IC: 1\nC vs L: 1\nC vs PT: 2 (Provenance Trust is less important than Criticality, but still somewhat important)\nQ vs PT: 3 (Quality is more important than Provenance Trust)\nV vs PT: 4 (Verification Strength is more important than Provenance Trust)\nIC vs PT: 5 (Independent Confirmation is more important than Provenance Trust)\nL vs PT: 6 (Legal Compliance is more important than Provenance Trust)"
+}

@@ -1,0 +1,772 @@
+# Governance layer + pluggable runtime backends: architecture plan
+
+**Status:** Phases 0-1 fully implemented and tested (identity/policy/audit
+extraction, capability model, declared+attenuated spawning, lineage).
+Phase 2 is fully implemented and tested end-to-end: `runtime/base.py`,
+`runtime/ollama.py` (direct-completion default backend),
+`runtime/openmanus.py`/`_openmanus_driver.py` (OpenManus vendored as a
+pinned git submodule at `vendor/openmanus/`, driven as a subprocess under
+an isolated `vendor/openmanus/.venv`), `tools/registry.py`/
+`tools/authorization.py`/`tools/proxy.py` (the capability-gated local-HTTP
+tool bridge), and `Agent._resolve_provider()`/`orchestrator.py` wiring a
+card's `runtime_backend` field to the actual provider used at run time —
+today a card can genuinely opt into `"openmanus"` and have its run go
+through the isolated subprocess, tools included. Two real upstream/self bugs
+were found and fixed while wiring this end-to-end (see the implementation
+note after Phase 2's task list below): a missing `vendor/openmanus/config/
+config.toml` `[daytona]` section (an OpenManus import-time gap, not specific
+to this integration) and an incorrect `LLM(...)` construction in this repo's
+own driver script. Phase 3 is mostly implemented and tested (per-level
+`instrument_submit` validation/submission, and `SurveyPanelFlow` driving one
+`InstrumentSubmitProxyTool`-gated agent per level inside the isolated
+subprocess) — see that phase's own task list for exactly which of its three
+tasks landed and which (agent proposal/reuse inside the flow) did not.
+Phase 4 (model-tiering escalation) and Phase 6 (UI: Lineage tab,
+`model_escalated` surfaced in the Conversation log) are both fully
+implemented and tested. Phase 3 task 19 ("agent proposal/reuse inside the
+flow") landed generalized, not in its originally-scoped form: rather than
+the panel flow itself choosing which agent answers which instrument level,
+`spawning/pipeline.py` adds survey-meta pipeline stages (`setup_review`,
+`response_review`) as real child spawns of a deterministic per-survey
+`pipeline-orchestrator` identity, each running its own Agent Card through a
+new meta-`Instrument`: this is the first real caller of `spawn.py`'s
+`mint_child`/`declare_child`, built as native Symphysis Python rather than
+inside OpenManus's own `PlanningFlow` (see design note below). Not yet
+done: Phase 5 (deliberately deferred, not merely unstarted — see its own
+section). Companion to
+`target-pipeline-vision.drawio`/`.png` (see `architecture-overview.md`)
+rather than a replacement for it: that diagram's Orchestration/AI-panel
+layers are the vision this plan makes concrete at the module level. Read
+`current-system-architecture.*` for what else is real today.
+
+This plan is also the concrete implementation of one item already named in
+this README's own "Status / what's deferred" section: "a full Cedar/OPA-style
+policy evaluator for `permissions` (currently a direct glob/allowlist check,
+not a general policy engine)." Everything below is that item, plus the agent
+identity/spawning and pluggable-backend work it depends on.
+
+---
+
+## 1. What this is
+
+One sentence: a portable, cryptographically identifiable, policy-constrained,
+auditable agent runtime, where an agent can spawn another agent without ever
+exceeding the authority it was itself granted.
+
+Symphysis already has most of the primitives (did:key identity, hyperparameter
+cards, a full trace/audit trail, schema-validating guardrails) but they are
+scattered across a few tightly-coupled files (`agent_card.py`, `did_key.py`,
+`storage.py`, `permissions.py`, `guardrails.py`, `agent.py`) and there is no
+concept of one agent spawning another. This plan:
+
+1. Reorganizes the existing, working code into a clean governance-layer
+   package (`identity/`, `policy/`, `audit/`), changing structure, not
+   behavior, first.
+2. Adds the one genuinely new capability that does not exist anywhere in the
+   current codebase: declared, attenuated, logged agent-to-agent spawning.
+3. Adds a pluggable `runtime/` backend interface, with **OpenManus as the
+   flagship backend** (verified: MIT, Python, native Ollama, 58,130
+   stars/10,098 forks, and a `BaseAgent -> ReActAgent -> ToolCallAgent ->
+   Manus` class hierarchy that already demonstrates the exact specialization
+   pattern this plan needs via its own `SWEAgent`/`DataAnalysis` subclasses),
+   and OpenCode registered behind the same interface for coding-heavy tasks
+   outside the survey domain itself.
+4. Adds model-tiering (local-first, cloud-escalation) and per-level
+   instrument decomposition, both riding on the same runtime/policy/audit
+   plumbing rather than being separate mechanisms.
+
+## 2. Design principles (binding on every phase below)
+
+- **Local-first stays the default.** Ollama is the primary, zero-marginal-cost
+  path. Cloud APIs (OpenRouter, Gemini, Anthropic, etc., all already supported
+  provider names in `AgentCard.model.provider`) are an explicit escalation, not
+  a replacement. No task in this plan changes that default.
+- **Every spawn is declared before it acts.** An agent's DID, parent DID (or
+  `null` for a root/human-initiated spawn), granted capabilities, model, and
+  hyperparameters are written to the audit trail as that agent's first event,
+  the same way `run_qa_precheck` is already always the first `conversation.jsonl`
+  entry today. No agent runs before its declaration is on disk.
+- **A child can never exceed its parent's authority.** Every spawn computes
+  `effective_capabilities = intersection(parent_capabilities, requested_capabilities)`,
+  never a union. This is the actual security property behind "without escaping
+  the authority that created them," not just a phrase.
+- **Domain logic never leaves Symphysis's own code.** The Bayesian/BWM/AHP
+  solvers, the instrument schemas, the guardrail rules stay exactly where they
+  are, in Python, in this repo. A runtime backend is called for its execution
+  loop and tool use; it never becomes the place solver logic lives.
+- **No AGPL code is vendored.** `runtime/ollama.py` is, and stays, a direct
+  Ollama HTTP adapter (this repo already has one in `providers/ollama_provider.py`;
+  this plan wraps it, not replaces it). OpenMono's ideas (its hardware
+  auto-detection, its `PermissionEngine`/`PathGuard`/`Capability` triad for
+  tool-call gating) are welcome as design inspiration; none of its AGPL-3.0
+  source is copied in. If OpenMono's own bundled-local-model convenience is
+  ever wanted, it is invoked as an external, unmodified process, never folded
+  into `symphysis/`.
+- **One authorization decision point.** `policy/engine.py` is the only place
+  a yes/no capability decision is made. `tools/authorization.py` calls into
+  it; it does not re-implement its own check.
+
+## 3. Target architecture
+
+```
+                         SYMPHYSIS
+                     Governance Layer
+                           |
+        +------------------+------------------+
+        |                  |                  |
+     Passport            Policy             Audit
+   (identity/)         (policy/)          (audit/)
+        |                  |                  |
+        +------------------+------------------+
+                           |
+                     Agent Runtime
+                     (runtime/base.py)
+                           |
+          +----------------+----------------+
+          |                                 |
+      OpenManus                         OpenCode
+       Python                          TypeScript
+    (flagship backend,              (secondary backend,
+     survey elicitation,             coding-heavy tasks
+     ReAct + ToolCallAgent,          outside the survey
+     native Ollama + cloud,          domain: FCA harness
+     MCP, browser, sandbox)          work, CreatorFlow's
+          |                          future script agent)
+          +----------------+----------------+
+                           |
+                        Event Bus
+                     (audit/events.py)
+                           |
+                     Symphysis Log
+              (existing storage.py contract:
+               conversation.jsonl, thoughts.md,
+               card.json, did.json, result.json,
+               now plus spawn_declaration.json
+               and lineage.json)
+```
+
+## 4. Module layout
+
+```
+src/symphysis/
+|
++-- identity/
+|   +-- did.py            # = today's did_key.py, moved, unchanged
+|   +-- passport.py       # = AgentCard's identity-relevant fields, extracted
+|   +-- credentials.py    # = issue_credential/verify_credential, split out
+|
++-- policy/
+|   +-- engine.py         # the ONE authorization decision point (new)
+|   +-- capability.py     # capability vocabulary + attenuation (new)
+|   +-- authorization.py  # today's permissions.py checks, reframed as calls into engine.py
+|
++-- agent.py              # unchanged top-level module (the existing Agent class);
+|                          # NOT nested under a package, since a package and a
+|                          # module cannot share the name `agent` as siblings.
+|                          # RAG/websearch methods move to tools/ in Phase 2
+|                          # (task 15), same as originally planned.
+|
++-- spawning/              # (originally sketched as `agent/` in an earlier
+|   |                      # draft of this doc; renamed during Phase 1
+|   |                      # implementation to avoid the collision above)
+|   +-- spawn.py          # NEW: mint child DID, issue credential, attenuate capabilities
+|   +-- lineage.py        # NEW: parent_did -> [child_did, ...] tree, written to audit
+|   +-- delegation.py     # NEW: what a parent is allowed to grant, vs. merely possess (not yet built)
+|
++-- runtime/
+|   +-- base.py           # RuntimeBackend protocol: spawn(), stream_events(), stop()
+|   +-- openmanus.py      # flagship backend adapter: to_llm_settings() (pure) +
+|   |                     # OpenManusBackend (launches the driver below as a subprocess
+|   |                     # under vendor/openmanus/.venv, an isolated interpreter)
+|   +-- _openmanus_driver.py  # runs ONLY under vendor/openmanus/.venv; the sole place
+|   |                     # that imports OpenManus's own `app.*` package; emits NDJSON
+|   +-- opencode.py       # secondary backend adapter (subprocess/API, TypeScript)
+|   +-- ollama.py         # direct Ollama adapter (wraps existing providers/ollama_provider.py)
+|
++-- tools/
+|   +-- registry.py       # NEW: pluggable tool registration (RagRetrieval, CitationVerify, InstrumentSubmit, web_search)
+|   +-- proxy.py          # NEW: the actual call-through a runtime backend uses to reach a registered tool
+|   +-- authorization.py  # calls policy/engine.py; no independent check
+|
++-- audit/
+|   +-- events.py         # NEW: typed event shapes (spawn_declared, tool_called, level_completed, escalated, ...)
+|   +-- logger.py         # = today's storage.py's write_* methods, generalized
+|   +-- sinks.py          # NEW: pluggable sinks (filesystem, matching CreatorFlow's DB-backed trace.py shape)
+|
++-- sandbox/
+    +-- docker.py         # gates OpenManus's python_execute/bash tools, only for roles policy grants it
+    +-- limits.py
+    +-- filesystem.py
+```
+
+Everything not listed above (`instruments/`, `solvers/`, `role_packs/`,
+`rag/`, `qa_checks.py`, `survey_checks.py`, `integrity.py`, `preflight.py`,
+`orchestrator.py`, `cli.py`) is untouched by this plan. This is a governance
+and execution-substrate change, not a rewrite of the survey domain logic.
+
+## 5. Agent-spawn declaration: the exact contract
+
+Every spawn, before the agent does anything else, writes
+`agents/<agent-id>/spawn_declaration.json`:
+
+```json
+{
+  "agent_id": "bim-coordinator-review",
+  "did": "did:key:z6Mk...",
+  "parent_did": "did:key:z6Mk..." ,
+  "spawned_by": "orchestrator | agent:<parent_agent_id>",
+  "role": "bim-coordinator",
+  "capabilities_requested": ["rag_retrieval", "web_search"],
+  "capabilities_granted": ["rag_retrieval", "web_search"],
+  "model": {"provider": "ollama", "name": "qwen2.5:14b", "temperature": 0.7},
+  "runtime_backend": "openmanus",
+  "declared_at": "2026-09-01T10:00:00Z",
+  "survey_id": "bsi-hawc-bwm"
+}
+```
+
+`capabilities_granted` is always `intersection(parent's own granted set,
+capabilities_requested)`; when `parent_did` is `null` (a human- or
+orchestrator-initiated root spawn) the ceiling is whatever the survey's own
+top-level permissions allow, exactly as `PermissionsSpec` already governs
+today. This file is the first entry in that agent's trail, the same way the
+QA precheck is today; `lineage.py` additionally maintains one
+`lineage.json` per survey recording the full parent-to-child tree, so a
+reviewer can reconstruct not just one agent's reasoning but who spawned whom
+and with what authority, across an entire run.
+
+## 6. Setup tasks
+
+### Phase 0: extraction, no behavior change
+
+1. Move `did_key.py` -> `identity/did.py`, split `issue_credential`/
+   `verify_credential` into `identity/credentials.py`. Update imports.
+   Existing tests must pass unmodified.
+2. Split `AgentCard`'s identity-relevant construction into
+   `identity/passport.py`; `agent_card.py` keeps model/rag/sampling/
+   guardrails/environment as today.
+3. Move `permissions.py`'s two checks into `policy/authorization.py`, calling
+   a new (initially trivial, same-behavior) `policy/engine.py`.
+4. Move `storage.py`'s `write_*` methods into `audit/logger.py`, keep the
+   exact same on-disk file contract (`conversation.jsonl`, `thoughts.md`,
+   etc.). No new files yet.
+5. Full test suite green before Phase 1 starts. This phase is a pure
+   refactor; if anything behaves differently, that is a bug in the refactor,
+   not an intended change.
+
+### Phase 1: capability model + spawn declaration
+
+6. `policy/capability.py`: define the initial capability vocabulary
+   (`rag_retrieval`, `web_search`, `knowledge_repo`, `code_execution`,
+   `filesystem_write`, `spawn_child`). Start minimal; extend as real needs
+   appear, do not pre-build capabilities nothing uses yet.
+7. `policy/engine.py::attenuate(parent_capabilities, requested) -> granted`:
+   set intersection, logged.
+8. `spawning/spawn.py::declare_root(...)` / `mint_child(...)` / `declare_child(...)`:
+   mints the child DID (reusing
+   `identity/did.py::AgentIdentity.generate_deterministic/random`
+   unchanged), calls `policy/capability.py::attenuate` (implemented as set
+   intersection against the parent's own granted capabilities), writes
+   `spawn_declaration.json` via `audit/logger.py` before returning.
+9. `spawning/lineage.py`: append to `lineage.json` on every declared spawn.
+10. Wire today's single-panel spawn path (`orchestrator.py`'s per-survey
+    agent construction) through `agent/spawn.py` with `parent_did=None` for
+    every agent (today's flat panel becomes "every agent is a root spawn").
+    This makes Phase 1 land with zero change in observed behavior for
+    existing surveys, while the declaration/lineage plumbing is now real and
+    tested.
+
+### Phase 2: OpenManus runtime backend
+
+11. `runtime/base.py`: define the `RuntimeBackend` protocol
+    (`spawn(task_spec, tools, model) -> RunHandle`,
+    `stream_events(run_handle) -> Iterator[Event]`, `stop(run_handle)`).
+12. `runtime/ollama.py`: thin adapter wrapping the existing
+    `providers/ollama_provider.py`, satisfying the protocol, so the
+    single-completion path (today's actual behavior) is available as the
+    trivial/default backend. This is what most survey runs keep using;
+    OpenManus is opt-in per agent or per survey until it is proven out.
+13. `runtime/openmanus.py`: `to_llm_settings()` translates `AgentCard.model`
+    into OpenManus's `LLMSettings` dict shape (confirmed: OpenManus already
+    supports multiple named LLM configs, no change needed inside OpenManus
+    itself for this mapping); `OpenManusBackend` drives the run.
+    **Implementation note (landed during Phase 2 execution, differs from
+    this task's original in-process sketch):** OpenManus's requirements.txt
+    pins ~30 packages, several version-conflicting with this repo's own
+    pymc/pytensor-based Bayesian solver stack, so `OpenManusBackend` does
+    not import `app.*` in-process. It launches `_openmanus_driver.py` as a
+    subprocess under a fully isolated interpreter at
+    `vendor/openmanus/.venv` (built via `uv venv --python 3.12` +
+    `uv pip install -r requirements.txt`, never the main env), and streams
+    its NDJSON stdout back as `Event`s. `to_llm_settings()` itself stays a
+    pure function with zero OpenManus import, so it is unit-tested without
+    the isolated venv existing at all; the real subprocess path is exercised
+    by a skip-if-venv-missing smoke test.
+14. `_openmanus_driver.py` (co-located with `runtime/openmanus.py`, executed
+    only by the isolated interpreter, never imported by Symphysis's own
+    process): defines `SurveyElicitationAgent(ToolCallAgent)`, following the
+    same pattern as OpenManus's own `SWEAgent`/`DataAnalysis`, with a system
+    prompt specialized for BWM/AHP expert-elicitation rather than coding
+    tasks, and runs its ReAct `step()` loop, emitting one JSON event per
+    step to stdout.
+15. `tools/registry.py` + `tools/proxy.py`: register `RagRetrieval` (wraps
+    `rag/retriever.py` unchanged), `CitationVerify` (wraps
+    `qa_checks.verify_sources_used` unchanged), and `web_search` (existing
+    tool) into OpenManus's `ToolCollection` via the adapter, so
+    `SurveyElicitationAgent` gets a real multi-turn tool loop instead of the
+    current one-shot fixed-query retrieval in `agent.py`'s
+    `_rag_chunks`/`_web_search_chunks`.
+16. Every tool call goes through `tools/authorization.py`, which checks the
+    calling agent's `capabilities_granted` from its own
+    `spawn_declaration.json` before the call reaches `tools/proxy.py`.
+    `Agent._resolve_provider()` selects `get_provider(...)` or
+    `OpenManusProvider(...)` from the card's `runtime_backend` field;
+    `orchestrator.py` now declares `runtime_backend=card.runtime_backend`
+    (previously hardcoded to `"direct_completion"`) and catches
+    `OpenManusProviderError`/`FileNotFoundError` alongside its existing
+    `ProviderError`/`PermissionError_`/`AgentCardError` handling, so a card
+    opted into `"openmanus"` genuinely runs its agent through the isolated
+    subprocess, with `tools/registry.py`'s `build_registry(agent)` output
+    (whatever of `rag_retrieval`/`knowledge_repo`/`web_search` the agent's
+    card and permissions actually grant, plus the always-present
+    ungated `citation_verify`) bridged in via `tools/proxy.py`'s
+    `ToolProxyServer` and `_openmanus_driver.py`'s `ProxyTool`.
+
+    **Two genuine bugs found and fixed while verifying this end-to-end**
+    (both confirmed by directly running the isolated-venv driver against a
+    deliberately-broken endpoint, not by reasoning about the code):
+    - **OpenManus import-time crash, upstream gap, not introduced by this
+      integration:** `vendor/openmanus/app/config.py`'s `Config` singleton
+      calls `DaytonaSettings()` with no arguments whenever the loaded
+      `config.toml` has no `[daytona]` section — including OpenManus's own
+      recommended `config.example.toml` template — and `DaytonaSettings.
+      daytona_api_key` has no default, so any import of `app.config` (or
+      anything transitively importing it, e.g. `app.tool`) raises a pydantic
+      `ValidationError` before any of this repo's code even runs. Fixed by
+      creating `vendor/openmanus/config/config.toml` (copied from
+      `config.example.toml`, plus an appended `[daytona]` section with
+      `daytona_api_key = ""`) — this file is covered by OpenManus's own
+      `config/.gitignore` (`config.toml` pattern), so it is local state only
+      and never touches the pinned submodule's tracked git history.
+    - **This repo's own bug, in `_openmanus_driver.py`:** `_run()`
+      originally constructed `LLM(config_name=..., llm_config=LLMSettings(
+      **spec["llm_settings"]))` — a bare `LLMSettings` instance. `vendor/
+      openmanus/app/llm.py`'s `LLM.__init__` does
+      `llm_config.get(config_name, llm_config["default"])` on that
+      parameter despite its own `Optional[LLMSettings]` type hint, so it
+      actually requires a `Dict[str, LLMSettings]` (matching `AppConfig.llm`'s
+      real type) with both the target `config_name` key and a `"default"`
+      key present. The bare-instance form raised `AttributeError:
+      'LLMSettings' object has no attribute 'get'` on every run. Fixed by
+      building `settings = LLMSettings(**spec["llm_settings"])` once and
+      passing `llm_config={spec["config_name"]: settings, "default":
+      settings}`.
+
+    **Production latency implication, not a bug, worth knowing:** OpenManus's
+    `LLM.ask`/`ask_tool` are `@retry`-wrapped (`tenacity`,
+    `wait_random_exponential(min=1, max=60)`, `stop_after_attempt(6)`,
+    retrying on almost any exception). A genuinely unreachable model
+    endpoint takes roughly 25-30s of retries before OpenManus finally raises
+    a `RetryError` that `_openmanus_driver.py` turns into an `"error"`
+    event — this is real upstream OpenManus behavior, not something this
+    integration should or does suppress. An OpenManus-backed agent hitting a
+    misconfigured or down model endpoint in production will therefore take
+    tens of seconds to fail, not fail instantly the way the direct-completion
+    backend's provider call does; `tests/test_runtime_openmanus.py`'s
+    `test_spawn_and_stream_events_against_isolated_venv` exercises this
+    exact path and takes ~30s to run for the same reason.
+
+### Phase 3: per-level instrument decomposition
+
+**Tasks 17-18 are implemented and tested; task 19 (agent proposal/reuse
+inside the flow) is not — see its own note below.**
+
+17. `instruments/hierarchical_bwm.py`: the already-fixed per-level
+    `level_errors` isolation (see `diagnostics.md`'s "Reject-and-repair
+    still produced accepted_count: 0" entry) is now factored into a
+    reusable `_validate_level_fields()` static method, shared by `parse()`
+    (unchanged, whole-response validation) and a new public
+    `validate_level(level_id, answer, params)` (validates ONE level's
+    answer in isolation, byte-identical error text to `parse()`'s for the
+    same mistake — see `tests/test_hierarchical_bwm_instrument.py`'s
+    regression test asserting this). Also added: `levels_for_panel(params)`
+    (a thin public wrapper on the existing private `_levels()`, the
+    duck-typing signal `Agent.run()` checks via `hasattr(instrument,
+    "levels_for_panel")` to decide whether panel mode even applies to a
+    given instrument) and `build_level_messages(level_id, ...)` (a
+    per-level prompt, instructing the agent to call `instrument_submit`
+    rather than emit whole-response JSON). `tools/registry.py`'s
+    `build_registry()` gained matching optional `instrument`/
+    `instrument_params` parameters that register `instrument_submit`
+    (ungated, calls `instrument.validate_level(...)`) only when the given
+    instrument implements `validate_level` — any future instrument with
+    the same per-level contract gets this tool for free.
+18. **Implementation note (differs from this task's original phrasing):**
+    `SurveyPanelFlow(BaseFlow)` exists, but is defined and constructed
+    entirely inside `_openmanus_driver.py` (`_build_survey_panel_flow_class()`),
+    never registered into `vendor/openmanus/app/flow/flow_factory.py`'s
+    `FlowType`/`FlowFactory` — consistent with this plan's own rule that
+    nothing under `vendor/openmanus/` is ever hand-edited (§7). OpenManus's
+    `FlowFactory` is a plain lookup-dict convenience, not a required
+    registration point for using a `BaseFlow` subclass, so `_run()`
+    instantiates `SurveyPanelFlow` directly when
+    `spec.get("flow") == "survey_panel"`. One plan step per instrument
+    level, gated on the level's `InstrumentSubmitProxyTool` recording an
+    accepted (`valid: true`) submission before the next level starts (a
+    fresh `SurveyElicitationAgent` instance per level, sharing the same
+    `llm`/`available_tools`, rather than resetting one long-lived agent's
+    internal state — see the class docstring for why). A level that never
+    converges within its own `level_max_steps` budget (default 5,
+    independent of the whole-run `max_steps`) falls back to its last
+    attempted (possibly still invalid) answer, letting the existing outer
+    `guardrails.py` reject-and-repair loop catch whatever specifically
+    remains wrong — the panel flow is a fast-path optimization layered on
+    top of that existing correctness backstop, not a replacement for it.
+    `Agent.run()` builds this call's `extra_call_kwargs`
+    (`flow="survey_panel"` + `levels`/`level_messages`, built from
+    `instrument.levels_for_panel()`/`build_level_messages()`) only when
+    `card.runtime_backend == "openmanus"` AND the instrument has
+    `levels_for_panel` — a flat instrument (`bwm.py`, `ahp.py`) or a
+    direct-completion card is completely unaffected. Verified end-to-end
+    with a real cross-process integration test
+    (`tests/test_openmanus_survey_panel_flow.py`): a real
+    `tools/proxy.py::ToolProxyServer` wired to a real
+    `HierarchicalBWMInstrument`, driving the real isolated-venv
+    `SurveyPanelFlow`/`InstrumentSubmitProxyTool`, with a scripted
+    `SurveyElicitationAgent` subclass standing in for the LLM call itself
+    (this test targets the flow's own orchestration, not OpenManus's
+    already-tested `ToolCallAgent.step()` internals) — one level rejected
+    once then corrected and accepted, one level scripted to never converge
+    and confirmed to fall back to its last attempt, both then re-verified
+    by feeding the flow's final assembled JSON back through the same
+    `instrument.parse()` the outer guardrails loop uses in production.
+19. **Implemented, generalized past its original scope.** `SurveyPanelFlow`
+    itself still does not decide which agent answers which instrument
+    level (that per-level agent-selection question, as originally scoped,
+    remains open; revisit if a survey design actually needs it). What
+    landed instead, addressing the same underlying gap ("no agent-spawns-
+    agent flow exists yet") at the survey-meta level: `spawning/pipeline.py`,
+    config-driven pipeline stages (`setup_review`, `response_review`)
+    declared via `survey.yaml`'s optional `pipeline:` key, each a genuine
+    capability-attenuated child spawn of a deterministic per-survey
+    `pipeline-orchestrator` identity via `spawn.py::mint_child`/
+    `declare_child`, the first real caller of those primitives outside
+    their own test file. Deliberately built as native Symphysis Python
+    (new `instruments/setup_review.py`/`response_review.py` meta-
+    instruments, reusing `Agent.run()`'s existing guardrails/storage/trace
+    machinery) rather than inside OpenManus's own `PlanningFlow`/
+    `FlowFactory` (`vendor/openmanus/app/flow/planning.py`), which remains
+    entirely unused in this codebase: this plan's own design principle
+    ("domain logic never leaves Symphysis's own code") and Phase 3's own
+    precedent (task 18's bespoke `SurveyPanelFlow` over the generic
+    planner) both rule out letting an external planner own survey-specific
+    decomposition logic.
+
+### Phase 4: model-tiering — implemented and tested
+
+20. `policy/engine.py`: `escalated_level_ids(levels, threshold) -> List[str]`
+    and `should_escalate(levels, threshold) -> bool`, pure and
+    instrument-agnostic (they take already-loaded level definitions, the
+    same shape `HierarchicalBWMInstrument.levels_for_panel()` returns — a
+    list of `{"id": ..., "dimensions": [...], ...}` dicts — not an
+    instrument instance). "Escalates" means strictly more than `threshold`
+    criteria, matching this task's own wording. `SurveyConfig.escalation:
+    Dict[str, Any]` (default `{}`, loaded from `survey.yaml`'s new optional
+    `escalation:` key) is the per-survey setting: `{}` means "no
+    escalation" (stays local-first) for every survey.yaml written before
+    this field existed and every survey that doesn't opt in; set it looks
+    like `{"threshold": 6, "model": {"provider": ..., "name": ...,
+    "temperature": ..., "max_tokens": ..., "top_p": ...}}`.
+    `AgentCard.escalation_exempt: bool` (default `False`) is the
+    per-agent-card override this task named ("unless overridden
+    per-agent-card"): `True` keeps that one agent on its own configured
+    model regardless of the survey's escalation rule.
+
+    `Agent.run()` (agent.py) is where these compose: given a hierarchical
+    instrument (`hasattr(instrument, "levels_for_panel")`), a non-exempt,
+    non-manual card, and a survey `escalation` dict with both `threshold`
+    and `model` set, it computes `escalated_level_ids(...)` against that
+    run's actual levels and, if non-empty, builds an `effective_model =
+    ModelSpec(**escalation["model"])` used for that run's provider
+    resolution and `run_with_guardrails(...)` call instead of
+    `self.card.model` — the card itself is never mutated. `_resolve_provider()`
+    gained a `model_provider: Optional[str] = None` override parameter for
+    exactly this (defaults to `self.card.model.provider` when omitted, so
+    every pre-Phase-4 caller is unaffected). `orchestrator.py` threads
+    `escalation=survey.escalation` into its `agent.run(...)` call.
+
+    Tests: `tests/test_policy_engine_escalation.py` (the pure predicates),
+    `tests/test_config_escalation.py` (`SurveyConfig.escalation` loading,
+    including the `escalation: ` (bare, parses to `None` via
+    `yaml.safe_load`) edge case), `tests/test_agent_card.py`
+    (`escalation_exempt` round-tripping through `to_dict()`/`new_card()`/
+    `load_card()`, including the pre-existing-card-missing-the-field case),
+    `tests/test_logger.py` (`write_model_escalation`),
+    `tests/test_agent_resolve_provider.py` (the `model_provider` override,
+    both backends), and `tests/test_agent_model_escalation.py` (the full
+    `Agent.run()` branch: escalation triggers, doesn't trigger when no
+    level exceeds threshold, is skipped for an exempt card, a manual-provider
+    card, and a flat non-hierarchical instrument).
+21. Every escalation decision is written to the same `conversation.jsonl`
+    trail as everything else — via `SurveyStorage.write_model_escalation()`
+    (`audit/logger.py`), not a separate `audit/events.py` module (no such
+    module exists in this codebase; this deviation from the task's original
+    phrasing matches the same pattern already noted for Phase 3's
+    `SurveyPanelFlow`/`FlowFactory`). Event shape: `{"kind":
+    "model_escalated", "reason": ..., "levels": [...], "from_model": ...,
+    "to_model": ...}`.
+22. Confirmed: no change was required inside OpenManus itself.
+    `runtime/openmanus.py`'s existing `AgentCard.model -> LLMSettings`
+    mapping (task 13) already routes to whichever provider/model
+    `_resolve_provider()`/`run_with_guardrails()` are given, so an
+    OpenManus-backed run genuinely escalates provider (not just model name)
+    for that one run.
+
+### Phase 5: coding-capable roles (deferred until actually needed)
+
+23. `sandbox/docker.py`, `limits.py`, `filesystem.py`: gate OpenManus's
+    `python_execute`/`bash`/`str_replace_editor` tools behind
+    `policy/capability.py`'s `code_execution`/`filesystem_write`
+    capabilities, granted to no role by default. This phase exists for
+    reuse of this control plane beyond pure survey elicitation (the FCA
+    ablation harness, CreatorFlow's future script-generation agent), not
+    for Symphysis's own BWM/AHP flow, and should not be built until one of
+    those consumers actually needs it.
+24. `runtime/opencode.py`: adapter following the same `RuntimeBackend`
+    protocol as `runtime/openmanus.py`, invoked as an external process/API
+    (TypeScript, never embedded in-process). Registered but not used by any
+    Symphysis survey flow; available to other consumers of this control
+    plane.
+
+### Phase 6: UI — implemented and tested
+
+25. `TraceViewer.jsx`: added a "Lineage" tab rendering `lineage.json` as a
+    tree (child_agent_id, child_did, parent_did, declared_at), alongside
+    the existing Reasoning/Prompt/Conversation-log tabs — additive to the
+    existing component, no rewrite. Lineage is survey-wide (the full
+    parent-to-child spawn tree, not one agent's own edge), so it's fetched
+    once per survey via a new backend endpoint,
+    `GET /api/surveys/{survey_id}/lineage` (`web/backend/routers/agents.py`,
+    reading `lineage.json` directly off the survey directory the same way
+    every other route in that file reads its files, not through
+    `SurveyStorage`) and a matching `api.getLineage(surveyId)`
+    (`web/frontend/src/api.js`). An empty edge list (every agent today is a
+    flat root spawn; no agent has actually spawned a child yet) renders as
+    "No spawns recorded yet.", not an error — `lineage.json` is written
+    lazily on first spawn declaration. Verified with `vite build` (clean
+    build, no errors) since this repo has no frontend test runner.
+26. Surfaced `model_escalated` events (task 21) in the existing Conversation
+    log tab's `KIND_LABEL` map ("Model escalated") plus a dedicated render
+    block (`from_model → to_model`, the reason, and which levels
+    triggered it), the same pattern already used for
+    `qa_precheck`/`tool_call`/`fabricated_source_citation`.
+
+## 7. What this plan deliberately does not do
+
+- It does not port any solver, instrument, or guardrail logic out of Python.
+- It does not copy or modify OpenManus's or OpenCode's source into this
+  repo's own tree; both are pinned dependencies/external processes behind
+  `runtime/`. (OpenManus specifically is present as a pinned git submodule
+  at `vendor/openmanus/` — a reference to the upstream repo at a fixed
+  commit, not a fork or a copy — because `runtime/openmanus.py`'s subprocess
+  needs its source on disk to run; nothing under `vendor/openmanus/` is ever
+  hand-edited.)
+- It does not change the default local-first behavior of an existing survey
+  run; Phases 0-1 are designed to land with zero observable behavior change,
+  and cloud escalation (Phase 4) defaults off.
+- It does not build sandboxing or coding-tool exposure (Phase 5) speculatively;
+  that phase is gated on an actual downstream need.
+
+## 8. External design references (added 2026-09-26, not yet scheduled work)
+
+Two findings from `project-veritas`'s external-repo review campaign bear directly on this
+plan's already-implemented citation/guardrail machinery (§6 tasks 15-16, `CitationVerify`/
+`qa_checks.verify_sources_used`, and the outer `guardrails.py` reject-and-repair loop). Neither
+is scheduled against a phase above; both are recorded here as concrete references for whoever
+next touches this machinery.
+
+- **T2D-Bench's Evidence Gate as a stronger model for the existing citation check.** Today,
+  `citation_verify` is an *ungated* tool (per §6 task 16: "the always-present ungated
+  `citation_verify`"), meaning `SurveyElicitationAgent` may call it or not, and correctness is
+  backstopped only by the outer `guardrails.py` reject-and-repair loop catching whatever the
+  agent failed to self-check. T2D-Bench (`Saba-Farahani/t2d-bench-`, reviewed as
+  `product-review-t2d-bench-sep2026.md`) implements the same underlying idea, gate an LLM
+  output on whether it cites required evidence, as a mandatory, deterministic rule engine that
+  runs on every output regardless of whether the model chose to self-check, and when a required
+  citation is missing, sends a constrained rewrite prompt naming exactly which identifier is
+  absent rather than a generic rejection, iterating until the output passes or a revision
+  budget is exhausted. Evaluated on T2D-Bench's own 100-vignette benchmark, this brought
+  evidence-gated compliance from 65% to 100%. Worth evaluating whether `guardrails.py`'s
+  existing reject-and-repair loop for `fabricated_source_citation` (§6 task 20's logged
+  category) could adopt the same "name exactly what is missing" repair-prompt discipline
+  instead of a generic rejection, and whether `citation_verify` should become mandatory
+  (invoked automatically by the outer loop after every level, not only when the agent chooses
+  to call it) rather than remaining ungated. Full review:
+  `project-veritas/docs/research/Work-in-progress/reviews/product-review-t2d-bench-sep2026.md`
+  §9.1.
+- **AutoHarness's reflector/promoter separation as a candidate self-tuning loop for the Agent
+  Library.** `AutoHarness` (`tigerless-labs/autoharness`, reviewed as
+  `product-review-autoharness-sep2026.md`) splits a reflection process (observes sessions,
+  drafts candidate rule/skill changes) from a promoter process (validates and applies them),
+  kept structurally apart so a bad reflection cannot self-apply. Over many elicitation panels,
+  some agent definitions in Symphysis's own Agent Library will likely prove systematically
+  over-confident, under-informative, or poorly calibrated against real BWM/Delphi outcomes;
+  this reflect-then-promote separation is a directly transferable structural pattern for a
+  future feature that observes panel outcomes and proposes, but does not silently auto-apply,
+  agent-definition refinements. Full review:
+  `project-veritas/docs/research/Work-in-progress/reviews/product-review-autoharness-sep2026.md`
+  §9.
+
+Both findings are also logged in this repo's own cross-project tracking file:
+`docs/planning/enhancement-opportunities-symphysis-ai-research-survey-engine-aug2026.md`,
+"Update, 2026-09-26 (second 10-link batch, 9 source reviews)" section.
+
+## 9. Reasoning traces and experiment test bench (added 2026-09-30, not yet scheduled work)
+
+Goal (Dan, 2026-09-30): Symphysis should become a general test bench, not only a survey engine.
+The same task should run under several conditions (baseline model, model plus harness, model plus
+RAG, knowledge graph, ontology or other grounding), across models, datasets and seeds, with every
+step, tool call and reasoning trace recorded and the results scored and compared statistically.
+Surveys stay the first use case.
+
+### 9.1 Recording reasoning: what can actually be captured
+
+Two model classes need different treatment, but both write into one event format (§9.3).
+
+**Reasoning models.** The hidden reasoning is exposed differently by each provider, so the record
+must say which kind of text it holds:
+
+| Provider / runtime | What the API returns | Capture in Symphysis today |
+|---|---|---|
+| Ollama | `think` request field (true/false or a model-defined level such as low/medium/high, listed by `/api/show`); reasoning returned in a separate `message.thinking` field | `_extract_thinking()` in `audit/logger.py` reads `message.thinking`, but `ollama_provider.py` never sets `think`, so capture depends on each model's default |
+| Anthropic (Claude) | thinking content blocks, summarized in the documented example; a display parameter; thinking encryption; blocks must be preserved across tool calls | `claude_cli_provider.py` maps thinking blocks into the same field, with the thinking budget passed as `MAX_THINKING_TOKENS` (default 2000, overridable) |
+| OpenAI reasoning models | raw reasoning tokens are not exposed; an opt-in reasoning summary; encrypted reasoning items for stateless use; reasoning tokens are billed as output tokens | not captured |
+| Gemini | final output only by default; thought summaries on request | `GeminiProvider` only lowers `reasoning_effort` to `"low"`; nothing captured |
+| vLLM / SGLang (self-hosted open models) | a `reasoning` field on the message (renamed from `reasoning_content`; old clients silently read an empty field) | not captured |
+
+So the record needs a `thinking_kind` of `raw`, `summary`, `encrypted` or `none`, plus the
+reasoning-token count, because for OpenAI and Gemini the count is often the only trace of how much
+reasoning happened.
+
+**Non-reasoning models.** There is no hidden channel to read. What can be recorded:
+1. an elicited rationale field in the output schema, always labelled as stated, post-hoc reasoning
+   (Symphysis already keeps this separate from native thinking);
+2. explicit ReAct steps (thought, action, observation), which the OpenManus runtime already emits
+   as `thought` and `tool_call` events;
+3. every tool call, retrieval hit, knowledge-graph or ontology lookup and intermediate prompt as its
+   own step, which is usually the most informative trace for a grounded condition;
+4. token log-probabilities where the provider returns them, as a confidence signal.
+
+**Caveat for both classes.** Visible reasoning is evidence about the model, not a faithful account
+of how it reached the answer. Models rationalise answers induced by biased prompts without
+mentioning the bias (Language Models Don't Always Say What They Think, Turpin et al., 2023,
+arXiv:2305.04388); how much the answer depends on the stated reasoning varies by task, and larger
+models were less faithful on most tasks studied (Measuring Faithfulness in Chain-of-Thought
+Reasoning, Lanham et al., 2023, arXiv:2307.13702); reasoning models verbalised their use of a
+planted hint in often under 20% of the cases where they used it (Reasoning Models Don't Always Say
+What They Think, Chen et al., 2025, arXiv:2505.05410); monitoring chains of thought is useful but
+imperfect and fragile (Chain of Thought Monitorability, Korbak et al., 2025, arXiv:2507.11473).
+The test bench therefore stores reasoning as data and, where it matters, tests faithfulness with
+interventions (§9.4 step 6) instead of assuming it.
+
+### 9.2 What Symphysis already has, measured against the test-bench goal
+
+Present and reusable:
+- identity and governance: Agent Cards with `did:key` identities, enforced permissions,
+  spawn declarations and lineage (`agent_card.py`, `identity/did.py`, `spawn.py`, Lineage UI);
+- audit trail per agent: `prompt.md`, `conversation.jsonl` (raw completions, rejections, tool
+  calls), `thoughts.md`, samples and `result.json` (`audit/logger.py`), with native thinking kept
+  apart from stated reasoning;
+- runtimes behind one protocol (`runtime/base.py`): single-call Ollama and the multi-turn OpenManus
+  ReAct driver; model tiering; guardrails with reject-and-resample; repeated sampling; QA prechecks
+  including the fabricated-citation check;
+- grounding tools: per-agent RAG, shared survey knowledge, role packs, SearXNG web search, each
+  logged as a tool call.
+
+Missing for the test-bench goal:
+- provider-level reasoning and usage capture (the table in §9.1), and an environment manifest per
+  run (model digest, runtime and driver versions, git commit, prompt hashes, seeds);
+- a generic task instrument (dataset item, gold answer, scorer) beside the survey instruments
+  (BWM, AHP, hierarchical);
+- an experiment matrix runner (conditions x models x datasets x seeds), resumable, and a statistics
+  layer (confidence intervals, paired tests);
+- conditions as first-class, swappable configurations rather than properties of a survey;
+- a standard trace export; today the trace is custom JSONL only.
+
+### 9.3 One event record per step
+
+Every LLM call, tool call, retrieval and agent step writes one JSONL event. Field names follow the
+OpenTelemetry GenAI semantic conventions (status: Development) so the same record can later be
+exported as spans without renaming:
+
+- identity: `run_id`, `step_id`, `parent_step_id`, `gen_ai.agent.id` (the Agent Card `did:key`),
+  `gen_ai.agent.name`, `gen_ai.agent.version`, condition name;
+- operation: one of the convention's operations (invoke agent, invoke workflow, plan, chat,
+  execute tool, load skill), so Symphysis skills map onto the convention's skill spans;
+- request: provider, model, model digest, temperature, `gen_ai.request.seed`,
+  `gen_ai.request.reasoning.level`, SHA-256 of the full prompt;
+- response: raw output, parsed output, finish reason, reasoning content with `thinking_kind`
+  (the convention's output-message schema has a `ReasoningPart` of type `reasoning` for this);
+- usage: input, output and `gen_ai.usage.reasoning.output_tokens`; latency;
+- outcome: guardrail verdicts, scorer result, errors.
+
+The convention marks full message content as opt-in because it can hold sensitive data. Symphysis
+keeps full content in its local JSONL (the source of truth) and would export only metadata by
+default to any external viewer.
+
+### 9.4 Roadmap, in order
+
+1. **Reasoning and usage capture plus environment manifest** (small, providers and
+   `audit/logger.py`). Set `think` explicitly per Agent Card in the Ollama provider; read vLLM's
+   `reasoning` field (and the legacy `reasoning_content`) and Gemini/OpenAI summaries in the
+   OpenAI-compatible provider; record token usage from every provider; write a per-run manifest.
+2. **Generic task instrument** (small to medium, `instruments/`). A task instrument takes a dataset
+   item, runs the agent and hands the output to a scorer (exact match, execution match, numeric
+   tolerance, rubric or model grader). Survey instruments remain as they are.
+3. **Experiment matrix runner and statistics** (medium). A resumable runner over
+   conditions x models x datasets x seeds writing one results row per item, and a report with
+   bootstrap confidence intervals and exact McNemar tests for paired comparisons. The CogTwins
+   `veritas/svc-vkg/experiment/` code (prompt dump with SHA-256, run manifests, `report.py`,
+   `cross_site.py`, `ontology_compare.py`) already implements this for the VKG evaluation and can
+   be lifted almost unchanged.
+4. **Conditions as plugins** (medium). Baseline (no tools), harness (ReAct via OpenManus), RAG, and
+   knowledge-graph / ontology / virtual knowledge graph access, each exposed as tools under the
+   existing permission model, so a condition is a named set of tools plus a runtime plus a prompt
+   template.
+5. **OpenTelemetry export** (small once §9.3 exists). Export the JSONL events as GenAI spans to a
+   self-hosted viewer. OpenInference and OpenLLMetry are Apache-2.0 instrumentation libraries;
+   Langfuse and Arize Phoenix are viewers, but both report a non-plain licence on GitHub
+   (Langfuse is MIT outside its `ee/` directories), so the viewer stays optional and the JSONL
+   stays authoritative.
+6. **Faithfulness probes** (optional instrument). Following Lanham et al. (2023) and Turpin et al.
+   (2023): rerun an item with the reasoning truncated, corrupted or paraphrased, or with a planted
+   biasing hint, and record whether the answer changes and whether the reasoning mentions the hint.
+
+Design reference rather than dependency: Inspect AI (developed by the UK AI Security Institute and
+Meridian Labs, MIT licence) already
+has this shape (tasks, datasets, solvers, scorers, a structured `.eval` log format and a log viewer)
+and normalises provider reasoning into `ContentReasoning` blocks from a `reasoning` /
+`reasoning_content` field, `<think>` tags or provider APIs. Symphysis keeps its own runner because
+its value is the governance layer (identities, permissions, lineage, guardrails) that Inspect does
+not have; Inspect's log and reasoning normalisation are the pattern to copy. EleutherAI's
+lm-evaluation-harness (MIT) and Stanford HELM (Apache-2.0) do not fit the multi-step conditions.
+lm-evaluation-harness sends each item as a single `generate_until`, `loglikelihood` or
+`loglikelihood_rolling` request, and its `think_end_token` option strips reasoning traces from the
+output rather than recording them. HELM's adapters are generation, chat, multiple-choice (including
+a chain-of-thought variant), in-context-learning and language-modelling, with no tool-use or agent
+adapter, and HELM entered maintenance mode on 1 June 2026. Both remain useful for single-call
+baselines of the same models.
+
+### 9.5 Sources
+
+Provider documentation retrieved 2026-09-30: Ollama "Thinking" capability docs; Anthropic
+"Extended thinking" docs; OpenAI "Reasoning models" guide; Google Gemini API "Thinking" docs; vLLM
+"Reasoning Outputs" docs; OpenTelemetry GenAI semantic conventions
+(github.com/open-telemetry/semantic-conventions-genai: attribute registry, agent spans, output
+message schema); Inspect AI documentation (inspect.aisi.org.uk: eval logs, reasoning);
+lm-evaluation-harness README and repository tree (github.com/EleutherAI/lm-evaluation-harness);
+HELM README and repository tree (github.com/stanford-crfm/helm). Papers:
+Turpin et al., 2023, arXiv:2305.04388; Lanham et al., 2023, arXiv:2307.13702; Chen et al., 2025,
+arXiv:2505.05410; Korbak et al., 2025, arXiv:2507.11473. Saved copies and provenance:
+`project-veritas/misc/` (see `misc/SOURCES.md` and
+`misc/provenance-reasoning-trace-testbench-2026-09-30.md`).

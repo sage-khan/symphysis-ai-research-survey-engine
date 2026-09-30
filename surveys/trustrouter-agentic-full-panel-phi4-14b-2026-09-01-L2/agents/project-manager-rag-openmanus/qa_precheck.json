@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-rag-openmanus",
+    "role": "Construction Project Manager",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"project-manager-rag-openmanus\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will approach it as a Construction Project Manager, utilizing the provided capabilities.\"\n}\n```",
+    "model": "phi4:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "phi4:14b",
+      "created_at": "2026-09-01T18:32:32.386747082Z",
+      "message": {
+        "role": "assistant",
+        "content": "```json\n{\n  \"agent_id\": \"project-manager-rag-openmanus\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/phi4:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will approach it as a Construction Project Manager, utilizing the provided capabilities.\"\n}\n```"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1440458810,
+      "load_duration": 42038096,
+      "prompt_eval_count": 2135,
+      "prompt_eval_duration": 104278797,
+      "eval_count": 110,
+      "eval_duration": 1259259506
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-rag-openmanus",
+    "role": "Construction Project Manager",
+    "model": "ollama/phi4:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand the assignment and will approach it as a Construction Project Manager, utilizing the provided capabilities."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-rag-openmanus",
+      "role": "Construction Project Manager",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-rag-openmanus",
+      "role": "Construction Project Manager",
+      "model": "ollama/phi4:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand the assignment and will approach it as a Construction Project Manager, utilizing the provided capabilities."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

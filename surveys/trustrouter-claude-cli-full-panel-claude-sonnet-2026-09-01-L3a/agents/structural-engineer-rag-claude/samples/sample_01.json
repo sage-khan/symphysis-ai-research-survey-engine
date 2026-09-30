@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "Framing this against a construction-project record being considered for permanent blockchain storage (e.g. structural test certificates, sensor readings, inspection reports relied on for decades by owners, insurers, and authorities): Intrinsic Quality (IQ -- accuracy, validity, uniqueness) is the most fundamental cluster because it concerns whether the data correctly represents the physical reality of the asset in the first place. As the structural_health_monitoring_and_digital_twins.md material notes, a corrupted or inaccurate structural reading (e.g. sensor drift feeding a foundation-health digital twin) can mean a missed failure precursor -- the consequence-of-error is structural failure risk, which is categorically more severe than a record simply being incomplete, stale, or inconsistent across copies. No amount of completeness, timeliness, or cross-copy consistency can compensate for a record whose underlying values are wrong or non-unique (duplicated/conflicting entries); those downstream clusters only matter once IQ is established. Contextual Quality (CQ -- completeness, timeliness) sits in the middle: a record that is accurate but incomplete or delivered late still degrades decision-making (e.g. missing an anomaly window), but this is a lesser and more recoverable failure mode than an outright wrong value, since incompleteness can often be flagged and supplemented whereas an undetected inaccuracy propagates silently. Representational Quality (RQ -- consistency across sources/copies) is the least critical of the three for a blockchain-storage context specifically because blockchain's core value proposition is exactly to solve this problem structurally: an immutable, single-source-of-truth ledger with cryptographic hashing largely eliminates the 'do versions agree' problem by design (a concern echoed in the shared knowledge questionnaire's own decomposition of RQ as version agreement across copies). So RQ, while genuinely relevant to data trust, is the cluster whose importance is most diminished by the very technology TrustRouter is designed around, making it the weakest driver of trust risk among the three. My ratings (IQ:CQ:RQ \u2248 5:3:1 relative to worst, and IQ 3x CQ / 5x RQ from best) reflect a substantial but not extreme spread -- this is a judgement call on my part rather than a value drawn directly from any source, since none of the reference material gives numeric weights for this specific decomposition; the ordinal ranking (IQ > CQ > RQ) is the more defensible, source-grounded part of the answer, while the precise ratios are my own professional calibration.",
+  "sources_used": [
+    "structural_health_monitoring_and_digital_twins.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

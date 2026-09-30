@@ -1,0 +1,74 @@
+[
+  {
+    "child_did": "did:key:z6Mkn2o7MFndWw9MZXtayeyXxkLSmX2dLmB2zgmRSLLpptF3",
+    "child_agent_id": "bim-coordinator-base-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T09:59:03.652122+00:00"
+  },
+  {
+    "child_did": "did:key:z6MktuQbPNyyFWrudpe92kxaY7CNbPLNvWR9hp4eVEm3j2FR",
+    "child_agent_id": "bim-coordinator-rag-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T09:59:51.457212+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkidaP2MQoGVpUwapgUx1RqDUXMLiXiknNc81Y78ZgQEMi",
+    "child_agent_id": "blockchain-engineer-base-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T09:59:57.773361+00:00"
+  },
+  {
+    "child_did": "did:key:z6MksmJnzTABNTwdwW4bFpV9S7MWiApmnp1ymCBbwhEseoWU",
+    "child_agent_id": "blockchain-engineer-rag-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T10:00:05.723734+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkjf6MwqWTnRCeTdSwjSBgykmcm8fgHWECDYddRfGgDjyS",
+    "child_agent_id": "compliance-officer-base-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T10:00:11.964793+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkpMWESMmayJC87gAa6Wxt7MWvpHxomfynJBzZNHWUFs9D",
+    "child_agent_id": "compliance-officer-rag-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T10:00:15.998793+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkh2LFeMmeS3B7kVqUoDnRqoRXbfmtUcRnz6pY23892eic",
+    "child_agent_id": "data-engineer-base-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T10:00:23.309926+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkquSxM54yWGQFWuCTgUXNHrbbehfT4V7WmszhQTqpcXqR",
+    "child_agent_id": "data-engineer-rag-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T10:00:27.525928+00:00"
+  },
+  {
+    "child_did": "did:key:z6MktEEr94oeFQNrZ4933bbNnQJ3gWXPys6BfjTwLuK2dZeS",
+    "child_agent_id": "project-manager-base-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T10:00:36.523404+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkvSfHNhDyRgbDLGaQSC3r5fHvw28PV7ivXcu6aDyc71BP",
+    "child_agent_id": "project-manager-rag-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T10:00:40.983992+00:00"
+  },
+  {
+    "child_did": "did:key:z6Mkq6DkeJ5CLHYARtsX4aQvVb3taQYx4gsRSoBgyKYu3jVK",
+    "child_agent_id": "structural-engineer-base-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T10:00:48.017069+00:00"
+  },
+  {
+    "child_did": "did:key:z6MkwCb7UJ8ENgueMMHHNzNgG6f9Cm1dVFuJqrMC2ZJqpfCC",
+    "child_agent_id": "structural-engineer-rag-gemini",
+    "parent_did": null,
+    "declared_at": "2026-09-03T10:00:51.788267+00:00"
+  }
+]

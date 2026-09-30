@@ -1,0 +1,97 @@
+# Filled survey: data-engineer-rag-claude
+
+- Agent ID: `data-engineer-rag-claude`
+- Role / expertise: Data Engineering Specialist
+- Model: claude_cli/sonnet
+- DID: `did:key:z6Mkta5fLioPz9PQkLBgPZfd9wUysHgeeeJvCSKX8fKiEjHp`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/data-engineer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | DVS | F |
+| 1 | DVS | E |
+| 2 | DVS | E |
+
+## Sample 0
+
+**Best:** DVS (Data Value Score)  
+**Worst:** F (Technical Feasibility Fit)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 6 |
+| E (Economic Value) | 3 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 6 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 4 |
+| A (Attack Resistance) | 5 |
+
+### Reasoning
+
+Framing this as a data engineer deciding routing (BLOCKCHAIN vs IPFS_HASH vs OFFCHAIN) for construction-project artefacts: DVS is Best because it is the composite trustworthiness signal (quality, provenance, verification strength, independent confirmation, legal compliance, criticality per the shared survey instrument's L2 breakdown) that determines whether an artefact is even a candidate for durable, tamper-evident storage in the first place -- it's the substantive judgement the other three factors modulate. F (Technical Feasibility Fit) is Worst from a data-engineering standpoint: in polyglot-persistence practice (data_quality_and_polyglot_persistence.md, citing the Siemens smart-grid case study and the multi-model vs. true-polyglot comparison) feasibility constraints like size and update rate are real engineering limits, but they are routing mechanics that get engineered around (chunking, hashing large payloads, off-chain pointers) rather than a statement about whether the data deserves trust treatment at all -- a low-F artefact of high value just gets IPFS-hashed or hybrid-routed rather than excluded from the trust architecture. E (Economic Value) sits in the middle: financial stakes matter for prioritizing engineering effort but a low-value record with weak provenance still shouldn't be trusted more, so E is subordinate to DVS but clearly above F since it does affect real routing urgency. A (Attack Resistance) I rate close to DVS but below it: attack resistance is essentially an operationalization of parts of DVS (verification strength, independent confirmation) applied to the ledger-manipulation threat model specifically, so it's important but derivative of the broader trust composite. The DVS-vs-A gap is the closest call here -- both concern trustworthiness rather than mechanics -- and I want to flag that explicitly rather than overstate confidence. Ratios reflect multiplicative TrustRouter structure where DVS and F are the largest swing factors (DVS scales everything, F can zero out feasibility), while E and A are intermediate modulators.
+
+## Sample 1
+
+**Best:** DVS (Data Value Score)  
+**Worst:** E (Economic Value)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 2 |
+| E (Economic Value) | 7 |
+| A (Attack Resistance) | 3 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 7 |
+| F (Technical Feasibility Fit) | 4 |
+| E (Economic Value) | 1 |
+| A (Attack Resistance) | 3 |
+
+### Reasoning
+
+I chose DVS as Best because it is the composite trustworthiness score (quality, provenance, verification, etc., per the L2 breakdown in the shared questionnaire) that answers the threshold question a data engineer actually cares about first: is this record even worth preserving immutably? Feasibility, economic stakes, and attack resistance are all downstream of that judgement -- a perfectly feasible, high-value, tamper-resistant placement of low-quality or unprovenanced data just immutably enshrines garbage, which is worse than not recording it. F (Technical Feasibility Fit) is my second-ranked factor and genuinely close to DVS in importance: from a polyglot-persistence routing perspective (data_quality_and_polyglot_persistence.md's discussion of routing heterogeneous artefacts to specialized stores by structural/performance fit, e.g. the Prasad & S B smart-grid case splitting time-series/relational/graph workloads), F is the hard technical gate -- a 20MB drawing set or 5MB/day photo stream simply cannot go on-chain regardless of how trustworthy or valuable it is, so it acts as a second near-binary constraint alongside DVS. A (Attack Resistance) ranks third: it matters for integrity assurance but is more of a property you engineer around a routing decision already justified by DVS and F, rather than a reason to route in the first place. E (Economic Value) is Worst: structurally the survey's own formula treats it as an additive modifier (1+E) rather than a multiplicative gate like the other three, meaning even at E=0 the score isn't zeroed out -- the instrument itself signals E as a secondary amplifier, not a core determinant. It's also the factor most detached from this role's actual technical remit (data quality assessment, provenance/lineage, and storage-fit routing); economic exposure is a business-risk overlay layered on top of, not a substitute for, the data-engineering trust and feasibility assessment. The DVS-vs-F gap is the one comparison I'd flag as genuinely close rather than clear-cut; both are near-gating factors in practice and reasonable data engineers could swap their order depending on whether they weight intrinsic data trust or storage-layer practicality more heavily.
+
+## Sample 2
+
+**Best:** DVS (Data Value Score)  
+**Worst:** E (Economic Value)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 2 |
+| E (Economic Value) | 6 |
+| A (Attack Resistance) | 3 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 6 |
+| F (Technical Feasibility Fit) | 3 |
+| E (Economic Value) | 1 |
+| A (Attack Resistance) | 2 |
+
+### Reasoning
+
+As a data engineer whose job is assessing data quality, provenance, and routing artefacts across storage tiers, DVS is the factor that most directly encodes what I actually evaluate on a per-artefact basis: it aggregates quality, provenance trust, verification strength, independent confirmation, legal compliance and criticality (per the shared survey instrument's Section 3.2 breakdown), which mirrors the ISO 25012 intrinsic/contextual/representational quality clusters I use to assess artefacts before routing them to a storage tier (data_quality_and_polyglot_persistence.md, citing the Prasad and S B 2014 polyglot-persistence energy-data case study as an analogy for per-artefact, not uniform, treatment). Without a credible DVS, there is nothing worth routing to a trust-sensitive ledger at all, so I rate it Best. F (Technical Feasibility Fit) is a close second: it is the literal engineering constraint set (size, update rate, latency) that determines whether an artefact can physically be routed on-chain versus IPFS-hash versus off-chain, which is squarely the polyglot-persistence routing problem described in the reference material -- but feasibility is a gating/implementation concern, not a trust-value judgment, so I place it just behind DVS. A (Attack Resistance) matters -- undetected manipulation risk is a legitimate reason to withhold trust -- but from a data-engineering vantage point it overlaps heavily with things audit logging and lineage tracking (my own domain) already surface as evidence feeding L2's Verification Strength/Provenance Trust scores, making it somewhat downstream of and narrower than DVS or F. E (Economic Value) I rate Worst: it is a financial-exposure input rather than a technical/data-trust property, it is not something a data engineer is well positioned to independently assess, and structurally the model itself treats it as an amplifier rather than a gate -- TrustRouter = DVS x F x (1+E) x A means E=0 still leaves the base trust score intact, unlike DVS, F, or A which can each zero out the whole score if absent. This last point about the multiplicative structure is my own reasoning applied to the formula given in the survey rules, not sourced from the reference documents. My ratings are internally consistent (DVS-to-Worst ratio of 6 holds whether computed via the Best-to-Others or Others-to-Worst chain for both F and A), reflecting a deliberate rather than arbitrary spread, though I acknowledge the DVS-vs-F gap is a genuinely close call given how central technical feasibility is to my own routing work.

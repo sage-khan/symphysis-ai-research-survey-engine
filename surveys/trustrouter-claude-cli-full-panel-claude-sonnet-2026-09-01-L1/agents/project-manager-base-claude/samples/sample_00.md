@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: DVS
+- Worst: F
+
+## Stated reasoning (submitted with the answer)
+
+As a construction PM coordinating multi-stakeholder documentation over a decades-long asset lifecycle (per the Hospital Real reference scenario), the question TrustRouter ultimately answers is 'does this record deserve to be trusted and preserved immutably.' DVS is the composite of the intrinsic trustworthiness of the data itself -- quality, provenance trust, and verification strength (per the survey's own DVS constituent breakdown: Q, PT, V, etc.) -- so it is the foundational judgement everything else rests on: a technically feasible, high-value, tamper-resistant record built on untrustworthy source data is still worthless to an owner, insurer, or authority relying on it decades later. I placed A (Attack Resistance) second: once data is judged trustworthy, its resistance to undetected manipulation is what preserves that trust over the asset's lifecycle, so it sits close behind DVS conceptually. E (Economic Value) matters for prioritizing which records get the most protection, but the model itself signals it plays a secondary, modulating role: it enters as an additive booster (1+E) rather than a hard multiplicative gate like DVS, F, and A, meaning zero economic stakes still leaves a non-zero trust score, whereas zero DVS, F, or A collapses it entirely. I rated F (Technical Feasibility Fit) as least important from a PM's vantage point: it answers a practical engineering question (does this artefact's size/update-rate/latency fit the ledger, F = 1-P) rather than a substantive question about whether the data deserves trust or protection -- in practice this is a gatekeeping/implementation concern typically resolved by IT or blockchain specialists rather than something a PM would weigh when judging a record's trustworthiness or stakes. I acknowledge the DVS-vs-E and DVS-vs-A gaps are judgement calls rather than sharply obvious distinctions -- a reasonable case could be made to rank A above DVS or to weight E more heavily given how directly financial exposure drives real project decisions, so this ordering, while considered, is not a landslide call.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

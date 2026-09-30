@@ -1,0 +1,19 @@
+{
+  "best": "E_market",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_market": 1,
+    "E_liquidity": 5,
+    "E_demand": 3
+  },
+  "others_to_worst": {
+    "E_market": 5,
+    "E_liquidity": 1,
+    "E_demand": 4
+  },
+  "reasoning": "From a construction PM's vantage point, economic value has to rest on demonstrated or credible demand before a trading mechanism matters at all. E_market (current marketplace demand) is the most concrete and verifiable signal: are there institutional owners, insurers, or authorities actually paying for or requiring this record data today? That tangible, present-tense evidence is what a PM can point to when justifying the cost of blockchain storage to a client or sponsor, so I rate it Best. E_demand (future demand from regulated markets, AI training data, digital-twin ecosystems) is genuinely important given the long retention horizons described for institutional/insurer/authority use in the reference scenario, but it is inherently speculative -- a PM would treat it as a real but secondary driver, hence the middle rating (E_market judged 3x as important as E_demand). E_liquidity (tokenisation ease) I rate Worst: it is an enabling/mechanical property of how easily a data asset could be traded, not a source of value itself. A record that is trivially easy to tokenise but has no market or future buyers has no economic value regardless of its liquidity, so from a PM's practical risk/value framing this is the least decision-relevant of the three (E_market judged 5x as important as E_liquidity; E_demand judged 4x as important as E_liquidity). This is a judgement call grounded in general professional reasoning about what actually drives a client's willingness to pay for data infrastructure, since the provided instrument material (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) defines the sub-criteria labels but does not itself rank them, so no direct citation supports the specific ratios chosen.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

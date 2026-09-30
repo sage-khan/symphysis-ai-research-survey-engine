@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: V_crypto
+- Worst: V_diversity
+
+## Stated reasoning (submitted with the answer)
+
+The comparison set decomposes Verification Strength (V) into three sub-parts. Per shared knowledge, V is defined as 'strength of cryptographic and procedural audit evidence,' with the canonical example being a 'qualified electronic signature dossier + tamper-evident log.' That framing puts cryptographic evidence (V_crypto) and audit-trail completeness (V_audit) at the core of the definition itself -- they are the two elements explicitly named in V's own definition text. V_crypto is the strongest of the two because it provides the hardest, most tamper-evident and non-repudiable form of evidence (digital signatures, hashes, PKI chains) -- this is the property that lets a chartered engineer's dossier stand up decades later to insurers, regulators, and owners even if the original custodian organisation no longer exists or its procedural records are incomplete. Cryptographic evidence is self-verifying by any third party with the public key, independent of trusting an institution's internal process discipline. V_audit (who did what, when) is close behind: it is procedurally essential and is explicitly bundled into V's own definition, but a complete audit trail without cryptographic binding can still be altered or fabricated after the fact -- it depends on the integrity of the logging system rather than being independently checkable. V_diversity (multiple independent verification sources) is valuable -- it maps to the related but distinct construct 'Independent Confirmation (IC)' inside DVS/Q, not to V's own core definition -- and functions more as a corroborating, belt-and-braces safeguard than as the foundational evidentiary mechanism. For a life-safety structural dossier, a single cryptographically signed, audit-logged record from a qualified professional is minimally sufficient and legally binding; diversity of sources adds robustness against collusion or single-point failure but is not what makes evidence admissible or trustworthy in the first instance. This is a judgement call rather than a clear-cut hierarchy from the reference material -- V_crypto vs V_audit is a reasonably close call since both are named in V's definition, but I place crypto ahead because it is the harder, independently-verifiable property.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

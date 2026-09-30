@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: IQ
+- Worst: RQ
+
+## Stated reasoning (submitted with the answer)
+
+As a structural engineer responsible for multi-decade structural-capacity dossiers that guide insurers, regulators, and building owners, intrinsic quality is the foundation of trust. A structural record with inaccurate material properties, incorrect load calculations, or falsified test certificates creates liability and safety risk regardless of how complete or consistent the dossier is. The reference material emphasizes this criticality: 'a corrupted structural reading could mean a missed failure precursor' (structural_health_monitoring_and_digital_twins.md, citing Suhail et al., 2020). In structural practice, wrong data is worse than incomplete data—an engineer can request missing information, but cannot trust fundamentally inaccurate information. Contextual quality (completeness and timeliness) is substantial but subordinate. A complete, current dossier is necessary for decision-making, but completeness of inaccurate data adds risk, not value. Representational quality is least critical: a single authoritative version (which blockchain storage enforces) minimizes representation inconsistency, and consistency issues can be detected and resolved if the underlying data is sound. My rating reflects the dependency hierarchy: accuracy must come first; completeness and timeliness must follow; consistency is a protective mechanism for otherwise-sound data.
+
+## Sources cited
+
+structural_health_monitoring_and_digital_twins.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

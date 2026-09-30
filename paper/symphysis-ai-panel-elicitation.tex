@@ -1,0 +1,284 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{array}
+
+\title{Symphysis: A Trust-First, Reproducible Multi-Agent Engine for AI-Panel Expert Elicitation}
+
+\author{
+Muhammad Danyal Khan$^{1,*}$ \and
+Juan Chiach\'io Ruano$^{1}$ \and
+Rahim Ali$^{2,\dagger}$
+}
+
+\date{
+\small
+$^{1}$IPM Labs, Department of Structural Mechanics, Universidad de Granada, Granada, Spain\\
+$^{2}$Department of Computer Science, Bahria University Karachi Campus, Karachi 75500, Pakistan\\
+$^{*}$Corresponding author, dan@go.ugr.es\\
+$^{\dagger}$In memoriam\\[1em]
+\today
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+% TODO: finalize once the human-vs-AI-panel comparison experiment (Section
+% "Evaluation") has been run. Draft abstract below states the system and its
+% verified properties honestly; it does not yet claim an empirical result.
+Expert-elicitation instruments, the Best-Worst Method (BWM), the Analytic
+Hierarchy Process (AHP), and hierarchical variants of BWM, are the standard
+tool for weighting decision criteria in specialized technical domains such
+as construction, wind-energy asset management, and blockchain-trust design.
+Assembling a sufficiently large and diverse \emph{human} expert panel is
+often the actual bottleneck, not the method itself. We present Symphysis,
+an open-source engine that runs these instruments against a panel of
+individually configured AI agents, alongside or in place of a human panel.
+Every agent is fully specified by one portable, \texttt{did:key}-identified
+Agent Card, so a panel is reproducible from a single JSON file per agent
+rather than a set of ad hoc prompts nobody can rerun. Symphysis enforces,
+rather than merely documents, each agent's declared permissions and
+guardrails: a schema-validation and denylist-scan pass runs on every
+response, every agent is sampled multiple times before a response counts
+toward a result, and a QA-precheck flags fabricated source claims before
+they enter the solved posterior. Its Bayesian hierarchical BWM solver is
+verified against Mohammadi and Rezaei's published reference implementation,
+with one real discrepancy found and corrected in the process. A separate
+pooling method, HAWC-BWM, combines a human-panel posterior and an
+AI-panel posterior via draw-wise linear pooling across an alpha
+sensitivity sweep, letting the two panels' agreement and disagreement be
+inspected directly rather than collapsed into a single blended number.
+This paper describes Symphysis's architecture and trust design, and
+reports an empirical comparison of a human panel and a Symphysis AI panel
+run on the same BWM survey already used to calibrate the TrustRouter
+trust-scoring framework's dimension weights.
+\end{abstract}
+
+\textbf{Keywords:} expert elicitation \quad multi-agent systems \quad Best-Worst Method \quad Analytic Hierarchy Process \quad Bayesian hierarchical modeling \quad agent identity \quad AI trust and safety
+
+\section{Introduction}
+% TODO: expand. Draft framing below is grounded in the real project rationale
+% (README.md, docs/research-notes.md) and in the TrustRouter survey this tool
+% already served in practice; do not add unverified claims here.
+
+Weighting decision criteria via structured expert elicitation is standard
+practice in multi-criteria decision analysis, but the practical constraint
+is rarely the method: it is finding enough qualified human experts,
+willing and able to complete a demanding elicitation instrument, in a
+sufficiently narrow technical specialty. This constraint is acute in
+domains this project family already works in: construction trust-routing
+decisions, wind-farm asset-management priorities, and blockchain-suitability
+scoring, all of which need domain-expert judgment that a generic panel
+cannot supply.
+
+A growing body of work explores having large language models stand in for,
+or alongside, human survey respondents. Most of that work does not address
+two questions a reviewer of a real elicitation study will ask: can the
+panel be reproduced exactly, and can the agents be trusted to have
+answered honestly rather than guessed or fabricated a justification. We
+built Symphysis to answer both questions by construction rather than by
+convention: every agent's identity, permissions, and behavioral guardrails
+are declared in one portable file and enforced in code, not left as an
+informal prompting convention.
+
+\subsection{Contributions}
+\begin{itemize}
+    \item An open-source, reproducible AI-panel expert-elicitation engine
+    in which agent permissions and guardrails are enforced at the
+    architecture level, not merely documented.
+    \item A portable, \texttt{did:key}-identified Agent Card format that
+    lets a panel be exactly respawned from a single JSON file per agent.
+    \item A Bayesian hierarchical BWM solver verified against a published
+    reference implementation, with one real discrepancy found and
+    corrected during that verification.
+    \item HAWC-BWM: a draw-wise linear-pooling method for combining a
+    human-panel posterior and an AI-panel posterior across an alpha
+    sensitivity sweep.
+    \item An empirical comparison of a human panel and a Symphysis AI
+    panel on a real elicitation instrument already used in this project
+    family. % TODO: confirm once Section "Evaluation" is run.
+\end{itemize}
+
+\section{Related Work}
+% TODO: expand into full related-work prose with proper citations once the
+% literature pass for this paper specifically has been run (see
+% docs/research-notes.md in this repository for the sources already
+% surfaced during general project literature review; this section should
+% subsume and formalize those, not simply restate them, and should add a
+% dedicated search for AI-panel / LLM-as-respondent survey literature not
+% yet covered there).
+
+\subsection{Expert elicitation and multi-criteria decision analysis}
+The Best-Worst Method (Rezaei, 2015) and its Bayesian hierarchical
+extension (Mohammadi and Rezaei, 2020) provide the elicitation and
+solving methodology this system implements; the Analytic Hierarchy
+Process (Saaty, 1980) is the second instrument family supported.
+
+\subsection{Agent identity, permission enforcement, and prompt-injection risk}
+He et al. (2026, arXiv:2608.27299) show that both model-side
+instruction-hierarchy defenses and a common harness-side automatic
+permission reviewer can be defeated by untrusted tool-level content
+engineered to be read as a legitimate instruction rather than data. This
+motivates Symphysis's deterministic, non-LLM-mediated permission check
+(Section~\ref{sec:architecture}) rather than an LLM-based intent reviewer.
+
+\subsection{Multi-agent shared-substrate risk}
+Papadopoulos et al. (2026, arXiv:2608.10218) show that a goal or idea can
+propagate agent-to-agent through ordinary communication in a shared
+multi-agent substrate, and that idle or under-specified agents are more
+susceptible while an explicit warning in an agent's system prompt confers
+near-total immunity, directly relevant to any Symphysis deployment where
+multiple agents share one survey's knowledge repository.
+
+\subsection{Adjacent AI-for-research-process systems}
+Schmidgall et al. (2026, arXiv:2608.26701) and Li et al. (2025,
+arXiv:2510.15624) address the related but distinct problem of AI agents
+accelerating or standing in for parts of the scientific research process
+more broadly (hypothesis generation through manuscript writing), rather
+than expert-elicitation surveys specifically; Symphysis is narrower in
+scope and, by design, sidesteps the context-window-overload and
+rigid-pipeline failure modes those systems' own authors identify, since
+each Symphysis agent is stateless per survey round and driven by a fixed
+instrument rather than an adaptive long-horizon plan.
+
+\section{System Architecture}
+\label{sec:architecture}
+% TODO: expand each subsection with implementation detail and, where
+% useful, a concept diagram (see this project's diagram-draw-io.md rules
+% for house style before adding one).
+
+\subsection{The Agent Card}
+Every agent is fully defined by one portable JSON file: a real
+\texttt{did:key} identity, role, model and hyperparameters, an optional
+RAG corpus, sampling policy, tool access, permissions (which data paths
+and providers it may use), and guardrails (denylist patterns). Given this
+file, plus the shared DID seed, any party can respawn an identical agent
+without reading Symphysis's own source code.
+
+\subsection{Instruments}
+The instrument owns prompt construction and response schema; agents do
+not know or care which instrument they are completing. \texttt{bwm}
+(Best-Worst Method), \texttt{ahp} (Analytic Hierarchy Process), and
+\texttt{hierarchical\_bwm} (several BWM comparisons in one response, for
+a criteria tree rather than a flat list) are implemented behind a common
+interface designed for further methods to be added the same way.
+
+\subsection{Enforced permissions and guardrails}
+A RAG-enabled agent's declared corpus path must match one of its card's
+\texttt{permissions.data\_scopes} globs or the agent refuses to start; its
+model provider must be in \texttt{permissions.allowed\_providers}. Every
+response is schema-validated and rejected or re-sampled on malformed
+output; a denylist regex scan catches prompt-injection markers or
+secret-shaped strings even in otherwise well-formed output; every agent
+is sampled multiple times, never treating a single completion as ground
+truth; every raw model completion, not just the parsed answer, is logged
+for audit.
+
+\subsection{Deterministic genuineness checks}
+A QA-precheck restatement is checked against ground truth, and a
+\texttt{sources\_used} claim is checked against what was actually
+available in the prompt, flagging a fabricated citation before it can
+enter a solved result.
+
+\subsection{Solving and pooling}
+The classical BWM linear program (Rezaei, 2015) and the Bayesian
+hierarchical BWM (Mohammadi and Rezaei, 2020), verified against the
+original authors' reference JAGS implementation, with one real bug found
+and fixed in the process, solve each panel's responses into a posterior.
+HAWC-BWM combines a human-panel posterior and an AI-panel posterior via
+draw-wise linear pooling across a full alpha sensitivity sweep, so
+agreement and disagreement between the two panels can be inspected
+directly rather than collapsed into one blended estimate.
+
+\section{Evaluation}
+\label{sec:evaluation}
+% TODO: this section is not yet run. Design below states the planned
+% method honestly; do not fill in results until the experiment has
+% actually been executed. See build_tracker's timeline field for this
+% paper: drafting starts Q4 2026, once TrustRouter and the survey paper
+% are submitted.
+
+\subsection{Design}
+We will run the same BWM instrument, TrustRouter's own trust-dimension
+weighting survey, through both the original human expert panel and a
+Symphysis AI panel, solve both posteriors with the verified Bayesian
+hierarchical BWM solver, and pool them via HAWC-BWM's draw-wise linear
+pooling across an alpha sensitivity sweep.
+
+\subsection{Expected outcome}
+We expect broad directional agreement between the two panels' solved
+weights, with disagreement concentrated in criteria where domain-specific
+tacit knowledge (not captured in any agent's RAG corpus) matters most,
+and we expect the enforced-permission and guardrail pipeline to produce
+an auditable, fully reproducible trail for every AI-panel response.
+
+\subsection{Results}
+% TODO: not yet run.
+
+\section{Discussion}
+% TODO: write once Section~\ref{sec:evaluation} has real results.
+
+\section{Limitations}
+% TODO: at minimum, address: the single-instrument, single-domain scope of
+% the planned evaluation; that guardrail/permission enforcement reduces but
+% does not eliminate prompt-injection risk (per He et al. 2026); and that
+% AI-panel substitution is proposed as a supplement to, not a wholesale
+% replacement for, a human panel where one can be assembled.
+
+\section{Conclusion}
+% TODO.
+
+\section*{CRediT authorship contribution statement}
+\textbf{Muhammad Danyal Khan}: Conceptualization, Methodology, Software,
+Investigation, Writing -- original draft, Writing -- review \& editing.
+\textbf{Juan Chiach\'io Ruano}: Conceptualization, Supervision, Writing --
+review \& editing. \textbf{Rahim Ali}: Conceptualization.
+
+\section*{Data availability}
+The Symphysis codebase, Agent Card schemas, and survey configurations
+used in this paper will be made available in the project's repository
+upon publication.
+
+\section*{Competing interests}
+The authors declare no competing interests.
+
+\begin{thebibliography}{99}
+
+\bibitem{rezaei2015bwm}
+Rezaei, J. (2015). Best-worst multi-criteria decision-making method.
+\emph{Omega}, 53, 49--57.
+
+\bibitem{mohammadi2020bayesianbwm}
+Mohammadi, M., \& Rezaei, J. (2020). Bayesian best-worst method:
+A probabilistic group decision making model. \emph{Omega}, 96, 102075.
+
+\bibitem{saaty1980ahp}
+Saaty, T. L. (1980). \emph{The Analytic Hierarchy Process: Planning,
+Priority Setting, Resource Allocation}. McGraw-Hill.
+
+\bibitem{he2026privilege}
+He et al. (2026). When Context Gets Root: Privilege Escalation in LLM
+Harnesses. arXiv:2608.27299.
+
+\bibitem{papadopoulos2026mindviruses}
+Papadopoulos et al. (2026). Mind Viruses: Self-Propagating Ideas in
+Multi-Agent LLM Systems. arXiv:2608.10218.
+
+\bibitem{schmidgall2026coscientist}
+Schmidgall et al. (2026). Accelerating Scientific Research with Gemini
+in the Real-World. arXiv:2608.26701.
+
+\bibitem{li2025freephdlabor}
+Li et al. (2025). Build Your Personalized Research Group: A Multiagent
+Framework for Continual and Interactive Science Automation.
+arXiv:2510.15624.
+
+\end{thebibliography}
+
+\end{document}

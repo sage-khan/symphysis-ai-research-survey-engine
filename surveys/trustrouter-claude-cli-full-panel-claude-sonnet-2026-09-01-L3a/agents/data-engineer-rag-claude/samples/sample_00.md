@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: IQ
+- Worst: CQ
+
+## Stated reasoning (submitted with the answer)
+
+IQ (accuracy, validity, uniqueness) is the foundational quality cluster: if the values themselves are wrong or invalid, nothing downstream -- completeness, timeliness, or cross-copy consistency -- can compensate, and this matters more once data is committed to an immutable blockchain record where post-hoc correction is costly or impossible. RQ (consistency across sources) I rank second because it maps directly onto the polyglot-persistence routing problem described in the reference material: when the same construction-project fact is replicated across blockchain, IPFS-hash, and off-chain stores, reconciling whether those copies agree is a first-order data-engineering concern for the routing decision itself, distinct from but related to the provenance/audit-lineage evidence base described for PT/V. CQ (completeness, timeliness) I rank lowest for this specific decision because 'right scope and time' is comparatively recoverable in a polyglot architecture -- an incomplete or stale record can be supplemented or superseded by a later off-chain update referenced by hash, whereas a factually inaccurate or non-unique value baked into an immutable ledger entry is much harder to remedy. This is a closer call between CQ and RQ than between IQ and either of the others -- both trail IQ substantially, and the CQ/RQ ordering is more of a judgement call grounded in the polyglot-persistence framing than a sharp distinction.
+
+## Sources cited
+
+data_quality_and_polyglot_persistence.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

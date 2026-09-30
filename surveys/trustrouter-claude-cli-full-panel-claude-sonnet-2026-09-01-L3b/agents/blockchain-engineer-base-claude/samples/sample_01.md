@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: T_chain
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+For construction-project records being considered for blockchain storage, the decisive question is whether the record can be trusted as an accurate, untampered representation of what actually happened between creation and submission -- that is exactly what T_chain (custody-chain integrity) captures. A blockchain/DLT's core value proposition is tamper-evidence over a chain of custody: hashing, timestamping, and append-only logging are designed precisely to detect gaps or alterations in custody, so custody-chain integrity is the criterion most directly addressed by, and most decision-relevant to, the on-chain/hybrid/conventional routing choice. T_source (who produced it) matters because credentialed authors are less likely to originate bad data, but it is a prior/static property of the actor, not of the specific record's journey, so it's a real but secondary signal -- I rate it 3 (Best-to-Source) reflecting that it's clearly less central than custody chain but still substantially more important than historical track record. T_history (has the source been reliable before) is the weakest of the three for a routing decision because it is backward-looking and statistical -- useful for risk scoring an actor over time, but it says little about whether *this particular record* was preserved intact, and a source with a good track record can still submit a corrupted or late record, while a newer/unproven source could submit a perfectly custody-verified one. This is a genuine judgement call rather than a clear-cut case: T_source vs T_history could plausibly be argued closer than I've rated them, since both are properties of the actor rather than the record's journey, but I judged source credentials as more actionable/verifiable (credentials, licensure, organizational identity) than an accumulated reliability score, which is noisier and slower to establish for new but legitimate sources. Ratios: Best_to_Others gives T_chain=1 (itself), T_source=3, T_history=4; Others_to_Worst gives T_history=1 (itself), T_source=2, T_chain=4, consistent with T_chain > T_source > T_history.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-base-ollama",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"project-manager-base-ollama\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as instructed, grounding all responses in the provided rules and my role as a Construction Project Manager.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T10:43:01.0623667Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"project-manager-base-ollama\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will proceed as instructed, grounding all responses in the provided rules and my role as a Construction Project Manager.\"\n}",
+        "thinking": "Okay, let me make sure I understand what's being asked here. The user wants me to confirm my configuration as per the given rules. They provided a detailed setup, and I need to respond with a JSON object that restates that configuration accurately.\n\nFirst, I need to check the agent ID, role, model, and capabilities. The agent ID is \"project-manager-base-ollama\", role is \"Construction Project Manager\", and the model is \"ollama/qwen3:14b\". The capabilities include dedicated RAG corpus as False, shared knowledge repo as True, no role pack, and web search as False. \n\nI should ensure that I don't add any extra information or capabilities beyond what's provided. The acknowledgment needs to be a short confirmation that I understand the task and will proceed as instructed. \n\nI need to avoid any markdown and just output the JSON. Let me structure it correctly, making sure all the keys are in quotes and the boolean values are lowercase. Also, check that the acknowledgment is concise and matches the required format.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4785057713,
+      "load_duration": 66653498,
+      "prompt_eval_count": 2406,
+      "prompt_eval_duration": 543478481,
+      "eval_count": 332,
+      "eval_duration": 4088237469
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-base-ollama",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will proceed as instructed, grounding all responses in the provided rules and my role as a Construction Project Manager."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-base-ollama",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-base-ollama",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will proceed as instructed, grounding all responses in the provided rules and my role as a Construction Project Manager."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

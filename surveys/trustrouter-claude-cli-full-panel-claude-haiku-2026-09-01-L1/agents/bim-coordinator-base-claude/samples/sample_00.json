@@ -1,0 +1,21 @@
+{
+  "best": "DVS",
+  "worst": "E",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 3,
+    "E": 5,
+    "A": 2
+  },
+  "others_to_worst": {
+    "DVS": 5,
+    "F": 4,
+    "E": 1,
+    "A": 4
+  },
+  "reasoning": "DVS is the foundational criterion because trustworthiness of construction records\u2014their intrinsic quality, provenance, verification strength, independent confirmation, legal compliance, and criticality\u2014is the BIM coordinator's core responsibility and a prerequisite for any blockchain application. In the multiplicative TrustRouter model, DVS has direct multiplicative impact (\u00d7DVS); if DVS is weak, superior performance in F, A, or E cannot compensate. For multi-decade institutional records serving structural, compliance, and legal functions (as in Hospital Real), poor data trustworthiness is a fundamental failure. E is the least important because: (1) the formula applies (1+E) rather than pure multiplication, dampening E's criticative impact; (2) economic value motivates investment but does not determine trustworthiness itself\u2014a high-value record can still be poorly structured, unverifiable, or legally non-compliant; and (3) even low-value records must be trustworthy if they are part of building documentation. A (Attack Resistance) is rated closer to DVS (2\u00d7) than F (3\u00d7) because both integrity and trustworthiness are critical in blockchain contexts. However, DVS is foundational: verification strength is already embedded in DVS, and an attack-resistant system cannot compensate for poor data quality or weak provenance. F (Technical Feasibility) must hold for the technology to work at all, but it is about implementation constraints, not data trust itself.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

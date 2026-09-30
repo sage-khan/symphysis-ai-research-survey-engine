@@ -1,0 +1,20 @@
+{
+  "best": "E_demand",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_market": 4,
+    "E_liquidity": 7
+  },
+  "others_to_worst": {
+    "E_demand": 7,
+    "E_market": 2,
+    "E_liquidity": 1
+  },
+  "reasoning": "E_demand (projected future demand) emerges as the strongest economic driver for blockchain-backed BIM data storage. Regulatory momentum is real: EU digital building passports and renovation directives mandate long-term, verifiable building records. For the Hospital Real scenario referenced\u2014a multi-decade public asset requiring institutional ownership, insurance, and regulatory documentation\u2014future demand is driven by lifecycle durability, compliance automation, and emerging digital-twin analytics. Kochovski et al. 2026 explicitly grounds digital building logbooks in this forward-looking regulatory and technical context.\n\nE_market (current marketplace demand) ranks second. From 10+ years in BIM coordination, adoption of blockchain for BIM data remains limited to pilots and early research (consistent with Gartoumi 2024's observation that the industry still lacks 'rigorous, calibrated decision criteria for when blockchain-backed storage' is appropriate). Mainstream practice uses centralized BIM collaboration servers. However, current market signals do exist\u2014research projects, institutional pilots\u2014so this criterion is meaningfully stronger than pure speculation but significantly weaker than regulatory tailwinds.\n\nE_liquidity (tokenisation ease) is weakest. BIM data faces structural barriers to tokenisation: fragmented multi-stakeholder ownership, highly contextual value tied to project federation and federated-model validation (ISO 19650), privacy constraints under GDPR, and liability questions. Unlike fungible commodities, building data's value is relational and context-dependent, making unit-level tradability neither technically mature nor economically sensible. From practitioner experience, I observe no emerging market for tokenised BIM data slices, and the conceptual barriers run deep.\n\nThe ratings reflect this hierarchy: E_demand is 7\u00d7 more important than E_liquidity (regulatory + lifecycle + AI integration vs. structural tokenisation barriers); 4\u00d7 more important than E_market (forward regulatory pressure vs. current limited adoption); E_market is 2\u00d7 more important than E_liquidity (real pilots exist, but tokenisation barriers are deeper).",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

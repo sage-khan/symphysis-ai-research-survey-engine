@@ -1,0 +1,124 @@
+{
+  "agent_id": "project-manager-base-claude",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "PT",
+      "worst": "L",
+      "best_to_others": {
+        "PT": 1,
+        "Q": 3,
+        "V": 2,
+        "IC": 4,
+        "L": 5,
+        "C": 3
+      },
+      "others_to_worst": {
+        "PT": 5,
+        "Q": 3,
+        "V": 4,
+        "IC": 2,
+        "C": 2,
+        "L": 1
+      },
+      "reasoning": "As a construction project manager evaluating data for blockchain storage, Provenance Trust is the decisive criterion because blockchain's immutability creates a permanent commitment to data truth. Once data is recorded on-chain, it cannot be altered or retracted\u2014only supplemented. If the original creator or custodian is untrustworthy or improperly documented, that liability becomes permanent. Conversely, high provenance trust (e.g., a signed report from a chartered structural engineer) creates confidence that the immutable record serves its purpose rather than locking in error. This makes PT the gatekeeper for the routing decision. Quality (Q) and Verification Strength (V) are important but contextual: they describe the state of data once created, whereas provenance trust determines whether we should trust that creation in the first place. Independent Confirmation (IC) and Criticality (C) are valuable but not primary to routing: IC increases confidence but depends on prior trust in the confirming parties, and C determines consequences of error, not whether to go on-chain. Legal Compliance (L) is least influential on routing decisions because it operates as a constraint\u2014it specifies what data *cannot* go on-chain or must be encrypted\u2014rather than determining what *should*. A legally compliant data set that fails provenance trust is worse than a non-compliant one with clear provenance. In renovation and new-build contexts where institutional owners and insurers must rely on records for decades, the identity and accountability of the data creator outweighs regulatory checklist satisfaction.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    },
+    {
+      "best": "Q",
+      "worst": "IC",
+      "best_to_others": {
+        "Q": 1,
+        "PT": 2,
+        "V": 2,
+        "IC": 4,
+        "L": 2,
+        "C": 2
+      },
+      "others_to_worst": {
+        "Q": 4,
+        "PT": 2,
+        "V": 2,
+        "IC": 1,
+        "L": 2,
+        "C": 2
+      },
+      "reasoning": "Quality is the foundational criterion for routing construction data to blockchain. From a project manager's perspective coordinating multi-stakeholder documentation flows, data fidelity\u2014whether records are technically clean, semantically coherent, and contextually accurate (as exemplified by IFC-valid models in the reference material)\u2014gates every downstream decision. Poor data quality contaminates the entire ledger and cascades into disputes, rework, and cost overruns, regardless of how trusted the provenance, how strong the verification, or how legally mandated the record. Quality must be the pivot point: it determines whether other criteria can even meaningfully apply. The other five criteria sit roughly at parity relative to Q (2:1 ratio), each materially important but secondary to having fit-for-purpose data. Independent Confirmation ranks as least influential for routing decisions. While valuable in principle, many construction records are created by single authoritative sources (a chartered structural engineer's design calculations, a specialist's certification) and lack independent corroboration, yet remain essential for long-term institutional, insurance, and regulatory stewardship. A project manager regularly works with single-source-of-truth documents that have no practical independent verification pathway; asking for IC before routing to blockchain would needlessly exclude essential records. Provenance Trust, Verification Strength, Legal Compliance, and Criticality all outweigh IC because they more directly constrain what data is trustworthy enough to preserve at all. The Hospital Real renovation reference illustrates this: decades of institutional stewardship depend first on having clean structural and energy data, not on achieving consensus across multiple parties on that data's correctness.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    },
+    {
+      "best": "PT",
+      "worst": "IC",
+      "best_to_others": {
+        "PT": 1,
+        "L": 2,
+        "Q": 2,
+        "V": 3,
+        "C": 4,
+        "IC": 7
+      },
+      "others_to_worst": {
+        "PT": 7,
+        "L": 5,
+        "Q": 5,
+        "V": 4,
+        "C": 2,
+        "IC": 1
+      },
+      "reasoning": "Provenance Trust (PT) is the best\u2014most important\u2014criterion for routing construction project data. In construction, the professional identity and accountability of who created and handled the data is paramount. Structural engineers, MEP specialists, and certified inspectors carry legal and professional liability; their signatures and credentials are non-negotiable validators. Without trust in the source, even technically perfect data loses credibility for insurers, authorities, and institutional owners who will rely on these records for decades. Quality (Q) and Legal Compliance (L) are close seconds (both rated 2\u00d7 less important than PT), because while technical cleanliness and regulatory alignment are foundational, they are secondary to knowing whether the data originates from a qualified, accountable professional. Verification Strength (V) at 3\u00d7 less important reflects that cryptographic audit evidence, while valuable for blockchain contexts, is less critical than the human accountability embodied in provenance. Criticality (C) at 4\u00d7 less important is a consequence measure, not a primary trust factor\u2014it determines the cost of being wrong, not whether the data is trustworthy. Independent Confirmation (IC) is the worst\u2014least important. While multiple parties confirming a finding adds robustness, IC is often unavailable in construction (most records are created once by the responsible party and not independently verified), and the routing decision can be sound without it. The core trust decision rests on source, compliance, and quality; IC is a nice-to-have validation layer, not foundational. This ranking reflects a construction PM's professional judgment: accountability and regulatory standing of the data creator outweigh all other factors.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    },
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    },
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    }
+  ]
+}

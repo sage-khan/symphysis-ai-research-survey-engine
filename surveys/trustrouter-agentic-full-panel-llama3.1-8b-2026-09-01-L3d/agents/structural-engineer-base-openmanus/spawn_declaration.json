@@ -1,0 +1,20 @@
+{
+  "agent_id": "structural-engineer-base-openmanus",
+  "did": "did:key:z6MkvCDYKdQ96esHSaxFCSv8E4U8mMu3zsdGvtceSETYN6aF",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Structural Engineer",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "llama3.1:8b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01-L3d"
+}

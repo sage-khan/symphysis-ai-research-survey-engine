@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-rag-openmanus",
+    "role": "Construction Project Manager",
+    "model": "ollama/mistral:7b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": " {\n  \"agent_id\": \"project-manager-rag-openmanus\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/mistral:7b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm that I understand the assignment as a Construction Project Manager in the TrustRouter Agentic Full Panel (mistral:7b) -- Level L3a: Quality clusters (ISO 25012). I will attempt to answer from the perspective of my role, using the provided capabilities and reference materials.\"\n}",
+    "model": "mistral:7b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "mistral:7b",
+      "created_at": "2026-09-01T15:55:04.538138166Z",
+      "message": {
+        "role": "assistant",
+        "content": " {\n  \"agent_id\": \"project-manager-rag-openmanus\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/mistral:7b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm that I understand the assignment as a Construction Project Manager in the TrustRouter Agentic Full Panel (mistral:7b) -- Level L3a: Quality clusters (ISO 25012). I will attempt to answer from the perspective of my role, using the provided capabilities and reference materials.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1409766240,
+      "load_duration": 9681395,
+      "prompt_eval_count": 2379,
+      "prompt_eval_duration": 294478822,
+      "eval_count": 176,
+      "eval_duration": 1076827900
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-rag-openmanus",
+    "role": "Construction Project Manager",
+    "model": "ollama/mistral:7b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm that I understand the assignment as a Construction Project Manager in the TrustRouter Agentic Full Panel (mistral:7b) -- Level L3a: Quality clusters (ISO 25012). I will attempt to answer from the perspective of my role, using the provided capabilities and reference materials."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-rag-openmanus",
+      "role": "Construction Project Manager",
+      "model": "ollama/mistral:7b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-rag-openmanus",
+      "role": "Construction Project Manager",
+      "model": "ollama/mistral:7b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm that I understand the assignment as a Construction Project Manager in the TrustRouter Agentic Full Panel (mistral:7b) -- Level L3a: Quality clusters (ISO 25012). I will attempt to answer from the perspective of my role, using the provided capabilities and reference materials."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

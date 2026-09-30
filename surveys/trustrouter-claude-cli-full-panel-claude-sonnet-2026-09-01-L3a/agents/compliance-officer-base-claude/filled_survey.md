@@ -1,0 +1,91 @@
+# Filled survey: compliance-officer-base-claude
+
+- Agent ID: `compliance-officer-base-claude`
+- Role / expertise: Compliance and Regulatory Officer
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkwUN3K4YmG9arhbzyAxMLs314eLG46wmPnKoYLVUT8Rzm`
+- RAG: disabled
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | IQ | RQ |
+| 1 | IQ | RQ |
+| 2 | IQ | RQ |
+
+## Sample 0
+
+**Best:** IQ (Intrinsic Quality)  
+**Worst:** RQ (Representational Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 1 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 4 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 4 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 1 |
+
+### Reasoning
+
+From a facility-management compliance standpoint (GDPR Art. 5(1)(d) accuracy principle, plus construction-regulatory records such as structural inspections, energy performance certificates, and safety documentation), the foundational question is always 'are the values themselves correct, valid, and non-duplicated?' (IQ = accuracy + validity + uniqueness, per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md's ISO 25012 cluster definitions). A regulatory record that is inaccurate or invalid is actively dangerous -- it can produce false assurance of compliance (e.g. an inspection record showing a passed safety check that is factually wrong), which is a worse failure mode than a record that is merely incomplete or slightly late. That is why IQ is Best. CQ (completeness + timeliness) is a close second: regulatory obligations frequently hinge on deadlines and full scope (e.g. mandatory disclosure classes, periodic recertification), so missing or stale data is a genuine compliance risk, but at least a gap is usually visible/auditable as a gap, whereas an inaccurate value can masquerade as sound. RQ (consistency across sources) is Worst in this triad: in a blockchain-anchored architecture the ledger itself is designed to be the canonical, tamper-evident record, so cross-source consistency is more of a downstream integration/reconciliation concern than a first-order determinant of whether the datum can support a compliance decision -- if IQ and CQ are both strong, disagreement across secondary sources is a lower-severity finding than the datum being wrong or missing in the first place. This mirrors the composite structure in shared knowledge: trustrouter_concept_paper_primer.md, where Q decomposes as a weighted sum of IQ, CQ, and RQ, implying the panel is meant to differentiate their relative weights rather than treat them as equal. My numeric ratios (IQ:CQ = 2, IQ:RQ = 4, CQ:RQ = 2) are a judgement call reflecting a moderate but real gap between IQ and CQ, and a larger gap between IQ and RQ, chosen to keep the two matrices arithmetically consistent (2 x 2 = 4). I acknowledge the IQ-vs-CQ call is the closer of the two comparisons -- both are highly salient to regulatory obligations -- whereas IQ clearly dominating RQ is a more confident judgement.
+
+## Sample 1
+
+**Best:** IQ (Intrinsic Quality)  
+**Worst:** RQ (Representational Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 1 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 6 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 6 |
+| CQ (Contextual Quality) | 3 |
+| RQ (Representational Quality) | 1 |
+
+### Reasoning
+
+Per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md (section 3.3), IQ covers accuracy, validity and uniqueness -- i.e., whether the values recorded for a construction datum are correct in themselves. From a compliance officer's standpoint this is the foundational layer: a record that is inaccurate, invalid (e.g. fails a schema/format/regulatory test) or duplicated cannot satisfy any downstream legal or contractual purpose, and because blockchain storage is append-only/immutable, committing an inaccurate value is far harder to remedy than a record that is merely incomplete or momentarily consistent across sources. CQ (completeness, timeliness) matters for meeting regulatory deadlines and full-scope disclosure (e.g. energy performance certificates, safety dossiers), so it is clearly important but is meaningful only once the underlying values are themselves correct -- an on-time, complete record built on wrong figures is still non-compliant. RQ (consistency across sources) is the least distinctive of the three for this comparison: at the parent level of the TrustRouter model (per shared knowledge: trustrouter_concept_paper_primer.md), cross-party agreement is already captured explicitly by Independent Confirmation (IC), so within the Q-cluster decomposition RQ's marginal compliance value is comparatively lower -- it addresses whether different copies of a record agree with each other, which is a narrower and partially redundant concern next to getting the value right (IQ) and getting the scope/timing right (CQ). Hence IQ = Best, RQ = Worst, with CQ positioned intermediate but closer to IQ than to RQ, reflecting that completeness/timeliness failures are a more serious compliance risk than mere cross-source representational inconsistency. I set best_to_others and others_to_worst so the implied IQ:CQ ratio is consistent across both tables (2 in each direction), acknowledging this specific 3-way ranking is a judgement call rather than something the reference material states outright -- the primer and instrument define the three clusters but do not themselves rank IQ above CQ above RQ.
+
+## Sample 2
+
+**Best:** IQ (Intrinsic Quality)  
+**Worst:** RQ (Representational Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 1 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 3 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 3 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 1 |
+
+### Reasoning
+
+Per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md (section 3.3), IQ bundles accuracy, validity, and uniqueness -- i.e., whether the recorded values are themselves correct and not duplicated -- while CQ bundles completeness and timeliness, and RQ concerns consistency of the same record across independent sources. From a compliance-officer's vantage point covering GDPR and construction-regulatory obligations, IQ is the foundational cluster: GDPR Article 5(1)(d) makes accuracy a first-order data-protection principle, and construction regulators (building-code sign-off, structural certifications, energy-performance disclosures) act on the substantive correctness of the values themselves -- an inaccurate or invalid measurement is a compliance failure no matter how complete, timely, or cross-source-consistent its presentation is. CQ (completeness/timeliness) is a close second: GDPR's storage-limitation and accuracy principles also imply records must be current, and regulatory deadlines (e.g., mandatory disclosure windows referenced in the questionnaire's L row) depend on timeliness -- but a complete, on-time record built on wrong underlying values still fails compliance, so CQ is instrumentally subordinate to IQ. RQ (consistency across sources) I rate worst, not because it is unimportant, but because from a regulatory-obligation standpoint it is the most technical/operational of the three: it matters primarily for establishing confidence in a distributed-ledger context (which copy do we trust), whereas the actual regulatory exposure -- fines, code violations, GDPR breach findings -- attaches to whether the data was accurate, valid, and adequately complete/timely, not to whether multiple sources happened to agree. This is a genuine judgement call rather than a clear-cut hierarchy: CQ and RQ both plausibly compete for 'least critical' depending on whether one weighs GDPR's currency requirements or blockchain's cross-source trust value more heavily, and I want to flag that closeness explicitly rather than overstate confidence in the CQ-RQ ordering.

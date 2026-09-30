@@ -1,0 +1,26 @@
+{
+  "best": "C",
+  "worst": "IC",
+  "best_to_others": {
+    "C": 1,
+    "Q": 3,
+    "PT": 4,
+    "V": 5,
+    "L": 4,
+    "IC": 7
+  },
+  "others_to_worst": {
+    "C": 7,
+    "Q": 4,
+    "PT": 5,
+    "V": 6,
+    "L": 3,
+    "IC": 1
+  },
+  "reasoning": "As a construction project manager for the Hospital Real deep renovation, my routing decision for data (full on-chain, hybrid, or conventional storage) is primarily driven by **Criticality (C)**, not by any single verification or provenance attribute. Here is my reasoning: First, **why Criticality is Best**: The scenario is a multi-decade public asset where structural, energy, and compliance documentation must serve institutional owners, insurers, and authorities. Gartoumi (2024) notes blockchain's demonstrated benefits in dispute resolution\u2014exactly the scenario where an under-documented or unverifiable item (e.g., a structural inspection sign-off or safety certificate) creates the highest downstream cost if trust cannot be established later. From a project manager's standpoint, the impact of data being wrong drives the urgency to store it on-chain for immutability and long-term proof. A faulty structural inspection on a hospital creates decades of liability and safety risk; a faded construction photo does not. Criticality determines whether a record is worth the overhead of on-chain storage. Quality, provenance, and verification all serve to protect data that *matters*; if the data doesn't matter (low criticality), perfect provenance or cryptographic proof adds no value. Legal compliance and independent confirmation are secondary to understanding what is actually at stake. Second, **why Independent Confirmation is Worst**: Construction projects operate under time and resource constraints. Many records come from a single authoritative source (a licensed structural engineer's inspection, a certified HVAC technician's sign-off). These single sources carry weight *because they are qualified and trusted*, not because multiple parties independently confirm them. Waiting for independent confirmation before archiving critical documentation is impractical and delays delivery. A project manager must work with available expertise: one certified structural engineer's report is sufficient and necessary; the ideal of two independent structural surveys is rarely feasible within budget or schedule. Quality (4x better than IC) and Verification Strength (6x better) matter more because they protect the integrity of data from the single authoritative source. Provenance Trust (5x better) matters because it establishes that single source's credentials. Criticality (7x better) matters most because it determines which records justify on-chain storage at all. Legal Compliance (3x better) matters because regulatory requirements must be met regardless of confirmation count. In a practical delivery context, IC ranks lowest among the six factors.",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

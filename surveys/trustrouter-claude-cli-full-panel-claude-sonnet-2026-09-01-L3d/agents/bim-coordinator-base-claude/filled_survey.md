@@ -1,0 +1,91 @@
+# Filled survey: bim-coordinator-base-claude
+
+- Agent ID: `bim-coordinator-base-claude`
+- Role / expertise: BIM Coordinator
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkwaD5PfneZEDso4t2zzYoPEj2qoTJMvwL6gsjm7sm4KYw`
+- RAG: disabled
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | A_insider | A_sybil |
+| 1 | A_insider | A_sybil |
+| 2 | A_insider | A_sybil |
+
+## Sample 0
+
+**Best:** A_insider (Insider resistance)  
+**Worst:** A_sybil (Sybil resistance)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| A_sybil (Sybil resistance) | 6 |
+| A_oracle (Oracle resistance) | 3 |
+| A_insider (Insider resistance) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| A_sybil (Sybil resistance) | 1 |
+| A_oracle (Oracle resistance) | 3 |
+| A_insider (Insider resistance) | 6 |
+
+### Reasoning
+
+In construction-project BIM/blockchain deployments, participant onboarding (architects, contractors, subcontractors, inspectors, regulators) is almost always permissioned/consortium-based, with identities tied to professional licences, contracts, and institutional credentials rather than open self-registration. That structurally suppresses Sybil risk: minting large numbers of fake identities to out-vote or poison consensus is far harder when every writer must be a credentialed, contractually bound entity known to the project (a fact grounded in how real-world construction data-trust ecosystems are governed, per shared knowledge: trustrouter_concept_paper_primer.md's framing of A as one of several multiplicative trust factors alongside data-quality and provenance dimensions). That makes A_sybil the weakest concern of the three here -- worst. Insider resistance, by contrast, is the sharpest practical threat I see on real projects: a certifying engineer, inspector, or contractor with legitimate signing rights falsifying an as-built record, backdating an approval, or quietly altering a compliance document is a well-known construction-fraud pattern, and it is the hardest to catch because the actor already holds valid credentials -- no impersonation or device compromise is needed, so conventional identity checks and even oracle-input validation don't catch it. For a multi-decade public asset like the reference hospital renovation, where insurers and authorities rely on the record years later, an undetected insider manipulation is more consequential than either of the other attack modes, so I rank A_insider as best. Oracle resistance sits in between: sensor/device tampering matters wherever IoT feeds (structural health monitoring, energy metering) write directly to the ledger, and that is a genuine and growing exposure, but on most renovation/compliance records the dominant inputs are still human-authored documents (inspection reports, design changes, certificates) rather than automated sensor streams, so oracle tampering, while more serious than the largely-mitigated Sybil risk, does not match the severity or detectability problem posed by insider misuse. The 3x and 6x spacing reflects that this is a real but not extreme gap between insider and oracle, and a larger, more confident gap between insider and sybil given how effectively permissioned governance already blunts Sybil attacks in this domain -- I want to flag this as a judgement call grounded in general professional experience with consortium-governed BIM platforms rather than a specific cited study, since the provided reference material describes the survey structure and the multiplicative L1 formula but does not itself rank the L3d sub-criteria.
+
+## Sample 1
+
+**Best:** A_insider (Insider resistance)  
+**Worst:** A_sybil (Sybil resistance)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| A_sybil (Sybil resistance) | 6 |
+| A_oracle (Oracle resistance) | 3 |
+| A_insider (Insider resistance) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| A_sybil (Sybil resistance) | 1 |
+| A_oracle (Oracle resistance) | 3 |
+| A_insider (Insider resistance) | 6 |
+
+### Reasoning
+
+In a multi-decade, multi-stakeholder renovation project (per the Hospital Real reference scenario), blockchain storage for BIM/lifecycle records is realistically deployed as a permissioned or consortium ledger where participating organizations (architects, contractors, subcontractors, facility managers, authorities) are onboarded through a governance process, not an open/public network. That structural fact matters for ranking: Sybil attacks (fabricating fake identities to gain undue influence) are the threat that permissioned governance is specifically designed to blunt -- an attacker would need to defeat organizational onboarding/KYC-style controls, which is comparatively hard in this consortium setting. Insider resistance, by contrast, is the threat I have seen bite hardest in practice: a subcontractor, inspector, or even a project team member with legitimate, properly-credentialed write access can falsify progress records, backdate quality sign-offs, or quietly alter compliance documentation -- and because their access is legitimate, this is much harder to detect or prevent than an external forgery attempt, and the consequences (structural safety, insurance, and regulatory disputes decades later) are severe. That is why I rank A_insider as Best. Oracle resistance sits in between: sensor/device data (structural health monitoring, energy metering) feeding the chain is a real and growing trust dependency for renovation/compliance documentation, and tampering there is a genuine technical risk, but it is a narrower attack surface than the pervasive, hard-to-audit risk of insider misuse across the full document/approval workflow. A_sybil is Worst because the permissioned nature of the deployment context already provides a structural mitigation that the other two threats lack. I want to flag that this is a closer call between A_insider and A_oracle than between either of them and A_sybil -- both insider and oracle threats are credible and project-relevant, and reasonable practitioners could weight oracle tampering higher if the project relied heavily on continuous IoT structural monitoring; I did not find the sub-criteria's exact survey definitions in the material I was given (the questionnaire excerpt was truncated before the A_sybil/A_oracle/A_insider definition rows), so this ranking rests primarily on my own BIM-coordination domain experience rather than a definition I can cite directly.
+
+## Sample 2
+
+**Best:** A_insider (Insider resistance)  
+**Worst:** A_sybil (Sybil resistance)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| A_sybil (Sybil resistance) | 5 |
+| A_oracle (Oracle resistance) | 2 |
+| A_insider (Insider resistance) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| A_sybil (Sybil resistance) | 1 |
+| A_oracle (Oracle resistance) | 3 |
+| A_insider (Insider resistance) | 5 |
+
+### Reasoning
+
+For a multi-decade, multi-stakeholder construction record store (per the Hospital Real reference scenario: institutional owners, insurers, authorities relying on the data for years), the realistic threat model is a permissioned/consortium network of known, credentialed participants -- owners, contractors, subcontractors, inspectors, authorities -- rather than an open, anonymous public chain. In that setting, A_sybil (fake-identity attacks, i.e. an attacker fabricating many pseudonymous nodes to subvert consensus or vote-weighted trust) is the least practically relevant threat, because participant onboarding in construction BIM/blockchain pilots is normally gated by existing procurement, licensing, and contractual identity checks -- there is no open registration surface for an attacker to mint fake identities against. That is why A_sybil is Worst. A_insider (malicious use of legitimately-issued credentials -- e.g. a site inspector or subcontractor with genuine write access falsifying a compliance record, backdating a defect report, or colluding to hide non-conformities) is the threat that most directly matches known failure modes in construction litigation and insurance disputes, and it is exactly the threat blockchain-based provenance is meant to mitigate when the goal is inter-organisational trust among parties who each have legitimate but only partially trusted access. As the party responsible for federating models and reconciling clash/compliance documentation across many legitimate contributors, insider tampering by a trusted-but-untrustworthy actor is the scenario I would rank as most damaging and most likely, so A_insider is Best. A_oracle (sensor/device tampering at the point physical measurements -- structural monitoring, energy metering -- enter the ledger) sits in between: it is a real and well-known weak point (the 'garbage-in' problem is not solved by ledger immutability), but for a renovation project's documentation trail it is generally a narrower attack surface than pervasive human insider access, since not all records originate from IoT sensors -- much of the compliance/structural documentation is human-entered rather than device-fed. This ranking is a professional judgement call based on how construction BIM blockchain pilots are typically architected (permissioned consortiums, mixed manual/sensor data entry), not a figure drawn from the reference excerpts, which did not include the full definitions or relative-importance guidance for these three sub-criteria.

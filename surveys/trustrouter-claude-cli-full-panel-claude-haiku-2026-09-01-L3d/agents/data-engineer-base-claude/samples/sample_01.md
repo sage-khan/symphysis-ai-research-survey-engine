@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: A_insider
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+From a data engineering specialist's perspective on construction-project blockchain routing decisions, insider resistance is the most critical attack vector. Construction fraud empirically centers on malicious modification of data by personnel with legitimate access—site managers altering schedules, inspectors falsifying safety records, engineers suppressing design defects. Once an insider with legitimate credentials modifies a record, blockchain immutability preserves the corruption permanently; retroactive cryptographic validation cannot undo the damage. Insider threats are harder to detect than falsified credentials because the attacker understands construction workflows and can make targeted, plausible-looking changes. This is fundamentally a prerequisite problem: if insider threats are not controlled at the application layer through access controls, audit trails, and segregation of duties, blockchain provides no added trust value—it merely timestamps and immortalizes compromised data. Oracle resistance (sensor/device tampering) ranks second. Sensor integrity matters acutely for IoT-derived metrics—material testing, environmental monitoring, equipment GPS—but not all construction data originates from sensors. Much relies on professional reports and inspections where credential and access controls are more tractable. Oracle resilience is addressable through sensor certification and threshold signatures but remains important for specific high-risk data types. Sybil resistance ranks lowest for construction routing decisions. Construction already operates mature identity verification systems: professional engineering licenses, contractor bonding, insurance requirements, and certification hierarchies. The blockchain can actually enhance sybil resistance through credential anchoring on-chain. Creating a fake contractor identity carries high reputational and legal costs in construction markets. A fabricated identity attempting to submit data is easier to audit retroactively than an insider's subtly modified records because the false identity leaves obvious gaps in credential history. This assessment draws on general knowledge of construction fraud patterns and on the instrument's framing of routing decisions; it does not rely on specific empirical data in the provided reference material.
+
+## Sources cited
+
+general_knowledge (all claims verified genuine)

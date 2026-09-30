@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: T_source
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+For a construction-project record being weighed for blockchain storage, T_source (who authored it -- a licensed structural engineer's stamped calculation vs. an unverified subcontractor's note) is the foundational trust determinant: it carries the legal and professional accountability that everything else depends on, and it's knowable at the moment the record is created, before any routing decision is even made. T_chain (custody-chain integrity from creation to submission) is the second most important: it answers whether a credentialed source's output was altered, substituted, or mishandled before it reached the ledger, which is precisely the tamper-evidence problem blockchain is meant to solve, per the dispute-resolution and document-management use cases documented in the Gartoumi 2024 review (construction_project_management_and_mcdm.md) where an unverifiable chain of custody on a change order or inspection sign-off creates the highest downstream cost. T_history (the source's track record) I rank lowest -- it's a useful but lagging, probabilistic signal: it can't be applied to a new but perfectly credentialed inspector or a first-time subcontractor, and a long track record doesn't retroactively fix a broken custody chain or a forged credential on a specific document. My ratings reflect a moderate gap between source and chain (2x) and a larger gap between source and history (5x), with source-to-history and chain-to-history calibrated consistently across both comparison directions. This is a judgement call from professional experience managing multi-party documentation flows, not drawn from a numeric weighting given in the reference material.
+
+## Sources cited
+
+construction_project_management_and_mcdm.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

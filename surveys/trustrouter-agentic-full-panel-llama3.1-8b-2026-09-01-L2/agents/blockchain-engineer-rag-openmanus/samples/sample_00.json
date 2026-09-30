@@ -1,0 +1,21 @@
+{
+  "best": "V",
+  "worst": "L",
+  "best_to_others": {
+    "V": 1,
+    "Q": 8,
+    "PT": 7,
+    "IC": 6,
+    "C": 5,
+    "L": 9
+  },
+  "others_to_worst": {
+    "L": 1,
+    "Q": 3,
+    "PT": 4,
+    "IC": 2,
+    "C": 1,
+    "V": 9
+  },
+  "reasoning": "Best factor: V\nWorst factor: L\n\nHere are the ratings:\n\nV vs Q: 8\nV vs PT: 7\nV vs IC: 6\nV vs C: 5\nV vs L: 9\nQ vs L: 3\nPT vs L: 4\nIC vs L: 2\nC vs L: 1"
+}

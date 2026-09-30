@@ -1,0 +1,21 @@
+{
+  "best": "DVS",
+  "worst": "F",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 6,
+    "E": 3,
+    "A": 2
+  },
+  "others_to_worst": {
+    "DVS": 6,
+    "F": 1,
+    "E": 2,
+    "A": 3
+  },
+  "reasoning": "From a BIM coordination standpoint, the whole point of putting a construction-project record on a ledger is to certify that the record itself is trustworthy over a multi-decade lifecycle spanning owners, insurers, and authorities. DVS (quality, provenance, verification of the BIM/IFC data) is the foundation: an immutably-stored but low-quality or unverifiable model (e.g., a clash-detection federated model with unclear authorship or unvalidated geometry) gives false assurance -- you've just made garbage permanent and harder to correct. That 'garbage in, garbage out' concern is the single biggest practical risk I see in multi-stakeholder BIM federation, so I rank DVS as Best. Attack Resistance (A) is a close second: tamper-evidence is the specific value proposition of DLT for lifecycle documentation (structural inspection reports, compliance certificates) that must survive disputes and audits decades later, so it stays near the top but is secondary to the antecedent question of whether the data was ever trustworthy to begin with. Economic Value (E) matters for prioritizing which records are worth the ledger overhead (a load-bearing structural certificate vs. a minor finish spec), but it's a resource-allocation input rather than a property of the data's trustworthiness, so it sits below DVS and A. Technical Feasibility Fit (F) is the Worst for this comparison: it's an engineering/implementation constraint (can the artefact's size, update cadence, and latency needs actually be accommodated by the ledger, e.g., anchoring a large IFC file via hash rather than storing it directly) rather than a judgement about how much the data deserves to be trusted or protected. In practice a BIM record with poor technical fit is usually solved by hashing/off-chain storage patterns rather than by declining to trust the data, which is why I judge it least decisive among these four for the trust question itself. The multiplicative structure (DVS x F x (1+E) x A) means every factor can gate the composite to near zero, but this ranking reflects professional judgement about which factor most directly answers 'should this construction record be trusted on a ledger,' not the mathematical sensitivity of the formula. This was a genuinely closer call between A and E than between DVS and F -- both A and DVS are intrinsic to trust, while E and F are more about justification and practicality, so the middle ranks carry more uncertainty than the endpoints.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

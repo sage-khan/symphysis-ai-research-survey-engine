@@ -1,0 +1,19 @@
+{
+  "best": "T_source",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_source": 1,
+    "T_chain": 3,
+    "T_history": 5
+  },
+  "others_to_worst": {
+    "T_source": 5,
+    "T_chain": 3,
+    "T_history": 1
+  },
+  "reasoning": "In my professional experience preparing structural-capacity dossiers relied on by insurers, regulators, and owners over decades, trust in a record starts with who produced it: a stamped assessment from a licensed structural engineer (PE/CEng) or an accredited test laboratory carries evidentiary and legal weight that no amount of custody-chain integrity can substitute for -- an impeccably hashed and timestamped record from an unqualified or unidentified source is still not something I would rely on for a capacity determination. That is why T_source is Best. T_chain (custody integrity from creation to submission) is the second-most important factor -- it is the guarantee that a credentialed source's original content was not altered or substituted before it reached the ledger, which matters greatly for long-lived construction records that pass through many hands (contractors, BIM platforms, regulators). T_history (track record) is real but the least foundational of the three: it is essentially an aggregate, derived signal built up from repeated observations of source credentials and custody performance over time, and it can unfairly penalize a newly licensed engineer or a new but well-accredited firm with no track record yet, even though their individual credentials and chain integrity may be impeccable. For a single record under consideration, I would not want the absence of history alone to be the deciding factor against otherwise strong direct evidence, so T_history is Worst. My best_to_others ratios (1, 3, 5) and others_to_worst ratios (5, 3, 1) reflect T_source clearly outweighing T_history, with T_chain positioned as a meaningful but intermediate factor -- a comparison that is closer between T_source and T_chain than between T_source and T_history, which I state explicitly as the closer call in this set.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

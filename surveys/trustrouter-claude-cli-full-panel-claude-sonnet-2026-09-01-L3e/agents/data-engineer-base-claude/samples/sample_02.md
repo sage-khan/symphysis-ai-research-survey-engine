@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: E_market
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+From a data-engineering / polyglot-persistence routing standpoint, the practical question these three sub-criteria answer is: how much economic justification does storing this construction record on-chain actually have, and how solid is that justification? E_market (present marketplace demand) is the most concrete, verifiable signal -- it reflects actual buyers/consumers of the data today (e.g. compliance auditors, insurers, downstream contractors querying a record right now), which is the kind of hard evidence a routing decision can be built on without speculation. I rated it Best. E_demand (future/regulated/AI/digital-twin growth) is directionally important -- it captures whether today's low-value record could become high-value later (e.g. as digital-twin and AI-driven analytics pipelines mature, or as new regulation mandates lifecycle traceability) -- but it is inherently a forecast, not an observed fact, so it is less reliable than current demand and I placed it clearly behind E_market (rated 3) but still meaningfully ahead of E_liquidity. E_liquidity (ease of tokenisation into a tradeable asset) is the narrowest and most mechanism-specific of the three: it presupposes that the goal is to create a fungible/tradeable token from the record, which is a niche use case for most construction artifacts (drawings, RFIs, inspection certs) that have clear economic/provenance value without ever needing to be tokenised as a tradeable instrument. A record can score highly on economic value while being nearly impossible or pointless to tokenise, so I judged it least central to the Economic Value construct and rated it Worst, with E_market judged 6x more important (both in the best-row and worst-row for internal consistency) and E_demand 4x more important than E_liquidity. This is a judgement call grounded in how I'd actually prioritize signals when deciding whether a record's economic profile pushes it toward on-chain anchoring versus off-chain storage with a hash reference -- the shared knowledge document defines the three labels (present demand / tokenisation ease / projected future demand) but does not itself rank them, so the ordering and ratios reflect my own domain reasoning about which signal is most actionable and least speculative.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

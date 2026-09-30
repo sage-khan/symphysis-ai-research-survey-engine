@@ -1,0 +1,17 @@
+{
+  "best": "DVS",
+  "worst": "A",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 1,
+    "E": 9,
+    "A": 7
+  },
+  "others_to_worst": {
+    "A": 1,
+    "F": 8,
+    "E": 6,
+    "DVS": 7
+  },
+  "reasoning": " Best factor: DVS (Data Value Score)\nWorst factor: A (Attack Resistance)\n\n DVS vs F: 1\nDVS vs E: 9\nDVS vs A: 7\nF vs A: 8\nE vs A: 6"
+}

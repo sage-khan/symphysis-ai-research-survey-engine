@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "data-engineer-rag-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"data-engineer-rag-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the configuration and will proceed to answer the survey as instructed, adhering strictly to the role and capabilities defined.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T11:07:16.659065261Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"data-engineer-rag-ollama\",\n  \"role\": \"Data Engineering Specialist\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the configuration and will proceed to answer the survey as instructed, adhering strictly to the role and capabilities defined.\"\n}",
+        "thinking": "Okay, let me make sure I understand what the user is asking for. They want me to confirm my configuration as per the given rules. The user provided specific details about the agent ID, role, model, and capabilities. I need to output a JSON object that exactly restates these details without any additional information.\n\nFirst, I'll check the agent ID: \"data-engineer-rag-ollama\". The role is \"Data Engineering Specialist\", and the model is \"ollama/qwen3:14b\". The capabilities include dedicated RAG corpus (True), shared knowledge repo (True), no role pack, and web search (False). The acknowledgement should be a short confirmation that I understand the task and will proceed as instructed.\n\nI need to ensure that the JSON structure is correct, with all keys and values properly enclosed in quotes and using the right data types. No extra fields or capabilities should be added. The acknowledgement should be concise, maybe something like confirming understanding and commitment to the task. Let me put that all together now.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4678545360,
+      "load_duration": 59365497,
+      "prompt_eval_count": 2409,
+      "prompt_eval_duration": 546081952,
+      "eval_count": 329,
+      "eval_duration": 3991987623
+    }
+  },
+  "claimed": {
+    "agent_id": "data-engineer-rag-ollama",
+    "role": "Data Engineering Specialist",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm understanding of the configuration and will proceed to answer the survey as instructed, adhering strictly to the role and capabilities defined."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "data-engineer-rag-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "data-engineer-rag-ollama",
+      "role": "Data Engineering Specialist",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm understanding of the configuration and will proceed to answer the survey as instructed, adhering strictly to the role and capabilities defined."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

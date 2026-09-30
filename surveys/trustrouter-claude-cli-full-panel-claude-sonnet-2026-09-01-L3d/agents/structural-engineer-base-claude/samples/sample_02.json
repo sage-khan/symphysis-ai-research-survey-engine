@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 5
+  },
+  "others_to_worst": {
+    "A_insider": 5,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "For construction-project records intended for decades-long reliance by owners, insurers, and authorities, the dominant real-world integrity failure mode is a legitimately-credentialed actor misusing valid access -- e.g. a licensed inspector, engineer-of-record, or site supervisor signing off on, or altering, structural/compliance data that does not reflect as-built reality. This is the hardest attack to detect precisely because the access is authorized, and it directly threatens the safety-critical and legal-liability functions these records serve (this mirrors well-documented professional-liability failure patterns in structural forensics, e.g. falsified inspection sign-offs), so I rate A_insider as Best. A_sybil (fake-identity/multiple-identity attacks) is comparatively the least critical for this data-trust context: construction consortium/permissioned-blockchain deployments (owners, insurers, regulators, licensed professionals) typically rely on vetted, credentialed participants rather than open/permissionless membership, so the classic Sybil vector of cheaply manufacturing many fake identities to bias consensus or provenance has limited purchase -- identity is already gated by professional licensure and institutional onboarding, not by a permissionless join process. A_oracle (sensor/device tampering) sits between the two: it matters a great deal for records fed by structural health monitoring sensors, IoT devices, or automated instrumentation, but a large share of construction documentation (signed reports, certificates, as-built drawings) is not continuously sensor-fed, so its relevance is real but narrower than the insider threat that applies across essentially all record types. The ratios reflect a moderate-to-large gap between Insider and Oracle (3x) and a larger gap between Insider and Sybil (5x), with Oracle correspondingly rated 3x more important than Sybil, which is internally consistent (5 via the direct insider-sybil comparison matches the implied path through oracle). I acknowledge this ranking is a professional judgement call rather than something drawn from a specific citable empirical study of blockchain attack rates in construction, since the reference material provided does not contain quantitative attack-frequency data for this specific sub-decomposition.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

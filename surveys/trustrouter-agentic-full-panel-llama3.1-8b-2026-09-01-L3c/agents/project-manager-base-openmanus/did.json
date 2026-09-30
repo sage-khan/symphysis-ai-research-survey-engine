@@ -1,0 +1,8 @@
+{
+  "agent_id": "project-manager-base-openmanus",
+  "did": "did:key:z6MkmN7vzHnh2icWr6YL16BEoJ3tVgESyM2YguEVrwiXHwKZ",
+  "method": "did:key",
+  "public_key_multibase": "z6MkmN7vzHnh2icWr6YL16BEoJ3tVgESyM2YguEVrwiXHwKZ",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01:project-manager-base-openmanus')"
+}

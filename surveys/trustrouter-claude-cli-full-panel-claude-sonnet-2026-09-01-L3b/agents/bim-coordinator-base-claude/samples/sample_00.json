@@ -1,0 +1,19 @@
+{
+  "best": "T_chain",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_chain": 1,
+    "T_source": 2,
+    "T_history": 5
+  },
+  "others_to_worst": {
+    "T_chain": 5,
+    "T_source": 3,
+    "T_history": 1
+  },
+  "reasoning": "The shared knowledge glossary defines T_source as credentials of the authoring person/organisation, T_chain as integrity of custody from creation to submission, and T_history as the source's historical track record. From a BIM-coordination standpoint, the whole rationale for putting a construction record on a blockchain is to get tamper-evidence over the path a record travels through a federated, multi-stakeholder Common Data Environment (design authoring -> coordination model -> clash detection -> issued-for-construction -> as-built handover). That path is exactly what T_chain covers: if custody is broken or unverifiable between creation and submission, it doesn't matter how credentialed the original author was or how reliable they've been historically -- you can no longer trust that what you're looking at is what was actually produced. Credentialed sources still routinely hand off files through uncontrolled email threads, unmanaged USB transfers, or ad-hoc federation steps outside the CDE, and that break is precisely the failure mode blockchain-backed custody tracking is meant to close, so I rate T_chain as Best. T_source is a strong second: knowing who authored a record (licensed structural engineer vs. unverified subcontractor note) sets the initial trust ceiling before any chain-of-custody or history checks even apply, so it is clearly more consequential than T_history but still one step behind chain integrity for a routing decision that is fundamentally about detecting alteration in transit. T_history is Worst: it is a reputational/Bayesian prior about the source's past behaviour, not direct evidence about this specific record. A source with an excellent track record can still submit a corrupted or altered file on a given day, and a new, well-credentialed source with no track record yet may be perfectly trustworthy; in my experience running clash detection and model federation, we lean on direct verification (who signed it, what happened to it in transit) far more than on a source's reputation when deciding how much scrutiny or protection a given deliverable needs. The gap between T_chain and T_history (rated 5) reflects that custody integrity is the more decisive, evidence-based factor for a blockchain-routing decision, while the gap between T_chain and T_source (rated 2) reflects that credentials and chain are both fairly close, evidence-based signals -- this is a real but not enormous difference. I want to flag this as a professional judgement call rather than something the reference material itself ranks; the questionnaire excerpt defines the three sub-parts but does not state a priority order among them.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

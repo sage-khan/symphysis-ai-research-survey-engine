@@ -1,0 +1,8 @@
+{
+  "agent_id": "blockchain-engineer-rag-claude",
+  "did": "did:key:z6MkooUJEyuLt3VzrACQLf8YLETe6fkJK66UWcp4jm9g2LzP",
+  "method": "did:key",
+  "public_key_multibase": "z6MkooUJEyuLt3VzrACQLf8YLETe6fkJK66UWcp4jm9g2LzP",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01:blockchain-engineer-rag-claude')"
+}

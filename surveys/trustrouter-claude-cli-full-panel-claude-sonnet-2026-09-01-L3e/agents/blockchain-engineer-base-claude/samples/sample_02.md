@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: E_market
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+As a blockchain/DLT engineer weighing which economic sub-factor should most influence a decision to commit construction-project data to a permissioned ledger, I favor E_market (current marketplace demand) as Best because it is the only one of the three that reflects a concrete, verifiable economic signal today -- actual buyers willing to pay for the data now. That is the strongest justification for incurring the real infrastructure, gas/storage, and governance costs of on-chain commitment, since those costs are incurred immediately while future demand is a forecast. E_demand (future regulated/AI/digital-twin growth) is genuinely relevant -- it is the kind of forward-looking signal that justifies building durable, extensible ledger infrastructure rather than a one-off solution -- but it is inherently speculative compared to demand that exists right now, so I rate it moderately behind Best (ratio 2), not dramatically so, since ignoring plausible near-term regulatory/AI-driven growth would be a real engineering mistake. E_liquidity (tokenisation ease) I rate Worst: it is a mechanism/enabler for capturing value that already exists (via fractional trading, marketplaces, etc.), not a driver of underlying economic value itself. In production permissioned-ledger deployments, most valuable data (e.g., compliance or provenance records) is monetized through licensing, access control, or off-chain contracts without needing tokenisation at all, so ease of tokenisation is a secondary, implementation-level concern relative to whether real demand exists now or is credibly coming. I set the Best-to-Worst ratio at 5, reflecting a substantial but not extreme gap -- tokenisation ease still matters for some data-marketplace use cases, so it isn't negligible, but it clearly ranks below both demand-side factors. The specific decomposition into E_market/E_liquidity/E_demand was not detailed in the excerpts I was given from the shared survey instrument (which covered the top-level DVS/F/E/A quartet and its multiplicative composite), so this reasoning is primarily my own domain judgement about how data-marketplace demand and tokenisation dynamics actually function for construction-project records, applied within the general framing that E is one multiplicative pillar of the larger composite.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

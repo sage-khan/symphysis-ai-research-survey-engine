@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "As a Compliance and Regulatory Officer, my ranking prioritizes data accuracy and validity as foundational to regulatory compliance. IQ (Intrinsic Quality: accuracy, validity, uniqueness) is the best because GDPR Article 5 mandates accurate data processing, and construction safety standards require accurate records of construction activities and conditions. A record that is inaccurate in its core values cannot satisfy compliance obligations regardless of how complete, timely, or consistent it may be. RQ (Representational Quality: consistency across sources) is the worst because while consistency provides additional confidence in a blockchain context, it is a secondary property that depends on the quality of underlying sources. If sources are inconsistent, that signals a governance problem, not a quality problem\u2014and if all sources are consistently wrong, consistency adds no compliance value. CQ (Contextual Quality: completeness, timeliness) ranks between them as important but secondary to accuracy. Regulatory requirements do mandate complete records and timely reporting, but an incomplete or slightly dated record that is accurate remains compliant in substance; an incomplete record that is inaccurate fails compliance entirely. In blockchain storage for construction records specifically, the immutability of the ledger makes accuracy at the point of entry critical\u2014errors cannot be corrected later\u2014whereas consistency and completeness can be addressed through governance processes. IQ is rated 3\u00d7 more important than CQ (accuracy is more foundational than completeness to regulatory validity) and 5\u00d7 more important than RQ (accuracy far outweighs consistency as a compliance requirement). CQ is rated 3\u00d7 more important than RQ (completeness/timeliness are directly required by regulations; consistency is a meta-property).",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,91 @@
+# Filled survey: project-manager-rag-claude
+
+- Agent ID: `project-manager-rag-claude`
+- Role / expertise: Construction Project Manager
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkmtkSj5oqsPgApLjX13QD1dY7KspgarWGkVzQin7EhVSk`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/project-manager
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | IQ | RQ |
+| 1 | IQ | RQ |
+| 2 | IQ | RQ |
+
+## Sample 0
+
+**Best:** IQ (Intrinsic Quality)  
+**Worst:** RQ (Representational Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 1 |
+| CQ (Contextual Quality) | 3 |
+| RQ (Representational Quality) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 5 |
+| CQ (Contextual Quality) | 3 |
+| RQ (Representational Quality) | 1 |
+
+### Reasoning
+
+As a construction PM deciding what to trust when a record is pushed to an immutable ledger, my first question is always whether the data itself is right: is the test certificate's value accurate, is it a valid, properly formed document, and is it the one authoritative record (not a duplicate change order or a stale drawing revision masquerading as current). That's IQ (accuracy, validity, uniqueness), and it dominates because once a record is written to a blockchain it is very costly or impossible to correct -- an inaccurate or non-unique record baked in permanently is far worse than a record that arrives a little late or with a wrong version reconciled against a source copy elsewhere. CQ (completeness, timeliness) matters a lot in practice -- e.g., an HVAC statutory inspection certificate that shows up after a compliance deadline, or a change-order package missing required attachments, is a real operational problem (this matches the Gartoumi 2024 finding, per 'construction_project_management_and_mcdm.md', that under-documented items in dispute-resolution scenarios create the highest downstream cost) -- but a record that is complete and timely yet inaccurate is still worse than one that's accurate but arrives a day late or slightly short of full scope, because the former corrupts the trust basis of the ledger entry itself. RQ (consistency across copies/sources) I rank lowest: on a well-designed blockchain system, consistency across copies is substantially what the ledger's hashing and single-source-of-truth mechanics are meant to enforce structurally, so representational consistency is more a property the technology itself helps guarantee once accurate source data is committed, versus IQ and CQ which are properties of the human/organizational documentation process feeding the chain and therefore need the most expert scrutiny before ever reaching the ledger. The gap between IQ and CQ is real but not enormous -- both concern the underlying data-generation process rather than the chain mechanics -- so I'd characterize the IQ-vs-CQ call as a real but moderate distinction, not an overwhelming one; the IQ-vs-RQ distinction is the one I'm most confident about.
+
+## Sample 1
+
+**Best:** IQ (Intrinsic Quality)  
+**Worst:** RQ (Representational Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 1 |
+| CQ (Contextual Quality) | 3 |
+| RQ (Representational Quality) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 5 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 1 |
+
+### Reasoning
+
+For a construction record destined for blockchain storage, Intrinsic Quality (accuracy, validity, uniqueness) is the bedrock: a structural test certificate, inspection sign-off, or change order that is inaccurate or invalid is actively dangerous and legally exposed regardless of how complete, timely, or consistent its copies are — writing wrong data immutably to a ledger is worse than not writing it at all, so IQ has to come first. Contextual Quality (completeness, timeliness) matters a great deal in practice — an incomplete change-order record or a stale inspection date genuinely undermines trust for institutional owners, insurers, and authorities over a multi-decade asset lifecycle (per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md's framing of CQ as 'right scope and time') — but a record that is accurate yet partially incomplete is still usable and correctable, whereas an inaccurate one is not. Representational Quality (consistency across copies/sources) I rate lowest of the three specifically in the blockchain-storage context: the whole architectural premise of putting construction documentation on a distributed ledger (as surveyed in construction_project_management_and_mcdm.md's review of blockchain's demonstrated benefits in document management and dispute resolution) is that it structurally resolves the multi-copy-disagreement problem by design, so RQ contributes comparatively less marginal trust value once you've already chosen blockchain as the storage mechanism — and consistent-but-wrong copies don't help anyone anyway. This is a judgement call rather than a settled fact: CQ vs RQ was the closer comparison of the three, since both completeness and consistency are recognized ISO 25012 concerns for multi-stakeholder documentation, and a different construction PM weighing dispute-resolution scenarios more heavily could reasonably rate RQ above CQ.
+
+## Sample 2
+
+**Best:** IQ (Intrinsic Quality)  
+**Worst:** RQ (Representational Quality)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 1 |
+| CQ (Contextual Quality) | 3 |
+| RQ (Representational Quality) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| IQ (Intrinsic Quality) | 5 |
+| CQ (Contextual Quality) | 2 |
+| RQ (Representational Quality) | 1 |
+
+### Reasoning
+
+IQ (accuracy, validity, uniqueness) is foundational: a construction record that is inaccurate or fails domain validity rules (e.g. a falsified or malformed material test certificate) is worthless no matter how complete, timely, or consistent across copies it is -- garbage-in propagates downstream into structural sign-offs, insurance claims, and regulatory audits. The construction_project_management_and_mcdm.md source's discussion of dispute-resolution use cases reinforces this: the highest downstream cost scenario is an 'under-documented or unverifiable data item' -- i.e. one that fails on accuracy/validity, not merely one that is inconsistent across copies. CQ (completeness, timeliness) is clearly important -- an incomplete change-order set or a stale HVAC inspection certificate can block occupancy or trigger compliance failure -- but a record that is accurate and valid still has salvageable value even if partially incomplete or slightly late, whereas an inaccurate record has none. I placed RQ (cross-copy consistency) as worst not because it is unimportant, but because in the blockchain-storage context this survey is about, consistency-across-sources is precisely the property the ledger technology is architecturally designed to enforce once accurate source data is committed (single canonical hash, immutable history) -- it is more a downstream technical guarantee than an independent quality dimension a PM must actively manage the way accuracy or completeness must be managed at the point of data capture. This is a judgement call and the CQ-vs-RQ gap is the closer of the two comparisons; the IQ-vs-the-rest gap is the one I am most confident about. Ratios: IQ is rated moderately more important than CQ (3x) and considerably more than RQ (5x), with CQ correspondingly rated as clearly more important than RQ (2x), keeping the pairwise ratios roughly internally consistent (5/3 ≈ 2).

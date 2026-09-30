@@ -1,0 +1,19 @@
+{
+  "best": "E_market",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_market": 1,
+    "E_demand": 2,
+    "E_liquidity": 4
+  },
+  "others_to_worst": {
+    "E_market": 4,
+    "E_demand": 3,
+    "E_liquidity": 1
+  },
+  "reasoning": "From a data-engineering / provenance-routing standpoint, the question is which sub-dimension most concretely justifies the cost and irreversibility of committing a construction record to a blockchain-backed store. E_market (present marketplace demand -- existing buyers right now) is the most defensible signal because it is observable and verifiable today: it reflects actual consumers of the data (auditors, insurers, lenders, regulators) who would pay for trusted access now, which is what a polyglot-persistence router can actually measure and act on. E_demand (future demand tied to regulation, AI training-data markets, digital-twin ecosystems) is directionally important and plausible given known trends (BIM/digital-twin adoption, tightening EU compliance regimes referenced in the questionnaire's GDPR/ISO 25012 items) but is inherently speculative -- it is a forecast, not a current transaction signal, so I place it second rather than tying it with E_market. E_liquidity (ease of tokenising the record into a tradeable asset) I rate worst: it describes a technical/legal enabling property, not a demand signal in itself. Most construction-project artefacts in this domain -- HVAC inspection certificates, RFI logs, progress photos, lab test certificates -- have no realistic secondary market as tradeable tokens even if tokenisation were technically trivial; ease of tokenisation without an underlying buyer base does not create economic value on its own, it only lowers friction for value that must originate elsewhere (i.e., from E_market or E_demand). The gap between E_market and E_liquidity is the largest in my ratings (4x) because they sit at opposite ends of 'real demand' vs 'technical feasibility of a mechanism nobody may use'; E_demand sits closer to E_market (2x) because it is still a genuine demand construct, just a projected one, and closer to but distinct from E_liquidity (3x on the others-to-worst scale) since projected future demand at least describes who would want the data, unlike liquidity which describes only how easily it could be packaged. This is a judgement call under real uncertainty -- the three sub-dimensions are not wildly separated in importance, and a reasonable case could be made for weighting E_demand higher given the regulatory/digital-twin growth trajectory in this sector, so I flag that the E_market vs E_demand gap is the closer of the two comparisons.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

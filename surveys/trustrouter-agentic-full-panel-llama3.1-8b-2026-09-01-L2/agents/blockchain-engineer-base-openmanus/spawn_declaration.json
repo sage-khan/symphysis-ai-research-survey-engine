@@ -1,0 +1,20 @@
+{
+  "agent_id": "blockchain-engineer-base-openmanus",
+  "did": "did:key:z6Mkt5Bszs1yRUiy4xhJAiC9QbH4b1LXE5R79EvbyHTFrAWs",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Blockchain / DLT Engineer",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "ollama",
+    "name": "llama3.1:8b",
+    "temperature": 0.3
+  },
+  "runtime_backend": "openmanus",
+  "survey_id": "trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01-L2"
+}

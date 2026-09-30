@@ -1,0 +1,106 @@
+{
+  "agent_id": "structural-engineer-base-claude",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "T_source",
+      "worst": "T_history",
+      "best_to_others": {
+        "T_source": 1,
+        "T_chain": 2,
+        "T_history": 4
+      },
+      "others_to_worst": {
+        "T_source": 4,
+        "T_chain": 3,
+        "T_history": 1
+      },
+      "reasoning": "For a structural-capacity dossier relied on by insurers, regulators, and owners over decades, T_source (credentials of the authoring person/organisation) is the most load-bearing sub-factor: structural assessments carry legal and technical weight specifically because a licensed/chartered engineer (PE/CEng) or an accredited testing body stands behind them. Without that authorship credential, no amount of downstream tamper-evidence tells you the content itself is technically sound -- a perfectly preserved record from an unqualified or unidentified source is still not something I could stamp or rely on. T_chain (custody chain) I rank second: it is genuinely important, since blockchain's whole value proposition is proving nothing was altered between creation and submission, and for long-lived structural records that matters a great deal -- but chain integrity presupposes there was a competent, credentialed origin worth protecting in the first place; it's necessary but not sufficient on its own. T_history (the source's track record) I rank as weakest of the three because it is an aggregate, probabilistic signal about the source's past behaviour rather than direct evidence about this specific document -- a source with a strong historical record can still submit a flawed or altered record, and a new but properly credentialed source with an intact custody chain can still be fully trustworthy on a given submission. The gaps are moderate rather than extreme (2 and 4, not 8-9), because all three genuinely matter to provenance trust and none is negligible -- this is a closer call among legitimate contributing factors than a case of one criterion dominating outright.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    },
+    {
+      "best": "T_source",
+      "worst": "T_history",
+      "best_to_others": {
+        "T_source": 1,
+        "T_chain": 3,
+        "T_history": 5
+      },
+      "others_to_worst": {
+        "T_source": 5,
+        "T_chain": 3,
+        "T_history": 1
+      },
+      "reasoning": "In my professional experience preparing structural-capacity dossiers relied on by insurers, regulators, and owners over decades, trust in a record starts with who produced it: a stamped assessment from a licensed structural engineer (PE/CEng) or an accredited test laboratory carries evidentiary and legal weight that no amount of custody-chain integrity can substitute for -- an impeccably hashed and timestamped record from an unqualified or unidentified source is still not something I would rely on for a capacity determination. That is why T_source is Best. T_chain (custody integrity from creation to submission) is the second-most important factor -- it is the guarantee that a credentialed source's original content was not altered or substituted before it reached the ledger, which matters greatly for long-lived construction records that pass through many hands (contractors, BIM platforms, regulators). T_history (track record) is real but the least foundational of the three: it is essentially an aggregate, derived signal built up from repeated observations of source credentials and custody performance over time, and it can unfairly penalize a newly licensed engineer or a new but well-accredited firm with no track record yet, even though their individual credentials and chain integrity may be impeccable. For a single record under consideration, I would not want the absence of history alone to be the deciding factor against otherwise strong direct evidence, so T_history is Worst. My best_to_others ratios (1, 3, 5) and others_to_worst ratios (5, 3, 1) reflect T_source clearly outweighing T_history, with T_chain positioned as a meaningful but intermediate factor -- a comparison that is closer between T_source and T_chain than between T_source and T_history, which I state explicitly as the closer call in this set.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    },
+    {
+      "best": "T_source",
+      "worst": "T_history",
+      "best_to_others": {
+        "T_source": 1,
+        "T_chain": 3,
+        "T_history": 5
+      },
+      "others_to_worst": {
+        "T_source": 5,
+        "T_chain": 3,
+        "T_history": 1
+      },
+      "reasoning": "Decomposing Provenance Trust into who produced the data (T_source), what happened to it in transit (T_chain), and whether the source has been reliable historically (T_history), I judge T_source as most important. For a structural-capacity dossier that insurers, regulators, and owners will rely on for decades, the fundamental gate is whether the originating person or organisation had the competence, licensure, and authority to produce that record in the first place (e.g., a licensed structural engineer of record vs. an unverified party) -- this is the credential check that determines whether the data is admissible as evidence at all, and it is verifiable at the moment of creation independent of what happens afterward. T_chain (custody integrity from creation to submission) is the second-most important: even data from a credentialed source is compromised if the chain of custody is broken or tamper-prone, so it matters a great deal but is secondary to establishing who created the data. T_history (the source's track record) is the weakest of the three for this specific decomposition: while a good track record is reassuring, it is an inferential, probabilistic signal rather than a direct check on this particular record's validity -- a normally reliable source can still produce a flawed record, and a newly onboarded but properly credentialed engineer or firm should not be penalized purely for lacking a long track record. This ranking is a professional judgement call based on how these sub-factors would function in practice for construction dossiers under long-term third-party reliance (insurers, regulators, owners), not a finding drawn directly from the reference material, which defines the three sub-parts but does not itself rank them. The T_chain vs T_history distinction is the closer call of the two gaps -- both are meaningfully secondary to T_source, but I still see chain-of-custody integrity as more load-bearing for legal/technical admissibility than historical reputation.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    },
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    },
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    }
+  ]
+}

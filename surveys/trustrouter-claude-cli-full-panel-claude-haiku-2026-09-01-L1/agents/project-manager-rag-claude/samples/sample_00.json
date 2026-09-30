@@ -1,0 +1,22 @@
+{
+  "best": "DVS",
+  "worst": "E",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 3,
+    "E": 5,
+    "A": 2
+  },
+  "others_to_worst": {
+    "DVS": 9,
+    "F": 7,
+    "E": 1,
+    "A": 8
+  },
+  "reasoning": "As a construction project manager deciding what records are candidates for blockchain storage, data trustworthiness (DVS) is the foundational criterion. Per Gartoumi 2024, construction blockchain use cases center on dispute resolution and document provenance\u2014scenarios where an unverifiable or degraded record creates downstream liability decades later. If a record's intrinsic trustworthiness, provenance, or verification strength is weak, blockchain cannot repair it; storing low-DVS data immutably on-chain simply crystallizes that weakness. DVS therefore dominates the comparison.\n\nI rate Attack Resistance (A) nearly as important as DVS (A:DVS = 2:1) because DVS and A are mutually dependent in practice: a record with high trustworthiness (DVS) but easily manipulated (low A) becomes worthless when later audited, since no one can prove the immutable record on-chain matches the builder's original intent. Conversely, attack-resistant storage of low-trust data adds no value. In the multiplicative formulation (DVS \u00d7 F \u00d7 (1+E) \u00d7 A), if A approaches zero, TrustRouter approaches zero regardless of DVS.\n\nTechnical Feasibility (F) is necessary but less central: it is a hard constraint that must be cleared (construction project data sets are large\u2014up to 20 MB for drawing sets\u2014with daily changes requiring near-real-time access). However, once F is satisfactory, further improvements in feasibility margin contribute less than improvements in trust or attack resistance. F is a gating criterion, not a ranking criterion among feasible candidates.\n\nEconomic Value (E) is the weakest factor. As a project manager, I control which records merit blockchain storage partly based on financial stakes, but E is context-dependent and already handled multiplicatively in the formula (1+E scales the impact rather than acting as a threshold). A hospital renovation has high E, a small retrofit may have low E, yet both require equally trustworthy and tamper-resistant records for compliance and dispute resolution. Conversely, records with low or zero direct financial value (e.g., routine inspection logs not expected to trigger disputes) still need DVS and A. The economic-value calculation informs *whether* to blockchain a given record type, but DVS, F, and A determine *whether blockchain is appropriate at all* for trustworthy, auditable construction documentation.",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

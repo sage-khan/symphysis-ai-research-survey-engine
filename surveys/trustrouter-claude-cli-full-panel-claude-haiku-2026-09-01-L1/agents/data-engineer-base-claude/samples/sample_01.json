@@ -1,0 +1,21 @@
+{
+  "best": "DVS",
+  "worst": "A",
+  "best_to_others": {
+    "DVS": 1,
+    "F": 2,
+    "E": 3,
+    "A": 6
+  },
+  "others_to_worst": {
+    "DVS": 6,
+    "F": 3,
+    "E": 2,
+    "A": 1
+  },
+  "reasoning": "As a data engineering specialist focused on construction-project data quality and routing decisions, I rank these factors by their role in the fundamental decision: should this data be routed to full on-chain, hybrid, or conventional storage? DVS is clearly most influential because trustworthiness (encompassing quality, provenance trust, verification strength, independent confirmation, legal compliance, and criticality per the survey instrument) is a prerequisite\u2014untrustworthy data should not be routed to blockchain regardless of other factors. Construction disputes frequently turn on data integrity and provenance (who documented what, when, and under what authority), making DVS foundational. Technical Feasibility (F) ranks second because it represents a hard constraint: construction technical specifications (~20MB), daily photographs (~5MB/day), and design reviews (~260kB) create real size and update-rate pressures. If data does not fit ledger constraints, blockchain routing is physically impossible, making F a mandatory gate. Economic Value (E) ranks third because it drives the business case\u2014you need sufficient financial or asset value at stake to justify the complexity of blockchain or hybrid routing, but economic considerations follow technical feasibility and trustworthiness in the decision tree. Attack Resistance (A) ranks last because it is primarily a benefit you obtain from choosing blockchain technology, not a primary criterion for deciding whether blockchain is appropriate. A construction data record with high DVS, acceptable F, and meaningful E may be valuable even if A (in the sense of preventing undetected manipulation) is moderate, because the immutability and audit trail of a ledger provide value beyond attack prevention alone. The multiplicative TrustRouter formula reflects that all four matter, but in a routing decision, trustworthiness is prerequisite, feasibility is constraint, economic value justifies effort, and attack resistance is outcome.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

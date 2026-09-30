@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "CQ",
+  "best_to_others": {
+    "IQ": 1,
+    "RQ": 2,
+    "CQ": 4
+  },
+  "others_to_worst": {
+    "IQ": 4,
+    "RQ": 2,
+    "CQ": 1
+  },
+  "reasoning": "From a permissioned-blockchain perspective, IQ (Intrinsic Quality: accuracy, validity, uniqueness) is most influential for construction-data routing decisions, while CQ (Contextual Quality: completeness, timeliness) is least. The reasoning follows three arguments: (1) Irreversibility: on immutable ledgers, inaccurate or invalid records cannot be corrected retroactively, whereas incomplete data can be supplemented or queried-around at the application layer. A measurement that is wrong is permanently wrong; missing data is a solvable operational problem. (2) Foundation for downstream use: construction validity depends critically on conformance to standards (IFC, building codes, structural safety); an inaccurate coordinate system or material specification invalidates all dependent calculations and liability chains. Completeness and timeliness, while operationally important, do not determine trustworthiness if the data itself is sound. (3) Oracle problem: the reference material on attack resistance emphasizes that verification strength depends on diversity of independent sources\u2014but only if those sources are individually accurate. Consistency across sources (RQ) helps detect tampering or systemic error, making it more important than temporal/operational completeness, but only after the source data itself is known to be accurate. IQ ranks 4\u00d7 more important than CQ because accuracy gates the value of any other quality dimension; irreversible commitment to false data on-chain is the core failure mode. IQ ranks 2\u00d7 more important than RQ because accuracy is prerequisite to verification, though RQ's cross-source consistency provides crucial secondary defense against the oracle problem (shared knowledge: trustrouter_concept_paper_primer.md definition of Q; blockchain_trust_and_attack_resistance.md on oracle/verification diversity; general_knowledge on permissioned-system immutability).",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "blockchain_trust_and_attack_resistance.md",
+    "general_knowledge"
+  ]
+}

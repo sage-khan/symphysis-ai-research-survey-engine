@@ -1,0 +1,20 @@
+{
+  "agent_id": "project-manager-base-manual-gemini-pro",
+  "did": "did:key:z6MkvKczHpxdBx8XEiZvbTmdbjke419S6nN8eJqZ9gHvFydc",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Construction Project Manager",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "manual",
+    "name": "Gemini Pro (web UI -- record exact version shown at time of use)",
+    "temperature": 0.3
+  },
+  "runtime_backend": "direct_completion",
+  "survey_id": "trustrouter-manual-relay-gemini-pro-2026-09-03-L3e"
+}

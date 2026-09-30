@@ -1,0 +1,25 @@
+{
+  "best": "C",
+  "worst": "IC",
+  "best_to_others": {
+    "C": 1,
+    "L": 2,
+    "V": 3,
+    "Q": 3,
+    "PT": 3,
+    "IC": 6
+  },
+  "others_to_worst": {
+    "C": 6,
+    "L": 3,
+    "V": 2,
+    "Q": 2,
+    "PT": 2,
+    "IC": 1
+  },
+  "reasoning": "As a construction project manager, the decision to route data to blockchain\u2014rather than hybrid or conventional storage\u2014is fundamentally a risk-management choice: what is the cost of this record being later disputed, forged, or shown false? This makes Criticality (C) the primary driver.\n\nGartoumi 2024 (reference material: construction_project_management_and_mcdm.md) demonstrates that blockchain's highest-value use in construction is dispute resolution, particularly for change orders, inspection sign-offs, and compliance certifications\u2014exactly the records where an un-verifiable or under-documented item creates substantial downstream liability. A project manager's routing decision hinges on: 'If this record matters for a future dispute, retention denial, or regulatory audit, does the cost of being unable to prove its integrity justify blockchain storage?' Criticality answers that question directly.\n\nLegal Compliance (L) is important\u2014some data must be retained and auditable by law\u2014but legal requirements are typically satisfied by conventional audit trails and custody procedures. Blockchain adds value above that baseline primarily when the data is high-stakes. Quality (Q) is foundational: garbage data remains garbage whether on-chain or off. But quality filtering happens upstream of the routing decision; among data items already deemed worth retaining, criticality determines whether blockchain's cost and overhead is justified. Verification Strength (V) is what blockchain provides, yet it only becomes a routing criterion for data whose failure would be expensive. Provenance Trust (PT) matters\u2014knowing who created the record is important\u2014but cryptographic verification (V) can partially substitute for provenance confidence when working with high-criticality data from less-trusted sources.\n\nIndependent Confirmation (IC) ranks worst because it is a luxury, not a prerequisite. Many critical construction records are inherently singular: a structural engineer's design calculation, a site photograph, a laboratory test of a specific batch of concrete. These cannot be independently confirmed by a second party without re-doing the work, yet they may be highly critical. Legal compliance does not require IC, quality does not require IC, and blockchain does not require IC\u2014it can cryptographically verify a single record. IC strengthens trust incrementally but is not a routing decision driver; a single signed and cryptographically verified change order by the project engineer is often sufficient for blockchain, even without independent confirmation.\n\nThe ratings reflect these relationships: Criticality is 2\u00d7 more important than Legal Compliance (law sets baselines, but impact drives routing), 3\u00d7 more important than Verification and Quality (both are necessary but not sufficient), 3\u00d7 more important than Provenance (strong proof substitutes for strong provenance), and 6\u00d7 more important than Independent Confirmation (the latter is value-added noise on top of the core routing question).",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "general_knowledge"
+  ]
+}

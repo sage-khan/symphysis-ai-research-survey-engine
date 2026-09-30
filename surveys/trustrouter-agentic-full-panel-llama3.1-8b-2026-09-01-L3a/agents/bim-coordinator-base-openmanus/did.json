@@ -1,0 +1,8 @@
+{
+  "agent_id": "bim-coordinator-base-openmanus",
+  "did": "did:key:z6MkpforTMij12doroyuXnu1pfRBrjmR7eDBdkHhBjTawEJh",
+  "method": "did:key",
+  "public_key_multibase": "z6MkpforTMij12doroyuXnu1pfRBrjmR7eDBdkHhBjTawEJh",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-llama3.1-8b-2026-09-01:bim-coordinator-base-openmanus')"
+}

@@ -1,0 +1,175 @@
+{
+  "ground_truth": {
+    "agent_id": "blockchain-engineer-rag-claude",
+    "role": "Blockchain / DLT Engineer",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"blockchain-engineer-rag-claude\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I will evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for TrustRouter L3d as a blockchain/DLT engineer, grounding my judgements in the shared knowledge repository and dedicated RAG corpus, without fabricating certainty or citing unreputable sources.\"\n}\n```",
+    "model": "sonnet",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 4875,
+      "stop_reason": "end_turn",
+      "session_id": "0007fb0c-cc93-4491-b542-9eecb4f5d5f5",
+      "total_cost_usd": 0.021887999999999998,
+      "usage": {
+        "input_tokens": 2,
+        "cache_creation_input_tokens": 3877,
+        "cache_read_input_tokens": 11295,
+        "output_tokens": 272,
+        "output_tokens_details": {
+          "thinking_tokens": 15
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3877,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 2,
+            "output_tokens": 272,
+            "cache_read_input_tokens": 11295,
+            "cache_creation_input_tokens": 3877,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3877
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1332,
+          "outputTokens": 13,
+          "cacheReadInputTokens": 0,
+          "cacheCreationInputTokens": 0,
+          "webSearchRequests": 0,
+          "costUSD": 0.001397,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 0,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        },
+        "claude-sonnet-5": {
+          "inputTokens": 2,
+          "outputTokens": 272,
+          "cacheReadInputTokens": 11295,
+          "cacheCreationInputTokens": 3877,
+          "webSearchRequests": 0,
+          "costUSD": 0.020491,
+          "contextWindow": 1000000,
+          "maxOutputTokens": 64000,
+          "thinkingTokens": 15,
+          "canonicalModel": "claude-sonnet-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"blockchain-engineer-rag-claude\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"claude_cli/sonnet\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"Understood: I will evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for TrustRouter L3d as a blockchain/DLT engineer, grounding my judgements in the shared knowledge repository and dedicated RAG corpus, without fabricating certainty or citing unreputable sources.\"\n}\n```",
+      "ttft_ms": 2103,
+      "type": "result",
+      "duration_ms": 4168,
+      "uuid": "f0a4c9fc-8ead-4ff1-9351-bcb27e5104b0",
+      "ttft_stream_ms": 1497,
+      "time_to_request_ms": 217,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "blockchain-engineer-rag-claude",
+    "role": "Blockchain / DLT Engineer",
+    "model": "claude_cli/sonnet",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "Understood: I will evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for TrustRouter L3d as a blockchain/DLT engineer, grounding my judgements in the shared knowledge repository and dedicated RAG corpus, without fabricating certainty or citing unreputable sources."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "blockchain-engineer-rag-claude",
+      "role": "Blockchain / DLT Engineer",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "blockchain-engineer-rag-claude",
+      "role": "Blockchain / DLT Engineer",
+      "model": "claude_cli/sonnet",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "Understood: I will evaluate the Attack Resistance sub-parts (A_sybil, A_oracle, A_insider) for TrustRouter L3d as a blockchain/DLT engineer, grounding my judgements in the shared knowledge repository and dedicated RAG corpus, without fabricating certainty or citing unreputable sources."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

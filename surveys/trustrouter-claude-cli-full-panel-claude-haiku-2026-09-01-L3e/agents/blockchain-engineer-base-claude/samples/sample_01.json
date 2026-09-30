@@ -1,0 +1,19 @@
+{
+  "best": "E_market",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_market": 1,
+    "E_demand": 3,
+    "E_liquidity": 7
+  },
+  "others_to_worst": {
+    "E_market": 7,
+    "E_demand": 3,
+    "E_liquidity": 1
+  },
+  "reasoning": "From a blockchain/DLT engineer's perspective on production deployments: Current marketplace demand (E_market) is the most influential criterion because it provides concrete, present-day validation that there are actual buyers willing to deploy and maintain a permissioned ledger for construction records. In production systems, proven market pull\u2014not speculative future demand\u2014justifies the operational overhead, governance complexity, and infrastructure costs of running a distributed ledger. Without current market demand, even strong future prospects cannot justify initial deployment. Future demand (E_demand), while significant for long-term business case justification (regulations, AI integration, digital twins), is inherently more uncertain and cannot drive near-term feasibility decisions. Tokenisation ease (E_liquidity) is the least important of the three. Construction project records derive their primary economic value from tamper-evidence and provenance assurance, not from secondary trading of data tokens. Most construction workflows do not commoditise or trade project records; liquidity would be a peripheral economic feature rather than a core value driver. While tokenisation might enable novel markets, the baseline case\u2014integrity and data-trust verification\u2014does not require it. The 3:1 ratio between market and future demand reflects that current demand is more actionable; the 7:1 ratio between market and liquidity reflects that demand (both current and future) addresses the core ledger use case while liquidity addresses a secondary economic model that is not essential to construction-data blockchain viability. Sources: reasoning grounded in production DLT deployment experience (general knowledge) and reference material context on BSI decomposition and Economic Value as a multiplicative pillar in the blockchain-suitability framework.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

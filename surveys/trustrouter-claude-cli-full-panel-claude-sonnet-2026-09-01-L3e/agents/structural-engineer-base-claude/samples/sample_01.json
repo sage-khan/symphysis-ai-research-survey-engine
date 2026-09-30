@@ -1,0 +1,19 @@
+{
+  "best": "E_demand",
+  "worst": "E_liquidity",
+  "best_to_others": {
+    "E_market": 3,
+    "E_liquidity": 5,
+    "E_demand": 1
+  },
+  "others_to_worst": {
+    "E_market": 2,
+    "E_liquidity": 1,
+    "E_demand": 5
+  },
+  "reasoning": "The comparison set decomposes Economic Value into current demand (E_market), tokenisation/tradability ease (E_liquidity), and projected future demand from regulation/AI/digital-twin growth (E_demand), per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md section 3.7. For a structural-capacity dossier that must serve institutional owners, insurers, and authorities over decades (the Hospital Real reference scenario), the economic value of the record is overwhelmingly driven by whether long-horizon regulated demand for that data will grow -- e.g., insurers' actuarial models, statutory retrofit/compliance regimes, and digital-twin/AI analytics increasingly consuming structural provenance data. That forward-looking growth trajectory (E_demand) is what actually justifies the cost of immutable blockchain storage today, since the asset's data value is realized over a multi-decade retention horizon, not in an immediate transaction. E_market (current buyers) matters but is a narrower, present-tense snapshot -- there is no active marketplace for masonry load-assessment PDFs today, so weighting the criterion set by 'current buyers' undervalues the actual economic case being made in this scenario. E_liquidity (ease of tokenising the record into a tradeable unit) is the weakest driver for this content type: a sealed engineering PDF is not naturally a fungible or divisible tradeable asset, and tokenisation mechanics are an implementation convenience rather than a source of value in themselves -- if there's no real demand (present or future), ease of tokenisation is moot. Hence E_demand is Best, E_liquidity is Worst, with E_market as an intermediate factor. The ratings reflect a moderate-to-strong gap: E_demand is judged noticeably more decisive than E_market (about 3x) and substantially more decisive than E_liquidity (about 5x), while E_market still clearly outweighs E_liquidity (about 2x) since at least current demand reflects real economic use, whereas ease of tokenisation is a secondary mechanism. This is a judgement call grounded in professional reasoning about how long-lived institutional/regulatory records accrue value, not a figure taken directly from the reference material, which defines the sub-dimensions but does not itself rank them.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

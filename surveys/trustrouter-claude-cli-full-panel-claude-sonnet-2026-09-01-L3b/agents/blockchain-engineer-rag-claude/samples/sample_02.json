@@ -1,0 +1,20 @@
+{
+  "best": "T_chain",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_source": 2,
+    "T_chain": 1,
+    "T_history": 6
+  },
+  "others_to_worst": {
+    "T_source": 3,
+    "T_chain": 6,
+    "T_history": 1
+  },
+  "reasoning": "As a DLT engineer thinking about what a chain/routing decision actually needs to verify for a given construction record, I ranked T_chain (custody chain) as Best. Custody-chain integrity -- what happened to the record between creation and submission -- is precisely the property that blockchain/DLT tooling is technically built to enforce and make tamper-evident: hash-linking, per-hop signatures, and timestamping give a verifiable, per-record audit trail, which is the core engineering value-add DLT brings over conventional storage. This lines up with the O'Hara-property framing summarized in [blockchain_trust_and_attack_resistance.md] (Rouhani and Deters 2021), where 'auditing' and per-asset endorsement (trust computed per data asset, not just per owner) map most directly onto custody-chain integrity, and where the adaptive-validation mechanism keys off exactly this kind of per-transaction trust signal rather than a static reputation score. T_source (who authored it, i.e. their credentials) is a real and necessary prior -- a perfectly preserved custody chain around data from an unqualified source is still weak data -- so I placed it in the middle, meaningfully more important than T_history but clearly behind T_chain for a per-record routing decision. T_history (has this source been reliable historically) I rated Worst: it is a lagging, aggregate signal about the source in general, not about the specific record being routed. A historically reliable source can still submit a tampered or erroneous record, and a new/unproven source can still submit a perfectly custody-verified one; from an engineering feasibility and tamper-evidence standpoint, track record is useful as a coarse prior risk-weighting but carries the least direct bearing on whether *this* record deserves on-chain trust. This is a judgement call about relative weighting rather than something directly stated in the reference material, though it is consistent with the emphasis in [blockchain_trust_and_attack_resistance.md] on per-transaction/per-asset trust computation over static owner reputation alone. The Best/Source comparison (2x) was the closest call in this set -- source credentials are not far behind custody chain in importance, and a case could reasonably be made either way there.",
+  "sources_used": [
+    "blockchain_trust_and_attack_resistance.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "bim-coordinator-rag-openmanus",
+    "role": "BIM Coordinator",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"bim-coordinator-rag-openmanus\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter Agentic Full Panel Level L3c survey configuration and will respond as a BIM Coordinator with 10+ years of experience in model federation and clash detection.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T17:20:54.639805262Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"bim-coordinator-rag-openmanus\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm understanding of the TrustRouter Agentic Full Panel Level L3c survey configuration and will respond as a BIM Coordinator with 10+ years of experience in model federation and clash detection.\"\n}",
+        "thinking": "Okay, I need to confirm my configuration as per the user's instructions. Let me start by carefully reading the query again to make sure I don't miss any details.\n\nThe user provided specific details about the agent ID, role, model, and capabilities. The agent ID is \"bim-coordinator-rag-openmanus\", role is \"BIM Coordinator\", and the model is \"ollama/qwen3:14b\". The capabilities include a dedicated RAG corpus (True), shared knowledge repo (True), no role pack, and no web search. \n\nI need to structure the JSON response exactly as specified. The keys are agent_id, role, model, capabilities, and acknowledgement. Under capabilities, the keys are dedicated_rag_corpus, shared_knowledge_repo, role_pack, and web_search. The role_pack is \"none\" as per the instructions. \n\nFor the acknowledgement, I should write a short confirmation that I understand the assignment and will proceed as an expert in the BIM Coordinator role. I need to make sure not to add any extra information beyond what's requested. \n\nLet me double-check each part to ensure accuracy. The model is \"ollama/qwen3:14b\", which matches the user's input. Capabilities are all correctly set to True or False as specified. The acknowledgement is concise and confirms understanding. \n\nI think that's all. Now, I'll format the JSON accordingly without any additional text.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 5428829138,
+      "load_duration": 61781265,
+      "prompt_eval_count": 2114,
+      "prompt_eval_duration": 106577938,
+      "eval_count": 428,
+      "eval_duration": 5156946476
+    }
+  },
+  "claimed": {
+    "agent_id": "bim-coordinator-rag-openmanus",
+    "role": "BIM Coordinator",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm understanding of the TrustRouter Agentic Full Panel Level L3c survey configuration and will respond as a BIM Coordinator with 10+ years of experience in model federation and clash detection."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "bim-coordinator-rag-openmanus",
+      "role": "BIM Coordinator",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "bim-coordinator-rag-openmanus",
+      "role": "BIM Coordinator",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm understanding of the TrustRouter Agentic Full Panel Level L3c survey configuration and will respond as a BIM Coordinator with 10+ years of experience in model federation and clash detection."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

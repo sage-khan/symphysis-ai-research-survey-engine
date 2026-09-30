@@ -1,0 +1,97 @@
+# Filled survey: blockchain-engineer-rag-claude
+
+- Agent ID: `blockchain-engineer-rag-claude`
+- Role / expertise: Blockchain / DLT Engineer
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkopvxUWWWCS4idsrstN99GZf9TsfLRkdw69bu1hJ8anGq`
+- RAG: enabled, corpus surveys/trustrouter-hawc-bwm/rag_corpora/blockchain-engineer
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | F | E |
+| 1 | A | E |
+| 2 | F | E |
+
+## Sample 0
+
+**Best:** F (Technical Feasibility Fit)  
+**Worst:** E (Economic Value)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 3 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 5 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 3 |
+| F (Technical Feasibility Fit) | 5 |
+| E (Economic Value) | 1 |
+| A (Attack Resistance) | 4 |
+
+### Reasoning
+
+TrustRouter's composite is multiplicative (DVS x F x (1+E) x A), which matters structurally for this comparison: DVS, F, and A are pure multipliers that can drive the whole routing score to zero if the underlying property is absent, whereas E enters as (1+E), so even at E=0 the factor contributes 1 and never eliminates the score -- it only ever scales it upward. As an engineer whose remit is technical feasibility, throughput, and tamper-evidence, that structural asymmetry plus my domain focus puts E clearly last: economic stakes matter for prioritization, but they don't determine whether ledger storage is even possible or trustworthy. I chose F (Technical Feasibility Fit) as Best because it is the hard engineering gate: a record that does not fit ledger constraints (size, update-rate, latency -- F = 1-P) cannot be stored on-chain regardless of how valuable, economically significant, or well-provenanced it is; feasibility is a prerequisite that has to clear before the other factors' contributions are even realizable in practice. Attack Resistance (A) I placed second: it's close behind F because it speaks directly to the ledger's core value proposition of tamper-evidence and validator/consensus design (echoing the Rouhani & Deters adaptive-validation model in blockchain_trust_and_attack_resistance.md, where a trust/attack-resistance-like score directly gates how much consensus strength a transaction needs) -- but unlike raw feasibility, weak attack resistance can sometimes be engineered around (added signatures, oracle redundancy), so I rate it a notch below F rather than tied with it. DVS (data value/quality/provenance) sits third: it matters for whether the data is worth trusting at all, but from a pure ledger-engineering standpoint it is somewhat downstream of feasibility and security-design concerns -- quality is largely orthogonal to whether the ledger can physically host the artefact or resist tampering. This is a genuinely close call between F and A specifically (ratio of 2, not a wide gap), and I want to flag that explicitly rather than overstate confidence; a reasonable case could be made either way depending on whether one privileges raw feasibility limits or the tamper-evidence value proposition as the primary gate. The DVS-F gap (ratio 3) and the E gap (ratio 5) I'm more confident about, grounded in the multiplicative-formula logic itself.
+
+## Sample 1
+
+**Best:** A (Attack Resistance)  
+**Worst:** E (Economic Value)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 2 |
+| F (Technical Feasibility Fit) | 2 |
+| E (Economic Value) | 6 |
+| A (Attack Resistance) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 3 |
+| F (Technical Feasibility Fit) | 3 |
+| E (Economic Value) | 1 |
+| A (Attack Resistance) | 6 |
+
+### Reasoning
+
+I read the composite formula TrustRouter = DVS x F x (1+E) x A as structurally informative: DVS, F, and A are pure multiplicative terms, so any one of them collapsing toward zero collapses the whole trust score toward zero -- each is a near-necessary condition. E, by contrast, enters as (1+E), which is bounded below at 1 even when E=0, so it can only amplify an already-nonzero trust score, never veto it on its own. That asymmetry is why I placed Economic Value (E) as Worst: a construction record with high financial exposure but no real data trustworthiness (low DVS), no way to fit ledger constraints (low F), and no meaningful protection against undetected tampering (low A) still shouldn't go on a ledger -- the money at stake doesn't fix any of those problems, it only raises the stakes if they aren't fixed. Among the three near-necessary factors, I chose Attack Resistance (A) as Best because it is the actual reason to reach for a tamper-evident ledger instead of a conventional database in the first place -- per blockchain_trust_and_attack_resistance.md, the whole point of mechanisms like Rouhani and Deters' adaptive validation (Hyperledger Fabric endorsement scaling with trust) and the on-chain identity trust gaps catalogued in Vaziry et al. 2024 is to defend against exactly the undetected-manipulation scenarios A measures (Sybil, oracle, insider). If A is low -- the threat of undetected tampering is negligible or unaddressable by the ledger anyway -- there is little technical justification for paying blockchain's cost premium regardless of how good the data or how feasible the fit. That said, this is a close call: DVS and F are both also near-necessary and I rated them at only 2 (A is twice as important as each), not higher, because a genuinely untrustworthy record (low DVS, the classic 'garbage in, gospel out' oracle problem) or one that structurally cannot fit ledger constraints (low F, e.g. a multi-hundred-MB BIM model that must go hybrid via IPFS+hash) are just as capable of independently killing the routing decision as low attack resistance is. I did not treat any of DVS, F, or A as obviously dominant over the others -- the 2:1 ratios reflect a genuine but modest edge for A, not a large gap, and I want to flag that a reasonable engineer could instead rank F as Best given how binding size/throughput/latency constraints are in production permissioned-ledger deployments (e.g. Fabric block size and endorsement policy limits) that I deal with directly. E was clearly the easiest call for Worst: it scales consequences but doesn't itself establish whether the ledger's guarantees are earned or even achievable.
+
+## Sample 2
+
+**Best:** F (Technical Feasibility Fit)  
+**Worst:** E (Economic Value)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 3 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 8 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 3 |
+| F (Technical Feasibility Fit) | 8 |
+| E (Economic Value) | 1 |
+| A (Attack Resistance) | 5 |
+
+### Reasoning
+
+As a blockchain/DLT engineer, I read F (Technical Feasibility Fit) as a hard engineering gate rather than a graded quality signal: an artefact that exceeds ledger size, throughput, or latency constraints simply cannot be committed on-chain regardless of how trustworthy, valuable, or attack-sensitive it is. This is consistent with the survey's own definition, F = 1 - P, and with the composite being multiplicative (TrustRouter = DVS x F x (1+E) x A per this survey's own framing) -- a near-zero F collapses the whole score the same way a near-zero DVS or A would, but unlike DVS or A, F failures are binary/structural in production permissioned-ledger deployments (block size caps, endorsement/consensus latency, storage cost per write on systems like Hyperledger Fabric) rather than probabilistic trust judgements, which is why I rank it above the others rather than treating all four as equally 'soft' weights. I placed Attack Resistance (A) second: it maps directly to the tamper-evidence guarantee that is blockchain's actual value proposition over a conventional database, and the catalogued literature on Sybil/Oracle/Insider resistance and on-chain identity trust gaps (blockchain_trust_and_attack_resistance.md, covering Rouhani & Deters 2021 and Vaziry et al. 2024) reinforces that undetected-manipulation resistance is a first-order concern distinct from generic data quality. DVS (Data Value Score) I placed third: it is a broad composite of quality, provenance, and verification strength (per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md's L2 breakdown), important but downstream of whether the record can technically be stored and whether it can be tamper-evidently protected once stored. I placed Economic Value (E) as worst: beyond it being a business/financial consideration once removed from the technical trust mechanics I am asked to judge, the survey's own multiplicative formula treats it asymmetrically -- as (1+E) rather than a direct multiplicand -- so even E=0 leaves the product at its other-factors value rather than zeroing it out, meaning E structurally has the weakest 'veto' power of the four on the composite trust score. I want to flag that F vs. A is a genuinely close call (rated only 2x rather than a large gap): both are core technical/security concerns for a permissioned-ledger engineer, and a reviewer could reasonably swap their order or rate them near-equal; my tie-breaker was that feasibility is a precondition for attack resistance to even be evaluated on-chain at all. The specific numeric ratios beyond the ranking itself are my own judgement calls, not derived from a cited empirical study of relative importance.

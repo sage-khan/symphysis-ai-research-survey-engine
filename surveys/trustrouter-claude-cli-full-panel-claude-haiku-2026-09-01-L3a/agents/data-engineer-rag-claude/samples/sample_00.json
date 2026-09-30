@@ -1,0 +1,21 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 6
+  },
+  "others_to_worst": {
+    "IQ": 6,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "From a data engineering perspective on construction-project blockchain storage, Intrinsic Quality (IQ) is the most critical factor because blockchain's immutability means the accuracy, validity, and uniqueness of source data must be right BEFORE commitment; corrupted baseline facts cannot be repaired post-ledger. Construction decisions (cost allocations, safety protocols, schedule changes) depend on accurate base records, and blockchain provides no mechanism to retroactively correct IQ failures. Contextual Quality (CQ\u2014completeness and timeliness) is important for decision-making but secondary; incomplete data can sometimes be backfilled via change orders or site records, and delayed-but-accurate data is usually preferable to immediate-but-inaccurate data. Representational Quality (RQ\u2014consistency across copies) is the least critical because blockchain inherently solves this through distributed consensus; all nodes hold identical copies by design. The consistency problem that actually matters in construction (different contractors reporting different measurements or costs) is a source-credibility or provenance issue, not an RQ problem. RQ, in ISO 25012's sense (consistency of representation across data instances), is largely guaranteed by the technology itself and is therefore orthogonal to the data-engineering quality pipeline concerns this role addresses. Ratings reflect: IQ is 3x more important than CQ (foundational correctness outweighs contextual fit), IQ is 6x more important than RQ (IQ requires pipeline design and validation; RQ is technology-assured), and CQ is 2x more important than RQ (completeness and timing affect usability; consistency is a sunk cost of the ledger).",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "data_quality_and_polyglot_persistence.md",
+    "general_knowledge"
+  ]
+}

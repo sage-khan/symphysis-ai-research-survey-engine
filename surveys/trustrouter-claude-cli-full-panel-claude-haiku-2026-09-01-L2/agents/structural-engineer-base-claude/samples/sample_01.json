@@ -1,0 +1,25 @@
+{
+  "best": "PT",
+  "worst": "L",
+  "best_to_others": {
+    "PT": 1,
+    "Q": 2,
+    "V": 3,
+    "IC": 4,
+    "C": 3,
+    "L": 5
+  },
+  "others_to_worst": {
+    "PT": 5,
+    "Q": 3,
+    "V": 2,
+    "IC": 1,
+    "C": 2,
+    "L": 1
+  },
+  "reasoning": "As a structural engineer responsible for capacity dossiers relied upon by institutional owners, insurers, and regulatory authorities over decades, I rank Provenance Trust as the most important trust dimension and Legal Compliance as the least. Here is the logic: In a multi-stakeholder, multi-decade scenario where structural data is handed off repeatedly and relied upon by parties who cannot directly re-verify the underlying calculations or site conditions, knowing that data originated from a qualified, chartered structural engineer and that its custody chain is documented is foundational. Quality can be independently verified through testing or review; compliance can be checked against standards; but once provenance is compromised or unclear, it cannot be easily recovered. Data from an unknown or questionable source is unreliable regardless of technical appearance. Legal Compliance, while important, is more of a derived requirement\u2014competent structural engineers following accepted practice typically satisfy regulatory requirements. I rate Provenance 2\u00d7 more important than Quality because quality can be verified but provenance must be established upfront; 3\u00d7 more important than Verification Strength because cryptographic signatures are mechanisms, not substitutes for source trust; and 4\u00d7 more important than Independent Confirmation because structural design, in practice, often rests on a single qualified designer with independent review, not multiple parallel confirmations. Quality and Criticality are rated 2\u20133\u00d7 more important than Compliance because the core trust assessment is about the data itself and its source, while compliance is a constraint that follows from those.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

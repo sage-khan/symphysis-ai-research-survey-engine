@@ -1,0 +1,15 @@
+{
+  "best": "E_demand",
+  "worst": "E_market",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_liquidity": 7,
+    "E_market": 9
+  },
+  "others_to_worst": {
+    "E_market": 1,
+    "E_liquidity": 5,
+    "E_demand": 9
+  },
+  "reasoning": "Best factor: E_demand\nWorst factor: E_market\n\nHere are the ratings:\n\nE_demand vs E_liquidity: 7\nE_demand vs E_market: 9\nE_liquidity vs E_market: 5"
+}

@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_insider": 6,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "Construction/BIM blockchain deployments (per the BUILDCHAIN DBL architecture in the Kochovski et al. 2026 source, and the ISO 19650 delivery-team model in bim_and_digital_building_logbooks.md) are almost always permissioned/consortium networks where participants are organizations under contractual appointment -- lead appointed party, task teams, authorities, insurers -- not anonymous public actors. That structural fact matters a lot for how I rank these three attack surfaces. Sybil resistance (fake identities) is the least practically threatening in this setting because identity is already anchored to legal/contractual appointment and, per ISO 19650, federated models are only accepted after named parties independently validate them -- creating many fake identities to game consensus is hard when every write is tied to a vetted contractual role. Oracle resistance (sensor/device tampering) is a real and growing concern as digital building logbooks increasingly ingest IoT sensor logs and inspection-device data feeding directly into the ledger (again per the Kochovski et al. source), so I place it above Sybil resistance, but it's a narrower slice of the overall record set since much BIM/compliance documentation is still human-authored and reviewed rather than purely sensor-fed. Insider resistance (malicious legitimate access) is, in my professional experience coordinating federated models across subcontractors, consultants, and owners, the attack vector that actually causes the most damage: a party with valid, contractually-granted credentials falsifying an inspection sign-off, backdating an approval, or quietly altering a federated model element is exactly the scenario ISO 19650's independent-confirmation mechanism exists to catch, and it's the hardest to prevent purely through cryptography because the access itself is legitimate. That's why I rate A_insider as Best and A_sybil as Worst, with A_oracle in between. The insider-vs-oracle gap (3x) reflects a real but more moderate difference -- both are credible threats in this domain -- while the insider-vs-sybil gap (6x) reflects my judgement that Sybil attacks are substantially defanged by the permissioned nature of construction consortium chains. I want to flag this as a judgement call grounded in general BIM-coordination domain experience plus the ISO 19650 federation/validation point from the provided reference material; the sources given do not explicitly rank these three sub-threats against each other, so the ordering itself is my own professional reasoning rather than a directly cited conclusion.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "general_knowledge"
+  ]
+}

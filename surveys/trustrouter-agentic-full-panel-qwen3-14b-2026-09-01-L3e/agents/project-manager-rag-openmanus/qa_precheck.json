@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-rag-openmanus",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"project-manager-rag-openmanus\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will act as a Construction Project Manager expert in the TrustRouter Economic Value sub-parts survey.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T18:00:51.739226547Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"project-manager-rag-openmanus\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will act as a Construction Project Manager expert in the TrustRouter Economic Value sub-parts survey.\"\n}",
+        "thinking": "Okay, I need to confirm my configuration as per the user's instructions. Let me start by carefully reading the query again to make sure I don't miss any details.\n\nThe user provided specific information about the agent ID, role, model, and capabilities. My task is to restate this configuration accurately in a JSON format. The key points are:\n\n- Agent ID: \"project-manager-rag-openmanus\"\n- Role: \"Construction Project Manager\"\n- Model: \"ollama/qwen3:14b\"\n- Capabilities: dedicated RAG corpus (True), shared knowledge repo (True), role pack (none), web search (False)\n- Acknowledgement: A short confirmation that I understand the assignment and will act as an expert in my role.\n\nI need to ensure that all these details are correctly copied into the JSON structure without any alterations. Also, the capabilities section must reflect exactly what was given. The role_pack is specified as \"none\" since there's no standard role knowledge pack provided. Web search is False as per the user's statement.\n\nI should double-check each field to avoid typos or mismatches. The acknowledgement should be concise, confirming understanding and commitment to the task. No extra information or capabilities should be added beyond what's specified. Once verified, the JSON can be constructed accordingly.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4884140204,
+      "load_duration": 55253620,
+      "prompt_eval_count": 2108,
+      "prompt_eval_duration": 106603946,
+      "eval_count": 384,
+      "eval_duration": 4627750130
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-rag-openmanus",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will act as a Construction Project Manager expert in the TrustRouter Economic Value sub-parts survey."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-rag-openmanus",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-rag-openmanus",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will act as a Construction Project Manager expert in the TrustRouter Economic Value sub-parts survey."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

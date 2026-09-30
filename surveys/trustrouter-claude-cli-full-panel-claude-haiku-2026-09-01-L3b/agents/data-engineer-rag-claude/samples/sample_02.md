@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: T_chain
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+From a data engineering perspective focused on provenance tracking and audit-trail integrity, custody chain (T_chain) is most critical because it is the direct, verifiable evidence of data integrity from creation to submission. The reference material emphasizes that a data pipeline's audit logging and lineage tracking is the first-hand source of evidence for trust assessment (data_quality_and_polyglot_persistence.md). For construction data destined for blockchain storage, a broken or incomplete chain of custody cannot be recovered by knowing the source's credentials; chain integrity enables independent verification and creates the immutable provenance record essential for polyglot-persistence routing decisions. T_source (source credentials) is important but serves as a baseline trust assumption rather than verification mechanism—a credentialed source can still produce data compromised in transit. T_history is least critical: historical track record is predictive rather than definitive, and past reliability does not guarantee current submission integrity; a single compromised data point falsifies historical assurance without custody-chain evidence to detect it. The gap from T_chain to T_source is moderate (3×) because both are necessary, but chain integrity is the mechanism that makes source credentials actionable. The gap from T_source to T_history is smaller (2×) because knowing who produced data matters more than when they may have been reliable, but both pale against the need for custody verification.
+
+## Sources cited
+
+data_quality_and_polyglot_persistence.md, general_knowledge (all claims verified genuine)

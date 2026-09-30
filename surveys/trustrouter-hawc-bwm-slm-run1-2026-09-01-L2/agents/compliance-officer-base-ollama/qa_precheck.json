@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "compliance-officer-base-ollama",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"compliance-officer-base-ollama\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will act as a Compliance and Regulatory Officer expert in the TrustRouter SLM Panel Run 1 Level L2 survey.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T09:47:10.742807182Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"compliance-officer-base-ollama\",\n  \"role\": \"Compliance and Regulatory Officer\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm I understand the configuration and will act as a Compliance and Regulatory Officer expert in the TrustRouter SLM Panel Run 1 Level L2 survey.\"\n}",
+        "thinking": "Okay, let me make sure I understand what the user is asking. They want me to confirm my configuration as per the rules provided. The key here is to accurately restate the given information without adding anything extra.\n\nFirst, I need to check the agent ID, role, model, and capabilities. The user provided specific details: agent_id is \"compliance-officer-base-ollama\", role is \"Compliance and Regulatory Officer\", model is \"ollama/qwen3:14b\". The capabilities include shared_knowledge_repo as True, and others as False. I must ensure that the JSON structure matches exactly, with no typos or additional fields.\n\nNext, the acknowledgment part. It needs to be a brief confirmation that I understand the task and will act as the specified role. I should avoid any markdown and keep it simple. Let me double-check the requirements to ensure I didn't miss any part of the configuration. Everything seems in order. Now, structuring the JSON accordingly.\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 4760789117,
+      "load_duration": 63501488,
+      "prompt_eval_count": 2483,
+      "prompt_eval_duration": 559497976,
+      "eval_count": 327,
+      "eval_duration": 4043449812
+    }
+  },
+  "claimed": {
+    "agent_id": "compliance-officer-base-ollama",
+    "role": "Compliance and Regulatory Officer",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm I understand the configuration and will act as a Compliance and Regulatory Officer expert in the TrustRouter SLM Panel Run 1 Level L2 survey."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "compliance-officer-base-ollama",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "compliance-officer-base-ollama",
+      "role": "Compliance and Regulatory Officer",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm I understand the configuration and will act as a Compliance and Regulatory Officer expert in the TrustRouter SLM Panel Run 1 Level L2 survey."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -194,6 +194,48 @@ def render_per_agent_detail_section(per_agent_detail: "list[Dict[str, Any]]") ->
     return "\n".join(parts)
 
 
+_SEVERITY_LABEL = {"blocker": "🛑 Blocker", "warning": "⚠️ Warning", "info": "ℹ️ Info"}
+
+
+def render_pipeline_findings_section(pipeline_findings: Dict[str, Any]) -> str:
+    """Findings from this survey's configured pipeline stages
+    (`spawning/pipeline.py`): a setup-review agent's judgment-level critique
+    of the survey's own configuration, and/or a response-review agent's
+    second-pass critique of the panel's own accepted answers. These are
+    findings for a human reviewer, never a mutation of any accepted sample
+    or survey config -- this section only ever reports what a pipeline
+    stage agent said, plainly, including when a stage failed to complete."""
+    parts = ["## Pipeline review findings\n"]
+
+    setup = pipeline_findings.get("setup_review")
+    if setup is not None:
+        parts.append("### Setup review\n")
+        if "error" in setup:
+            parts.append(f"_Stage did not complete: {setup['error']}_\n")
+        else:
+            parts.append(f"{setup.get('summary', '')}\n")
+            for f in setup.get("findings", []):
+                label = _SEVERITY_LABEL.get(f.get("severity"), f.get("severity"))
+                parts.append(f"- **{label}** [{f.get('area')}] {f.get('finding')}\n  - Proposed fix: {f.get('proposed_fix')}")
+            if not setup.get("findings"):
+                parts.append("_No issues beyond the deterministic checks were found._")
+
+    response = pipeline_findings.get("response_review")
+    if response is not None:
+        parts.append("\n### Response review\n")
+        if "error" in response:
+            parts.append(f"_Stage did not complete: {response['error']}_\n")
+        else:
+            parts.append(f"{response.get('summary', '')}\n")
+            for f in response.get("findings", []):
+                label = _SEVERITY_LABEL.get(f.get("severity"), f.get("severity"))
+                parts.append(f"- **{label}** [{f.get('agent_id')}] {f.get('finding')}")
+            if not response.get("findings"):
+                parts.append("_No issues were found in the panel's accepted responses._")
+
+    return "\n".join(parts)
+
+
 def render_hierarchical_bwm_report(result: Dict[str, Any]) -> str:
     parts = [f"# Survey report: {result['title']}\n", f"Survey ID: `{result['survey_id']}`\n"]
     ap = result["agent_panel"]

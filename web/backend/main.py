@@ -26,7 +26,7 @@ settings.load_settings_into_env()
 
 app = FastAPI(
     title="Symphysis API",
-    version="0.1.0",
+    version="0.1.1",
     description=(
         "REST API for Symphysis: config-driven agent panels for expert-elicitation surveys. "
         "Create a survey, add agents (from a JSON Agent Card or the reusable Agent Library), "

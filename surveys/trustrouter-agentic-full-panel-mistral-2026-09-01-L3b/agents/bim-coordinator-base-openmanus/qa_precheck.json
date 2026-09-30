@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "bim-coordinator-base-openmanus",
+    "role": "BIM Coordinator",
+    "model": "ollama/mistral:7b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": " {\n  \"agent_id\": \"bim-coordinator-base-openmanus\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/mistral:7b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm that I understand the assignment and will attempt it as an expert in my role as a BIM Coordinator on the TrustRouter Agentic Full Panel (mistral:7b) -- Level L3b: Provenance Trust sub-parts. I have been granted access to the shared survey knowledge repository but not dedicated RAG corpus, role packs, or web search.\"\n}",
+    "model": "mistral:7b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "mistral:7b",
+      "created_at": "2026-09-01T15:56:41.195695789Z",
+      "message": {
+        "role": "assistant",
+        "content": " {\n  \"agent_id\": \"bim-coordinator-base-openmanus\",\n  \"role\": \"BIM Coordinator\",\n  \"model\": \"ollama/mistral:7b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I confirm that I understand the assignment and will attempt it as an expert in my role as a BIM Coordinator on the TrustRouter Agentic Full Panel (mistral:7b) -- Level L3b: Provenance Trust sub-parts. I have been granted access to the shared survey knowledge repository but not dedicated RAG corpus, role packs, or web search.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1530149990,
+      "load_duration": 10501798,
+      "prompt_eval_count": 2373,
+      "prompt_eval_duration": 306312566,
+      "eval_count": 193,
+      "eval_duration": 1182131921
+    }
+  },
+  "claimed": {
+    "agent_id": "bim-coordinator-base-openmanus",
+    "role": "BIM Coordinator",
+    "model": "ollama/mistral:7b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I confirm that I understand the assignment and will attempt it as an expert in my role as a BIM Coordinator on the TrustRouter Agentic Full Panel (mistral:7b) -- Level L3b: Provenance Trust sub-parts. I have been granted access to the shared survey knowledge repository but not dedicated RAG corpus, role packs, or web search."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "bim-coordinator-base-openmanus",
+      "role": "BIM Coordinator",
+      "model": "ollama/mistral:7b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "bim-coordinator-base-openmanus",
+      "role": "BIM Coordinator",
+      "model": "ollama/mistral:7b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I confirm that I understand the assignment and will attempt it as an expert in my role as a BIM Coordinator on the TrustRouter Agentic Full Panel (mistral:7b) -- Level L3b: Provenance Trust sub-parts. I have been granted access to the shared survey knowledge repository but not dedicated RAG corpus, role packs, or web search."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: E_demand
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+As a compliance officer responsible for GDPR and construction-regulatory obligations across a building's lifecycle, I assess economic value through the lens of sustainable, compliant value creation. E_demand (future regulatory and lifecycle demand) is the strongest driver: regulatory trajectories in GDPR Article 5 (accountability, storage limitation across lifecycle), emerging digital-twin mandates in construction (e.g., EU BIM Directive direction), and AI-driven compliance monitoring all point to sustained institutional pressure for immutable, auditable construction records. This aligns directly with my role's core concern—operational lifecycle compliance. E_market (current marketplace demand) is real but secondary: blockchain for construction records is emerging with limited but growing buyers (supply-chain integrators, lifecycle-management firms, forward-thinking designers). Current demand exists but is not the regulatory driver. E_liquidity (tokenisation and tradability) ranks worst, despite being nominally a value multiplier in other contexts: construction records contain GDPR personal data (worker safety, site access), competitively sensitive information (methods, costs), and safety-critical compliance data. The reference material cites "Confidentiality / competitive sensitivity" as a regulatory gate. Free tokenisation and transfer of such records would violate GDPR (unrestricted personal-data circulation), construction safety regulations (requiring custody and version control for liability), and contractual confidentiality terms. From a compliance perspective, liquidity for construction records is not legitimate economic value—it is regulatory violation masquerading as market value. Restricted-access provenance control is essential; tokenisation for tradability conflicts with that. The ratio reflects the strength of this professional judgment: future regulatory pull overwhelms current market signals (3:1), and both are substantially more important than a liquidity mechanism that compliance constraints make unusable (9:1).
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

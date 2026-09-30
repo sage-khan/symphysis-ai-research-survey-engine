@@ -1,0 +1,106 @@
+{
+  "agent_id": "project-manager-base-claude",
+  "accepted_count": 3,
+  "rejected_count": 0,
+  "flagged_low_agreement": false,
+  "accepted_payloads": [
+    {
+      "best": "T_source",
+      "worst": "T_history",
+      "best_to_others": {
+        "T_source": 1,
+        "T_chain": 2,
+        "T_history": 5
+      },
+      "others_to_worst": {
+        "T_source": 5,
+        "T_chain": 3,
+        "T_history": 1
+      },
+      "reasoning": "As a construction PM coordinating multi-stakeholder documentation for institutional, insurance, and regulatory purposes over decades, source credentials (T_source) are the foundational decision point. For construction data that must serve compliance, insurance claims, and authority verification, the authoring source's qualifications and accountability\u2014whether an accredited engineer, certified contractor, or authorized architect\u2014determines whether the record has legal and professional standing from inception. Without qualified source credentials, subsequent handling and historical reputation cannot salvage data validity for institutional use. T_chain (custody chain) ranks second: integrity of the chain from creation to submission is critical for blockchain contexts specifically, since on-chain immutability is only valuable if the data was uncompromised before commitment. However, even a perfectly maintained chain cannot overcome weak source credentials. T_history (historical track record) is least critical for this decision because a single record's trustworthiness depends primarily on who created it and how it was handled, not on the source's past performance. A historically reliable organization can still produce flawed records, and a source with past issues may have improved. For long-term institutional storage, what matters most is verifying *this specific record's* credibility and integrity, not the organization's track record\u2014though past performance weakly informs confidence. The ratings reflect these dependencies: T_source is 2\u00d7 more important than T_chain (foundation vs. implementation of integrity), and 5\u00d7 more important than T_history (credentialing vs. historical indicators). T_chain is 3\u00d7 more important than T_history (current integrity vs. past performance). This ordering reflects real-world professional priorities in regulated construction contexts where liability, compliance, and insurance hinge on accountable, credentialed sources and verifiable data handling.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    },
+    {
+      "best": "T_source",
+      "worst": "T_history",
+      "best_to_others": {
+        "T_source": 1,
+        "T_chain": 2,
+        "T_history": 3
+      },
+      "others_to_worst": {
+        "T_source": 3,
+        "T_chain": 2,
+        "T_history": 1
+      },
+      "reasoning": "From a construction project manager's perspective managing institutional assets serving insurers and authorities, source credibility is foundational and ranks as most important. Without knowing who authored the data\u2014their credentials, authority, and competence\u2014the document is unusable in a professional context regardless of how well it was preserved. Knowing the authoring source (person/organization) is the first gate: institutional owners, insurers, and regulatory bodies all demand traceable responsibility for construction records. The custody chain (T_chain) ranks second: once I know the source, I must verify the data has not been altered in transit or through unauthorized access prior to blockchain submission. This ensures integrity after creation. The historical track record (T_history) ranks third. While useful for assessing confidence, a source without prior history can still be trustworthy if properly credentialed and properly handled. Construction regularly involves new professionals and organizations entering the field; a single well-documented record from a new but properly-credentialed entity serving a renovation project is professionally defensible. History validates but is not strictly necessary for individual transactions, especially in institutional contexts where current credentials and chain integrity carry the primary burden of trust.",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    },
+    {
+      "best": "T_chain",
+      "worst": "T_history",
+      "best_to_others": {
+        "T_chain": 1,
+        "T_source": 4,
+        "T_history": 7
+      },
+      "others_to_worst": {
+        "T_chain": 7,
+        "T_source": 4,
+        "T_history": 1
+      },
+      "reasoning": "As a construction project manager overseeing multi-stakeholder data flows for long-lifecycle assets, custody chain integrity is the decisive factor for blockchain-based or hybrid storage. Here is why: First, blockchain's entire value proposition\u2014for a public hospital asset serving institutional owners, insurers, and authorities\u2014rests on an immutable, auditable chain of custody. Without custody-chain integrity, even pristine source credentials become meaningless if data is corrupted, modified, or diverted in transit. Second, in construction disputes (which the survey acknowledges occur), the chain of custody is the legal evidence that settles attribution and sequence; source credentials alone do not prevent tampering or loss between creation and submission. Third, T_source (credentials) ranks second: knowing who created the data and their authority is essential for initial vetting and compliance, but credentials do not protect data once it leaves the author's control. Finally, T_history (track record) ranks third. While it provides useful predictive signal about a source's ongoing reliability, it does not directly validate a specific record's integrity. A source with perfect history can produce one bad record, and a previously unreliable source's data might be sound if accompanied by a clean chain. For multi-decade institutional assets, chain integrity is the concrete, auditable foundation; history is inference. The ratings reflect this hierarchy: T_chain is 4\u00d7 more important than source credentials (credentials are necessary but insufficient) and 7\u00d7 more important than history (history informs but does not replace current chain evidence).",
+      "sources_used": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ]
+    }
+  ],
+  "sources_checks": [
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    },
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    },
+    {
+      "claimed": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "available_tags": [
+        "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+        "general_knowledge"
+      ],
+      "fabricated": [],
+      "reported": true,
+      "genuine": true
+    }
+  ]
+}

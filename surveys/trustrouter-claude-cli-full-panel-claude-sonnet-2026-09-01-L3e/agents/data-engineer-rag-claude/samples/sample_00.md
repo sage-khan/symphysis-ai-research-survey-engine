@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: E_market
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+From a data-engineering standpoint, routing/storage-tier decisions (and the cost premium of committing a record to an immutable ledger) need to be justified against concrete, verifiable value signals rather than speculative ones. E_market (existing buyers right now) is the most defensible driver: it is observable evidence, analogous to how ISO 25012-style quality assessment (cf. data_quality_and_polyglot_persistence.md) insists on per-artefact, evidence-based scoring rather than assumed or projected properties. E_demand (future regulated/AI/digital-twin growth) is real and matters for long-lived, hard-to-mutate blockchain storage, but it is inherently a forecast, so I rank it second rather than first -- it is a fairly close call against E_market, and I want to flag that explicitly rather than overstate the gap. E_liquidity (tokenisation ease) I rank worst because it is a mechanism/feasibility factor, not an independent value driver: a construction record (e.g., a compliance certificate or as-built drawing set) can have strong current and future demand yet be difficult to fractionalize or trade as a token for regulatory or structural reasons, and that difficulty doesn't diminish the underlying economic value of the data itself -- it only constrains one possible monetization path. This mirrors the general polyglot-persistence principle in the reference material that different data types warrant different treatment based on their actual properties, not on how convenient a particular technical mechanism (here, tokenisation) is to apply to them. The shared questionnaire instrument confirms these are the three canonical E sub-dimensions being compared but does not itself rank them, so the ordering and ratio judgements here are my own domain-expertise-based judgement call, not something drawn directly from the reference material.
+
+## Sources cited
+
+data_quality_and_polyglot_persistence.md, shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

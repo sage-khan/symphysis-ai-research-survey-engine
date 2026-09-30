@@ -1,0 +1,161 @@
+{
+  "ground_truth": {
+    "agent_id": "structural-engineer-base-claude",
+    "role": "Structural Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"structural-engineer-base-claude\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a chartered structural engineer configured to answer this expert-elicitation survey on Verification Strength sub-parts (V_crypto, V_audit, V_diversity) for blockchain-stored construction-project records. I will draw on the shared knowledge repository and my professional domain expertise, cite only verifiable sources, state assumptions explicitly, and follow all global and survey-specific rules.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 5300,
+      "stop_reason": "end_turn",
+      "session_id": "0c55017f-7e3b-4196-9faf-0ac940e388d0",
+      "total_cost_usd": 0.013890499999999998,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 4983,
+        "cache_read_input_tokens": 6475,
+        "output_tokens": 376,
+        "output_tokens_details": {
+          "thinking_tokens": 187
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 4983,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 376,
+            "cache_read_input_tokens": 6475,
+            "cache_creation_input_tokens": 4983,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 4983
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1332,
+          "outputTokens": 389,
+          "cacheReadInputTokens": 6475,
+          "cacheCreationInputTokens": 4983,
+          "webSearchRequests": 0,
+          "costUSD": 0.013890499999999998,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 187,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"structural-engineer-base-claude\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a chartered structural engineer configured to answer this expert-elicitation survey on Verification Strength sub-parts (V_crypto, V_audit, V_diversity) for blockchain-stored construction-project records. I will draw on the shared knowledge repository and my professional domain expertise, cite only verifiable sources, state assumptions explicitly, and follow all global and survey-specific rules.\"\n}\n```",
+      "ttft_ms": 2653,
+      "type": "result",
+      "duration_ms": 4509,
+      "uuid": "c83e3563-75e8-462a-b93f-c95a22e4e907",
+      "ttft_stream_ms": 995,
+      "time_to_request_ms": 182,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "structural-engineer-base-claude",
+    "role": "Structural Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I am a chartered structural engineer configured to answer this expert-elicitation survey on Verification Strength sub-parts (V_crypto, V_audit, V_diversity) for blockchain-stored construction-project records. I will draw on the shared knowledge repository and my professional domain expertise, cite only verifiable sources, state assumptions explicitly, and follow all global and survey-specific rules."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "structural-engineer-base-claude",
+      "role": "Structural Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "structural-engineer-base-claude",
+      "role": "Structural Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I am a chartered structural engineer configured to answer this expert-elicitation survey on Verification Strength sub-parts (V_crypto, V_audit, V_diversity) for blockchain-stored construction-project records. I will draw on the shared knowledge repository and my professional domain expertise, cite only verifiable sources, state assumptions explicitly, and follow all global and survey-specific rules."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

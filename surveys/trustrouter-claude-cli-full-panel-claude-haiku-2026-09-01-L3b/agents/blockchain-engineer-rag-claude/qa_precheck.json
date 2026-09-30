@@ -1,0 +1,161 @@
+{
+  "ground_truth": {
+    "agent_id": "blockchain-engineer-rag-claude",
+    "role": "Blockchain / DLT Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "```json\n{\n  \"agent_id\": \"blockchain-engineer-rag-claude\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a blockchain/DLT engineer with production permissioned-ledger experience, tasked with evaluating three Provenance Trust sub-parts (source credentials, custody chain, historical track record) for construction-project records on blockchain. I will answer independently from provided reference material and my domain expertise, ground all judgments in the survey criteria, and explicitly distinguish reasoning from fact, assumption, and judgement call.\"\n}\n```",
+    "model": "haiku",
+    "finish_reason": "success",
+    "raw": {
+      "duration_api_ms": 5612,
+      "stop_reason": "end_turn",
+      "session_id": "e562f3dc-1e9a-4f3a-a140-b55eaa34a348",
+      "total_cost_usd": 0.0105474,
+      "usage": {
+        "input_tokens": 10,
+        "cache_creation_input_tokens": 3190,
+        "cache_read_input_tokens": 8014,
+        "output_tokens": 391,
+        "output_tokens_details": {
+          "thinking_tokens": 190
+        },
+        "server_tool_use": {
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "service_tier": "standard",
+        "cache_creation": {
+          "ephemeral_1h_input_tokens": 3190,
+          "ephemeral_5m_input_tokens": 0
+        },
+        "inference_geo": "not_available",
+        "iterations": [
+          {
+            "input_tokens": 10,
+            "output_tokens": 391,
+            "cache_read_input_tokens": 8014,
+            "cache_creation_input_tokens": 3190,
+            "cache_creation": {
+              "ephemeral_5m_input_tokens": 0,
+              "ephemeral_1h_input_tokens": 3190
+            },
+            "type": "message"
+          }
+        ],
+        "speed": "standard"
+      },
+      "modelUsage": {
+        "claude-haiku-4-5-20251001": {
+          "inputTokens": 1341,
+          "outputTokens": 405,
+          "cacheReadInputTokens": 8014,
+          "cacheCreationInputTokens": 3190,
+          "webSearchRequests": 0,
+          "costUSD": 0.0105474,
+          "contextWindow": 200000,
+          "maxOutputTokens": 32000,
+          "thinkingTokens": 190,
+          "canonicalModel": "claude-haiku-4-5",
+          "provider": "firstParty",
+          "costBasis": "list"
+        }
+      },
+      "permission_denials": [],
+      "terminal_reason": "completed",
+      "fast_mode_state": "off",
+      "fast_mode_disabled_reason": "sdk_opt_in_required",
+      "subagent_stats": {
+        "spawned": 0,
+        "requested": {
+          "background": 0,
+          "foreground": 0,
+          "unset": 0
+        },
+        "started_in_background": 0,
+        "max_depth": 0,
+        "spawned_by_subagents": 0,
+        "completed": 0,
+        "failed": 0,
+        "killed": {
+          "parent": 0,
+          "user": 0,
+          "system": 0
+        },
+        "refused": {
+          "depth_limit": 0,
+          "concurrency_limit": 0,
+          "budget": 0
+        },
+        "by_type": {}
+      },
+      "is_error": false,
+      "num_turns": 1,
+      "subtype": "success",
+      "api_error_status": null,
+      "result": "```json\n{\n  \"agent_id\": \"blockchain-engineer-rag-claude\",\n  \"role\": \"Blockchain / DLT Engineer\",\n  \"model\": \"claude_cli/haiku\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I am a blockchain/DLT engineer with production permissioned-ledger experience, tasked with evaluating three Provenance Trust sub-parts (source credentials, custody chain, historical track record) for construction-project records on blockchain. I will answer independently from provided reference material and my domain expertise, ground all judgments in the survey criteria, and explicitly distinguish reasoning from fact, assumption, and judgement call.\"\n}\n```",
+      "ttft_ms": 2421,
+      "type": "result",
+      "duration_ms": 4573,
+      "uuid": "b4e801e8-ce9d-47aa-96ca-f8921b456402",
+      "ttft_stream_ms": 725,
+      "time_to_request_ms": 22,
+      "queued_turn_count": 0,
+      "message": {}
+    }
+  },
+  "claimed": {
+    "agent_id": "blockchain-engineer-rag-claude",
+    "role": "Blockchain / DLT Engineer",
+    "model": "claude_cli/haiku",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I am a blockchain/DLT engineer with production permissioned-ledger experience, tasked with evaluating three Provenance Trust sub-parts (source credentials, custody chain, historical track record) for construction-project records on blockchain. I will answer independently from provided reference material and my domain expertise, ground all judgments in the survey criteria, and explicitly distinguish reasoning from fact, assumption, and judgement call."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "blockchain-engineer-rag-claude",
+      "role": "Blockchain / DLT Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "blockchain-engineer-rag-claude",
+      "role": "Blockchain / DLT Engineer",
+      "model": "claude_cli/haiku",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I am a blockchain/DLT engineer with production permissioned-ledger experience, tasked with evaluating three Provenance Trust sub-parts (source credentials, custody chain, historical track record) for construction-project records on blockchain. I will answer independently from provided reference material and my domain expertise, ground all judgments in the survey criteria, and explicitly distinguish reasoning from fact, assumption, and judgement call."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

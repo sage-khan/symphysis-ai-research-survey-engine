@@ -1,0 +1,81 @@
+{
+  "ground_truth": {
+    "agent_id": "structural-engineer-base-openmanus",
+    "role": "Structural Engineer",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"structural-engineer-base-openmanus\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am acting as a Structural Engineer, and I will attempt to answer the survey questions based on my professional judgement and knowledge in this role. I confirm that I have reviewed my configuration and will proceed accordingly.\"\n}",
+    "model": "llama3.1:8b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "llama3.1:8b",
+      "created_at": "2026-09-01T19:14:45.703661349Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"structural-engineer-base-openmanus\",\n  \"role\": \"Structural Engineer\",\n  \"model\": \"ollama/llama3.1:8b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": false,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand that I am acting as a Structural Engineer, and I will attempt to answer the survey questions based on my professional judgement and knowledge in this role. I confirm that I have reviewed my configuration and will proceed accordingly.\"\n}"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 1251486160,
+      "load_duration": 76343900,
+      "prompt_eval_count": 2097,
+      "prompt_eval_duration": 262280557,
+      "eval_count": 134,
+      "eval_duration": 863773728
+    }
+  },
+  "claimed": {
+    "agent_id": "structural-engineer-base-openmanus",
+    "role": "Structural Engineer",
+    "model": "ollama/llama3.1:8b",
+    "capabilities": {
+      "dedicated_rag_corpus": false,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand that I am acting as a Structural Engineer, and I will attempt to answer the survey questions based on my professional judgement and knowledge in this role. I confirm that I have reviewed my configuration and will proceed accordingly."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "structural-engineer-base-openmanus",
+      "role": "Structural Engineer",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "structural-engineer-base-openmanus",
+      "role": "Structural Engineer",
+      "model": "ollama/llama3.1:8b",
+      "capabilities": {
+        "dedicated_rag_corpus": false,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand that I am acting as a Structural Engineer, and I will attempt to answer the survey questions based on my professional judgement and knowledge in this role. I confirm that I have reviewed my configuration and will proceed accordingly."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

@@ -93,6 +93,26 @@ class BWMInstrument:
         if context_chunks:
             joined = "\n\n---\n\n".join(context_chunks)
             user_parts.append(f"\nReference material to ground your judgement:\n\n{joined}")
+            # Restated last, after the reference material: any reference material
+            # (e.g. a verbatim human-facing survey instrument in the shared
+            # knowledge repository, which correctly tells a HUMAN respondent to
+            # write out full criterion labels) can otherwise be the last thing
+            # read before generation and override the task's own short-code
+            # requirement via simple recency, especially once RAG-retrieved
+            # chunks make the reference material long. Found live: qwen3:14b
+            # given RAG context reliably answered with full labels
+            # ("DVS (Data Value Score)") instead of the bare code the JSON
+            # schema requires, and in the worst cases abandoned JSON entirely
+            # for prose, despite the schema appearing correctly earlier in the
+            # same prompt. See docs/development/diagnostics.md.
+            code_list = ", ".join(f'"{c}"' for c in codes)
+            user_parts.append(
+                "\nReminder, regardless of any wording used above in the reference material: "
+                f"in your JSON answer, \"best\", \"worst\", and every key in \"best_to_others\"/"
+                f"\"others_to_worst\" must be exactly one of these bare codes: {code_list} -- "
+                "never the full label (e.g. \"DVS\", not \"DVS (Data Value Score)\" or "
+                "\"Data Value Score\"). Respond with ONLY the JSON object, no other text."
+            )
 
         return [
             {"role": "system", "content": agent_role_description},
@@ -127,11 +147,14 @@ class BWMInstrument:
 
         for field_name in ("best_to_others", "others_to_worst"):
             vec = data.get(field_name, {})
+            if not isinstance(vec, dict):
+                errors.append(f"{field_name} must be an object")
+                continue
             missing = codes - set(vec)
             if missing:
                 errors.append(f"{field_name} missing ratings for {sorted(missing)}")
             for code, value in vec.items():
-                if not isinstance(value, int) or not (1 <= value <= 9):
+                if not isinstance(value, int) or isinstance(value, bool) or not (1 <= value <= 9):
                     errors.append(f"{field_name}[{code}]={value!r} is not an integer in 1-9")
 
         if not errors and data["best"] in codes:

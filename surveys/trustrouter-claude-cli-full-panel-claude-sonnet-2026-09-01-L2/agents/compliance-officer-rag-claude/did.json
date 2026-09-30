@@ -1,0 +1,8 @@
+{
+  "agent_id": "compliance-officer-rag-claude",
+  "did": "did:key:z6Mkiny4nghtEZgRh1GDTK1uVN3K6yiWKovHursQ4YEVJq2c",
+  "method": "did:key",
+  "public_key_multibase": "z6Mkiny4nghtEZgRh1GDTK1uVN3K6yiWKovHursQ4YEVJq2c",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-claude-cli-full-panel-claude-sonnet-2026-09-01:compliance-officer-rag-claude')"
+}

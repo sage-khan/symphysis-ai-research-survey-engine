@@ -1,0 +1,21 @@
+{
+  "best": "PT",
+  "worst": "C",
+  "best_to_others": {
+    "PT": 1,
+    "Q": 7,
+    "V": 8,
+    "IC": 9,
+    "L": 6,
+    "C": 1
+  },
+  "others_to_worst": {
+    "C": 1,
+    "Q": 3,
+    "V": 4,
+    "IC": 5,
+    "L": 2,
+    "PT": 1
+  },
+  "reasoning": " Best factor: PT (Provenance Trust)\nWorst factor: C (Criticality)\n\n PT vs Q: 7\nPT vs V: 8\nPT vs IC: 9\nPT vs L: 6\nPT vs C: 1\nQ vs C: 3\nV vs C: 4\nIC vs C: 5\nL vs C: 2"
+}

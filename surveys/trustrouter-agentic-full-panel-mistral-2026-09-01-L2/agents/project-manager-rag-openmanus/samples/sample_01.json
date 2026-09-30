@@ -1,0 +1,21 @@
+{
+  "best": "C",
+  "worst": "PT",
+  "best_to_others": {
+    "C": 1,
+    "Q": 9,
+    "V": 8,
+    "IC": 7,
+    "L": 6,
+    "PT": 1
+  },
+  "others_to_worst": {
+    "PT": 1,
+    "Q": 4,
+    "V": 5,
+    "IC": 3,
+    "L": 2,
+    "C": 1
+  },
+  "reasoning": " Based on the provided reference material, the best factor (most important) for the Hospital Real deep renovation project would be Criticality (C). The worst factor (least important) would be Provenance Trust (PT). These are the two lines in exact format you requested:\n\nBest factor: C\nWorst factor: PT\n\n C vs Q: 9\nC vs V: 8\nC vs IC: 7\nC vs L: 6\nC vs PT: 1\nQ vs PT: 4\nV vs PT: 5\nIC vs PT: 3\nL vs PT: 2"
+}

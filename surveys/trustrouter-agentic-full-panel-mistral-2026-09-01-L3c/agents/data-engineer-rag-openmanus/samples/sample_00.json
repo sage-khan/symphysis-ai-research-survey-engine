@@ -1,0 +1,15 @@
+{
+  "best": "V_crypto",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_crypto": 1,
+    "V_audit": 5,
+    "V_diversity": 1
+  },
+  "others_to_worst": {
+    "V_diversity": 1,
+    "V_audit": 3,
+    "V_crypto": 1
+  },
+  "reasoning": " Best factor: V_crypto\nWorst factor: V_diversity\n\n V_crypto vs V_audit: 5\nV_crypto vs V_diversity: 1\nV_audit vs V_diversity: 3\n\nReasoning:\n\n* Cryptographic evidence (V_crypto) is essential for ensuring the integrity and authenticity of construction-project records. This includes the use of signatures, hashes, and public key infrastructure (PKI). The cryptographic evidence provides a mathematical proof that the data stored on the blockchain has not been tampered with or altered since it was first recorded.\n* Audit trail completeness (V_audit) is also important for ensuring the trustworthiness of construction-project records, as it provides information about who did what and when. However, it does not offer the same level of protection against data tampering as cryptographic evidence does.\n* Diversity of verification sources (V_diversity) refers to the use of multiple independent parties to verify the accuracy and integrity of construction-project records. While this can be beneficial in terms of reducing the risk of a single point of failure, it does not offer the same level of protection against data tampering as cryptographic evidence does.\n* In terms of importance, cryptographic evidence is more important than audit trail completeness because it provides a mathematical proof that the data has not been tampered with or altered since it was first recorded. Audit trail completeness is also important but less so than cryptographic evidence because it does not offer the same level of protection against data tampering. Diversity of verification sources is least important because it does not offer the same level of protection against data tampering as cryptographic evidence does."
+}

@@ -1,0 +1,15 @@
+{
+  "best": "E_demand",
+  "worst": "E_market",
+  "best_to_others": {
+    "E_demand": 1,
+    "E_liquidity": 5,
+    "E_market": 1
+  },
+  "others_to_worst": {
+    "E_market": 1,
+    "E_liquidity": 9,
+    "E_demand": 1
+  },
+  "reasoning": " Best factor: E_demand\nWorst factor: E_market\n\n E_demand vs E_liquidity: 5\nE_demand vs E_market: 1\nE_liquidity vs E_market: 9\n\nReasoning:\n\n* E_demand (Future demand) is the best factor because it represents the potential for growth and increased value of the construction project data over time. This is due to the expected increase in adoption and use of regulated, AI, and digital-twin technologies in the construction industry.\n* E_market (Current marketplace demand) is the worst factor because it only considers the current state of the market and does not take into account the potential for future growth and increased value.\n* E_liquidity (Tokenisation ease) is less important than E_demand but more important than E_market because it represents the ability to easily trade and exchange the construction project data as tokenised assets, which can increase liquidity and facilitate transactions. However, its importance pales in comparison to the potential for future growth represented by E_demand."
+}

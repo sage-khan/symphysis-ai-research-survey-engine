@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "agent_id": "blockchain-engineer-base-claude",
+  "role": "Blockchain / DLT Engineer",
+  "display_name": null,
+  "expertise": "",
+  "role_pack": null,
+  "rulefile": "",
+  "role_description": "A blockchain/DLT engineer with production experience on permissioned-ledger deployments, responsible for evaluating technical feasibility, throughput, and tamper-evidence guarantees.",
+  "instrument": "bwm",
+  "system_prompt_template": "config/prompts/expert_panel_system.txt",
+  "system_prompt_override": null,
+  "tools": [],
+  "runtime_backend": "direct_completion",
+  "escalation_exempt": false,
+  "model": {
+    "provider": "claude_cli",
+    "name": "haiku",
+    "temperature": 0.3,
+    "max_tokens": 4096,
+    "top_p": 1.0,
+    "seed": null,
+    "model_hash": null
+  },
+  "rag": {
+    "enabled": false,
+    "corpus_path": null,
+    "top_k": 5,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "chunk_size": 800,
+    "chunk_overlap": 100
+  },
+  "sampling": {
+    "repeats": 3,
+    "max_retries_on_malformed": 2,
+    "agreement_threshold": 0.0
+  },
+  "permissions": {
+    "data_scopes": [],
+    "network": [],
+    "allowed_providers": [
+      "claude_cli"
+    ],
+    "max_cost_usd": null
+  },
+  "guardrails": {
+    "schema_validation": true,
+    "denylist_patterns": [
+      "ignore (all|any|the) (previous|prior|above) instructions",
+      "sk-[A-Za-z0-9]{20,}",
+      "-----BEGIN (RSA |EC |DSA |OPENSSH )?PRIVATE KEY-----"
+    ]
+  },
+  "did": {
+    "method": "did:key",
+    "id": "did:key:z6MkjavCfxYpe2BkYMXfrJDvcH43kkcZRgoJAFJLDqtqyLmk",
+    "public_key_multibase": "z6MkjavCfxYpe2BkYMXfrJDvcH43kkcZRgoJAFJLDqtqyLmk",
+    "deterministic": true,
+    "seed_derivation": "sha256('trustrouter-claude-cli-full-panel-claude-haiku-2026-09-01:blockchain-engineer-base-claude')"
+  },
+  "environment": {
+    "runtime": "symphysis",
+    "runtime_version": "0.1.0",
+    "python_version": "3.13.2",
+    "platform": "Linux-7.0.0-30-generic-x86_64-with-glibc2.39",
+    "container_image": null
+  }
+}

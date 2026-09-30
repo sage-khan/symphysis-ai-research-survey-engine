@@ -1,0 +1,91 @@
+# Filled survey: bim-coordinator-base-claude
+
+- Agent ID: `bim-coordinator-base-claude`
+- Role / expertise: BIM Coordinator
+- Model: claude_cli/haiku
+- DID: `did:key:z6MkjBimqskXZkR9Zx6uMHqsjZopoCEJaQ9tb7XoVSAZiujx`
+- RAG: disabled
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | V_audit | V_diversity |
+| 1 | V_audit | V_diversity |
+| 2 | V_audit | V_diversity |
+
+## Sample 0
+
+**Best:** V_audit (Audit trail completeness)  
+**Worst:** V_diversity (Diversity of verification sources)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 3 |
+| V_audit (Audit trail completeness) | 1 |
+| V_diversity (Diversity of verification sources) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 3 |
+| V_audit (Audit trail completeness) | 5 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Reasoning
+
+As a BIM Coordinator managing multi-stakeholder renovation projects, audit-trail completeness is foundational to trust in construction records. Model federation depends on knowing who (which discipline, which engineer, which consultant) introduced each design element, when they did so, and under what custody. Clash detection workflows reference provenance; liability and site safety hinge on documented responsibility chains. A complete audit trail is essential even before cryptographic evidence is applied; conversely, a cryptographic signature on data with incomplete or missing audit history provides false confidence. The reference material defines V_audit as 'who did what, when'—precisely the information that makes or breaks professional accountability on construction projects. V_crypto (signatures, hashes, PKI) is significant for integrity and non-repudiation, but it is subordinate to audit completeness; you can cryptographically sign fabricated or incomplete data. V_diversity (multiple independent verification sources) is valuable as a triangulation mechanism, but on professional renovation projects, institutional trust in licensed structural engineers, certified MEP coordinators, and qualified model federators provides natural verification diversity without requiring statistical sampling. Blockchain immutability is important for legal archiving, but the blockchain records the audit trail itself; the completeness of that trail before ledger anchoring is the limiting factor. On tightly coordinated multi-discipline projects where a single BIM coordinator (me) performs model federation, diversity of sources is a nice-to-have supplement, not a foundational trust mechanism. Ratings reflect: V_audit as 1x baseline; V_crypto as 3x less critical (signatures depend on trustworthy input data); V_diversity as 5x less critical (diversity of sources cannot compensate for audit gaps or absent cryptographic evidence).
+
+## Sample 1
+
+**Best:** V_audit (Audit trail completeness)  
+**Worst:** V_diversity (Diversity of verification sources)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 3 |
+| V_audit (Audit trail completeness) | 1 |
+| V_diversity (Diversity of verification sources) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 4 |
+| V_audit (Audit trail completeness) | 5 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Reasoning
+
+In construction project lifecycle management and BIM coordination, audit-trail completeness (who did what, when) is the most critical verification component. Construction work is fundamentally about accountability: legal liability, contractual compliance, design-decision rationale, and regulatory compliance all depend on traceable change history. When disputes or quality issues arise—which is routine in renovation and multi-stakeholder federation—stakeholders need to reconstruct who made which decisions, when, and under what circumstances. An incomplete audit trail makes cryptographic signatures less useful operationally, because you have origin proof but not context. From my experience with multi-stakeholder BIM federation and clash-resolution workflows, the audit trail enables understanding of intent, precedent, and responsibility in ways that crypto alone cannot. Cryptographic evidence (signatures, hashes, PKI) is also important and more foundational technically—it ensures data integrity and origin, without which audit trails would be meaningless—but it is secondary to the audit trail for practical construction trust and accountability. Diversity of verification sources is valuable as a safeguard against Byzantine collusion, but it is the least critical of the three. In construction practice, a single well-documented, cryptographically signed, and audited change from an authorized party (e.g., a licensed structural engineer's sealed report) has been the standard for liability and compliance for decades; we do not require independent verification from multiple sources to establish trust in such records. Diversity adds resilience in adversarial or high-stakes blockchain contexts, but audit trail and crypto are more fundamental to construction-project trust. Ratings reflect: audit moderately more important than crypto (3:1), audit significantly more important than diversity (5:1), crypto moderately more important than diversity (4:1).
+
+## Sample 2
+
+**Best:** V_audit (Audit trail completeness)  
+**Worst:** V_diversity (Diversity of verification sources)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 3 |
+| V_audit (Audit trail completeness) | 1 |
+| V_diversity (Diversity of verification sources) | 5 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| V_crypto (Cryptographic evidence) | 2 |
+| V_audit (Audit trail completeness) | 5 |
+| V_diversity (Diversity of verification sources) | 1 |
+
+### Reasoning
+
+As a BIM coordinator managing multi-stakeholder renovation and new-build projects, I rank audit-trail completeness (who did what, when) as the single most important verification criterion for construction records in blockchain storage. In construction, accountability and traceability are foundational: we must establish who made each decision, when changes occurred, and what triggered them—this is non-negotiable for compliance, dispute resolution, and lifecycle documentation across multiple parties. Without this historical record, the data has severely diminished legal and practical value regardless of cryptographic strength. Cryptographic evidence (signatures, hashes, PKI) is essential and rated 3× less important than audit because it guarantees integrity of data as stored but does not guarantee the data's authenticity at creation or establish chain of custody. A cryptographically signed false record is still false. Diversity of verification sources is rated the least important (5× less important than audit) because while redundancy adds confidence, it is supplementary to the core assurance mechanisms. A single trusted source with comprehensive audit trails and strong cryptographic evidence provides more foundational value than multiple sources—especially in construction, where we typically work within defined professional networks (structural engineers, MEP contractors, project managers) rather than open, untrusted networks. The vignette's IoT dossier with SHA-256 commitment illustrates this: the cryptographic hash ensures the stream wasn't altered, but the audit trail establishes who captured it, when, and under what conditions. Construction practice prioritizes accountability and traceability over distributed consensus.

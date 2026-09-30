@@ -1,0 +1,25 @@
+{
+  "best": "PT",
+  "worst": "L",
+  "best_to_others": {
+    "PT": 1,
+    "Q": 3,
+    "V": 2,
+    "IC": 4,
+    "L": 5,
+    "C": 3
+  },
+  "others_to_worst": {
+    "PT": 5,
+    "Q": 3,
+    "V": 4,
+    "IC": 2,
+    "C": 2,
+    "L": 1
+  },
+  "reasoning": "As a construction project manager evaluating data for blockchain storage, Provenance Trust is the decisive criterion because blockchain's immutability creates a permanent commitment to data truth. Once data is recorded on-chain, it cannot be altered or retracted\u2014only supplemented. If the original creator or custodian is untrustworthy or improperly documented, that liability becomes permanent. Conversely, high provenance trust (e.g., a signed report from a chartered structural engineer) creates confidence that the immutable record serves its purpose rather than locking in error. This makes PT the gatekeeper for the routing decision. Quality (Q) and Verification Strength (V) are important but contextual: they describe the state of data once created, whereas provenance trust determines whether we should trust that creation in the first place. Independent Confirmation (IC) and Criticality (C) are valuable but not primary to routing: IC increases confidence but depends on prior trust in the confirming parties, and C determines consequences of error, not whether to go on-chain. Legal Compliance (L) is least influential on routing decisions because it operates as a constraint\u2014it specifies what data *cannot* go on-chain or must be encrypted\u2014rather than determining what *should*. A legally compliant data set that fails provenance trust is worse than a non-compliant one with clear provenance. In renovation and new-build contexts where institutional owners and insurers must rely on records for decades, the identity and accountability of the data creator outweighs regulatory checklist satisfaction.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

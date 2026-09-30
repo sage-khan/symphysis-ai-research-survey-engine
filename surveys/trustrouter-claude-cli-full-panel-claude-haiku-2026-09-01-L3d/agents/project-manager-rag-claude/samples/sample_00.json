@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_insider": 6,
+    "A_oracle": 2,
+    "A_sybil": 1
+  },
+  "reasoning": "From a construction project manager's perspective, insider resistance is the most critical attack vector for on-chain construction records. Construction projects necessarily grant legitimate system access to contractors, inspectors, subcontractors, and project managers\u2014you cannot prevent all legitimate access. The highest dispute-resolution risk (emphasized in Gartoumi 2024) stems from insiders with authority falsifying records: a subcontractor backdating change orders they are authorized to issue, an inspector signing off on work they should have rejected, a PM altering progress documentation. These actors have both technical access and contractual authority, making detection and prevention harder than blocking unauthorized outsiders. Oracle resistance (sensor tampering) ranks second because sensor data is a subset of construction documentation (much is human-generated inspection reports, change orders, meeting minutes), and sensor tampering is relatively detectable through independent physical verification. Sybil resistance ranks lowest because construction stakeholders already possess established legal identities, professional licenses, insurance policies, and contractual relationships with the project owner\u2014creating wholly fake identities is neither technically easy nor common. The real threat in construction is not an outsider inventing a fake contractor, but an authorized contractor abusing legitimate credentials.",
+  "sources_used": [
+    "construction_project_management_and_mcdm.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: E_demand
+- Worst: E_liquidity
+
+## Stated reasoning (submitted with the answer)
+
+As a chartered structural engineer evaluating blockchain storage for structural capacity dossiers, I rank future demand as best because the primary value driver for such records is their institutional lifecycle utility over decades, not immediate market adoption. The reference scenario—Hospital Real's deep renovation with long retention for insurers and authorities—exemplifies this: structural records' real economic value lies in serving regulated asset-management requirements, not short-term trading. E_demand captures this precisely: digital twins are increasingly mandated by building codes, structural health monitoring is becoming compulsory for critical infrastructure, and regulatory frameworks (referenced in structural_health_monitoring_and_digital_twins.md as critical to digital-twin trustworthiness) will drive systematic demand for provenance-anchored records. Insurers shifting to predictive, data-driven underwriting further amplifies future demand. E_market ranks second, not worst, because current marketplace demand exists but remains nascent; traditional document-management channels still dominate in practice, yet awareness is growing. E_liquidity ranks worst because structural records are fundamentally illiquid assets. They are not commodities—they require specialized professional interpretation, carry liability implications, vary in scope and completeness by project, and do not lend themselves to fractional ownership or rapid trading. A secondary market for tokenized structural dossiers is unlikely to materialize; their value is entirely in long-term archival and institutional custody, not tradability. The tokenization dimension, while mentioned in the survey, may not be economically relevant for this asset class at all. The 7:1 ratio between E_demand and E_liquidity reflects this fundamental difference in how the asset's economic value flows: through lifecycle institutional utility versus through market liquidity, where the latter is nearly absent. The 3:1 ratio between E_demand and E_market reflects that future regulatory and digital-twin adoption will dwarf today's nascent market, though current marketplace existence prevents a wider gap.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, structural_health_monitoring_and_digital_twins.md, general_knowledge (all claims verified genuine)

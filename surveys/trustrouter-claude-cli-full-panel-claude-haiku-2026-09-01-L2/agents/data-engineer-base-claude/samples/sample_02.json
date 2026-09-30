@@ -1,0 +1,25 @@
+{
+  "best": "PT",
+  "worst": "L",
+  "best_to_others": {
+    "Q": 1,
+    "PT": 1,
+    "V": 2,
+    "IC": 2,
+    "L": 5,
+    "C": 2
+  },
+  "others_to_worst": {
+    "Q": 4,
+    "PT": 5,
+    "V": 3,
+    "IC": 2,
+    "L": 1,
+    "C": 3
+  },
+  "reasoning": "As a data engineer routing construction-project records to blockchain, hybrid, or conventional storage, I rank Provenance Trust (PT) as best because blockchain's immutability makes the source gate the foundational control. Bad provenance locked onto an immutable ledger is irreversible; a data engineer's routing decision must prioritize authentication first. Quality (Q) is nearly as critical\u2014garbage data cannot be fixed by storage choice\u2014but is rated slightly lower because quality issues can sometimes be supplemented or corrected downstream, whereas provenance cannot be retroactively established. Verification Strength (V) supports on-chain confidence through cryptographic or audit trails but is secondary to knowing the source is legitimate. Criticality (C) and Independent Confirmation (IC) both matter for risk assessment\u2014high-stakes data deserves stronger assurance, and multi-party agreement adds confidence\u2014but IC is often unavailable at routing time and C is orthogonal to trustworthiness itself. Legal Compliance (L) is ranked worst because it is primarily a governance and metadata prerequisite (schema, retention, access control) rather than a differentiator between routing paths. Two records with identical legal status may have dramatically different provenance and quality profiles that warrant different routing; compliance is binary and necessary but not discriminating. The ratings reflect that PT and Q dominate (foundational gates), V provides meaningful secondary assurance (especially for blockchain), while IC and C are moderately valuable but context-dependent, and L is necessary but non-differentiating.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

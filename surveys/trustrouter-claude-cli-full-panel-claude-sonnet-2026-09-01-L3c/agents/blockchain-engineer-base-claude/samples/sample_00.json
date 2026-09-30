@@ -1,0 +1,19 @@
+{
+  "best": "V_crypto",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_crypto": 1,
+    "V_audit": 3,
+    "V_diversity": 5
+  },
+  "others_to_worst": {
+    "V_crypto": 5,
+    "V_audit": 2,
+    "V_diversity": 1
+  },
+  "reasoning": "Verification Strength (V) is defined in the shared knowledge as 'strength of cryptographic and procedural audit evidence' -- the two named components (crypto, audit) are given primacy over diversity in that definition itself. From a permissioned-ledger engineering standpoint, V_crypto (signatures, hashes, PKI) is the mechanism that produces the actual mathematically verifiable, non-repudiable proof that a record has not been altered -- it's the substrate every other verification claim ultimately rests on: an audit trail or a set of independent attestors is only as trustworthy as the cryptographic binding (hashing, signing, PKI chain of custody) that makes their entries tamper-evident and attributable. Without V_crypto, an audit log is just an editable database table and 'diverse sources' just means multiple unverified claims. V_audit (who did what, when) is a close second: audit-trail completeness is essential for procedural accountability and dispute resolution in a construction context (matching the survey's framing of disputes about data integrity), and it's often what a signature/PKI scheme is built to reinforce -- but it is fundamentally a logging/process discipline layered on top of, and dependent on, cryptographic guarantees for its own tamper-evidence. V_diversity (multiple independent verification sources) is valuable for reducing collusion/single-point-of-failure risk, but in practice, for most permissioned construction consortiums, achieving true source diversity is organizationally and economically harder to realize than strengthening crypto or audit-logging, and its marginal contribution to verification strength is smaller and more context-dependent (e.g., irrelevant if only one party is authorized to attest a given record type). Hence V_crypto is Best, V_diversity is Worst, with V_audit rated as a moderate, genuinely close second -- I want to flag this is not a wide gap: a reasonable engineer could argue V_audit deserves near-parity with V_crypto since in real permissioned-DLT deployments the two are usually implemented together (signed audit-log entries), so the crypto-vs-audit ranking is a closer call than the audit-vs-diversity one.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: V_audit
+- Worst: V_diversity
+
+## Stated reasoning (submitted with the answer)
+
+In construction project data provenance, audit-trail completeness (who did what, when) is the most critical verification factor. Construction inherently involves multiple parties (general contractor, architect, subcontractors, inspectors, owner, regulators) with distinct accountabilities. Regulatory compliance, insurance claims, warranty disputes, and quality assurance all depend on verifiable chains of custody and decision authority. Without a complete audit trail, cryptographic signatures cannot establish who is responsible or how decisions were made — crypto proves integrity of a record but not the legitimacy or accuracy of the underlying facts it records. Cryptographic evidence ranks second; it provides non-repudiation and tamper-detection, which are essential complements to audit trails. However, crypto alone cannot establish trustworthiness of origin or context. Diversity of independent verification sources ranks third in this domain. While diversity is valuable for blockchain's resilience against collusion, construction projects operate within a defined and constrained set of verifying parties (the project team itself, regulatory inspectors, and third-party inspectors where applicable). These parties are not interchangeable or easily expanded; a small commercial renovation does not benefit from diversity the way a permissionless public ledger would. Well-maintained audit records with proper cryptographic binding among the actual project participants provides stronger trust guarantees for construction accountability than attempting to multiply verification sources beyond the legitimate stakeholders. The close rating between V_crypto (3) and V_diversity (4) versus V_audit reflects that all three contribute to verification strength, but the order reflects construction's dependence on explicit, traceable decision and execution chains.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, shared knowledge: trustrouter_concept_paper_primer.md, general_knowledge (all claims verified genuine)

@@ -1,0 +1,12 @@
+# Sample 3 of 3
+
+- Best: T_chain
+- Worst: T_history
+
+## Stated reasoning (submitted with the answer)
+
+As a construction project manager overseeing multi-stakeholder data flows for long-lifecycle assets, custody chain integrity is the decisive factor for blockchain-based or hybrid storage. Here is why: First, blockchain's entire value proposition—for a public hospital asset serving institutional owners, insurers, and authorities—rests on an immutable, auditable chain of custody. Without custody-chain integrity, even pristine source credentials become meaningless if data is corrupted, modified, or diverted in transit. Second, in construction disputes (which the survey acknowledges occur), the chain of custody is the legal evidence that settles attribution and sequence; source credentials alone do not prevent tampering or loss between creation and submission. Third, T_source (credentials) ranks second: knowing who created the data and their authority is essential for initial vetting and compliance, but credentials do not protect data once it leaves the author's control. Finally, T_history (track record) ranks third. While it provides useful predictive signal about a source's ongoing reliability, it does not directly validate a specific record's integrity. A source with perfect history can produce one bad record, and a previously unreliable source's data might be sound if accompanied by a clean chain. For multi-decade institutional assets, chain integrity is the concrete, auditable foundation; history is inference. The ratings reflect this hierarchy: T_chain is 4× more important than source credentials (credentials are necessary but insufficient) and 7× more important than history (history informs but does not replace current chain evidence).
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

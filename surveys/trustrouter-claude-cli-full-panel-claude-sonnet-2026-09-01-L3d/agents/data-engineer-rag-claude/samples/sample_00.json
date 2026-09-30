@@ -1,0 +1,19 @@
+{
+  "best": "A_oracle",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_oracle": 1,
+    "A_insider": 2,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_oracle": 6,
+    "A_insider": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "Construction-project data trust systems built on blockchain are almost always permissioned/consortium networks among known, onboarded parties (contractors, chartered engineers, inspectors, regulators) rather than open permissionless networks. In that setting, Sybil resistance (defending against mass fake-identity creation to overwhelm consensus or reputation) is the least operationally pressing of the three: identity is already established through KYC-like onboarding and credentialing before write access is ever granted, so the classic Sybil attack surface that matters for public chains is largely designed out from the start. That is why A_sybil is Worst. Oracle resistance (sensor/device tampering) is Best from a data-engineering standpoint because it attacks the pipeline at its most vulnerable point: the moment physical-world measurements (structural sensors, equipment telemetry, environmental monitors -- the same high-frequency time-series data Prasad and S B 2014 describe routing into specialized time-series stores) are captured, before any hashing, signing, or ledger anchoring occurs. Blockchain immutability only guarantees a record hasn't changed since it was written; it says nothing about whether what was written was true, and a data engineer's provenance/lineage tooling (the 'discovery, provenance, access control, auditing, accountability' taxonomy referenced in data_quality_and_polyglot_persistence.md, drawing on Rouhani and Deters 2021) has comparatively little first-hand visibility into device-level tampering, since it happens upstream of the pipeline's own instrumentation. Insider resistance (malicious legitimate access) is a close second, not far behind Oracle: it is a serious, well-documented threat, but it is more tractable with existing data-engineering controls -- access control, digital signatures, audit logging, and custody/provenance tracking -- which are exactly the mechanisms that same taxonomy identifies as the first-hand evidence base for Provenance Trust and Verification Strength scoring. Because both Oracle and Insider resistance are genuinely high-stakes and the gap between them is narrower than the gap to Sybil, I want to flag this as a comparatively close call between the top two rather than a clear-cut ordering; the 2:1 rating reflects that closeness rather than a confidently large separation. The wider gap to Sybil (6:1, and 6:1 for insider-to-sybil at 3:1 scaled through the oracle:insider ratio) reflects a genuine judgement call on my part, grounded in general knowledge of permissioned-DLT identity governance rather than a specific finding in the provided reference material, since none of the corpus directly ranks these three sub-dimensions against each other.",
+  "sources_used": [
+    "data_quality_and_polyglot_persistence.md",
+    "general_knowledge"
+  ]
+}

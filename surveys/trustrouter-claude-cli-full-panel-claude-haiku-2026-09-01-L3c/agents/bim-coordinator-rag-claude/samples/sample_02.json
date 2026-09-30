@@ -1,0 +1,21 @@
+{
+  "best": "V_audit",
+  "worst": "V_crypto",
+  "best_to_others": {
+    "V_audit": 1,
+    "V_diversity": 2,
+    "V_crypto": 4
+  },
+  "others_to_worst": {
+    "V_audit": 4,
+    "V_diversity": 2,
+    "V_crypto": 1
+  },
+  "reasoning": "V_audit (audit-trail completeness: who did what, when) is the primary criterion because it establishes accountability and traceability\u2014the foundation of construction project governance and legal liability. In multi-stakeholder BIM environments under ISO 19650, the audit trail is what makes project decisions attributable to responsible parties, which is essential for renovation and new-build contract management. The reference material (bim_and_digital_building_logbooks.md) notes that ISO 19650's information-delivery process already requires multiple parties to independently validate federated models; this procedural control is recorded in the audit trail, making the trail itself the legal and organizational anchor. V_diversity (multiple independent verification sources) is secondary but substantive. Independent corroboration by different parties (architect, structural engineer, MEP, contractor) reduces single-point-of-failure risk and is explicitly required by ISO 19650 governance; however, this diversity only matters if an audit trail records who verified what and when. V_crypto (cryptographic evidence: signatures, hashes, PKI) is least critical. While the Kochovski et al. 2026 reference (BUILDCHAIN DBL) demonstrates that cryptographic verification is technically implementable for BIM records on Ethereum (2.07ms authentication, 88ms DID resolution), cryptographic proof only confirms that a specific party signed specific bits\u2014not that the bits themselves are correct, appropriately checked, or made by someone with authority. In construction context, process integrity (V_audit) and corroboration by multiple competent parties (V_diversity) matter more than technical proof of signature. Crypto is a necessary technical enabler but derivative of the human and organizational controls that drive real trust in construction records.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

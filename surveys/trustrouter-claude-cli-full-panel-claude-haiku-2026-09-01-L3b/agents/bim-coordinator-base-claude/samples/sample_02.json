@@ -1,0 +1,19 @@
+{
+  "best": "T_chain",
+  "worst": "T_history",
+  "best_to_others": {
+    "T_chain": 1,
+    "T_source": 3,
+    "T_history": 6
+  },
+  "others_to_worst": {
+    "T_chain": 6,
+    "T_source": 5,
+    "T_history": 1
+  },
+  "reasoning": "For construction-project data destined for blockchain storage, custody chain integrity is the primary trust determinant. The reference material emphasizes that blockchain improves tamper-evidence but is immutable\u2014corrupted data cannot be amended on-chain. This makes T_chain critical: a broken chain of custody from creation to submission defeats blockchain's core value proposition, and corrupted data locked into a distributed ledger cannot be corrected. T_source (authorship credentials) is strong and foundational for accountability and competence assessment, but is secondary to direct assurance of custody integrity. A well-credentialed source whose data has been corrupted in handling is less trustworthy than an newer source with verifiable custody controls. T_history (track record) is a useful due-diligence signal for assessing reliability, but is the least directly determinative of whether the specific data submission in hand is trustworthy. A new designer or data provider with impeccable current credentials and verified custody chain may produce more reliable data than an established source with a broken custody trail or historical lapses. The scenario (multi-decade public asset, institutional owners, insurers, authorities) reinforces this: stakeholders need confidence that data has not been corrupted or altered en route, more than they need evidence of past performance.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

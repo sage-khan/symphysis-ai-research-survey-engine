@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 2,
+    "RQ": 1
+  },
+  "reasoning": "This level decomposes Q (Quality) per ISO 25012 into IQ (Accuracy+Validity+Uniqueness), CQ (Completeness+Timeliness), and RQ (Consistency across sources), per shared knowledge: trustrouter_concept_paper_primer.md's Q = w_IQ*IQ + w_CQ*CQ + w_RQ*RQ breakdown. Judging this specifically as a factor feeding a decision about committing a construction record to an immutable/append-only ledger: IQ is Best because accuracy and validity are the load-bearing precondition for any write you cannot cheaply undo. On a permissioned DLT, correcting or retracting an erroneous entry after finality requires an explicit compensating transaction and leaves the original error permanently visible in the audit trail (a reputational and legal liability, not just a data-hygiene issue) -- so an inaccurate or invalid record is actively worse to commit than simply declining to commit it. Uniqueness also matters operationally: deduplication before write avoids wasted throughput and ambiguous provenance chains. CQ (completeness/timeliness) is a real but secondary concern -- a record can be genuinely accurate yet still usefully written even if partial or slightly stale (subsequent transactions can supplement it), so incompleteness degrades usefulness without corrupting trust in what is actually stored. RQ (cross-source consistency) I rank Worst for this specific gating decision: reconciling a record against other sources is valuable for a broader data-governance or oracle-aggregation process (related to, but distinct from, the attack-resistance oracle problem discussed in blockchain_trust_and_attack_resistance.md), but it is the least central of the three to the immediate technical question of whether *this* record deserves the throughput and storage cost of an on-chain or hybrid commitment -- an internally accurate, complete, timely record can stand on its own even if it hasn't yet been cross-checked against a second source. This is a closer call between CQ and RQ than between IQ and either of them, and I want to flag that explicitly rather than overstate confidence in the CQ/RQ ordering. My best_to_others and others_to_worst values are set so that IQ-to-RQ implied ratio (5) matches directly across both vectors, and CQ sits in between, reflecting a genuine but moderate rather than extreme spread across the three clusters.",
+  "sources_used": [
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "blockchain_trust_and_attack_resistance.md",
+    "general_knowledge"
+  ]
+}

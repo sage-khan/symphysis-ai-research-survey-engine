@@ -1,0 +1,12 @@
+# Sample 2 of 3
+
+- Best: PT
+- Worst: L
+
+## Stated reasoning (submitted with the answer)
+
+For routing construction-project data to blockchain versus conventional storage systems, Provenance Trust (PT) is the most influential criterion because it determines whether a source is sufficiently trustworthy to justify immutable blockchain storage. Data from untrusted sources, regardless of technical quality, should not be placed on blockchain because doing so makes fraudulent records permanent—a particularly acute risk in construction, where professional liability and contractual disputes hinge on verifiable authorship by qualified engineers. Quality (Q) is also essential and non-negotiable (data must be technically sound and meet IFC standards), but it is secondary to provenance for routing decisions because quality issues can be remediated through engineering review and remediation workflows, whereas compromised provenance cannot. Verification Strength (V) represents blockchain's native technical capability (cryptographic tamper-proofing and audit trails per the survey definition) but only adds value if provenance is established first; it confirms a record's immutability after entry, not its trustworthiness before entry. Independent Confirmation (IC) is valuable for detecting errors across multiple independent sources but is not available for all data types in construction projects and serves as supplementary validation to direct provenance trust rather than a foundational routing criterion. Criticality (C) matters for prioritizing which records justify blockchain's operational overhead but does not directly influence the routing architecture decision itself. Legal Compliance (L) is a binary gate (records either meet regulatory requirements or they do not) rather than a spectrum affecting routing strategy; it operates as a constraint applied after engineering decisions are made, not as a factor in the routing logic itself, making it the least influential for data-engineering routing choices. The ratings reflect this hierarchy: PT is 1× (Best vs. itself), approximately 2× more important than Q/V/C (quality and verification strength as co-requirements with criticality as context), 3× more important than IC (nice-to-have supplementary validation), and 5× more important than L (compliance gate).
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)

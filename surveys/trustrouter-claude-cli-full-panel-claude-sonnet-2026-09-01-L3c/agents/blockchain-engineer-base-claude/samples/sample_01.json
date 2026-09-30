@@ -1,0 +1,19 @@
+{
+  "best": "V_crypto",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_crypto": 1,
+    "V_audit": 3,
+    "V_diversity": 5
+  },
+  "others_to_worst": {
+    "V_crypto": 5,
+    "V_audit": 2,
+    "V_diversity": 1
+  },
+  "reasoning": "Verification Strength (V) as defined in the shared knowledge instrument is 'Strength of cryptographic and procedural audit evidence.' Of the three sub-parts, V_crypto (signatures, hashes, PKI) is the most direct and load-bearing component of that definition: it is the mechanism that actually produces tamper-evidence in a permissioned-ledger deployment -- a hash-chained, digitally-signed record is mathematically verifiable independent of trust in any party, which is the core value proposition of putting construction-project data on a ledger at all. From production experience, cryptographic evidence is also what survives a dispute or audit even when the organizations involved have since changed staff, systems, or gone out of business, and it's what a court or certifying body can check without relying on institutional cooperation. V_audit (who did what, when) is important and complementary -- it's the procedural half of the same definition -- but audit-trail completeness is itself only as trustworthy as the cryptographic binding underneath it (an audit log without signatures/hashes can be edited after the fact), so I rate it clearly important but subordinate to V_crypto, hence a moderate 3 on the best-to-others scale. V_diversity (multiple independent verification sources) is valuable for resilience against a single point of collusion or failure, but in a permissioned-ledger context for construction records it is typically a secondary hardening measure layered on top of already-cryptographically-verified, audited data rather than a primary source of trust strength itself -- an engineer can get very strong tamper-evidence from strong crypto plus a complete audit trail even with a single credible verifying party, whereas diversity alone without strong crypto/audit underpinning gives little assurance. This is a judgement call based on my domain experience with permissioned DLT deployments (general_knowledge), since the shared instrument defines the three sub-parts but does not itself rank them. I note the V_crypto vs V_audit gap is a closer call than the gap to V_diversity -- both crypto and audit are core to the V definition -- so I kept that ratio moderate (3) rather than extreme, while diversity is more clearly the least central of the three.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

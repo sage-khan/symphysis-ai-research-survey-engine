@@ -1,0 +1,25 @@
+{
+  "best": "Q",
+  "worst": "V",
+  "best_to_others": {
+    "Q": 1,
+    "PT": 2,
+    "V": 3,
+    "IC": 2,
+    "L": 2,
+    "C": 1
+  },
+  "others_to_worst": {
+    "Q": 3,
+    "PT": 3,
+    "V": 1,
+    "IC": 2,
+    "L": 3,
+    "C": 3
+  },
+  "reasoning": "Quality (Q) is foundational as BEST because in multi-stakeholder BIM coordination, if the data record itself\u2014its geometric accuracy, semantic validity, and completeness\u2014is compromised, all downstream trust mechanisms become irrelevant. As a BIM coordinator managing model federation on renovation projects, I know that even perfectly provenance-tracked or cryptographically signed garbage data destroys coordination and decision-making. The Hospital Real scenario (mixed structural, energy, compliance docs serving owners, insurers, authorities for decades) depends first on the IFC model being intrinsically sound. Quality is prerequisite for Provenance Trust, Legal Compliance, and Criticality to have any purchase. Verification Strength (V) is WORST because, while cryptographic and audit-trail evidence has value, it is largely a procedural/technical layer addressing *how* trust is documented rather than *whether* the underlying data merits trust. A high-quality coordination model from a structurally sound provenance (e.g., signed report from a chartered engineer), with clear legal ownership and understood impact if wrong, is trustworthy even without qualified electronic signatures or tamper-evident cryptographic chains. Conversely, cryptographic verification of corrupt data is empty. In practice, BIM coordination trust rests on data integrity, custody clarity, and business consequence\u2014not signature algorithms. Provenance Trust (PT), Legal Compliance (L), and Independent Confirmation (IC) rank substantially higher than Verification Strength because they address the substantive question of whether the data source and context are credible and the governance is clear. Criticality (C) rates equal to Quality because Q and C together form a contract: high-quality data of low-criticality items does not demand blockchain; poor-quality data of high-criticality items is unusable regardless of criticality label. Both are foundational filters.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "best": "A",
+  "worst": "E",
+  "best_to_others": {
+    "A": 1,
+    "DVS": 3,
+    "F": 2,
+    "E": 4
+  },
+  "others_to_worst": {
+    "A": 4,
+    "DVS": 2,
+    "F": 3,
+    "E": 1
+  },
+  "reasoning": "As a blockchain engineer evaluating routing decisions for construction data, Attack Resistance (A) is the most influential factor because it represents the core technical justification for blockchain deployment. Construction projects involve multiple stakeholders with conflicting incentives (contractors, inspectors, owners), creating real fraud vectors (material substitution, inspection falsification, damage under-reporting). Blockchain's tamper-evidence guarantee directly addresses this threat model; if attack surface is low (data cannot be meaningfully altered or attacked), blockchain adds no security value regardless of other factors. This drives the fundamental decision of whether ledger-based storage is appropriate. Economic Value (E) is least influential because it operates downstream from technical feasibility: it determines cost-benefit justification AFTER the technical decision to use blockchain has already been made. The financial ROI calculation assumes F (feasibility), DVS (data trustworthiness), and A (security benefit) are already adequate; E gates affordability, not possibility. F is the hard constraint (if technically infeasible, decision is made automatically), but A is more influential to the choice itself because feasibility and economic value merely enable or discourage what A motivates. DVS (data trustworthiness) is foundational but rates below A because blockchain does not improve poor provenance or quality\u2014those are prerequisites for any secure system. The multiplicative nature of TrustRouter (DVS \u00d7 F \u00d7 (1+E) \u00d7 A) supports this: A and DVS are linear multipliers whose absence eliminates the score; F gates possibility; E's (1+E) form makes it the 'softest' factor multiplicatively. Source: shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md; general_knowledge from production permissioned-ledger experience.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

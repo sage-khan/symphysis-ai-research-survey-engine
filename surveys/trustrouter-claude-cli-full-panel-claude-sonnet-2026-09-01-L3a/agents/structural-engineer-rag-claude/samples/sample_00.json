@@ -1,0 +1,20 @@
+{
+  "best": "IQ",
+  "worst": "RQ",
+  "best_to_others": {
+    "IQ": 1,
+    "CQ": 3,
+    "RQ": 5
+  },
+  "others_to_worst": {
+    "IQ": 5,
+    "CQ": 3,
+    "RQ": 1
+  },
+  "reasoning": "For a construction-project record being assessed for blockchain storage \u2014 especially structural data such as a foundation-health reading or a signed engineer's report \u2014 Intrinsic Quality (accuracy, validity, uniqueness) is the precondition for everything else: if the underlying value is wrong or invalid, no amount of completeness, timeliness, or cross-copy consistency can make the record trustworthy, and a corrupted or inaccurate structural reading can directly translate into missed failure precursors (structural_health_monitoring_and_digital_twins.md, on why a corrupted structural digital-twin reading carries high consequence-of-error). Contextual Quality (completeness, timeliness) matters a great deal too \u2014 an incomplete inspection record or a stale timestamp undermines its use for decades-long institutional, insurer, and regulatory reliance, as framed in the survey's own hospital-renovation reference scenario (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) \u2014 but it is secondary to whether the data point itself is correct in the first place. Representational Quality (consistency across copies) is the narrowest of the three: it addresses whether multiple stored versions agree with each other, which is a real but comparatively mechanical concern, and one that blockchain-style immutable anchoring (as discussed in the Suhail et al. digital-twin/blockchain literature) is specifically well-suited to solve once a single canonical value has been established and cryptographically anchored. This is why I rank it lowest: it presupposes IQ and CQ have already been satisfied and mainly guards against divergence after the fact rather than guaranteeing the record's fundamental soundness. The IQ-vs-CQ gap is a genuine judgement call rather than an obvious one \u2014 both are clearly important for long-lived structural records relied on by multiple institutional parties \u2014 so I rate IQ only moderately (3x) ahead of CQ, while the RQ gap is wider because consistency-across-copies is the most narrowly technical and least consequential of the three on its own.",
+  "sources_used": [
+    "structural_health_monitoring_and_digital_twins.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

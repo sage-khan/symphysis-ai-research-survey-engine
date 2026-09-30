@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 2,
+    "A_sybil": 5
+  },
+  "others_to_worst": {
+    "A_insider": 5,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "For construction-project records destined for blockchain storage, the reference scenario (shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md) frames the setting as a consortium of institutional owners, insurers, and authorities -- i.e., a permissioned/consortium-style data-sharing environment rather than an open, permissionless public network. That framing shapes how much each attack vector actually threatens data trust in practice. A_insider (malicious legitimate access) is the most consequential: it involves a credentialed party -- a certifying engineer, inspector, or contractor with valid sign-off rights -- falsifying or backdating structural, energy, or compliance records. Because the actor's access is legitimate, this attack is the hardest to detect through access control alone and does the most damage to the exact records (structural safety, code compliance) that institutional owners, insurers, and authorities rely on for decades. A_oracle (sensor/device tampering) is a real and distinct risk -- much construction data originates off-chain from IoT/structural-health sensors, and blockchain immutability cannot fix data that was already false when written -- but it is more amenable to mitigation via sensor redundancy, calibration audits, and multi-source cross-checks, so I rate it as a clear second. A_sybil (fake-identity attacks) is the least pressing of the three in this context: consortium/permissioned chains used for institutional multi-stakeholder documentation typically rely on vetted, KYC'd participant identities (owners, insurers, regulators, licensed contractors) rather than open anonymous participation, which substantially blunts the classic Sybil attack surface relative to public blockchain settings. This is a professional judgement call about the deployment model implied by the scenario, not a certainty -- if the architecture were instead a fully open/public chain with anonymous participants, Sybil resistance would rank considerably higher. The best-to-worst ratios (1, 2, 5) and others-to-worst ratios (5, 3, 1) reflect that insider risk is meaningfully but not overwhelmingly more critical than oracle risk, while both clearly dominate Sybil concerns in this permissioned-consortium setting.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

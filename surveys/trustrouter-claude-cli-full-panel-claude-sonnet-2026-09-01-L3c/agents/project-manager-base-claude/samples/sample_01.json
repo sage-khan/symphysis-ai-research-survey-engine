@@ -1,0 +1,19 @@
+{
+  "best": "V_audit",
+  "worst": "V_diversity",
+  "best_to_others": {
+    "V_audit": 1,
+    "V_crypto": 2,
+    "V_diversity": 5
+  },
+  "others_to_worst": {
+    "V_audit": 5,
+    "V_crypto": 3,
+    "V_diversity": 1
+  },
+  "reasoning": "From a construction PM's standpoint, verification strength ultimately has to answer the question insurers, authorities, and dispute-resolution processes actually ask: who did what, and when. Audit-trail completeness is the backbone of accountability in construction documentation -- change orders, inspection sign-offs, approval chains -- and without it you cannot establish liability, sequence causation, or demonstrate regulatory compliance history over a multi-decade asset life, regardless of how technically sound the underlying record is. I rated it Best. Cryptographic evidence (V_crypto) is an important but narrower technical layer: it proves a record hasn't been tampered with after the fact, which matters, but tamper-evidence on an incomplete or unattributed record is of limited practical value on its own -- hence it sits closer to Best than to Worst but clearly below audit completeness (rated 2x). Diversity of verification sources (V_diversity) is the least critical of the three in everyday construction practice: much of the documentation a project relies on legitimately comes from a single credentialed party (a licensed structural engineer's stamped inspection, a commissioning agent's report), where trust rests on professional licensure and liability exposure rather than on redundant independent confirmation. Requiring multiple independent verifiers for every record is often impractical and costly relative to the marginal trust gained, so I rated it Worst. The gap between crypto and diversity (3x) reflects that cryptographic integrity is still a concrete, checkable technical property, whereas source diversity is more of a nice-to-have risk mitigant that's inconsistently achievable across a real project's document flow. These comparisons draw on the criteria definitions in shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md (V_crypto/V_audit/V_diversity definitions) and otherwise reflect my own professional judgement as a construction PM about how these verification properties function in practice across a project lifecycle.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

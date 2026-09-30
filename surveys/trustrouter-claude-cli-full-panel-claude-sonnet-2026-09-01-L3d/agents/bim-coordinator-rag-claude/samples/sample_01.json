@@ -1,0 +1,20 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_insider": 6,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "In a multi-stakeholder BIM/blockchain setting, I judge insider resistance (A_insider) as the most critical attack-resistance sub-criterion because it targets the weakest point in the whole trust architecture: parties who already hold legitimate, vetted credentials. ISO 19650 guidance (bim_and_digital_building_logbooks.md) describes information delivery as depending on multiple appointed parties independently validating federated models before acceptance -- but that mechanism assumes good-faith actors. A malicious insider (e.g. a contractor, inspector, or facility manager with rightful access) can falsify or backdate structural, energy, or compliance records in a way that no cryptographic signature check or consensus mechanism will flag, because the entry is properly authenticated. This risk applies to essentially every record type in a project logbook, not just a subset. Oracle resistance (A_oracle) is a real and distinct concern -- tampering with structural-health or energy sensors feeding a Digital Building Logbook is exactly the kind of gap the Kochovski et al. 2026 IFC/DID architecture (bim_and_digital_building_logbooks.md) is designed to mitigate via verifiable-credential-bound device attestation -- but it only affects the subset of records that are sensor-originated rather than human-entered/approved, so I rate it as moderately important, roughly a third as critical as insider resistance. Sybil resistance (A_sybil) I rank lowest: construction-project blockchains in practice are consortium/permissioned networks where participants are known, contractually appointed organizations (owner, design team, contractor, authorities), and the DID/verifiable-credential identity layer described in Kochovski et al. 2026 is specifically built to bind identities to real organizational actors -- fabricating large numbers of fake identities to sway consensus is structurally much harder here than in a public, permissionless chain. This is a judgement call from my BIM-coordination experience (general_knowledge) about how these threat models actually play out on real multi-party renovation projects, informed by but not dictated by the cited sources -- the comparison between oracle and insider resistance in particular felt like a genuinely close call, since both are legitimate, well-documented attack surfaces in the DBL literature, and I would not be surprised if another practitioner weighted them closer to evenly.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

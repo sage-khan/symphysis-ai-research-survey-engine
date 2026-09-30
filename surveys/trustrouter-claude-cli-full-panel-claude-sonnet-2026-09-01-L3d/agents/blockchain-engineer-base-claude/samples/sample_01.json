@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 2,
+    "A_sybil": 5
+  },
+  "others_to_worst": {
+    "A_insider": 5,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "This survey targets permissioned/consortium DLT deployments for construction-project records (per shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, which frames the routing decision as full on-chain vs hybrid vs conventional for construction data, implying a governed, identity-known network rather than a permissionless public chain). In that architecture, Sybil resistance (A_sybil) is the weakest driver of residual risk: permissioned ledgers typically gate participation through membership services / certificate authorities (e.g., Hyperledger Fabric-style MSPs), so fake-identity attacks are largely pre-empted at the network-admission layer rather than left to the consensus or application layer to solve. Oracle resistance (A_oracle) matters a great deal because construction records increasingly originate from IoT/sensor feeds (structural health monitors, curing/moisture sensors, equipment telemetry) and the ledger's immutability guarantees say nothing about whether the input was truthful at the point of capture -- this is the classic 'garbage-in, garbage-immutably-on-chain' problem. However, I rank Insider resistance (A_insider) as most critical for this deployment model specifically because in a consortium chain the validator/administrator set consists of known, credentialed organizations (contractors, subcontractors, inspectors, regulators) who hold legitimate write and governance access -- collusion or abuse by these insiders (falsifying inspection sign-offs, colluding on endorsement policies, abusing key custody) is both the most realistic threat model for this architecture and the hardest to mitigate through purely technical means (it requires added governance controls such as multi-party approval, threshold signing, and separation-of-duties rather than cryptography alone). Oracle attacks can be partially hardened via redundant/independent sensor attestation and hardware roots of trust; insider abuse cannot be fully engineered away because the actor already possesses valid credentials. This ranking (insider > oracle > sybil) is my professional judgement applied to the construction-data context described in the instrument; the insider-vs-oracle gap is a closer call than either is to sybil, and I want to flag that explicitly rather than overstate confidence in the insider/oracle ordering.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

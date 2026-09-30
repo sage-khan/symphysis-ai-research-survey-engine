@@ -1,0 +1,82 @@
+{
+  "ground_truth": {
+    "agent_id": "project-manager-rag-ollama",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    }
+  },
+  "response": {
+    "text": "{\n  \"agent_id\": \"project-manager-rag-ollama\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will act as a Construction Project Manager expert.\"\n}",
+    "model": "qwen3:14b",
+    "finish_reason": "stop",
+    "raw": {
+      "model": "qwen3:14b",
+      "created_at": "2026-09-01T12:05:57.045229697Z",
+      "message": {
+        "role": "assistant",
+        "content": "{\n  \"agent_id\": \"project-manager-rag-ollama\",\n  \"role\": \"Construction Project Manager\",\n  \"model\": \"ollama/qwen3:14b\",\n  \"capabilities\": {\n    \"dedicated_rag_corpus\": true,\n    \"shared_knowledge_repo\": true,\n    \"role_pack\": null,\n    \"web_search\": false\n  },\n  \"acknowledgement\": \"I understand the assignment and will act as a Construction Project Manager expert.\"\n}",
+        "thinking": "Okay, I need to confirm my configuration as per the user's instructions. Let me start by recalling the details provided. The agent ID is \"project-manager-rag-ollama\", role is \"Construction Project Manager\", and the model is \"ollama/qwen3:14b\". The capabilities include a dedicated RAG corpus and a shared knowledge repository, both set to True. The role pack is none, and web search is False. The acknowledgement should be a short confirmation.\n\nI need to make sure I copy each field exactly as given. The JSON structure must be correct, with the right keys and values. Let me check each part again. Agent ID, role, model \u2013 all correct. Capabilities: dedicated_rag_corpus and shared_knowledge_repo are True, role_pack is null, web_search is False. The acknowledgement should mention understanding the assignment and acting as the expert. \n\nWait, the user said to use exactly the configuration provided. No extra capabilities or knowledge sources. I need to ensure that the JSON doesn't have any additional fields. Also, the model's name is \"ollama/qwen3:14b\" \u2013 that's the exact string. The current date and time are given, but they don't need to be included in the JSON response. \n\nI think that's all. Now, structure the JSON accordingly, making sure the syntax is correct with commas and braces. The acknowledgement should be concise, like \"I understand the assignment and will act as a Construction Project Manager expert.\"\n"
+      },
+      "done": true,
+      "done_reason": "stop",
+      "total_duration": 5706592968,
+      "load_duration": 55001360,
+      "prompt_eval_count": 2416,
+      "prompt_eval_duration": 545358254,
+      "eval_count": 413,
+      "eval_duration": 5004793402
+    }
+  },
+  "claimed": {
+    "agent_id": "project-manager-rag-ollama",
+    "role": "Construction Project Manager",
+    "model": "ollama/qwen3:14b",
+    "capabilities": {
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": null,
+      "web_search": false
+    },
+    "acknowledgement": "I understand the assignment and will act as a Construction Project Manager expert."
+  },
+  "verification": {
+    "ground_truth": {
+      "agent_id": "project-manager-rag-ollama",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      }
+    },
+    "claimed": {
+      "agent_id": "project-manager-rag-ollama",
+      "role": "Construction Project Manager",
+      "model": "ollama/qwen3:14b",
+      "capabilities": {
+        "dedicated_rag_corpus": true,
+        "shared_knowledge_repo": true,
+        "role_pack": null,
+        "web_search": false
+      },
+      "acknowledgement": "I understand the assignment and will act as a Construction Project Manager expert."
+    },
+    "field_matches": {
+      "agent_id": true,
+      "role": true,
+      "model": true,
+      "dedicated_rag_corpus": true,
+      "shared_knowledge_repo": true,
+      "role_pack": true,
+      "web_search": true
+    },
+    "all_match": true
+  }
+}

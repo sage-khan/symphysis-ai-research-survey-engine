@@ -1,0 +1,20 @@
+{
+  "agent_id": "data-engineer-base-gemini",
+  "did": "did:key:z6Mkh2LFeMmeS3B7kVqUoDnRqoRXbfmtUcRnz6pY23892eic",
+  "parent_did": null,
+  "spawned_by": "orchestrator",
+  "role": "Data Engineering Specialist",
+  "capabilities_requested": [
+    "knowledge_repo"
+  ],
+  "capabilities_granted": [
+    "knowledge_repo"
+  ],
+  "model": {
+    "provider": "gemini",
+    "name": "gemini-flash-latest",
+    "temperature": 0.3
+  },
+  "runtime_backend": "direct_completion",
+  "survey_id": "trustrouter-gemini-full-panel-gemini-flash-2026-09-03-L1"
+}

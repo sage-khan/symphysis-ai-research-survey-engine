@@ -1,0 +1,115 @@
+# Filled survey: bim-coordinator-base-claude
+
+- Agent ID: `bim-coordinator-base-claude`
+- Role / expertise: BIM Coordinator
+- Model: claude_cli/haiku
+- DID: `did:key:z6MkjBimqskXZkR9Zx6uMHqsjZopoCEJaQ9tb7XoVSAZiujx`
+- RAG: disabled
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | Q | V |
+| 1 | Q | IC |
+| 2 | Q | IC |
+
+## Sample 0
+
+**Best:** Q (Quality)  
+**Worst:** V (Verification Strength)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 1 |
+| PT (Provenance Trust) | 2 |
+| V (Verification Strength) | 3 |
+| IC (Independent Confirmation) | 2 |
+| L (Legal Compliance) | 2 |
+| C (Criticality) | 1 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 3 |
+| PT (Provenance Trust) | 3 |
+| V (Verification Strength) | 1 |
+| IC (Independent Confirmation) | 2 |
+| L (Legal Compliance) | 3 |
+| C (Criticality) | 3 |
+
+### Reasoning
+
+Quality (Q) is foundational as BEST because in multi-stakeholder BIM coordination, if the data record itself—its geometric accuracy, semantic validity, and completeness—is compromised, all downstream trust mechanisms become irrelevant. As a BIM coordinator managing model federation on renovation projects, I know that even perfectly provenance-tracked or cryptographically signed garbage data destroys coordination and decision-making. The Hospital Real scenario (mixed structural, energy, compliance docs serving owners, insurers, authorities for decades) depends first on the IFC model being intrinsically sound. Quality is prerequisite for Provenance Trust, Legal Compliance, and Criticality to have any purchase. Verification Strength (V) is WORST because, while cryptographic and audit-trail evidence has value, it is largely a procedural/technical layer addressing *how* trust is documented rather than *whether* the underlying data merits trust. A high-quality coordination model from a structurally sound provenance (e.g., signed report from a chartered engineer), with clear legal ownership and understood impact if wrong, is trustworthy even without qualified electronic signatures or tamper-evident cryptographic chains. Conversely, cryptographic verification of corrupt data is empty. In practice, BIM coordination trust rests on data integrity, custody clarity, and business consequence—not signature algorithms. Provenance Trust (PT), Legal Compliance (L), and Independent Confirmation (IC) rank substantially higher than Verification Strength because they address the substantive question of whether the data source and context are credible and the governance is clear. Criticality (C) rates equal to Quality because Q and C together form a contract: high-quality data of low-criticality items does not demand blockchain; poor-quality data of high-criticality items is unusable regardless of criticality label. Both are foundational filters.
+
+## Sample 1
+
+**Best:** Q (Quality)  
+**Worst:** IC (Independent Confirmation)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 1 |
+| PT (Provenance Trust) | 3 |
+| V (Verification Strength) | 2 |
+| IC (Independent Confirmation) | 4 |
+| L (Legal Compliance) | 2 |
+| C (Criticality) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 4 |
+| PT (Provenance Trust) | 3 |
+| V (Verification Strength) | 2 |
+| IC (Independent Confirmation) | 1 |
+| L (Legal Compliance) | 2 |
+| C (Criticality) | 2 |
+
+### Reasoning
+
+As a BIM coordinator managing multi-stakeholder model federation and lifecycle documentation, Quality (Q) emerges as the foundational criterion because all downstream trust measures depend on intrinsically sound data. In my daily practice, I verify IFC validity, detect clashes, and coordinate across disciplines—quality issues at this level are irreversible and undermine every other trust signal. A cryptographically verified or legally compliant record of bad data (inaccurate dimensions, invalid geometry, incomplete scope per ISO 25012) remains bad data; verification and compliance cannot fix core technical fidelity. Provenance Trust (PT) is important (I rely on PE stamps and consultant signatures), and both Verification Strength and Legal Compliance matter for formal governance, but quality is the prerequisite. Criticality (C) determines scope and resource allocation but does not change the importance of ensuring what we do store is right. Independent Confirmation (IC) is the weakest criterion in this context because: (1) construction records often have a single authoritative source (architect's design intent, structural engineer's calculations) that do not require independent confirmation to be trustworthy; (2) blockchain's strength lies in cryptographic proof and provenance audit, not consensus confirmation; (3) federated BIM models depend on coordinated single-source data with clear custody chains, not duplicate independent checks. IC becomes valuable for validation processes and dispute resolution, but it is not foundational to data-trust judgement for blockchain-archived records. Ratings reflect quality as foundational (all others depend on it), provenance and legal compliance as essential but secondary to data quality itself, verification strength as important but not as critical as the quality of what is being verified, and independent confirmation as the least critical for single-source construction records with clear custody.
+
+## Sample 2
+
+**Best:** Q (Quality)  
+**Worst:** IC (Independent Confirmation)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 1 |
+| PT (Provenance Trust) | 2 |
+| V (Verification Strength) | 2 |
+| IC (Independent Confirmation) | 5 |
+| L (Legal Compliance) | 2 |
+| C (Criticality) | 3 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| Q (Quality) | 5 |
+| PT (Provenance Trust) | 3 |
+| V (Verification Strength) | 3 |
+| IC (Independent Confirmation) | 1 |
+| L (Legal Compliance) | 3 |
+| C (Criticality) | 2 |
+
+### Reasoning
+
+Quality (Q) is foundational for blockchain-stored construction records. As a BIM coordinator managing multi-stakeholder models, I know that data quality—intrinsic accuracy, validity, IFC structural integrity, and contextual completeness—is prerequisite to every other trust dimension. A geometrically invalid model, missing critical building systems, or temporally stale data becomes a liability regardless of how well it is verified or legally compliant. The Hospital Real scenario reinforces this: structural engineers, MEP designers, and facility managers depend on correct coordinate data, complete object inventories, and valid schemas to perform clash detection, compliance checking, and lifecycle documentation. Without quality, verification and provenance become academic exercises.
+
+Provenance Trust (PT), Verification Strength (V), and Legal Compliance (L) are co-equal second-tier essentials. PT—knowing and trusting who created the data and how custody was maintained—is critical for accountability over decades. V—cryptographic signatures and audit trails—provides tamper evidence essential for an immutable record. L—regulatory conformity with building codes and GDPR—is non-negotiable for a public hospital asset and creates liability if violated. These three reinforce confidence in the same way: they are about trust in the data and its handling, not the data itself.
+
+Criticality (C) ranks third. The impact of wrong data is important context that determines how much trust is needed, but criticality is somewhat external to the data's trustworthiness per se. A low-criticality record (e.g., paint color) might require only basic Q; a high-criticality one (structural beam capacity) demands high Q, PT, V, L together. But once a record is decided to be stored—especially in a high-stakes renovation of a public hospital—criticality does not alter the inherent importance of the quality and custody factors.
+
+Independent Confirmation (IC) is least essential. While validation from multiple parties is valuable, it is not necessary in practice. A single authoritative source (primary contractor's engineer, certified surveyor, or architect of record) with strong provenance (charter, license, locked commissioning date), robust verification (qualified electronic signature, tamper-evident dossier), and legal compliance (conformity assessment) can be fully trustworthy. Requiring true independent confirmation from every stakeholder on a complex renovation is prohibitively expensive and often impossible. In my experience, one rigorous, documented source coupled with strong V and PT is often more reliable than a consensus that forces aggregation of heterogeneous data quality. IC becomes important for cross-checking, but it is supplementary rather than core.

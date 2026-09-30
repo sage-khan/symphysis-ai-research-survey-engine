@@ -1,0 +1,26 @@
+{
+  "best": "L",
+  "worst": "V",
+  "best_to_others": {
+    "L": 1,
+    "C": 2,
+    "PT": 3,
+    "Q": 4,
+    "IC": 5,
+    "V": 7
+  },
+  "others_to_worst": {
+    "L": 7,
+    "C": 6,
+    "PT": 5,
+    "Q": 4,
+    "IC": 3,
+    "V": 1
+  },
+  "reasoning": "Acting as a facility-management compliance officer handling GDPR and construction-regulatory obligations, Legal Compliance (L) is the dimension that most directly maps onto my mandate: whether a record is bound to a statutory or building-code obligation determines whether its handling (including committing it to an immutable ledger) is even permissible, independent of how technically clean or well-corroborated it is. This is reinforced by gdpr_and_data_governance.md's discussion of the Wilson et al. (2019) finding that blockchain's immutability directly conflicts with GDPR's right to erasure, and its framing that the core Stage-1/L question is 'does this artefact actually need immutability, or does storing it create a compliance liability with no offsetting benefit' -- exactly the judgement call a compliance officer is trained to make. Criticality (C) is a very close second: safety/financial/contractual impact (per the shared questionnaire's life-safety structural example) is what regulation is ultimately trying to control, so L and C are almost inseparable in a compliance risk lens, which is why I rated them only 2x apart rather than treating either as dominant -- this is a genuinely close call, not a clear-cut one. Provenance Trust (PT) follows because GDPR's accountability principle (Art. 5(2)) requires being able to identify who produced/handled data and maintain custody, which is a recognisable compliance concern even if one step removed from L and C. Quality (Q) matters because inaccurate data can itself cause a compliance failure (e.g., a flawed energy-performance disclosure), but it is primarily a data-engineering concern rather than a legal one. Independent Confirmation (IC) is useful evidentiary corroboration in a dispute but is not something regulation typically mandates on its own. Verification Strength (V) -- the cryptographic/procedural audit-trail mechanics -- I rated Worst: it is the most purely technical/IT-security dimension of the six, and while it supports defensibility of a compliance case, deciding on cryptographic rigor is a blockchain-engineering judgement, not the compliance officer's core call, which is instead about whether the data should be there at all (L) and how bad it is if wrong (C).",
+  "sources_used": [
+    "gdpr_and_data_governance.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md"
+  ]
+}

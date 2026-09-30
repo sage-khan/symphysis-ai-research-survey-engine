@@ -1,0 +1,8 @@
+{
+  "agent_id": "data-engineer-base-openmanus",
+  "did": "did:key:z6MktFhQynyK3hjjScxU7X5N1KeprxH9DRnj8UgC2dqicMmW",
+  "method": "did:key",
+  "public_key_multibase": "z6MktFhQynyK3hjjScxU7X5N1KeprxH9DRnj8UgC2dqicMmW",
+  "deterministic": true,
+  "seed_derivation": "sha256('trustrouter-agentic-full-panel-mistral-2026-09-01:data-engineer-base-openmanus')"
+}

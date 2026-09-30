@@ -1,0 +1,19 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 4,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_insider": 6,
+    "A_oracle": 2,
+    "A_sybil": 1
+  },
+  "reasoning": "As a facility-management compliance officer responsible for regulatory obligations, my assessment prioritizes the threat that is hardest to defend against technically and has the broadest impact on regulatory trust. Insider resistance is the best criterion because malicious legitimate access\u2014by a site engineer, inspector, or contractor with genuine permissions\u2014is the most difficult to prevent through cryptographic or procedural controls alone. Such an insider can falsify inspection reports, hide construction defects, manipulate completion records, or alter safety documentation in ways that directly undermine GDPR compliance and breach building-code obligations. These threats are systemic: no technical defense can fully prevent a trusted party from exercising their legitimate access maliciously. Oracle (sensor and device) tampering is significant but more localized\u2014it affects specific data streams (environmental monitoring, test equipment readings) rather than the entire provenance chain. In construction, most critical data originates from human reports and professional inspections, not sensors, limiting oracle impact relative to insider risk. Sybil resistance is least critical in a permissioned construction-project context where participants are vetted organizations (contractors, engineers, inspectors) operating under known identities. Traditional know-your-customer processes and consortium governance make fake identities unlikely; identity verification at enrollment is far simpler than detecting later malicious insider actions. The ratings reflect this hierarchy: insider is 4\u00d7 more important than oracle (harder to prevent, broader compliance impact) and 6\u00d7 more important than sybil (insider threats are structural, sybil threats are mostly prevented by permissioned enrollment). Oracle is roughly 2\u00d7 more important than sybil because sensor data integrity, while specialized, requires active technical defense, whereas sybil attacks are largely organizational problems.",
+  "sources_used": [
+    "shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md",
+    "general_knowledge"
+  ]
+}

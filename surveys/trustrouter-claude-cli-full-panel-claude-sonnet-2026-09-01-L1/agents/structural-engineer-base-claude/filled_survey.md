@@ -1,0 +1,97 @@
+# Filled survey: structural-engineer-base-claude
+
+- Agent ID: `structural-engineer-base-claude`
+- Role / expertise: Structural Engineer
+- Model: claude_cli/sonnet
+- DID: `did:key:z6MkfkFDyriiXYLHQSvAKDEqD37TPNFypjdiGj7kufNnZkS6`
+- RAG: disabled
+- Samples accepted: 3 (requested: 3 independent attempts)
+
+## Summary
+
+| Sample | Best | Worst |
+|---|---|---|
+| 0 | DVS | F |
+| 1 | DVS | F |
+| 2 | DVS | F |
+
+## Sample 0
+
+**Best:** DVS (Data Value Score)  
+**Worst:** F (Technical Feasibility Fit)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 6 |
+| E (Economic Value) | 3 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 6 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 2 |
+| A (Attack Resistance) | 3 |
+
+### Reasoning
+
+As a chartered structural engineer, the factor that most determines whether a construction record deserves decades-long institutional reliance is the intrinsic trustworthiness of the data itself -- DVS, which per the shared knowledge instrument aggregates Quality, Provenance Trust and Verification Strength (e.g. a signed report from a chartered engineer with a qualified electronic signature, as in the structural capacity dossier scenario). Blockchain immutability only preserves whatever is written to it; if the underlying record is poor-quality or of unverified provenance, permanence just locks in an unreliable record for insurers, authorities and owners to rely on for decades -- so DVS is the gating, foundational factor and I rate it Best. Technical Feasibility Fit (F) is, by contrast, essentially an implementation/logistics constraint about ledger size, update rate and latency (F = 1-P). It says nothing about whether the data is trustworthy or valuable, and in practice feasibility problems (e.g. a 20MB drawing set) are commonly solved by storing a hash on-chain with the artefact off-chain, so this constraint is more circumventable than the substantive trust factors. That makes it the least important of the four for judging trust-worthiness, hence Worst. Attack Resistance (A) sits close behind DVS in importance: for a masonry load assessment or structural dossier relied on in insurance and regulatory disputes decades later, resistance to undetected manipulation is central to why one would bother with a tamper-evident ledger at all, so I rate DVS only marginally ahead of A (ratio 2). Economic Value (E) matters for prioritising which records deserve ledger resources, but in the TrustRouter formula it is deliberately dampened as (1+E) rather than a hard multiplier, reflecting that financial stakes alone don't establish trustworthiness -- a high-value but poorly-provenanced record is not thereby more trustworthy. I placed E between A and F (ratio 3 from DVS, so E/F = 2), acknowledging this is a closer call than the DVS-vs-F extremes and a genuine judgement about relative weighting rather than a clean-cut distinction. The two rating vectors were set to be internally consistent (a_Bj x a_jW = a_BW = 6 for every j), which is a modelling choice for coherence, not itself drawn from the reference material.
+
+## Sample 1
+
+**Best:** DVS (Data Value Score)  
+**Worst:** F (Technical Feasibility Fit)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 6 |
+| E (Economic Value) | 3 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 6 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 4 |
+| A (Attack Resistance) | 5 |
+
+### Reasoning
+
+For a structural-capacity dossier that insurers, regulators, and owners will rely on for decades, the threshold question is whether the underlying data is actually trustworthy in the first place — that is exactly what DVS (Data Value Score) captures, per the shared instrument's own breakdown of DVS into Quality, Provenance Trust, and Verification Strength (e.g. a signed report from a chartered structural engineer with a qualified electronic signature). A masonry load assessment sealed by a chartered engineer with ≥15 years' practice and direct institutional custody is valuable precisely because of these DVS constituents; no amount of ledger-fit, monetary stakes, or cryptographic tamper-resistance retroactively makes untrustworthy source data trustworthy. Since TrustRouter is multiplicative, a weak DVS caps the whole score regardless of how strong the other three factors are, which is why I rank it Best. Attack Resistance (A) I rank second: for long-retention institutional/insurer reliance, tamper-evidence is close to the core reason one would use a blockchain ledger at all, so it substantively supports trust rather than merely gating implementation. Economic Value (E) I rank third — it tells you how much is at stake if data is corrupted, which matters for prioritisation, but a record's monetary stakes don't themselves make the record more or less trustworthy or secure. Technical Feasibility Fit (F) I rank Worst: it concerns whether an artefact's size, update cadence, and latency happen to suit ledger constraints — an implementation/engineering detail. Two dossiers of identical provenance, value, and tamper-resistance could differ in F purely because one file is 2 MB and another 20 MB; that is a practical gate on storability, not a driver of how much the data should be trusted or protected. The gap between DVS and F is the largest in my ratings because DVS goes to the substance of trust while F is a purely mechanical constraint; A and E sit in between since both speak to real risk/security considerations, with A edging out E because attack-resistance is closer to blockchain's core value proposition for this use case. I acknowledge the DVS-vs-A comparison is the closest call here — both are substantively about protecting institutional/insurer reliance on the record — and I did not want to overstate confidence in that particular gap.
+
+## Sample 2
+
+**Best:** DVS (Data Value Score)  
+**Worst:** F (Technical Feasibility Fit)
+
+### Best-to-Others
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 1 |
+| F (Technical Feasibility Fit) | 5 |
+| E (Economic Value) | 3 |
+| A (Attack Resistance) | 2 |
+
+### Others-to-Worst
+
+| Criterion | Rating |
+|---|---|
+| DVS (Data Value Score) | 5 |
+| F (Technical Feasibility Fit) | 1 |
+| E (Economic Value) | 2 |
+| A (Attack Resistance) | 3 |
+
+### Reasoning
+
+As the professional ultimately signing structural-capacity dossiers that insurers, regulators and owners will rely on for decades, my starting question is always 'can this record be trusted at all' before any question of implementation convenience or downstream cost. DVS is described in the reference instrument as a composite of Quality, Provenance Trust and Verification Strength (e.g. a signed report from a chartered structural engineer, qualified electronic signature dossier, tamper-evidence) -- it is the factor that most directly answers whether the underlying record is fit to be relied on as evidence of structural safety. That makes it the natural Best. Attack Resistance (A) is a close second: once a dossier is judged trustworthy, the entire point of committing it to an immutable ledger is to guarantee that trust cannot be silently eroded afterwards by undetected manipulation, which matters enormously for a masonry load assessment an insurer or authority may check years later. I rate DVS only 2x A rather than something larger because both are genuinely central to professional reliance, and I want to be honest that this is a close call rather than manufacture false separation. Economic Value (E) matters for prioritising which records deserve the most protection, but it is a consequence-weighting factor, not a trust-determining one -- a structural report is not more or less trustworthy because the asset behind it is expensive, so I place it clearly behind DVS and A. Technical Feasibility Fit (F, = 1-P) is the Worst: it describes whether an artefact's size, update rate and latency suit the ledger implementation. That is an important engineering/operational constraint, but from a chartered engineer's standpoint it says nothing about whether the data itself deserves trust or protection -- a report that fits the ledger poorly is an implementation headache, whereas a report with low DVS or low A is a professional liability. The multiplicative structure of TrustRouter (DVS x F x (1+E) x A) also signals that DVS and A act as harder gating multipliers (able to collapse the score toward zero) while (1+E) is a softer scaling term that never zeroes the result, reinforcing that DVS and A are the more fundamental trust factors. My integer ratios are not perfectly transitive (e.g. DVS:F=5 direct vs. ~6 implied via A and E) which is typical of BWM elicitations forced onto an integer 1-9 scale, and I note this rather than disguise it as more precise than it is.

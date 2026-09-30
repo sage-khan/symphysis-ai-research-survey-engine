@@ -1,0 +1,20 @@
+{
+  "best": "A_insider",
+  "worst": "A_sybil",
+  "best_to_others": {
+    "A_insider": 1,
+    "A_oracle": 3,
+    "A_sybil": 6
+  },
+  "others_to_worst": {
+    "A_insider": 6,
+    "A_oracle": 3,
+    "A_sybil": 1
+  },
+  "reasoning": "In a multi-stakeholder construction/BIM federation (design team, contractor, subcontractors, facility manager, authorities all holding legitimate credentials at various project stages, as described in ISO 19650 information-delivery processes referenced in bim_and_digital_building_logbooks.md), the dominant realistic attack surface is a legitimate, credentialed party misusing real access -- e.g. a contractor backdating an inspection sign-off, or a facility manager altering a compliance record post-handover. That threat touches every record type in the model (design, structural, compliance, financial), not just one data stream, which is why I rank A_insider as Best/most important. A_oracle (sensor/device tampering) matters specifically for IoT-fed data such as structural health monitoring or environmental sensor logs feeding a digital building logbook -- this is a real and growing concern given the IFC/sensor-log integration described for BUILDCHAIN DBL in Kochovski et al. 2026 (bim_and_digital_building_logbooks.md), but it is narrower in scope than insider risk since large parts of a construction record set (design documents, contracts, inspection sign-offs) are not sensor-derived at all. A_sybil (fake-identity attacks) is the least pressing of the three in this domain: construction BIM ecosystems are practically always permissioned/consortium environments where participants are known legal entities bound by appointment contracts and, per the DID-based identity approach in Kochovski et al. 2026, verifiable credentials -- so the classic sybil scenario of an attacker cheaply minting many fake identities to gain disproportionate influence has much less traction than in open, permissionless blockchain settings. This is a professional judgement call informed by how access and identity are actually structured on renovation/new-build projects, not a finding stated explicitly in the reference material for this specific three-way ranking, and the oracle-vs-insider gap in particular is not a large one -- both are legitimate, non-trivial risks and a reviewer could reasonably argue for a smaller spread than the one I used.",
+  "sources_used": [
+    "bim_and_digital_building_logbooks.md",
+    "shared knowledge: trustrouter_concept_paper_primer.md",
+    "general_knowledge"
+  ]
+}

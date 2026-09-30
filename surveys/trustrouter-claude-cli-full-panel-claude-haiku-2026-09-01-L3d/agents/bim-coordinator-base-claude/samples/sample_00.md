@@ -1,0 +1,12 @@
+# Sample 1 of 3
+
+- Best: A_insider
+- Worst: A_sybil
+
+## Stated reasoning (submitted with the answer)
+
+As a BIM Coordinator managing multi-stakeholder models across renovation and new-build projects, I rank A_insider as most critical. In construction project federation, authorized parties (project managers, engineers, facility managers, inspectors) with legitimate model access pose the greatest ongoing risk over a project's lifecycle. Insider threats—whether malicious or negligent—are the primary source of data corruption I encounter in practice: unauthorized edits to clash resolution, deletion of quality records, modification of compliance documentation, or federation layer tampering. This is especially acute in long-lived institutional assets like the Hospital Real scenario, where the model serves multiple stakeholders (owners, insurers, authorities) across decades; each stakeholder access point amplifies insider risk. A_oracle (sensor/device tampering) ranks second: it matters for projects with extensive IoT deployment (environmental monitoring, structural sensors), but most construction projects still rely on manual surveying and documented inspections, which are harder to forge at scale and are authenticated through professional liability and site audit. A_sybil resistance ranks lowest because construction project federation operates in a pre-verified, contractually bounded environment. Identities are established through business registration, insurance certification, and contractual relationships before federated access is granted. Preventing multiple fraudulent identities is not a binding constraint where parties are already vetted legal entities with reputational and financial stakes. Sybil attacks are concerns for permissionless blockchain systems; this is a controlled, multi-party private federation.
+
+## Sources cited
+
+shared knowledge: trustrouter_expert_questionnaire_v5_real_survey_instrument.md, general_knowledge (all claims verified genuine)
